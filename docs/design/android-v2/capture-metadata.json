@@ -1,0 +1,35 @@
+{
+  "device": "emulator-5556",
+  "platform": "Android 17 API 37",
+  "logicalViewport": "390x844",
+  "screenshotPixels": "780x1688",
+  "density": 320,
+  "fontScale": 1,
+  "mode": "DEMO_GALLERY: fixtures explícitas; sem gravações; sem API meteorológica real",
+  "interactions": [
+    "galeria → clima",
+    "home → produção",
+    "produção → histórico → voltar",
+    "navegação inferior → ofertas → pedidos → perfil",
+    "oito estados da home",
+    "clima + pendência antes da rolagem",
+    "quantidade 12.5; safra Primavera2026; etapa 2; retorno à lista"
+  ],
+  "capturedAt": "2026-11-05T19:34:59.4529143Z",
+  "additionalViewports": [
+    {
+      "logicalWidth": 320,
+      "height": 844,
+      "physicalPixels": "640x1688",
+      "fontScale": 1
+    },
+    {
+      "logicalWidth": 320,
+      "height": 844,
+      "physicalPixels": "640x1688",
+      "fontScale": 2
+    }
+  ],
+  "finalRuntimeErrorCount": 0,
+  "finalInteractionEvidence": "final-interaction.json"
+}

@@ -11,6 +11,8 @@ import 'demo.dart';
 import 'home.dart';
 import 'tasks.dart';
 import 'design.dart';
+import 'desktop.dart';
+import 'illustrations.dart';
 
 const galleryEnabled = bool.fromEnvironment('DEMO_GALLERY');
 Uri apiBase() {
@@ -36,39 +38,70 @@ void main() {
 ThemeData agroTheme() => ThemeData(
   useMaterial3: true,
   fontFamily: 'Roboto',
-  scaffoldBackgroundColor: const Color(0xFFFAF8F2),
+  scaffoldBackgroundColor: AgroDesign.cream,
   colorScheme: ColorScheme.fromSeed(
-    seedColor: const Color(0xFF24563C),
-    primary: const Color(0xFF24563C),
-    surface: const Color(0xFFFAF8F2),
+    seedColor: AgroDesign.forest,
+    primary: AgroDesign.forest,
+    surface: AgroDesign.cream,
+    error: AgroDesign.danger,
+  ),
+  appBarTheme: const AppBarTheme(
+    backgroundColor: AgroDesign.cream,
+    foregroundColor: AgroDesign.ink,
+    scrolledUnderElevation: 0,
+    elevation: 0,
+    centerTitle: false,
+    titleTextStyle: TextStyle(
+      fontFamily: 'Roboto',
+      fontSize: 19,
+      fontWeight: FontWeight.w700,
+      color: AgroDesign.ink,
+    ),
   ),
   textTheme: const TextTheme(
-    bodyMedium: TextStyle(fontSize: 16, height: 1.45, color: Color(0xFF243A2D)),
-    titleLarge: TextStyle(
-      fontSize: 23,
-      fontWeight: FontWeight.bold,
-      color: Color(0xFF193F2B),
-    ),
-    titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    bodyMedium: AgroDesign.body,
+    titleLarge: AgroDesign.title,
+    titleMedium: AgroDesign.section,
   ),
   cardTheme: CardThemeData(
     elevation: 0,
     color: Colors.white,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(22),
-      side: const BorderSide(color: Color(0xFFE1E6DA)),
-    ),
+    margin: const EdgeInsets.only(bottom: 14),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: Colors.white,
-    border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+    labelStyle: const TextStyle(color: AgroDesign.muted),
+    helperMaxLines: 4,
+    errorMaxLines: 4,
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: const BorderSide(color: AgroDesign.line),
+    ),
+    border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
   ),
   filledButtonTheme: FilledButtonThemeData(
     style: FilledButton.styleFrom(
       minimumSize: const Size(48, 52),
+      textStyle: const TextStyle(
+        fontFamily: 'Roboto',
+        fontSize: 15,
+        fontWeight: FontWeight.w700,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
     ),
+  ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      minimumSize: const Size(48, 52),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    ),
+  ),
+  textButtonTheme: TextButtonThemeData(
+    style: TextButton.styleFrom(minimumSize: const Size(48, 48)),
   ),
 );
 
@@ -176,6 +209,7 @@ class _SessionPageState extends State<SessionPage> {
       organizationId: organization!,
       userId: identity!['userId'],
       organizationName: member['name'],
+      organizations: memberships,
       demonstration: identity!['isDemonstration'] == true,
     );
     token.clear();
@@ -197,10 +231,12 @@ class _SessionPageState extends State<SessionPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Icon(
-                Icons.eco_outlined,
-                size: 56,
-                color: Color(0xFF24563C),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(28),
+                child: const ColoredBox(
+                  color: AgroDesign.sky,
+                  child: FarmIllustration(width: 370, height: 170),
+                ),
               ),
               const SizedBox(height: 16),
               Text(
@@ -208,7 +244,12 @@ class _SessionPageState extends State<SessionPage> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 8),
-              const Text('Seu dia no campo, com mais clareza.'),
+              const Text('Meu campo, meu dia.', style: AgroDesign.title),
+              const SizedBox(height: 8),
+              const Text(
+                'Da sua colheita a novas conexões. Tudo começa na sua propriedade.',
+                style: AgroDesign.body,
+              ),
               const SizedBox(height: 24),
               const InfoStrip(
                 icon: Icons.science_outlined,
@@ -371,45 +412,88 @@ class _AppShellState extends State<AppShell> {
   Widget build(BuildContext context) => ListenableBuilder(
     listenable: controller,
     builder: (context, _) => Scaffold(
-      appBar: AppBar(
-        toolbarHeight: MediaQuery.textScalerOf(context).scale(18) > 27
-            ? 80
-            : 64,
-        title: Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(7),
-              decoration: BoxDecoration(
-                color: AgroDesign.forest,
-                borderRadius: BorderRadius.circular(11),
+      appBar: MediaQuery.sizeOf(context).width >= 1000
+          ? null
+          : AppBar(
+              toolbarHeight: MediaQuery.textScalerOf(context).scale(18) > 27
+                  ? 80
+                  : 64,
+              title: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(7),
+                    decoration: BoxDecoration(
+                      color: AgroDesign.forest,
+                      borderRadius: BorderRadius.circular(11),
+                    ),
+                    child: const Icon(Icons.eco, color: Colors.white, size: 22),
+                  ),
+                  const SizedBox(width: 10),
+                  const Flexible(
+                    child: Text(
+                      'Agro+ Brasil',
+                      maxLines: 2,
+                      style: TextStyle(
+                        fontSize: 18,
+                        height: 1,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              child: const Icon(Icons.eco, color: Colors.white, size: 22),
-            ),
-            const SizedBox(width: 10),
-            const Flexible(
-              child: Text(
-                'Agro+ Brasil',
-                maxLines: 2,
-                style: TextStyle(
-                  fontSize: 18,
-                  height: 1,
-                  fontWeight: FontWeight.bold,
+              actions: [
+                IconButton(
+                  tooltip: 'Atualizar informações',
+                  onPressed: controller.loading || controller.propertyId == null
+                      ? null
+                      : () => controller.load(controller.propertyId!),
+                  icon: const Icon(Icons.refresh),
                 ),
-              ),
+                IconButton(
+                  tooltip: 'Sair e apagar dados salvos desta sessão',
+                  onPressed: () async {
+                    await controller.clear();
+                    if (context.mounted) {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) => galleryEnabled
+                              ? const Gallery()
+                              : const SessionPage(),
+                        ),
+                        (_) => false,
+                      );
+                    }
+                  },
+                  icon: const Icon(Icons.logout),
+                ),
+              ],
             ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            tooltip: 'Atualizar informações',
-            onPressed: controller.loading || controller.propertyId == null
-                ? null
-                : () => controller.load(controller.propertyId!),
-            icon: const Icon(Icons.refresh),
-          ),
-          IconButton(
-            tooltip: 'Sair e apagar dados salvos desta sessão',
-            onPressed: () async {
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final content = selected == 0
+              ? HomeScreen(controller: controller, onNavigate: navigate)
+              : selected == 4
+              ? ProfilePage(controller: controller)
+              : TaskPage(
+                  key: ValueKey('$selected:$focusId:${controller.propertyId}'),
+                  controller: controller,
+                  kind: selected == 5
+                      ? 'lots'
+                      : ['home', 'production', 'offers', 'orders'][selected],
+                  focusId: focusId,
+                );
+          if (constraints.maxWidth < 1000) return content;
+          return DesktopShell(
+            controller: controller,
+            selected: selected,
+            onSelected: (index) => setState(() {
+              selected = index;
+              focusId = null;
+            }),
+            onNavigate: navigate,
+            onLogout: () async {
               await controller.clear();
               if (context.mounted) {
                 Navigator.pushAndRemoveUntil(
@@ -422,27 +506,47 @@ class _AppShellState extends State<AppShell> {
                 );
               }
             },
-            icon: const Icon(Icons.logout),
-          ),
-        ],
+            content: content,
+            onOrganization: (id) async {
+              final repo = controller.repository;
+              if (repo is! ApiRepository) return;
+              final member = repo.organizations
+                  .where((m) => m['organizationId'] == id)
+                  .firstOrNull;
+              if (member == null) return;
+              final next = ApiRepository(
+                base: repo.base,
+                token: repo.token,
+                userId: repo.userId,
+                organizationId: id,
+                organizationName: member['name'],
+                organizations: repo.organizations,
+                demonstration: repo.demonstration,
+              );
+              await controller.clear();
+              if (context.mounted) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (_) => AppShell(
+                      controller: HomeController(next, LocalStore()),
+                    ),
+                  ),
+                );
+              }
+            },
+          );
+        },
       ),
-      body: selected == 0
-          ? HomeScreen(controller: controller, onNavigate: navigate)
-          : selected == 4
-          ? ProfilePage(controller: controller)
-          : TaskPage(
-              key: ValueKey('$selected:$focusId:${controller.propertyId}'),
-              controller: controller,
-              kind: ['home', 'production', 'offers', 'orders'][selected],
-              focusId: focusId,
+      bottomNavigationBar: MediaQuery.sizeOf(context).width >= 1000
+          ? null
+          : AgroNavigationBar(
+              selected: selected == 5 ? 1 : selected,
+              onSelected: (index) => setState(() {
+                selected = index;
+                focusId = null;
+              }),
             ),
-      bottomNavigationBar: AgroNavigationBar(
-        selected: selected,
-        onSelected: (index) => setState(() {
-          selected = index;
-          focusId = null;
-        }),
-      ),
     ),
   );
 }

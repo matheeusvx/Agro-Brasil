@@ -1,0 +1,690 @@
+"use client"
+
+import { animate, stagger, utils, type JSAnimation } from "animejs"
+import * as React from "react"
+
+import { ChartButton } from "@/components/ui/chart-button"
+import { ChartCard } from "@/components/ui/chart-card"
+import { ChartChangeBadge } from "@/components/ui/chart-change-badge"
+import { CalendarSolidIcon, ChevronDownIcon, DotsHorizontalIcon } from "@/components/ui/chart-icons"
+import { ChartMenu, ChartMenuContent, ChartMenuRadioGroup, ChartMenuRadioItem, ChartMenuTrigger } from "@/components/ui/chart-menu"
+import { releaseStyles, useChartEntrance, useCountUp, useIsomorphicLayoutEffect, useReducedMotion } from "@/hooks/use-chart-motion"
+import { useChartSize } from "@/hooks/use-chart-size"
+import { useControllableState } from "@/hooks/use-controllable-state"
+import { formatCompactCurrency, formatCurrency, formatDay, formatPercent } from "@/lib/chart-format"
+import { figmaGradientTransform, fittedDash } from "@/lib/chart-series"
+import { cn } from "@/lib/utils"
+
+type AverageSalesMonth = {
+  /** The month, as the ISO date of its first day ("2026-04-01"). */
+  month: string
+  /** The month's revenue. */
+  value: number
+  /** A line at the bottom of the panel while the month is highlighted. */
+  note?: string
+}
+
+/** A period of the menu: the latest `months` months of the data. */
+type AverageSalesPeriod = { value: string; label: string; months: number }
+
+type AverageSalesChartProps = Omit<React.ComponentProps<"div">, "children"> & {
+  title?: string
+  /** The label over the highlighted month's revenue. */
+  valueLabel?: string
+  /** One entry per month, oldest first. The month before a period's first one gives that month its change. */
+  data?: AverageSalesMonth[]
+  periods?: AverageSalesPeriod[]
+  period?: string
+  defaultPeriod?: string
+  onPeriodChange?: (period: string) => void
+  /** The monthly revenue goal: the panel shows how much of it the highlighted month met. */
+  goal?: number
+  /** The highlighted month (an index into `data`). */
+  index?: number
+  /** Figma's April with the sample, the latest month with your data. */
+  defaultIndex?: number
+  onIndexChange?: (index: number, month: AverageSalesMonth) => void
+  /** Text for a month under its box ("Apr") and for screen readers ("April 2026"). */
+  formatMonth?: (month: string, context: "axis" | "label") => string
+  /** Called by the ⋯ button. */
+  onMoreClick?: () => void
+  locale?: string
+  currency?: string
+}
+
+/** A box: its left edge and width, the height of its front edge, how far its side corners sit above the front corner (`side`) and its back corner above them (`back`). */
+type Box = { x: number; width: number; height: number; side: number; back: number }
+type Point = [number, number]
+
+// Figma geometry ("Average Sales Chart" 1473:82809)
+const PLOT_WIDTH = 592
+const PLOT_HEIGHT = 252 // the boxes' front corners stand on the plot's bottom edge
+const BOX_WIDTH = 236 / 3 // 78.67: six boxes 24px apart over the 592px plot
+const BOX_GAP = 24
+const TALLEST = 255 // the box of the highest month is 255px tall (Figma's February, 3px above the plot)
+// Figma draws every box as one template stretched to its height, so its slopes grow with it: the side corners sit
+// 5.58% of the front edge's height above the front corner, the back corner 5.97% of it above the side corners.
+const SIDE = 0.0557759
+const BACK = 0.0596815
+const DASH = 7.090983867645264 // the wireframes' dash and gap, fitted to each edge
+const PANEL_WIDTH = 197
+const BOXES_AT = 200
+const BOX_STAGGER = 80
+const GROW = 900
+const FILL = 750 // the highlighted box filling up with green
+const DRAIN = 450
+const MORPH = 800
+const RING = "focus-visible:ring-primary-green-500/40" // the card's focus rings are green
+const BOX = '[data-slot="average-sales-chart-box"]'
+
+// The highlighted box's faces (Figma "Area Fill"): the left face green-500 to white, the right one white to green-500,
+// both down the face; the top fades green-500 out toward its left corner (Figma's top face is mirrored, flipped back).
+const LEFT_FILL = figmaGradientTransform([
+  [4.5298791384595916e-9, 0.6454964876174927, -0.001154736615717411],
+  [-0.6454964876174927, 1.9451494637223732e-8, 0.8251389861106873],
+])
+const RIGHT_FILL = figmaGradientTransform([
+  [-0.00019124078971799463, 0.6532221436500549, 0.35706615447998047],
+  [-0.6532221436500549, -0.00635200459510088, 0.9096380472183228],
+])
+const TOP_FILL = figmaGradientTransform([
+  [-0.6427660584449768, -0.19647899270057678, 0.6427660584449768 + 0.10998792946338654],
+  [-0.39667975902557373, 0.20255053043365479, 0.39667975902557373 + 0.3424728810787201],
+])
+
+// The Figma card: January to June 2026 with April highlighted. Each value stands its box as tall as Figma draws it
+// (the boxes scale with the highest month), and April is the panel's $2,891.12. June to December 2025 are sample
+// months for the 12-month view and for July's change.
+const sampleAverageSalesData: AverageSalesMonth[] = [
+  { month: "2025-06-01", value: 1984.2, note: "June closed the spring season" },
+  { month: "2025-07-01", value: 2210.45, note: "The summer sale lifted July" },
+  { month: "2025-08-01", value: 2398.75, note: "Back-to-school orders came in early" },
+  { month: "2025-09-01", value: 2087.3, note: "September slowed after the holidays" },
+  { month: "2025-10-01", value: 2451.9, note: "A new product line launched in October" },
+  { month: "2025-11-01", value: 2618.4, note: "Black Friday made November strong" },
+  { month: "2025-12-01", value: 2380.15, note: "December eased after the November peak" },
+  { month: "2026-01-01", value: 2007.37, note: "January was quiet after the holidays" },
+  { month: "2026-02-01", value: 3219.37, note: "Valentine's bundles made February the best month" },
+  { month: "2026-03-01", value: 2536.64, note: "March settled back to the usual pace" },
+  { month: "2026-04-01", value: 2891.12, note: "This week revenue increased due to a 4.4 promo" },
+  { month: "2026-05-01", value: 2536.64, note: "May dipped once the promo ended" },
+  { month: "2026-06-01", value: 2536.64, note: "June held steady with May" },
+]
+const SAMPLE_SELECTED = 10 // April 2026
+
+const defaultPeriods: AverageSalesPeriod[] = [
+  { value: "3m", label: "3 months", months: 3 },
+  { value: "6m", label: "6 months", months: 6 },
+  { value: "12m", label: "12 months", months: 12 },
+]
+
+/**
+ * Where every month's box sits for a window of the data: the window's months spread over the plot (six 78.67px boxes
+ * 24px apart; more get narrower with the same proportions, fewer stay 78.67px and spread out), the months before it
+ * further left, off the plot. Heights scale with the window's highest month.
+ */
+function layoutBoxes(values: number[], start: number, count: number, width: number): Box[] {
+  const ratio = BOX_GAP / BOX_WIDTH
+  const fit = count > 0 ? width / (count + (count - 1) * ratio) : width
+  const boxWidth = Math.min(BOX_WIDTH, fit)
+  const gap = count > 1 ? (width - count * boxWidth) / (count - 1) : 0
+  const max = Math.max(0, ...values.slice(start, start + count))
+  const scale = boxWidth / BOX_WIDTH
+  return values.map((value, i) => {
+    const total = max > 0 ? (TALLEST * Math.max(0, value)) / max : 0
+    const height = total / (1 + (SIDE + BACK) * scale)
+    return {
+      x: count > 1 ? (i - start) * (boxWidth + gap) : (width - boxWidth) / 2 + (i - start) * (boxWidth + BOX_GAP),
+      width: boxWidth,
+      height,
+      side: SIDE * height * scale,
+      back: BACK * height * scale,
+    }
+  })
+}
+
+/** The corners of a box `level` (0–1) full: its front corner on the plot's bottom, the slopes of the whole box. */
+function corners({ x, width, height, side, back }: Box, level = 1) {
+  const h = height * level
+  const mid = x + width / 2
+  const right = x + width
+  const y = PLOT_HEIGHT
+  return {
+    frontBottom: [mid, y] as Point,
+    leftBottom: [x, y - side] as Point,
+    rightBottom: [right, y - side] as Point,
+    frontTop: [mid, y - h] as Point,
+    leftTop: [x, y - h - side] as Point,
+    rightTop: [right, y - h - side] as Point,
+    backTop: [mid, y - h - side - back] as Point,
+  }
+}
+
+const r3 = (n: number) => Math.round(n * 1000) / 1000
+const polygon = (points: Point[]) => `M ${points.map(([x, y]) => `${r3(x)} ${r3(y)}`).join(" L ")} Z`
+
+/** The three faces (Figma's path order) and the four edges of each, vertical edges drawn up from the bottom. An empty box draws nothing. */
+function faces(box: Box, level = 1) {
+  const c = corners(box, level)
+  if (box.height * level < 0.01 && level < 1) c.backTop = c.rightTop = c.leftTop = c.frontTop = c.leftBottom = c.rightBottom = c.frontBottom
+  return {
+    left: { d: polygon([c.frontBottom, c.leftBottom, c.leftTop, c.frontTop]), edges: [[c.frontBottom, c.leftBottom], [c.leftBottom, c.leftTop], [c.leftTop, c.frontTop], [c.frontBottom, c.frontTop]] as Point[][] },
+    right: { d: polygon([c.frontBottom, c.rightBottom, c.rightTop, c.frontTop]), edges: [[c.frontBottom, c.rightBottom], [c.rightBottom, c.rightTop], [c.rightTop, c.frontTop], [c.frontBottom, c.frontTop]] as Point[][] },
+    top: { d: polygon([c.backTop, c.leftTop, c.frontTop, c.rightTop]), edges: [[c.backTop, c.leftTop], [c.leftTop, c.frontTop], [c.frontTop, c.rightTop], [c.rightTop, c.backTop]] as Point[][] },
+  }
+}
+const FACES = ["left", "right", "top"] as const
+const length = ([[x1, y1], [x2, y2]]: Point[]) => Math.hypot(x2 - x1, y2 - y1)
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t
+const lerpBox = (a: Box, b: Box, t: number): Box => ({
+  x: lerp(a.x, b.x, t),
+  width: lerp(a.width, b.width, t),
+  height: lerp(a.height, b.height, t),
+  side: lerp(a.side, b.side, t),
+  back: lerp(a.back, b.back, t),
+})
+
+/**
+ * "Average Sales Chart" from the Keitoto library: a month's revenue with its change and how much of the monthly goal it
+ * met, beside six months of revenue drawn as isometric boxes: dashed wireframes, the highlighted month (April in Figma)
+ * a solid green box. Hover, tap or the arrow keys pick a month and the panel follows it; the period menu shows 3, 6 or
+ * 12 months. Animated with anime.js: the boxes rise from the floor one after another and the highlighted one fills up
+ * with green while its revenue counts up; another month drains the green from the old box and fills the new one while
+ * the numbers count and the note fades over, and a new period slides the boxes along and rescales them.
+ */
+function AverageSalesChart({
+  title = "Average Sales",
+  valueLabel = "Total revenue",
+  data: dataProp,
+  periods = defaultPeriods,
+  period: periodProp,
+  defaultPeriod = "6m",
+  onPeriodChange,
+  goal = 6000,
+  index: indexProp,
+  defaultIndex,
+  onIndexChange,
+  formatMonth,
+  onMoreClick,
+  locale = "en-US",
+  currency = "USD",
+  className,
+  ...props
+}: AverageSalesChartProps) {
+  const data = dataProp ?? sampleAverageSalesData
+  const n = data.length
+  const [periodValue, setPeriod] = useControllableState({ value: periodProp, defaultValue: defaultPeriod, onChange: onPeriodChange })
+  const period = periods.find((p) => p.value === periodValue) ?? periods[0]
+  const count = Math.min(n, Math.max(1, period?.months ?? n))
+  const start = n - count
+  const [indexValue, setIndex] = useControllableState({
+    value: indexProp,
+    // the sample opens on Figma's month, your data on its latest
+    defaultValue: defaultIndex ?? (dataProp ? n - 1 : SAMPLE_SELECTED),
+    onChange: (next: number) => {
+      if (data[next]) onIndexChange?.(next, data[next])
+    },
+  })
+  const [plotRef, plot] = useChartSize<HTMLDivElement>({ width: PLOT_WIDTH, height: PLOT_HEIGHT })
+  const width = plot.width || PLOT_WIDTH
+  const boxes = React.useMemo(() => layoutBoxes(data.map((m) => m.value), start, count, width), [data, start, count, width])
+  const keys = data.map((m) => m.month)
+  const layoutKey = `${keys.join(";")}|${boxes.map((b) => [b.x, b.width, b.height].map(r3).join(",")).join(";")}`
+
+  const [hovered, setHovered] = React.useState<number | null>(null)
+  const selected = Math.min(Math.max(Math.round(indexValue), start), n - 1)
+  const active = hovered !== null && hovered >= start && hovered < n ? hovered : selected
+  const month = data[active]
+  const previous = data[active - 1]
+  const change = month && previous && previous.value > 0 ? ((month.value - previous.value) / previous.value) * 100 : undefined
+  const met = goal > 0 && month ? (month.value / goal) * 100 : undefined
+
+  const money = React.useCallback((value: number) => formatCurrency(value, { locale, currency }), [locale, currency])
+  const percent = React.useCallback((value: number) => formatPercent(Math.abs(value), { locale, maximumFractionDigits: 0 }), [locale])
+  const monthText = (date: string, context: "axis" | "label") =>
+    formatMonth ? formatMonth(date, context) : formatDay(date, context === "axis" ? { month: "short" } : { month: "long", year: "numeric" }, locale)
+  const goalText = formatCompactCurrency(goal, { locale, currency })
+
+  const reduced = useReducedMotion()
+  const root = React.useRef<HTMLDivElement>(null)
+  const valueRef = React.useRef<HTMLParagraphElement>(null)
+  const changeRef = React.useRef<HTMLSpanElement>(null)
+  const metRef = React.useRef<HTMLSpanElement>(null)
+  const noteRef = React.useRef<HTMLParagraphElement>(null)
+  const ids = React.useId().replace(/[^\w-]/g, "")
+  const valueText = money(month?.value ?? 0)
+  // what the entrance's callbacks need at play time (the card may be resized before it scrolls into view)
+  const latest = React.useRef({ boxes, active, value: month?.value ?? 0, valueText })
+  useIsomorphicLayoutEffect(() => {
+    latest.current = { boxes, active, value: month?.value ?? 0, valueText }
+  })
+  const all = (selector: string) => Array.from(root.current?.querySelectorAll<HTMLElement>(selector) ?? [])
+
+  /** Draws box i: its wireframe `grown` (0–1) of its height, its green `level` (0–1) of that, the wireframe fading as it fills. */
+  const drawBox = (el: Element | undefined, box: Box | undefined, grown: number, level: number) => {
+    if (!el || !box) return
+    const wire = faces(box, grown)
+    const solid = faces(box, grown * level)
+    for (const face of FACES) {
+      for (const path of el.querySelectorAll(`[data-face="${face}"]`)) path.setAttribute("d", path.closest("[data-part=solid]") ? solid[face].d : wire[face].d)
+      el.querySelectorAll(`[data-edge^="${face}"]`).forEach((line) => {
+        const [[x1, y1], [x2, y2]] = wire[face].edges[Number(line.getAttribute("data-edge")?.split(":")[1])]
+        line.setAttribute("x1", String(r3(x1)))
+        line.setAttribute("y1", String(r3(y1)))
+        line.setAttribute("x2", String(r3(x2)))
+        line.setAttribute("y2", String(r3(y2)))
+      })
+    }
+    el.querySelector("[data-part=frame]")?.setAttribute("opacity", String(r3(0.5 * (1 - level))))
+  }
+  const boxEls = () => all(BOX)
+  // What is on screen, so a change animates from there: each box's geometry, by month, and how full of green it is.
+  const shown = React.useRef<Map<string, Box> | null>(null)
+  const levels = React.useRef(new Map<string, number>())
+  const level = (i: number) => levels.current.get(keys[i]) ?? (i === active ? 1 : 0)
+  // The entrance's progress (null without one): how far each box has risen and the highlighted one has filled. A
+  // redraw before it is done (the card resized as its font loads, another month hovered) keeps the boxes where it has them.
+  const growing = React.useRef<{ grown: number[]; fill: { t: number } } | null>(null)
+  const fills = React.useRef(new Map<string, JSAnimation>())
+  /** Draws every box as far as the entrance has it: risen `grown`, the highlighted month's filled to `fill`. */
+  const drawEntrance = (els: Element[], entrance: NonNullable<typeof growing.current>, boxesNow: Box[], activeNow: number) =>
+    els.forEach((el, i) => {
+      const filled = i === activeNow ? entrance.fill.t : 0
+      levels.current.set(keys[i], filled)
+      drawBox(el, boxesNow[i], entrance.grown[i] ?? 1, filled)
+    })
+
+  // New values count from the previous ones.
+  useCountUp(valueRef, month?.value ?? 0, money, { duration: 700 })
+  useCountUp(changeRef, change ?? 0, percent, { duration: 700 })
+  useCountUp(metRef, met ?? 0, percent, { duration: 700 })
+
+  // Entrance, once the card is in view: the boxes rise from the floor one after another (their dashes already in
+  // place, so they come up like walls being built), the labels come up, then the highlighted box fills with green while
+  // the panel's revenue counts up, the badge pops and the goal and the note come in.
+  useChartEntrance(root, (timeline) => {
+    const els = boxEls()
+    // the months before the period are off the plot: just there
+    const entrance = { grown: els.map((_, i): number => (i < start ? 1 : 0)), fill: { t: 0 } }
+    growing.current = entrance
+    const draw = () => drawEntrance(els, entrance, latest.current.boxes, latest.current.active)
+    draw()
+    entrance.grown.forEach((_, i) => {
+      if (i < start) return
+      const rise = { t: 0 }
+      const update = () => {
+        entrance.grown[i] = rise.t
+        draw()
+      }
+      timeline.add(rise, { t: [0, 1], duration: GROW, ease: "outExpo", onUpdate: update }, BOXES_AT + (i - start) * BOX_STAGGER)
+    })
+    const filledAt = BOXES_AT + Math.max(0, latest.current.active - start) * BOX_STAGGER + GROW * 0.45
+    timeline.add(entrance.fill, { t: [0, 1], duration: FILL + 250, ease: "outCubic", onUpdate: draw }, filledAt)
+    const counter = { t: 0 }
+    const valueEl = valueRef.current
+    const count = () => {
+      if (valueEl) valueEl.textContent = money(latest.current.value * counter.t)
+    }
+    count()
+    timeline
+      .add(counter, { t: [0, 1], duration: 1400, ease: "outExpo", onUpdate: count }, filledAt)
+      .add(all('[data-slot="average-sales-chart-axis-label"] > span'), { opacity: { from: 0 }, translateY: { from: 4 }, duration: 600, ease: "outQuad", delay: stagger(60) }, 300)
+      .add(all('[data-slot="chart-change-badge"]'), { opacity: { from: 0 }, scale: { from: 0.6 }, duration: 600, ease: "outBack(2)" }, filledAt + 100)
+      .add(all('[data-slot="average-sales-chart-goal"], [data-slot="average-sales-chart-note"]'), { opacity: { from: 0 }, translateY: { from: 4 }, duration: 600, ease: "outQuad", delay: stagger(120) }, filledAt + 200)
+    return () => {
+      if (growing.current === entrance) growing.current = null
+      entrance.grown.fill(1)
+      entrance.fill.t = 1
+      draw()
+      if (valueEl) valueEl.textContent = latest.current.valueText
+    }
+  })
+
+  // Another highlighted month drains the green from the old box and fills the new one (a quick hover back and forth
+  // reverses from where each box is). During the entrance the filling moves over to the new month.
+  const lastActive = React.useRef(active)
+  useIsomorphicLayoutEffect(() => {
+    const before = lastActive.current
+    lastActive.current = active
+    if (before === active) return
+    const els = boxEls()
+    const entrance = growing.current
+    if (entrance && (entrance.fill.t < 1 || entrance.grown.some((t) => t < 1))) {
+      drawEntrance(els, entrance, boxes, active)
+      return
+    }
+    for (const i of [before, active]) {
+      const key = keys[i]
+      const el = els[i]
+      if (!key || !el) continue
+      const to = i === active ? 1 : 0
+      const from = levels.current.get(key) ?? 1 - to
+      fills.current.get(key)?.cancel()
+      fills.current.delete(key)
+      if (reduced) {
+        levels.current.set(key, to)
+        drawBox(el, boxes[i], 1, to)
+        continue
+      }
+      const state = { level: from }
+      const paint = () => {
+        levels.current.set(key, state.level)
+        // the box as it is on screen (a new period may be sliding it)
+        drawBox(el, shown.current?.get(key) ?? latest.current.boxes[i], 1, state.level)
+      }
+      paint()
+      fills.current.set(
+        key,
+        animate(state, {
+          level: to,
+          duration: to ? FILL : DRAIN,
+          ease: to ? "outCubic" : "inOutQuad",
+          onUpdate: paint,
+          onComplete: () => fills.current.delete(key),
+        }),
+      )
+    }
+  }, [active, reduced])
+
+  // A new period or new data slides and rescales every box from where it is (the months before the period slide off
+  // the plot's left edge); a resize redraws them at once unless it comes during a slide.
+  const lastLayout = React.useRef({ key: layoutKey, width })
+  const morph = React.useRef<JSAnimation | null>(null)
+  useIsomorphicLayoutEffect(() => {
+    const before = lastLayout.current
+    lastLayout.current = { key: layoutKey, width }
+    const target = new Map(keys.map((key, i) => [key, boxes[i]]))
+    const from = shown.current ?? target
+    shown.current = target
+    if (before.key === layoutKey) return
+    const els = boxEls()
+    const morphing = !!morph.current
+    morph.current?.cancel()
+    morph.current = null
+    const entrance = growing.current
+    if (entrance && (entrance.fill.t < 1 || entrance.grown.some((t) => t < 1))) {
+      drawEntrance(els, entrance, boxes, active)
+      return
+    }
+    if (reduced || (before.width !== width && !morphing)) {
+      els.forEach((el, i) => drawBox(el, boxes[i], 1, level(i)))
+      return
+    }
+    // a month that wasn't there rises from the floor
+    const starts = keys.map((key, i) => from.get(key) ?? { ...boxes[i], height: 0 })
+    const state = { t: 0 }
+    const frame = () => {
+      const now = new Map<string, Box>()
+      els.forEach((el, i) => {
+        const box = lerpBox(starts[i], boxes[i], state.t)
+        now.set(keys[i], box)
+        drawBox(el, box, 1, level(i))
+      })
+      shown.current = now
+    }
+    frame()
+    morph.current = animate(state, {
+      t: 1,
+      duration: MORPH,
+      ease: "outExpo",
+      onUpdate: frame,
+      onComplete: () => {
+        morph.current = null
+        shown.current = target
+        els.forEach((el, i) => drawBox(el, boxes[i], 1, level(i)))
+      },
+    })
+  }, [layoutKey, reduced])
+  React.useEffect(() => {
+    const running = fills.current
+    return () => {
+      morph.current?.cancel()
+      for (const animation of running.values()) animation.cancel()
+    }
+  }, [])
+
+  // The labels slide with their boxes; the note fades over when it changes.
+  const lastLabels = React.useRef({ xs: boxes.map((b) => b.x + b.width / 2), start, width })
+  useIsomorphicLayoutEffect(() => {
+    const before = lastLabels.current
+    const xs = boxes.map((b) => b.x + b.width / 2)
+    lastLabels.current = { xs, start, width }
+    if (reduced || before.width !== width) return
+    all('[data-slot="average-sales-chart-axis-label"]').forEach((label, i) => {
+      const dx = (before.xs[i] ?? xs[i]) - xs[i]
+      if (Math.abs(dx) < 0.01) return
+      animate(label, { translateX: [dx + utils.get(label, "translateX", false), 0], duration: MORPH, ease: "outExpo", onComplete: releaseStyles("transform") })
+    })
+  }, [layoutKey, reduced])
+  const note = month?.note ?? ""
+  const lastNote = React.useRef(note)
+  useIsomorphicLayoutEffect(() => {
+    const before = lastNote.current
+    lastNote.current = note
+    const el = noteRef.current
+    if (!el || reduced || before === note) return
+    animate(el, { opacity: [0, 1], translateY: [3, 0], duration: 400, ease: "outQuad", onComplete: releaseStyles("opacity", "transform") })
+  }, [note, reduced])
+
+  const select = (next: number) => {
+    if (!n) return
+    setIndex(Math.min(Math.max(next, start), n - 1))
+  }
+  const changePeriod = (next: string) => {
+    const option = periods.find((p) => p.value === next)
+    if (!option || option.value === period?.value) return
+    setHovered(null)
+    setPeriod(option.value)
+    // a highlighted month that leaves the period hands over to the latest one
+    const first = n - Math.min(n, Math.max(1, option.months))
+    if (selected < first) select(n - 1)
+  }
+  const pointerMonth = (event: React.PointerEvent<HTMLElement>) => {
+    const target = event.currentTarget
+    const box = target.getBoundingClientRect()
+    // CSS zoom (the live demo scales wide demos down) scales the box but not the layout
+    const zoom = box.width / (target.offsetWidth || box.width || 1) || 1
+    const x = (event.clientX - box.left) / zoom
+    let best = start
+    for (let i = start; i < n; i++) if (Math.abs(boxes[i].x + boxes[i].width / 2 - x) < Math.abs(boxes[best].x + boxes[best].width / 2 - x)) best = i
+    return best
+  }
+  const onMonthKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    const next = { ArrowRight: selected + 1, ArrowDown: selected + 1, ArrowLeft: selected - 1, ArrowUp: selected - 1, Home: start, End: n - 1 }[event.key]
+    if (next === undefined || !n) return
+    event.preventDefault()
+    const index = Math.min(Math.max(next, start), n - 1)
+    setHovered(null)
+    select(index)
+    root.current?.querySelector<HTMLButtonElement>(`[data-slot="average-sales-chart-month"][data-index="${index}"]`)?.focus()
+  }
+
+  const describe = (i: number) => {
+    const m = data[i]
+    const prev = data[i - 1]
+    const delta = prev && prev.value > 0 ? ((m.value - prev.value) / prev.value) * 100 : undefined
+    return `${monthText(m.month, "label")}: ${money(m.value)}${delta !== undefined ? `, ${delta < 0 ? "down" : "up"} ${percent(delta)} from ${monthText(prev.month, "label")}` : ""}`
+  }
+
+  return (
+    <ChartCard ref={root} role="group" aria-label={title} className={cn("w-full", className)} {...props}>
+      <div className="flex items-center justify-between gap-20">
+        {/* the padding keeps the descenders out of truncate's clip (the text styles have a line height of 1) */}
+        <p className="typo-heading-01-semibold -my-0.5 min-w-0 flex-1 truncate py-0.5 text-fg-loud">{title}</p>
+        <div className="flex shrink-0 items-center gap-3">
+          <ChartMenu>
+            <ChartMenuTrigger {...{ asChild: true }}>
+              <ChartButton corner="rounded" aria-label={`Period: ${period?.label ?? ""}`} className={cn("group/trigger text-fg-normal", RING)}>
+                <CalendarSolidIcon />
+                {period?.label ?? ""}
+                <ChevronDownIcon className="transition-transform duration-200 group-data-[state=open]/trigger:rotate-180" />
+              </ChartButton>
+            </ChartMenuTrigger>
+            <ChartMenuContent>
+              <ChartMenuRadioGroup value={period?.value} onValueChange={changePeriod}>
+                {periods.map((p) => (
+                  <ChartMenuRadioItem key={p.value} value={p.value}>
+                    {p.label}
+                  </ChartMenuRadioItem>
+                ))}
+              </ChartMenuRadioGroup>
+            </ChartMenuContent>
+          </ChartMenu>
+          <ChartButton size="icon" corner="rounded" aria-label="More options" onClick={onMoreClick} className={RING}>
+            <DotsHorizontalIcon />
+          </ChartButton>
+        </div>
+      </div>
+
+      <div className="flex gap-[52px]">
+        {/* the highlighted month: its revenue, the change from the month before, the goal it met and its note */}
+        <div className="flex shrink-0 flex-col justify-between" style={{ width: PANEL_WIDTH }}>
+          <div className="flex flex-col gap-2.5">
+            <div className="flex flex-col gap-2.5">
+              <p className="typo-label-03-medium hug-w whitespace-nowrap text-fg-normal">{valueLabel}</p>
+              <p ref={valueRef} data-slot="average-sales-chart-value" className="typo-heading-04-semibold hug-w whitespace-nowrap text-fg-loud">
+                {valueText}
+              </p>
+            </div>
+            <div className="flex items-center gap-2 whitespace-nowrap">
+              {change !== undefined && <ChartChangeBadge value={change} format={percent} valueRef={changeRef} />}
+              {met !== undefined && (
+                <p data-slot="average-sales-chart-goal" className="typo-label-02-medium hug-w text-fg-normal">
+                  <span ref={metRef}>{percent(met)}</span> of {goalText} goal met
+                </p>
+              )}
+            </div>
+          </div>
+          {/* Figma's Description/02 Multiline box lays its lines 20px apart */}
+          <p ref={noteRef} data-slot="average-sales-chart-note" className="typo-description-02-medium w-[192px] leading-5 text-fg-normal">
+            {note}
+          </p>
+        </div>
+
+        {/* Figma's plot is 592px from 249px in, 1px past the card's content box */}
+        <div className="-mr-px flex min-w-0 flex-1 flex-col gap-2.5">
+          <div
+            ref={plotRef}
+            data-slot="average-sales-chart-plot"
+            className="relative touch-pan-y"
+            style={{ height: PLOT_HEIGHT }}
+            onPointerMove={(event) => setHovered(pointerMonth(event))}
+            onPointerLeave={() => setHovered(null)}
+            onPointerUp={(event) => {
+              if (event.button === 0) select(pointerMonth(event))
+            }}
+          >
+            <svg aria-hidden className="pointer-events-none absolute inset-0 size-full overflow-visible">
+              <defs>
+                <linearGradient id={`${ids}-left`} x1="0" y1="0" x2="1" y2="0" gradientTransform={LEFT_FILL}>
+                  <stop offset="0" style={{ stopColor: "var(--primary-green-500)" }} />
+                  <stop offset="1" style={{ stopColor: "var(--surface-white)" }} />
+                </linearGradient>
+                <linearGradient id={`${ids}-right`} x1="0" y1="0" x2="1" y2="0" gradientTransform={RIGHT_FILL}>
+                  <stop offset="0" style={{ stopColor: "var(--surface-white)" }} />
+                  <stop offset="1" style={{ stopColor: "var(--primary-green-500)" }} />
+                </linearGradient>
+                <linearGradient id={`${ids}-top`} x1="0" y1="0" x2="1" y2="0" gradientTransform={TOP_FILL}>
+                  <stop offset="0" style={{ stopColor: "var(--primary-green-500)" }} />
+                  <stop offset="1" style={{ stopColor: "var(--primary-green-500)", stopOpacity: 0 }} />
+                </linearGradient>
+                {/* the months before the period wait left of the plot */}
+                <clipPath id={`${ids}-plot`}>
+                  <rect x={0} y={-PLOT_HEIGHT} width={width} height={PLOT_HEIGHT * 2} />
+                </clipPath>
+              </defs>
+              <g clipPath={`url(#${ids}-plot)`}>
+                {boxes.map((box, i) => {
+                  const wire = faces(box)
+                  const on = i === active
+                  const solid = faces(box, on ? 1 : 0)
+                  return (
+                    <g key={keys[i]} data-slot="average-sales-chart-box" data-index={i}>
+                      {/* Figma's wireframe: white faces with a 0.5px Background/Muted inside stroke dashed 7.09/7.09 (fitted to
+                          each edge), at 50%; a 1px stroke clipped to its face is the inside half */}
+                      <g data-part="frame" opacity={on ? 0 : 0.5}>
+                        {FACES.map((face) => (
+                          <clipPath key={face} id={`${ids}-${i}-${face}`}>
+                            <path data-face={face} d={wire[face].d} />
+                          </clipPath>
+                        ))}
+                        {FACES.map((face) => (
+                          <path key={face} data-face={face} d={wire[face].d} className="fill-surface-white" />
+                        ))}
+                        {FACES.map((face) => (
+                          <g key={face} clipPath={`url(#${ids}-${i}-${face})`}>
+                            {wire[face].edges.map(([[x1, y1], [x2, y2]], e) => (
+                              <line
+                                key={e}
+                                data-edge={`${face}:${e}`}
+                                x1={r3(x1)}
+                                y1={r3(y1)}
+                                x2={r3(x2)}
+                                y2={r3(y2)}
+                                className="stroke-surface-muted"
+                                {...fittedDash(length(wire[face].edges[e]), DASH, DASH)}
+                              />
+                            ))}
+                          </g>
+                        ))}
+                      </g>
+                      <g data-part="solid">
+                        <path data-face="left" d={solid.left.d} fill={`url(#${ids}-left)`} />
+                        <path data-face="right" d={solid.right.d} fill={`url(#${ids}-right)`} />
+                        <path data-face="top" d={solid.top.d} fill={`url(#${ids}-top)`} />
+                      </g>
+                    </g>
+                  )
+                })}
+              </g>
+            </svg>
+
+            <div role="group" aria-label={`${title} by month`}>
+              {boxes.map((box, i) => {
+                if (i < start) return null
+                const center = box.x + box.width / 2
+                const half = count > 1 ? (boxes[Math.min(i + 1, n - 1)].x - box.x || box.x - boxes[i - 1].x) / 2 : width / 2
+                const left = Math.max(0, center - half)
+                const right = Math.min(width, center + half)
+                return (
+                  <button
+                    key={keys[i]}
+                    type="button"
+                    data-slot="average-sales-chart-month"
+                    data-index={i}
+                    aria-label={describe(i)}
+                    aria-pressed={i === selected}
+                    tabIndex={i === selected ? 0 : -1}
+                    onClick={(event) => {
+                      // pointers select on pointer up (where a touch drag ends); this is Enter and Space
+                      if (event.detail === 0) select(i)
+                    }}
+                    onKeyDown={onMonthKeyDown}
+                    className={cn("absolute inset-y-0 cursor-pointer rounded-lg outline-none focus-visible:ring-2", RING)}
+                    style={{ left, width: right - left }}
+                  />
+                )
+              })}
+            </div>
+          </div>
+
+          {/* each month centred under its box (Figma's labels sit in equal cells beside them) */}
+          <div aria-hidden className="relative h-[30px] overflow-x-clip">
+            {boxes.map((box, i) => (
+              <span
+                key={keys[i]}
+                data-slot="average-sales-chart-axis-label"
+                className={cn("absolute top-2 transition-opacity duration-300", i < start && "opacity-0")}
+                style={{ left: box.x + box.width / 2 }}
+              >
+                <span className="typo-label-02-regular block -translate-x-1/2 whitespace-nowrap text-fg-soft">{monthText(data[i].month, "axis")}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </ChartCard>
+  )
+}
+
+export { AverageSalesChart, sampleAverageSalesData, type AverageSalesChartProps, type AverageSalesMonth, type AverageSalesPeriod }

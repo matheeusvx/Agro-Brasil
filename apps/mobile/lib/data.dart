@@ -33,6 +33,7 @@ class ApiRepository implements Repository {
   final String token;
   final String organizationId;
   final String userId;
+  final List<Json> organizations;
   @override
   final String organizationName;
   @override
@@ -43,6 +44,7 @@ class ApiRepository implements Repository {
     required this.token,
     required this.organizationId,
     required this.userId,
+    this.organizations = const [],
     required this.organizationName,
     this.demonstration = true,
     http.Client? client,

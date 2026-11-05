@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 
 import 'data.dart';
 import 'home.dart';
+import 'design.dart';
+import 'illustrations.dart';
+import 'records.dart';
 
 Future<List<Json>> allRows(Repository repository, String endpoint) async {
   final result = <Json>[];
@@ -89,7 +92,9 @@ class _TaskPageState extends State<TaskPage> {
       await c.repository.write(path, location, key: key);
       keys.remove(signature);
       if (!mounted) return;
-      setState(() => future = load());
+      setState(() {
+        future = load();
+      });
       if (c.propertyId != null) await c.load(c.propertyId!);
       if (mounted) {
         ScaffoldMessenger.of(
@@ -118,15 +123,31 @@ class _TaskPageState extends State<TaskPage> {
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            Text(title, style: Theme.of(context).textTheme.titleLarge),
+            ModuleHeading(
+              title: title,
+              subtitle: widget.kind == 'production'
+                  ? 'Sua colheita, com origem registrada.'
+                  : widget.kind == 'offers'
+                  ? 'Dê um destino ao que você produz.'
+                  : widget.kind == 'orders'
+                  ? 'Cada entrega começa com uma conexão.'
+                  : 'A origem e o caminho de cada colheita.',
+              art: widget.kind == 'production'
+                  ? FarmArt.harvest
+                  : widget.kind == 'offers'
+                  ? FarmArt.offer
+                  : widget.kind == 'orders'
+                  ? FarmArt.orders
+                  : FarmArt.route,
+            ),
             const SizedBox(height: 12),
             if (c.repository.fixture)
               const InfoStrip(
                 icon: Icons.science_outlined,
-                text: 'Galeria de cenários fictícios. A navegação é demonstrável; gravações ficam desativadas.',
+                text: 'Demonstração · dados fictícios · sem gravações.',
               ),
             if ((widget.kind == 'production' || widget.kind == 'offers') &&
-                c.canWrite)
+                (c.canWrite || c.repository.fixture))
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: FilledButton.icon(
@@ -143,7 +164,11 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                     );
                     if (c.propertyId != null) await c.load(c.propertyId!);
-                    if (mounted) setState(() => future = load());
+                    if (mounted) {
+                      setState(() {
+                        future = load();
+                      });
+                    }
                   },
                   icon: const Icon(Icons.add),
                   label: Text(
@@ -168,7 +193,9 @@ class _TaskPageState extends State<TaskPage> {
                     children: [
                       Text(snapshot.error.toString()),
                       TextButton(
-                        onPressed: () => setState(() => future = load()),
+                        onPressed: () => setState(() {
+                          future = load();
+                        }),
                         child: const Text('Tentar novamente'),
                       ),
                     ],
@@ -176,33 +203,35 @@ class _TaskPageState extends State<TaskPage> {
                 }
                 final data = snapshot.data!;
                 if (data.isEmpty) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(vertical: 24),
-                    child: Text(
-                      'Nenhum registro disponível nesta propriedade.',
-                    ),
+                  return FarmEmptyState(
+                    art: widget.kind == 'offers'
+                        ? FarmArt.offer
+                        : widget.kind == 'orders'
+                        ? FarmArt.orders
+                        : FarmArt.harvest,
+                    title: widget.kind == 'orders'
+                        ? 'As próximas conexões chegam aqui.'
+                        : widget.kind == 'offers'
+                        ? 'Sua colheita pode ir mais longe.'
+                        : 'O começo de uma boa colheita.',
+                    message: widget.kind == 'orders'
+                        ? 'Quando houver um pedido, você poderá acompanhar cada etapa.'
+                        : widget.kind == 'offers'
+                        ? 'Escolha um lote da sua produção e prepare sua primeira oferta.'
+                        : 'Cadastre uma produção para registrar a origem do seu primeiro lote.',
                   );
                 }
                 return Column(
                   children: data.map((item) {
                     if (widget.kind == 'production' || widget.kind == 'lots') {
-                      return Card(
-                        child: ListTile(
-                          title: Text(
-                            '${item['cropName']} · ${item['quantityKg']} kg',
-                          ),
-                          subtitle: Text(
-                            'Safra ${item['seasonLabel']}\nLote ${item['lot']['id']}',
-                          ),
-                          isThreeLine: true,
-                          trailing: const Icon(Icons.chevron_right),
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (_) => HistoryPage(
-                                controller: c,
-                                lotId: item['lot']['id'],
-                              ),
+                      return CropRecord(
+                        item: item,
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (_) => HistoryPage(
+                              controller: c,
+                              lotId: item['lot']['id'],
                             ),
                           ),
                         ),
@@ -215,14 +244,29 @@ class _TaskPageState extends State<TaskPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Text(
-                              offer
-                                  ? '${item['cropName']} · ${item['availableKg']} kg disponíveis'
-                                  : 'Pedido de ${item['quantityKg']} kg',
-                              style: Theme.of(context).textTheme.titleMedium,
+                            Row(
+                              children: [
+                                FarmIllustration(
+                                  art: offer ? FarmArt.offer : FarmArt.orders,
+                                  width: 64,
+                                  height: 48,
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Text(
+                                    offer
+                                        ? '${item['cropName']} · ${item['availableKg']} kg disponíveis'
+                                        : '${item['cropName'] ?? 'Pedido'} · ${item['quantityKg']} kg',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium,
+                                  ),
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 8),
-                            Text('Estado: ${item['status']}'),
+                            StatusPill(item['status']),
+                            const SizedBox(height: 12),
                             SelectableText(
                               'Identificador: ${item['id']}',
                               style: const TextStyle(fontSize: 12),
@@ -453,6 +497,18 @@ class _EntryPageState extends State<EntryPage> {
   String mode = 'DOACAO';
   bool confirmed = false;
   bool saving = false;
+  int step = 0;
+  final pageScroll = ScrollController();
+  void goToStep(int value) {
+    setState(() {
+      step = value;
+      error = null;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && pageScroll.hasClients) pageScroll.jumpTo(0);
+    });
+  }
+
   String? error;
   List<Json> choices = [];
   bool loading = true;
@@ -499,6 +555,7 @@ class _EntryPageState extends State<EntryPage> {
 
   @override
   void dispose() {
+    pageScroll.dispose();
     for (final field in [quantity, season, date, city, uf, price]) {
       field.dispose();
     }
@@ -572,8 +629,19 @@ class _EntryPageState extends State<EntryPage> {
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 680),
         child: ListView(
+          controller: pageScroll,
           padding: const EdgeInsets.all(20),
           children: [
+            ModuleHeading(
+              title: production
+                  ? 'Dê origem à sua colheita.'
+                  : 'Uma nova conexão começa aqui.',
+              subtitle: production
+                  ? 'Registre a colheita e confirme de onde ela vem.'
+                  : 'Escolha um lote, a quantidade e o destino.',
+              art: production ? FarmArt.harvest : FarmArt.offer,
+              eyebrow: production ? 'NOVA PRODUÇÃO' : 'NOVA OFERTA',
+            ),
             if (!c.canWrite)
               const InfoStrip(
                 icon: Icons.lock_outline,
@@ -587,125 +655,178 @@ class _EntryPageState extends State<EntryPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    if (choices.isEmpty)
-                      Text(
-                        production ? 'Nenhuma cultura disponível.' : 'Nenhum lote disponível para nova oferta. Cadastre uma produção ou confira as ofertas existentes.',
+                    Text('Etapa ${step + 1} de 2', style: AgroDesign.caption),
+                    const SizedBox(height: 8),
+                    LinearProgressIndicator(
+                      value: (step + 1) / 2,
+                      minHeight: 4,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    if (step == 0) ...[
+                      FormSection(
+                        number: '01',
+                        title: production ? 'Sua colheita' : 'Sua oferta',
                       ),
-                    if (choices.isNotEmpty)
-                      DropdownButtonFormField<String>(
-                        initialValue: selection,
-                        isExpanded: true,
-                        decoration: InputDecoration(
-                          labelText: production ? 'Cultura' : 'Lote',
+                      if (choices.isEmpty)
+                        Text(
+                          production ? 'Nenhuma cultura disponível.' : 'Nenhum lote disponível para nova oferta. Cadastre uma produção ou confira as ofertas existentes.',
                         ),
-                        items: choices
-                            .map(
-                              (p) => DropdownMenuItem<String>(
-                                value: p['id'],
-                                child: Text(
-                                  p['name'],
-                                  overflow: TextOverflow.ellipsis,
+                      if (choices.isNotEmpty)
+                        DropdownButtonFormField<String>(
+                          initialValue: selection,
+                          isExpanded: true,
+                          decoration: InputDecoration(
+                            labelText: production
+                                ? 'O que foi colhido?'
+                                : 'Lote de origem',
+                          ),
+                          items: choices
+                              .map(
+                                (p) => DropdownMenuItem<String>(
+                                  value: p['id'],
+                                  child: Text(
+                                    p['name'],
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (v) => selection = v,
-                      ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: quantity,
-                      decoration: const InputDecoration(
-                        labelText: 'Quantidade (kg)',
-                      ),
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      validator: (value) {
-                        final number = double.tryParse(
-                          (value ?? '').replaceAll(',', '.'),
-                        );
-                        return number == null || !number.isFinite || number <= 0
-                            ? 'Informe uma quantidade positiva.'
-                            : null;
-                      },
-                    ),
-                    if (production) ...[
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: season,
-                        maxLength: 60,
-                        decoration: const InputDecoration(labelText: 'Safra'),
-                        validator: requiredText,
-                      ),
-                    ],
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: date,
-                      decoration: InputDecoration(
-                        labelText: production
-                            ? 'Data da colheita (AAAA-MM-DD)'
-                            : 'Validade da oferta (AAAA-MM-DD)',
-                      ),
-                      validator: (value) =>
-                          DateTime.tryParse(value ?? '') == null
-                          ? 'Informe uma data válida.'
-                          : null,
-                    ),
-                    if (production) ...[
-                      const SizedBox(height: 16),
-                      TextFormField(
-                        controller: city,
-                        maxLength: 120,
-                        decoration: const InputDecoration(
-                          labelText: 'Município de origem',
+                              )
+                              .toList(),
+                          onChanged: (v) => selection = v,
                         ),
-                        validator: requiredText,
-                      ),
                       const SizedBox(height: 16),
                       TextFormField(
-                        controller: uf,
-                        maxLength: 2,
-                        decoration: const InputDecoration(labelText: 'UF'),
-                        validator: requiredText,
+                        controller: quantity,
+                        decoration: const InputDecoration(
+                          labelText: 'Quantidade (kg)',
+                        ),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                        validator: (value) {
+                          final number = double.tryParse(
+                            (value ?? '').replaceAll(',', '.'),
+                          );
+                          return number == null ||
+                                  !number.isFinite ||
+                                  number <= 0
+                              ? 'Informe uma quantidade positiva.'
+                              : null;
+                        },
                       ),
-                      CheckboxListTile(
-                        value: confirmed,
-                        title: const Text('Confirmo a localização de origem.'),
-                        onChanged: (v) => setState(() => confirmed = v == true),
-                      ),
-                    ] else ...[
-                      const SizedBox(height: 16),
-                      DropdownButtonFormField<String>(
-                        initialValue: mode,
-                        decoration: const InputDecoration(labelText: 'Destino'),
-                        items: const [
-                          DropdownMenuItem(
-                            value: 'DOACAO',
-                            child: Text('Doação'),
-                          ),
-                          DropdownMenuItem(
-                            value: 'VENDA',
-                            child: Text('Venda'),
-                          ),
-                        ],
-                        onChanged: (v) => setState(() {
-                          mode = v!;
-                          if (mode == 'DOACAO') price.text = '0';
-                        }),
-                      ),
-                      if (mode == 'VENDA') ...[
+                      if (production) ...[
                         const SizedBox(height: 16),
                         TextFormField(
-                          controller: price,
-                          keyboardType: TextInputType.number,
+                          controller: season,
+                          maxLength: 60,
                           decoration: const InputDecoration(
-                            labelText: 'Preço por kg em centavos',
+                            labelText: 'Safra',
+                            hintText: 'Ex.: Verão 2026/27',
                           ),
-                          validator: (value) =>
-                              (int.tryParse(value ?? '') ?? 0) <= 0
-                              ? 'Informe centavos inteiros positivos.'
-                              : null,
+                          validator: requiredText,
                         ),
+                      ],
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: date,
+                        readOnly: true,
+                        onTap: () async {
+                          final selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate:
+                                DateTime.tryParse(date.text) ?? DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: production
+                                ? DateTime.now()
+                                : DateTime(2100),
+                          );
+                          if (selectedDate != null) {
+                            date.text = selectedDate
+                                .toIso8601String()
+                                .substring(0, 10);
+                          }
+                        },
+                        decoration: InputDecoration(
+                          suffixIcon: const Icon(Icons.calendar_today_outlined),
+                          labelText: production
+                              ? 'Data da colheita'
+                              : 'Validade da oferta',
+                        ),
+                        validator: (value) =>
+                            DateTime.tryParse(value ?? '') == null
+                            ? 'Informe uma data válida.'
+                            : null,
+                      ),
+                    ],
+                    if (step == 1) ...[
+                      if (production) ...[
+                        const SizedBox(height: 16),
+                        const FormSection(
+                          number: '02',
+                          title: 'Origem da colheita',
+                        ),
+                        TextFormField(
+                          controller: city,
+                          maxLength: 120,
+                          decoration: const InputDecoration(
+                            labelText: 'Município de origem',
+                          ),
+                          validator: requiredText,
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: uf,
+                          maxLength: 2,
+                          decoration: const InputDecoration(labelText: 'UF'),
+                          validator: requiredText,
+                        ),
+                        CheckboxListTile(
+                          value: confirmed,
+                          title: const Text(
+                            'Confirmo a localização de origem.',
+                          ),
+                          onChanged: (v) =>
+                              setState(() => confirmed = v == true),
+                        ),
+                      ] else ...[
+                        const SizedBox(height: 16),
+                        const FormSection(
+                          number: '02',
+                          title: 'Destino dos produtos',
+                        ),
+                        DropdownButtonFormField<String>(
+                          initialValue: mode,
+                          decoration: const InputDecoration(
+                            labelText: 'Destino',
+                          ),
+                          items: const [
+                            DropdownMenuItem(
+                              value: 'DOACAO',
+                              child: Text('Doação'),
+                            ),
+                            DropdownMenuItem(
+                              value: 'VENDA',
+                              child: Text('Venda'),
+                            ),
+                          ],
+                          onChanged: (v) => setState(() {
+                            mode = v!;
+                            if (mode == 'DOACAO') price.text = '0';
+                          }),
+                        ),
+                        if (mode == 'VENDA') ...[
+                          const SizedBox(height: 16),
+                          TextFormField(
+                            controller: price,
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              labelText: 'Preço por kg em centavos',
+                            ),
+                            validator: (value) =>
+                                (int.tryParse(value ?? '') ?? 0) <= 0
+                                ? 'Informe centavos inteiros positivos.'
+                                : null,
+                          ),
+                        ],
                       ],
                     ],
                     if (error != null)
@@ -720,18 +841,41 @@ class _EntryPageState extends State<EntryPage> {
                         ),
                       ),
                     const SizedBox(height: 20),
-                    FilledButton(
-                      onPressed: !c.canWrite || saving || choices.isEmpty
-                          ? null
-                          : save,
-                      child: Text(
-                        saving
-                            ? 'Salvando…'
-                            : production
-                            ? 'Registrar produção e lote'
-                            : 'Criar rascunho da oferta',
+                    if (step == 0)
+                      FilledButton.icon(
+                        onPressed: choices.isEmpty
+                            ? null
+                            : () {
+                                if (form.currentState!.validate()) {
+                                  goToStep(1);
+                                }
+                              },
+                        icon: const Icon(Icons.arrow_forward, size: 18),
+                        label: Text(
+                          production
+                              ? 'Continuar para a origem'
+                              : 'Continuar para o destino',
+                        ),
                       ),
-                    ),
+                    if (step == 1) ...[
+                      OutlinedButton(
+                        onPressed: saving ? null : () => goToStep(0),
+                        child: const Text('Voltar aos dados'),
+                      ),
+                      const SizedBox(height: 12),
+                      FilledButton(
+                        onPressed: !c.canWrite || saving || choices.isEmpty
+                            ? null
+                            : save,
+                        child: Text(
+                          saving
+                              ? 'Salvando…'
+                              : production
+                              ? 'Registrar produção e lote'
+                              : 'Criar rascunho da oferta',
+                        ),
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -748,6 +892,10 @@ class HistoryPage extends StatelessWidget {
   final HomeController controller;
   final String lotId;
   const HistoryPage({super.key, required this.controller, required this.lotId});
+  Json? get selectedLot =>
+      rows(controller.home?['recentLots'])
+          .where((lot) => lot['id'] == lotId)
+          .firstOrNull;
   Future<List<Json>> load() async {
     if (controller.offline) {
       final lot = rows(controller.home?['recentLots'])
@@ -764,7 +912,14 @@ class HistoryPage extends StatelessWidget {
     body: ListView(
       padding: const EdgeInsets.all(20),
       children: [
-        SelectableText(lotId),
+        ModuleHeading(
+          title: 'Da origem ao destino',
+          subtitle: selectedLot == null
+              ? 'Cada etapa, um registro confirmado.'
+              : '${selectedLot!['cropName']} · ${selectedLot!['quantityKg']} kg · eventos confirmados',
+          art: FarmArt.route,
+        ),
+        SelectableText('Lote: $lotId', style: AgroDesign.caption),
         const SizedBox(height: 16),
         InfoStrip(
           icon: Icons.route_outlined,
@@ -780,24 +935,7 @@ class HistoryPage extends StatelessWidget {
             if (snapshot.data!.isEmpty) {
               return const Text('Nenhum evento disponível nesta consulta.');
             }
-            return Column(
-              children: snapshot.data!
-                  .map(
-                    (e) => Card(
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.check_circle_outline,
-                          color: green,
-                        ),
-                        title: Text(eventLabel(e['type'])),
-                        subtitle: Text(
-                          '${dateLabel(e['recordedAt'])}\n${e['location']?['municipality'] ?? ''}/${e['location']?['uf'] ?? ''}${e['responsibleOrganizationId'] != null ? '\nOrganização responsável: ${e['responsibleOrganizationId']}' : ''}',
-                        ),
-                      ),
-                    ),
-                  )
-                  .toList(),
-            );
+            return EventTimeline(events: snapshot.data!);
           },
         ),
       ],
@@ -809,21 +947,60 @@ class ProfilePage extends StatelessWidget {
   final HomeController controller;
   const ProfilePage({super.key, required this.controller});
   @override
-  Widget build(BuildContext context) => ListView(
-    padding: const EdgeInsets.all(24),
-    children: [
-      Text('Meu perfil', style: Theme.of(context).textTheme.titleLarge),
-      const SizedBox(height: 16),
-      Text(controller.repository.organizationName),
-      const SizedBox(height: 12),
-      const Text(
-        'Experiência do pequeno produtor rural. A organização e as permissões são verificadas pelo servidor.',
+  Widget build(BuildContext context) => Center(
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 760),
+      child: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          const ModuleHeading(
+            title: 'Meu perfil',
+            subtitle: 'Seu vínculo com o campo.',
+            art: FarmArt.profile,
+          ),
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('SUA ORGANIZAÇÃO', style: AgroDesign.eyebrow),
+                const SizedBox(height: 12),
+                Text(
+                  controller.repository.organizationName,
+                  style: AgroDesign.section,
+                ),
+                const SizedBox(height: 16),
+                const StatusPill('Pequeno produtor rural'),
+                const SizedBox(height: 12),
+                Text(
+                  controller.home?['canWrite'] == true
+                      ? 'Permissão de registro verificada pelo servidor.'
+                      : 'Acesso de consulta.',
+                  style: AgroDesign.caption,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 24),
+          const SectionHeading(title: 'Sua propriedade'),
+          const SizedBox(height: 12),
+          PropertyHeader(controller: controller),
+          const SizedBox(height: 24),
+          const InfoStrip(
+            icon: Icons.privacy_tip_outlined,
+            text: 'Seu acesso fica somente nesta sessão. Ao sair, os dados da home salvos por esta sessão são removidos.',
+          ),
+          const SizedBox(height: 12),
+          const Text(
+            'Demonstração local. O acesso de produção e as telas dos demais públicos ainda não estão disponíveis neste aplicativo.',
+            style: AgroDesign.caption,
+          ),
+        ],
       ),
-      const SizedBox(height: 16),
-      const InfoStrip(
-        icon: Icons.privacy_tip_outlined,
-        text: 'O token fica somente em memória. Ao sair, os dados da home salvos por esta sessão são removidos. Acesso real de produção ainda não está implementado.',
-      ),
-    ],
+    ),
   );
 }

@@ -1,0 +1,9 @@
+{
+  "verifiedAt": "2026-11-05T19:43:05.3598638Z",
+  "device": "emulator-5556",
+  "scenarios": "390x844; 320x844; fonte 1.0 e 2.0",
+  "formInteraction": "12.5 kg; Primavera2026; etapa 2; retorno à lista",
+  "runtimeErrorCount": 0,
+  "source": "adb logcat flutter:E AndroidRuntime:E após reiniciar a coleta e repetir o retorno do cadastro",
+  "noWrites": true
+}

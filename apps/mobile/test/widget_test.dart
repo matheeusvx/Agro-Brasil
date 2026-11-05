@@ -38,7 +38,9 @@ void main() {
       expect(find.byType(PendingCard).evaluate().length, lessThanOrEqualTo(2));
       await expectLater(
         find.byKey(const ValueKey('capture')),
-        matchesGoldenFile('../../../docs/evidencias/mobile/$scenario.png'),
+        matchesGoldenFile(
+          '../../../docs/design/goldens-v2/$scenario-390x1450.png',
+        ),
       );
     });
   }
@@ -56,7 +58,7 @@ void main() {
       );
       await tester.tap(find.text('Cadastrar minha primeira produção'));
       await tester.pumpAndSettle();
-      expect(find.text('Registrar produção e lote'), findsOneWidget);
+      expect(find.text('Continuar para a origem'), findsOneWidget);
       await tester.tap(find.byTooltip('Voltar'));
       await tester.pumpAndSettle();
       await tester.tap(find.text('Perfil').last);

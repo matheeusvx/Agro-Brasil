@@ -1,0 +1,79 @@
+Resolving dependencies...
+Downloading packages...
+  cupertino_icons 1.0.9 (2.0.0 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.3 (1.19.0 available)
+  shared_preferences_foundation 2.5.7 (2.6.1 available)
+  test_api 0.7.12 (0.7.15 available)
+  vector_math 2.4.0 (2.4.4 available)
+Got dependencies!
+6 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+00:00 +0: loading C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart
+00:00 +0: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: HTTP usa identidade e organização, sem chave meteorológica
+00:00 +1: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: cache é por ator, organização e propriedade; offline é somente leitura
+00:00 +2: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: 401 nunca reutiliza cache para contornar autorização
+00:00 +3: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: sair remove os snapshots do escopo atual
+00:00 +4: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: (setUpAll)
+00:00 +4: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: clima válido mantém a pendência acionável antes da rolagem
+00:01 +5: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: clima válido mantém a pendência acionável antes da rolagem
+00:01 +6: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +7: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +8: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +9: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +10: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +11: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +12: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +13: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:01 +14: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:01 +15: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +16: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +17: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: solicitacao (fixture identificada)
+00:02 +18: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: primeira ação está visível em 390x844 e responde ao teclado
+00:02 +19: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: retirada
+00:02 +20: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de offer em 320px e texto 200%
+00:02 +21: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de offer em 320px e texto 200%
+00:02 +22: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de offer em 320px e texto 200%
+00:02 +23: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: recebimento
+00:02 +24: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: troca entre propriedades continua disponível e separa o cache
+00:02 +25: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: troca entre propriedades continua disponível e separa o cache
+00:02 +26: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: troca entre propriedades continua disponível e separa o cache
+00:02 +27: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:02 +28: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:02 +29: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:02 +30: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:02 +31: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:02 +32: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:02 +33: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:02 +34: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:02 +35: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:02 +36: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:03 +37: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:03 +38: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:03 +39: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: voltar do cadastro atualiza a lista sem Future no setState
+00:03 +40: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: erro (fixture identificada)
+00:03 +41: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: 320px, texto 200%, rolagem: retirada
+00:03 +42: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: cadastro em etapas preserva dados, origem e envio idempotente
+00:03 +43: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: cadastro em etapas preserva dados, origem e envio idempotente
+00:03 +44: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: cadastro em etapas preserva dados, origem e envio idempotente
+00:03 +45: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: cadastro em etapas preserva dados, origem e envio idempotente
+00:03 +46: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: cadastro em etapas preserva dados, origem e envio idempotente
+00:03 +47: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:03 +48: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:03 +49: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:03 +50: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:03 +51: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:03 +52: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:03 +53: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:03 +54: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: tela Pedidos em 390x844
+00:04 +55: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: tela Pedidos em 390x844
+00:04 +56: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: layout estreito e texto em 200% sem overflow
+00:04 +57: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: tela Perfil em 390x844
+00:04 +58: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: tela histórico em 390x844
+00:04 +59: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: tela Produção em 320 e texto 200%
+00:04 +60: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: tela Ofertas em 320 e texto 200%
+00:04 +61: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: tela Pedidos em 320 e texto 200%
+00:04 +62: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: tela Perfil em 320 e texto 200%
+00:04 +63: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: tela histórico em 320 e texto 200%
+00:05 +64: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: (tearDownAll)
+00:05 +64: All tests passed!

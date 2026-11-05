@@ -1,0 +1,746 @@
+"use client"
+
+import { animate, stagger, type AnimationParams, type JSAnimation } from "animejs"
+import * as React from "react"
+
+import { ChartButton } from "@/components/ui/chart-button"
+import { ChartCard } from "@/components/ui/chart-card"
+import { DotsHorizontalIcon } from "@/components/ui/chart-icons"
+import { ChartLegendDot } from "@/components/ui/chart-legend-dot"
+import { releaseStyles, useChartEntrance, useCountUp, useIsomorphicLayoutEffect, useReducedMotion } from "@/hooks/use-chart-motion"
+import { useControllableState } from "@/hooks/use-controllable-state"
+import { sectorPath } from "@/lib/chart-arcs"
+import { formatCurrency, formatPercent } from "@/lib/chart-format"
+import { cn } from "@/lib/utils"
+
+type PortfolioAllocationColor = "blue" | "blue-light" | "orange" | "purple" | "green" | "yellow"
+
+/** An asset class of the portfolio: a slice of the ring and an item of the legend. */
+type PortfolioAllocationClass = {
+  key: string
+  label: string
+  /** The amount held, in the card's currency; its share of the slices shown sets the slice's arc (below zero counts as 0). */
+  value: number
+  color?: PortfolioAllocationColor
+}
+
+type PortfolioAllocationChartProps = Omit<React.ComponentProps<"div">, "children"> & {
+  title?: string
+  /** The line under the title; an empty one is left out. */
+  description?: string
+  /**
+   * The asset classes in legend order, a slice each. The first one shown runs clockwise from `startAngle`; the others
+   * line up from the same place counter-clockwise, each a step thinner than the one after it.
+   */
+  classes?: PortfolioAllocationClass[]
+  /** The keys of the classes switched off in the legend (their slices leave the ring; the legend items stay, greyed). */
+  hiddenClasses?: string[]
+  defaultHiddenClasses?: string[]
+  onHiddenClassesChange?: (hidden: string[]) => void
+  /** The class kept highlighted (an index into `classes`), its amount in the middle of the ring; null for none. */
+  index?: number | null
+  defaultIndex?: number | null
+  onIndexChange?: (index: number | null, assetClass: PortfolioAllocationClass | null) => void
+  /** Where the first slice starts, in degrees clockwise from 12 o'clock (Figma: about 11 o'clock). */
+  startAngle?: number
+  /** The line under the amount in the middle of the ring ("51% of portfolio"); gets the share in percent. */
+  formatShare?: (share: number) => string
+  /** Called by the ⋯ button. */
+  onMoreClick?: () => void
+  locale?: string
+  currency?: string
+}
+
+/** Where a slice shows and how it is drawn. Angles are in degrees clockwise from 12 o'clock. */
+type SliceGeometry = {
+  /** The visible arc: where it starts and how far it runs (0 for a slice that isn't shown). */
+  start: number
+  span: number
+  /** The outer radius as drawn (the active slice stands out a little) and as laid out (where its pill sits). */
+  outer: number
+  band: number
+  /** How far the slice runs on under its neighbours at its start and at its end, out of sight. */
+  tuckStart: number
+  tuckEnd: number
+}
+
+// Figma geometry ("Portfolio Allocation Chart" 1473:80601): a 400px ring around its centre
+const SIZE = 400
+const CENTER = SIZE / 2
+const OUTER = 200 // the first slice's outer radius; each slice after it clockwise is 10px thinner
+const STEP = 10
+const MIN_BAND = 40 // with many slices the steps shrink so the thinnest slice stays 40px wide
+const INNER = 116.82 // every slice starts here (Figma: 116.74 to 116.89)
+const CORNER = 0 // Figma's slices have square corners
+const TUCK = 6 // degrees a slice runs on under its thicker neighbour (Figma's run 1.6° to 10.9°)
+const POP = 6 // the active slice stands this much further out
+const PILL = 48
+const PILL_INSET = 13.15 // degrees from a slice's visible end to its pill's centre…
+const PILL_OUT = 0.6 // …which sits 0.6px outside the middle of the slice's band (Figma's pills, placed by hand)
+const PILL_ROOM = 6 // a pill shows when its slice is at least this much longer than the pill
+const START_ANGLE = -30.188 // Figma: Equities starts about 11 o'clock
+const HIT_INSIDE = 10 // the pointer picks a slice from 10px inside the ring to 6px past its outer edge
+const HIT_OUTSIDE = 6
+const SWEEP_AT = 150
+const SWEEP = 1400
+const MORPH = 800
+const MORPH_POP = 380
+const RING = "focus-visible:ring-primary-blue-500/40" // the card's focus rings are blue
+// Figma "Value": white at 10% with the Glass effect (light from the top left), which CSS can't draw. Measured from the
+// render: the fill brightens from 4% white at the top left to 16% at the bottom right, and the rim is a 1px ring of
+// added light (plus-lighter), about +70 round the top left, +45 round the bottom right and none in between.
+const GLASS_FILL = "linear-gradient(135deg, rgb(255 255 255 / 0.036), rgb(255 255 255 / 0.164))"
+const GLASS_RIM = [
+  "conic-gradient(rgb(255 255 255 / 0.24) 0deg, rgb(255 255 255 / 0.12) 8deg, rgb(255 255 255 / 0) 16deg 76deg",
+  "rgb(255 255 255 / 0.14) 88deg, rgb(255 255 255 / 0.17) 95deg, rgb(255 255 255 / 0.23) 120deg, rgb(255 255 255 / 0.19) 150deg",
+  "rgb(255 255 255 / 0.16) 180deg, rgb(255 255 255 / 0.04) 190deg, rgb(255 255 255 / 0) 196deg 254deg",
+  "rgb(255 255 255 / 0.1) 262deg, rgb(255 255 255 / 0.25) 272deg, rgb(255 255 255 / 0.33) 300deg, rgb(255 255 255 / 0.3) 330deg",
+  "rgb(255 255 255 / 0.24) 360deg)",
+].join(", ")
+
+/**
+ * A colour's slice (its fill, the 1px ring Figma draws behind it and its glow), its pill text and its legend dot.
+ * Figma lightens Cash to blue-50 in the ring (its dot is blue-200), deepens Equities to blue-600 (its dot is
+ * blue-500), lightens Other to purple-400 (its dot is purple-500), glows Bonds at 40% (the others at 60%) and rings
+ * the Bonds dot in orange-600; the colours keep that. White text on blue, Text/Loud on the lighter ones.
+ */
+const colors: Record<PortfolioAllocationColor, { fill: string; ring: string; glow: string; glowOpacity: number; text: string; dot: string }> = {
+  blue: {
+    fill: "fill-primary-blue-600",
+    ring: "var(--primary-blue-500)",
+    glow: "var(--primary-blue-500)",
+    glowOpacity: 0.6,
+    text: "text-fg-white",
+    dot: "bg-primary-blue-500 [--dot-ring:var(--primary-blue-500)]",
+  },
+  "blue-light": {
+    fill: "fill-primary-blue-50",
+    ring: "var(--primary-blue-100)",
+    glow: "var(--primary-blue-50)",
+    glowOpacity: 0.6,
+    text: "text-fg-loud",
+    dot: "bg-primary-blue-200 [--dot-ring:var(--primary-blue-200)]",
+  },
+  orange: {
+    fill: "fill-primary-orange-500",
+    ring: "var(--primary-orange-500)",
+    glow: "var(--primary-orange-500)",
+    glowOpacity: 0.4,
+    text: "text-fg-loud",
+    dot: "bg-primary-orange-500 [--dot-ring:var(--primary-orange-600)]",
+  },
+  purple: {
+    fill: "fill-primary-purple-400",
+    ring: "var(--primary-purple-500)",
+    glow: "var(--primary-purple-400)",
+    glowOpacity: 0.6,
+    text: "text-fg-loud",
+    dot: "bg-primary-purple-500 [--dot-ring:var(--primary-purple-500)]",
+  },
+  green: {
+    fill: "fill-primary-green-500",
+    ring: "var(--primary-green-500)",
+    glow: "var(--primary-green-500)",
+    glowOpacity: 0.6,
+    text: "text-fg-loud",
+    dot: "bg-primary-green-500 [--dot-ring:var(--primary-green-500)]",
+  },
+  yellow: {
+    fill: "fill-primary-yellow-400",
+    ring: "var(--primary-yellow-500)",
+    glow: "var(--primary-yellow-400)",
+    glowOpacity: 0.6,
+    text: "text-fg-loud",
+    dot: "bg-primary-yellow-500 [--dot-ring:var(--primary-yellow-500)]",
+  },
+}
+const PALETTE: PortfolioAllocationColor[] = ["blue", "blue-light", "orange", "purple", "green", "yellow"]
+
+// The Figma ring: a $250,000 portfolio, each amount as large as Figma draws its slice (Equities 183.19°, Cash 64.06°,
+// Bonds 53.89° and Other 58.86° of the circle), so the pills read 51%, 18%, 15% and 16%.
+const samplePortfolioAllocationClasses: PortfolioAllocationClass[] = [
+  { key: "equities", label: "Equities", value: 127213.58, color: "blue" },
+  { key: "cash", label: "Cash", value: 44488.08, color: "blue-light" },
+  { key: "bonds", label: "Bonds", value: 37420.16, color: "orange" },
+  { key: "other", label: "Other", value: 40878.18, color: "purple" },
+]
+
+const fixed = (n: number) => Math.round(n * 1000) / 1000
+const rad = (deg: number) => (deg * Math.PI) / 180
+const mod = (n: number, m: number) => ((n % m) + m) % m
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t
+const inOutCubic = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2)
+
+/** A point at radius r and angle a (radians, clockwise from 12 o'clock) around the ring's centre. */
+const polar = (r: number, a: number): [number, number] => [CENTER + r * Math.sin(a), CENTER - r * Math.cos(a)]
+
+/** A whole ring between two radii around the centre (a slice shown on its own); the inner circle runs the other way round. */
+function annulusPath(outer: number, inner: number) {
+  const circle = (r: number, sweep: 0 | 1) =>
+    `M ${fixed(CENTER - r)} ${CENTER} A ${fixed(r)} ${fixed(r)} 0 1 ${sweep} ${fixed(CENTER + r)} ${CENTER} A ${fixed(r)} ${fixed(r)} 0 1 ${sweep} ${fixed(CENTER - r)} ${CENTER} Z`
+  return `${circle(outer, 1)} ${circle(inner, 0)}`
+}
+
+/**
+ * A slice's outline as drawn: its visible arc plus what runs on under its neighbours, up to `clip.upTo` degrees round
+ * from `clip.from`. `spread` is a Figma effect spread as Figma renders it on an arc (measured from the render): the
+ * ellipse is scaled, so the outer edge moves by the spread and the inner one by its share of it (the glow's −2 is 2px
+ * off the outside and 1.17px onto the inside), and a negative spread also pulls the ends in by as much.
+ */
+function slicePath(g: SliceGeometry, clip?: { from: number; upTo: number } | null, spread = 0) {
+  if (!(g.span > 0.001)) return ""
+  let a0 = g.start - g.tuckStart
+  let a1 = g.start + g.span + g.tuckEnd
+  if (clip) {
+    const u0 = mod(a0 - clip.from, 360)
+    const u1 = Math.min(u0 + (a1 - a0), clip.upTo)
+    if (!(u1 > u0)) return ""
+    a0 = clip.from + u0
+    a1 = clip.from + u1
+  }
+  const outer = g.outer + spread
+  const inner = (INNER * outer) / g.outer
+  if (a1 - a0 >= 359.999) return annulusPath(outer, inner)
+  const ends = spread < 0 ? ((-spread / ((inner + outer) / 2)) * 180) / Math.PI : 0
+  return sectorPath(inner, outer, rad(a0 + ends), rad(a1 - ends), { center: CENTER, corner: CORNER })
+}
+
+// The paths drawn for a slice, back to front, with the spread of the effect each one stands for.
+const LAYERS = [
+  { slot: "portfolio-allocation-chart-drop", spread: 0 },
+  { slot: "portfolio-allocation-chart-rim", spread: -1 },
+  { slot: "portfolio-allocation-chart-glow", spread: -2 },
+  { slot: "portfolio-allocation-chart-shape", spread: 0 },
+  { slot: "portfolio-allocation-chart-veil", spread: 0 },
+]
+
+/**
+ * Where every slice goes. The first slice shown starts at `startAngle` and runs clockwise; the others line up from the
+ * same place counter-clockwise, in data order. Going clockwise from the first slice, each one is a step thinner and
+ * runs its start on under the end of the one before it, and the last one runs its end on under the first one's start.
+ * Hidden slices sit at their place with no arc, so they can grow out of it.
+ */
+function layoutRing(values: number[], startAngle: number, active: number | null): SliceGeometry[] {
+  const shown = values.flatMap((value, i) => (value > 0 ? [i] : []))
+  const total = shown.reduce((sum, i) => sum + values[i], 0)
+  const m = shown.length
+  const step = m > 1 ? Math.min(STEP, (OUTER - INNER - MIN_BAND) / (m - 1)) : 0
+  const thinnest = OUTER - step * Math.max(0, m - 1)
+  let edge = startAngle // where the next slice ends, counter-clockwise from the first one
+  return values.map((value, i) => {
+    const at = shown.indexOf(i)
+    if (at < 0) {
+      // not shown: where it would be, at the edge reached so far (or at the start before the first slice)
+      const place = shown.length && i > shown[0] ? edge : startAngle
+      return { start: place, span: 0, outer: thinnest, band: thinnest, tuckStart: 0, tuckEnd: 0 }
+    }
+    const span = (value / total) * 360
+    const rank = at === 0 ? 0 : m - at // the slice's place clockwise from the first one
+    const band = OUTER - step * rank
+    const outer = band + (i === active ? POP : 0)
+    if (at === 0) return { start: startAngle, span, outer, band, tuckStart: 0, tuckEnd: m > 1 && rank === m - 1 ? TUCK : 0 }
+    edge -= span
+    return { start: edge, span, outer, band, tuckStart: TUCK, tuckEnd: rank === m - 1 ? TUCK : 0 }
+  })
+}
+
+/** Slice geometry part of the way from `a` to `b` (angles go the short way round). */
+function lerpGeometry(a: SliceGeometry, b: SliceGeometry, t: number): SliceGeometry {
+  const from = a.start + 360 * Math.round((b.start - a.start) / 360)
+  return {
+    start: lerp(from, b.start, t),
+    span: lerp(a.span, b.span, t),
+    outer: lerp(a.outer, b.outer, t),
+    band: lerp(a.band, b.band, t),
+    tuckStart: lerp(a.tuckStart, b.tuckStart, t),
+    tuckEnd: lerp(a.tuckEnd, b.tuckEnd, t),
+  }
+}
+
+/** A slice's pill: its centre, near the end of the slice in the middle of its band, and whether the slice has room for it. */
+function pillPlace(g: SliceGeometry) {
+  const r = (INNER + g.band) / 2 + PILL_OUT
+  const angle = g.start + g.span - Math.min(PILL_INSET, g.span / 2)
+  const [x, y] = polar(r, rad(angle))
+  return { left: Math.round(x - PILL / 2), top: Math.round(y - PILL / 2), fits: rad(g.span) * r >= PILL + PILL_ROOM }
+}
+
+/** A slice's percentage on its glass pill; a new share counts from the previous one. */
+function Pill({
+  index,
+  share,
+  format,
+  place,
+  tone,
+  hidden,
+  dimmed,
+}: {
+  index: number
+  share: number
+  format: (value: number) => string
+  place: { left: number; top: number }
+  tone: string
+  hidden: boolean
+  dimmed: boolean
+}) {
+  const valueRef = React.useRef<HTMLSpanElement>(null)
+  useCountUp(valueRef, share, format, { duration: 700 })
+  return (
+    <span
+      aria-hidden
+      data-slot="portfolio-allocation-chart-pill"
+      data-index={index}
+      className={cn(
+        "pointer-events-none absolute transition-opacity duration-300 motion-reduce:transition-none",
+        hidden ? "opacity-0" : dimmed ? "opacity-40" : "opacity-100",
+      )}
+      style={{ left: `${(place.left / SIZE) * 100}%`, top: `${(place.top / SIZE) * 100}%` }}
+    >
+      <span
+        data-slot="portfolio-allocation-chart-pill-glass"
+        className="relative flex size-12 items-center justify-center rounded-full"
+        style={{ backgroundImage: GLASS_FILL }}
+      >
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 rounded-[inherit] p-px mix-blend-plus-lighter [background:var(--glass-rim)] [mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)]"
+          style={{ "--glass-rim": GLASS_RIM } as React.CSSProperties}
+        />
+        <span ref={valueRef} data-slot="portfolio-allocation-chart-pill-value" data-share={share} className={cn("typo-label-03-medium hug-w relative whitespace-nowrap", tone)}>
+          {format(share)}
+        </span>
+      </span>
+    </span>
+  )
+}
+
+/**
+ * "Portfolio Allocation Chart" from the Keitoto library: a donut of asset classes whose slices tuck under each other
+ * like a spiral, each a step thinner than the one before it clockwise, with a glow in its colour and its share on a
+ * glass pill, and a legend under it. Hover, touch or the arrow keys pick a slice: it stands out, the others fade and
+ * the middle of the ring shows its amount; a click keeps it. Each legend item shows or hides its slice (hovering one
+ * previews it). Animated with anime.js: the ring sweeps round clockwise, the pills pop in as it reaches them while their
+ * shares count up, and the legend rises in; hiding or showing a slice morphs the ring while the pills slide along and
+ * count to their new shares.
+ */
+function PortfolioAllocationChart({
+  title = "Portfolio allocation",
+  description = "Track your spending pattern and stay in control",
+  classes: data = samplePortfolioAllocationClasses,
+  hiddenClasses,
+  defaultHiddenClasses = [],
+  onHiddenClassesChange,
+  index: indexProp,
+  defaultIndex = null,
+  onIndexChange,
+  startAngle = START_ANGLE,
+  formatShare,
+  onMoreClick,
+  locale = "en-US",
+  currency = "USD",
+  className,
+  ...props
+}: PortfolioAllocationChartProps) {
+  const [hidden, setHidden] = useControllableState<string[]>({ value: hiddenClasses, defaultValue: defaultHiddenClasses, onChange: onHiddenClassesChange })
+  const [selected, setSelected] = useControllableState<number | null>({
+    value: indexProp,
+    defaultValue: defaultIndex,
+    onChange: (next) => onIndexChange?.(next, next === null ? null : (data[next] ?? null)),
+  })
+  const n = data.length
+  const colorOf = (i: number) => data[i]?.color ?? PALETTE[i % PALETTE.length]
+  const values = data.map((slice) => (hidden.includes(slice.key) ? 0 : Math.max(0, slice.value)))
+  const shown = values.flatMap((value, i) => (value > 0 ? [i] : []))
+  const total = shown.reduce((sum, i) => sum + values[i], 0)
+  const shares = values.map((value) => (total > 0 ? (value / total) * 100 : 0))
+
+  // The slice under the pointer or picked with the keys, the legend item hovered or focused, and the one kept.
+  const [hovered, setHovered] = React.useState<number | null>(null)
+  const [previewed, setPreviewed] = React.useState<number | null>(null)
+  const pick = (i: number | null) => (i !== null && i >= 0 && i < n && values[i] > 0 ? i : null)
+  const active = pick(hovered) ?? pick(previewed) ?? pick(selected)
+  // the middle keeps the last slice while it fades out
+  const [shownInMiddle, setShownInMiddle] = React.useState<number | null>(active)
+  if (active !== null && active !== shownInMiddle) setShownInMiddle(active)
+  const middle = shownInMiddle !== null && shownInMiddle < n ? shownInMiddle : null
+
+  const geometry = layoutRing(values, startAngle, active)
+  // Content key: parents may pass new arrays on every render, so changes are detected by value.
+  const geometryKey = geometry.map((g) => [g.start, g.span, g.outer, g.band, g.tuckStart, g.tuckEnd].map(fixed).join(" ")).join(",")
+  const spansKey = geometry.map((g) => fixed(g.span)).join(",")
+  // thinnest first, so each slice runs on under the thicker ones
+  const order = data.map((_, i) => i).sort((a, b) => geometry[a].band - geometry[b].band || (values[a] > 0 ? 1 : 0) - (values[b] > 0 ? 1 : 0))
+
+  const money = React.useCallback((value: number) => formatCurrency(value, { locale, currency }), [locale, currency])
+  const percent = React.useCallback((value: number) => formatPercent(value, { locale, maximumFractionDigits: 0 }), [locale])
+  const shareLine = React.useCallback((value: number) => (formatShare ? formatShare(value) : `${percent(value)} of portfolio`), [formatShare, percent])
+
+  const reduced = useReducedMotion()
+  const root = React.useRef<HTMLDivElement>(null)
+  const amountRef = React.useRef<HTMLSpanElement>(null)
+  const ids = React.useId().replace(/[^\w-]/g, "")
+  const all = (selector: string) => Array.from(root.current?.querySelectorAll<HTMLElement | SVGElement>(selector) ?? [])
+  useCountUp(amountRef, middle !== null ? values[middle] : 0, money, { duration: 450 })
+
+  const latest = React.useRef({ geometry, startAngle, shares })
+  useIsomorphicLayoutEffect(() => {
+    latest.current = { geometry, startAngle, shares }
+  })
+
+  /** Draws every slice (its shape and veil) and moves the pills to `frame`, optionally swept up to `clip`. */
+  const drawn = React.useRef<SliceGeometry[]>(geometry)
+  const draw = (frame: SliceGeometry[], clip?: { from: number; upTo: number }) => {
+    drawn.current = frame
+    for (const layer of LAYERS) {
+      for (const el of all(`[data-slot="${layer.slot}"]`)) {
+        const g = frame[Number(el.dataset.index)]
+        if (g) el.setAttribute("d", slicePath(g, clip, layer.spread))
+      }
+    }
+    for (const pill of all('[data-slot="portfolio-allocation-chart-pill"]')) {
+      const g = frame[Number(pill.dataset.index)]
+      if (!g) continue
+      const place = pillPlace(g)
+      pill.style.left = `${(place.left / SIZE) * 100}%`
+      pill.style.top = `${(place.top / SIZE) * 100}%`
+    }
+  }
+
+  // Entrance, once the card is in view: the heading comes in, the ring sweeps round clockwise from the first slice,
+  // each pill pops in as the sweep reaches it while its share counts up, and the legend rises in with its dots popping.
+  const sweep = React.useRef<{ t: number } | null>(null)
+  const sweepFrame = (t: number) => {
+    const { geometry, startAngle } = latest.current
+    draw(geometry, { from: startAngle, upTo: inOutCubic(t) * (360 + TUCK) })
+  }
+  useChartEntrance(root, (timeline) => {
+    const add = (targets: Element[], params: AnimationParams, at: number) => {
+      if (targets.length) timeline.add(targets, params, at)
+    }
+    const state = { t: 0 }
+    sweep.current = state
+    sweepFrame(0)
+    const back = releaseStyles("opacity", "transform")
+    add(all('[data-slot="portfolio-allocation-chart-heading"] > *'), { opacity: { from: 0 }, translateY: { from: 6 }, duration: 600, ease: "outQuad", delay: stagger(80), onComplete: back }, 0)
+    timeline.add(state, { t: [0, 1], duration: SWEEP, ease: "linear", onUpdate: () => sweepFrame(state.t) }, SWEEP_AT)
+    // each pill pops when the sweep reaches it (the sweep eases in and out: find when it passes the pill)
+    const { geometry: target, startAngle: from, shares: finalShares } = latest.current
+    for (const pill of all('[data-slot="portfolio-allocation-chart-pill"]')) {
+      const i = Number(pill.dataset.index)
+      const g = target[i]
+      if (!g || !(g.span > 0)) continue
+      const reach = mod(g.start + g.span - Math.min(PILL_INSET, g.span / 2) - from, 360) / (360 + TUCK)
+      let lo = 0
+      let hi = 1
+      for (let k = 0; k < 24; k++) {
+        const mid = (lo + hi) / 2
+        if (inOutCubic(mid) < reach) lo = mid
+        else hi = mid
+      }
+      const at = SWEEP_AT + lo * SWEEP
+      const glass = pill.querySelector('[data-slot="portfolio-allocation-chart-pill-glass"]')
+      const value = pill.querySelector<HTMLElement>('[data-slot="portfolio-allocation-chart-pill-value"]')
+      if (glass) add([glass], { opacity: { from: 0 }, scale: { from: 0.4 }, duration: 650, ease: "outBack(1.8)", onComplete: back }, at - 60)
+      if (value) {
+        const counter = { t: 0 }
+        const count = () => (value.textContent = percent((finalShares[i] ?? 0) * counter.t))
+        count()
+        timeline.add(counter, { t: [0, 1], duration: 900, ease: "outExpo", onUpdate: count, onComplete: () => (value.textContent = percent(latest.current.shares[i] ?? 0)) }, at)
+      }
+    }
+    add(all('[data-slot="portfolio-allocation-chart-legend-item"]'), { opacity: { from: 0 }, translateY: { from: 8 }, duration: 700, ease: "outExpo", delay: stagger(80), onComplete: back }, 500)
+    add(all('[data-slot="portfolio-allocation-chart-legend-item"] [data-slot="chart-legend-dot"]'), { scale: { from: 0 }, duration: 600, ease: "outBack(2.2)", delay: stagger(80), onComplete: back }, 560)
+    return () => {
+      if (sweep.current === state) sweep.current = null
+      draw(latest.current.geometry)
+      for (const value of all('[data-slot="portfolio-allocation-chart-pill-value"]')) value.textContent = percent(Number(value.dataset.share) || 0)
+    }
+  })
+
+  // A new layout (a slice hidden or shown, new data, a slice standing out) morphs every slice from where it is on screen;
+  // the pills slide along. During the entrance the ring carries on sweeping towards the new layout.
+  const morph = React.useRef<JSAnimation | null>(null)
+  const lastGeometry = React.useRef({ geometryKey, spansKey })
+  useIsomorphicLayoutEffect(() => {
+    const before = lastGeometry.current
+    lastGeometry.current = { geometryKey, spansKey }
+    if (before.geometryKey === geometryKey) return
+    morph.current?.cancel()
+    morph.current = null
+    const entrance = sweep.current
+    if (entrance && entrance.t < 1) {
+      sweepFrame(entrance.t)
+      return
+    }
+    if (reduced) {
+      draw(geometry)
+      return
+    }
+    const from = drawn.current
+    const to = geometry
+    const state = { t: 0 }
+    const frame = () => draw(to.map((g, i) => lerpGeometry(from[i] ?? g, g, state.t)))
+    frame()
+    morph.current = animate(state, {
+      t: 1,
+      duration: before.spansKey === spansKey ? MORPH_POP : MORPH,
+      ease: "outExpo",
+      onUpdate: frame,
+      onComplete: () => {
+        morph.current = null
+        draw(to)
+      },
+    })
+  }, [geometryKey, reduced])
+  React.useEffect(
+    () => () => {
+      morph.current?.cancel()
+    },
+    [],
+  )
+
+  // The middle's label comes in from below when another slice is picked.
+  const lastMiddle = React.useRef(middle)
+  useIsomorphicLayoutEffect(() => {
+    const before = lastMiddle.current
+    lastMiddle.current = middle
+    if (before === middle || before === null || reduced) return
+    const label = root.current?.querySelector('[data-slot="portfolio-allocation-chart-middle-label"]')
+    if (label) animate(label, { opacity: [0, 1], translateY: [4, 0], duration: 300, ease: "outQuad", onComplete: releaseStyles("opacity", "transform") })
+  }, [middle, reduced])
+
+  const toggle = (key: string) => {
+    const off = hidden.includes(key)
+    // the last slice shown stays
+    if (!off && shown.length <= 1) return
+    setHidden(off ? hidden.filter((k) => k !== key) : [...hidden, key])
+    if (!off && selected !== null && data[selected]?.key === key) setSelected(null)
+  }
+  // a click on a slice keeps it (a second click, or one off the slices, lets go); returns the slice kept
+  const select = (i: number | null) => {
+    const next = selected === i ? null : i
+    if (next !== selected) setSelected(next)
+    return next
+  }
+  const pointer = React.useRef("mouse")
+
+  // Pointer positions in the ring's own pixels (the ring shrinks in a narrow card; the live demo may zoom).
+  const sliceAt = (event: React.PointerEvent<HTMLElement> | React.MouseEvent<HTMLElement>) => {
+    const box = event.currentTarget.getBoundingClientRect()
+    const unit = (box.width || 1) / SIZE
+    const x = (event.clientX - box.left) / unit - CENTER
+    const y = (event.clientY - box.top) / unit - CENTER
+    const r = Math.hypot(x, y)
+    if (r < INNER - HIT_INSIDE) return null
+    const angle = (Math.atan2(x, -y) * 180) / Math.PI
+    const i = shown.find((k) => mod(angle - geometry[k].start, 360) < geometry[k].span)
+    return i !== undefined && r <= geometry[i].outer + HIT_OUTSIDE ? i : null
+  }
+  const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (!shown.length) return
+    if (event.key === "Escape") {
+      setHovered(null)
+      if (selected !== null) setSelected(null)
+      return
+    }
+    if ((event.key === "Enter" || event.key === " ") && active !== null) {
+      event.preventDefault()
+      select(active)
+      return
+    }
+    const at = active !== null ? shown.indexOf(active) : -1
+    const next = { ArrowRight: at + 1, ArrowDown: at + 1, ArrowLeft: at - 1, ArrowUp: at - 1, Home: 0, End: shown.length - 1 }[event.key]
+    if (next === undefined) return
+    event.preventDefault()
+    setHovered(shown[mod(next, shown.length)])
+  }
+  const sliderAt = active !== null ? shown.indexOf(active) : 0
+  const sliderSlice = shown[sliderAt]
+
+  return (
+    <ChartCard ref={root} role="group" aria-label={title} className={cn("w-full items-center", className)} {...props}>
+      <div className="flex w-full items-center justify-between gap-4">
+        <div data-slot="portfolio-allocation-chart-heading" className="flex min-w-0 flex-1 flex-col gap-2">
+          {/* the padding keeps the descenders out of truncate's clip (the text styles have a line height of 1) */}
+          <p className="typo-heading-01-semibold -my-0.5 truncate py-0.5 text-fg-loud">{title}</p>
+          {description && <p className="typo-label-02-medium -my-0.5 truncate py-0.5 text-fg-soft">{description}</p>}
+        </div>
+        <ChartButton corner="rounded" size="icon" aria-label="More options" onClick={onMoreClick} className={RING}>
+          <DotsHorizontalIcon />
+        </ChartButton>
+      </div>
+
+      {/* Figma "Value Group": the 400px ring with a pill on each slice */}
+      <div className="relative aspect-square w-full max-w-[400px]">
+        <svg aria-hidden viewBox={`0 0 ${SIZE} ${SIZE}`} className="pointer-events-none absolute inset-0 size-full overflow-visible">
+          <defs>
+            {/* Figma's drop shadow: black at 16%, −2, 2, blur 6 */}
+            <filter id={`${ids}-drop`} filterUnits="userSpaceOnUse" x={-80} y={-80} width={SIZE + 160} height={SIZE + 160} colorInterpolationFilters="sRGB">
+              <feOffset in="SourceAlpha" dx={-2} dy={2} />
+              <feGaussianBlur stdDeviation={2.7} result="blurred" />
+              <feFlood floodColor="#000" floodOpacity={0.16} />
+              <feComposite in2="blurred" operator="in" />
+            </filter>
+            {/* the glow in the slice's colour: 4px to the right, blur 16 */}
+            {PALETTE.map((color) => (
+              <filter key={color} id={`${ids}-glow-${color}`} filterUnits="userSpaceOnUse" x={-80} y={-80} width={SIZE + 160} height={SIZE + 160} colorInterpolationFilters="sRGB">
+                <feOffset in="SourceAlpha" dx={4} />
+                <feGaussianBlur stdDeviation={7.2} result="blurred" />
+                <feFlood floodOpacity={colors[color].glowOpacity} style={{ floodColor: colors[color].glow }} />
+                <feComposite in2="blurred" operator="in" />
+              </filter>
+            ))}
+            {/* Figma's inner shadows over the slice: black at 16% 1px up (along the bottom edge) and white at 24% 2px
+                down (along the top edge), blur 2 */}
+            <filter id={`${ids}-bevel`} filterUnits="userSpaceOnUse" x={-20} y={-20} width={SIZE + 40} height={SIZE + 40} colorInterpolationFilters="sRGB">
+              <feOffset in="SourceAlpha" dy={-1} />
+              <feGaussianBlur stdDeviation={0.9} result="up" />
+              <feComposite in="SourceAlpha" in2="up" operator="arithmetic" k2={1} k3={-1} result="bottom-edge" />
+              <feFlood floodColor="#000" floodOpacity={0.16} />
+              <feComposite in2="bottom-edge" operator="in" result="shade" />
+              <feOffset in="SourceAlpha" dy={2} />
+              <feGaussianBlur stdDeviation={0.9} result="down" />
+              <feComposite in="SourceAlpha" in2="down" operator="arithmetic" k2={1} k3={-1} result="top-edge" />
+              <feFlood floodColor="#fff" floodOpacity={0.24} />
+              <feComposite in2="top-edge" operator="in" result="light" />
+              <feMerge>
+                <feMergeNode in="SourceGraphic" />
+                <feMergeNode in="shade" />
+                <feMergeNode in="light" />
+              </feMerge>
+            </filter>
+          </defs>
+          {order.map((i) => {
+            const color = colorOf(i)
+            const g = geometry[i]
+            const d = slicePath(g)
+            return (
+              // Figma's slice, back to front: its drop shadow, a 1px ring in its colour (a spread of −1), its glow (a
+              // spread of −2), the slice with its inner shadows, and a veil that fades it while another slice is active
+              // (a veil, so the parts under the thicker slices stay hidden)
+              <g key={data[i].key} data-slot="portfolio-allocation-chart-slice">
+                <path data-slot="portfolio-allocation-chart-drop" data-index={i} d={d} filter={`url(#${ids}-drop)`} />
+                <path data-slot="portfolio-allocation-chart-rim" data-index={i} d={slicePath(g, null, -1)} style={{ fill: colors[color].ring }} />
+                <path data-slot="portfolio-allocation-chart-glow" data-index={i} d={slicePath(g, null, -2)} filter={`url(#${ids}-glow-${color})`} />
+                <path data-slot="portfolio-allocation-chart-shape" data-index={i} d={d} filter={`url(#${ids}-bevel)`} className={colors[color].fill} />
+                <path
+                  data-slot="portfolio-allocation-chart-veil"
+                  data-index={i}
+                  d={d}
+                  className={cn("fill-surface-white transition-opacity duration-300 motion-reduce:transition-none", active !== null && active !== i ? "opacity-55" : "opacity-0")}
+                />
+              </g>
+            )
+          })}
+        </svg>
+
+        <div
+          role="slider"
+          tabIndex={shown.length ? 0 : -1}
+          aria-label={`${title} by asset class`}
+          aria-orientation="horizontal"
+          aria-valuemin={0}
+          aria-valuemax={Math.max(0, shown.length - 1)}
+          aria-valuenow={sliderAt}
+          aria-valuetext={sliderSlice !== undefined ? `${data[sliderSlice].label}: ${money(values[sliderSlice])}, ${percent(shares[sliderSlice])}` : undefined}
+          data-slot="portfolio-allocation-chart-ring"
+          onPointerMove={(event) => setHovered(sliceAt(event))}
+          onPointerDown={(event) => {
+            pointer.current = event.pointerType
+            setHovered(sliceAt(event))
+          }}
+          onPointerLeave={(event) => {
+            if (event.pointerType === "mouse") setHovered(null)
+          }}
+          onClick={(event) => {
+            const kept = select(sliceAt(event))
+            // a touch leaves no hover behind: a second tap lets the slice go
+            if (pointer.current !== "mouse") setHovered(kept)
+          }}
+          onFocus={(event) => {
+            if (event.currentTarget.matches(":focus-visible") && active === null && shown.length) setHovered(shown[0])
+          }}
+          onBlur={() => setHovered(null)}
+          onKeyDown={onKeyDown}
+          className={cn("absolute inset-0 cursor-pointer touch-pan-y rounded-full outline-none focus-visible:ring-2", RING)}
+        />
+
+        {data.map((slice, i) => (
+          <Pill
+            key={slice.key}
+            index={i}
+            share={shares[i]}
+            format={percent}
+            place={pillPlace(geometry[i])}
+            tone={colors[colorOf(i)].text}
+            hidden={!pillPlace(geometry[i]).fits}
+            dimmed={active !== null && active !== i}
+          />
+        ))}
+
+        {/* The active slice in the middle of the ring: its name, amount and share */}
+        <div
+          aria-hidden
+          data-slot="portfolio-allocation-chart-middle"
+          className={cn(
+            "pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1.5 transition-opacity duration-200 motion-reduce:transition-none",
+            active !== null ? "opacity-100" : "opacity-0",
+          )}
+        >
+          {middle !== null && (
+            <>
+              <span data-slot="portfolio-allocation-chart-middle-label" className="typo-label-02-medium hug-w whitespace-nowrap text-fg-normal">
+                {data[middle].label}
+              </span>
+              <span ref={amountRef} className="typo-heading-03-semibold hug-w whitespace-nowrap text-fg-loud">
+                {money(values[middle])}
+              </span>
+              <span className="typo-label-02-medium hug-w whitespace-nowrap text-fg-soft">{shareLine(shares[middle])}</span>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Figma "Legend": round swatches, Label/03 Medium names 6px after them, in equal columns 16px apart */}
+      <div role="group" aria-label="Asset classes" className="flex w-full flex-wrap items-center gap-x-4 gap-y-2 py-1">
+        {data.map((slice, i) => {
+          const off = hidden.includes(slice.key) || !(slice.value > 0)
+          return (
+            <button
+              key={slice.key}
+              type="button"
+              aria-pressed={!off}
+              aria-disabled={!off && shown.length <= 1 ? true : undefined}
+              data-slot="portfolio-allocation-chart-legend-item"
+              onClick={() => toggle(slice.key)}
+              onPointerEnter={(event) => event.pointerType === "mouse" && setPreviewed(i)}
+              onPointerLeave={() => setPreviewed(null)}
+              onFocus={() => setPreviewed(i)}
+              onBlur={() => setPreviewed(null)}
+              className={cn(
+                "group/legend relative flex min-w-fit flex-1 cursor-pointer items-center gap-1.5 rounded-md outline-none transition-opacity duration-300 before:absolute before:-inset-x-1.5 before:-inset-y-1 focus-visible:ring-2",
+                RING,
+                active !== null && active !== i && !off && "opacity-60",
+              )}
+            >
+              <ChartLegendDot className={off ? "bg-surface-subdued [--dot-ring:var(--surface-subdued)]" : colors[colorOf(i)].dot} />
+              <span
+                className={cn("typo-label-03-medium hug-w whitespace-nowrap transition-colors duration-200", off ? "text-fg-soft" : "text-fg-normal group-hover/legend:text-fg-loud")}
+              >
+                {slice.label}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+    </ChartCard>
+  )
+}
+
+export {
+  PortfolioAllocationChart,
+  samplePortfolioAllocationClasses,
+  type PortfolioAllocationChartProps,
+  type PortfolioAllocationColor,
+  type PortfolioAllocationClass,
+}

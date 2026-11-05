@@ -11,6 +11,23 @@ Map<String, dynamic> fixture(String city) => {
   'locality': {'municipality': city, 'uf': 'SP', 'approximate': true},
 };
 void main() {
+  testWidgets('resposta incompleta não fabrica temperatura ou horário', (
+    tester,
+  ) async {
+    for (final weather in [
+      {...fixture('São Paulo'), 'temperatureC': null},
+      {...fixture('São Paulo'), 'observedAt': 'inválido'},
+      {...fixture('São Paulo'), 'temperatureC': double.nan},
+    ]) {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(body: WeatherSummary(weather: weather)),
+        ),
+      );
+      expect(find.text('Clima indisponível'), findsOneWidget);
+      expect(find.textContaining('°C'), findsNothing);
+    }
+  });
   testWidgets(
     'referência, condição, horário e atribuição; troca de propriedade',
     (tester) async {
@@ -24,7 +41,7 @@ void main() {
       expect(find.textContaining('23 °C'), findsOneWidget);
       expect(find.textContaining('Observação:'), findsOneWidget);
       expect(
-        find.textContaining('fornecidos pela OpenWeather'),
+        find.textContaining('Weather data provided by OpenWeather'),
         findsOneWidget,
       );
       await show('Campinas');

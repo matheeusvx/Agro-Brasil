@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'data.dart';
 import 'design.dart';
+import 'illustrations.dart';
 
 const green = AgroDesign.green;
 String eventLabel(String? type) => switch (type) {
@@ -29,6 +30,32 @@ String producerGreeting(dynamic name) {
     return 'Olá, ${name.trim().split(RegExp(r'\s+')).first}!';
   }
   return 'Olá, pequeno produtor!';
+}
+
+String homeGreeting(dynamic name) {
+  final fullName = name is String ? name.trim() : '';
+  final firstName = fullName.isEmpty
+      ? 'produtor'
+      : fullName.split(RegExp(r'\s+')).first;
+  return 'Olá, $firstName';
+}
+
+class HomeGreeting extends StatelessWidget {
+  final String? userName;
+  const HomeGreeting({super.key, this.userName});
+
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(homeGreeting(userName), style: AgroDesign.title),
+      const SizedBox(height: 6),
+      Text(
+        'Acompanhe sua produção e sua rotina de hoje.',
+        style: AgroDesign.body.copyWith(color: AgroDesign.muted),
+      ),
+    ],
+  );
 }
 
 class InfoStrip extends StatelessWidget {
@@ -155,8 +182,8 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              PropertyHeader(controller: controller),
-              const SizedBox(height: 12),
+              HomeGreeting(userName: home?['userName'] as String?),
+              const SizedBox(height: 20),
               if (controller.loading)
                 const LoadingHome()
               else if (controller.error != null)
@@ -271,129 +298,111 @@ class PropertyHeader extends StatelessWidget {
     final municipality =
         property?['municipality'] ?? home?['property']?['municipality'];
     final uf = property?['uf'] ?? home?['property']?['uf'];
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
+    final large = MediaQuery.textScalerOf(context).scale(14) > 22;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(24),
+      child: ColoredBox(
         color: AgroDesign.forest,
-        borderRadius: BorderRadius.circular(AgroDesign.radius),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  producerGreeting(home?['userName']),
-                  style: const TextStyle(
-                    fontSize: 15,
-                    height: 1.4,
-                    color: Color(0xFFEAF0DC),
+        child: Stack(
+          children: [
+            if (!large)
+              const Positioned(
+                right: -16,
+                bottom: 0,
+                child: FarmIllustration(width: 174, height: 124),
+              ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(18, 16, large ? 18 : 112, 18),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    producerGreeting(home?['userName']),
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Color(0xFFE8F1DE),
+                    ),
                   ),
-                ),
-              ),
-              const ExcludeSemantics(
-                child: Icon(
-                  Icons.spa_outlined,
-                  color: Color(0xFFD4DDBA),
-                  size: 20,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 14),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Semantics(
-                      label: 'Propriedade selecionada: $name',
-                      child: ExcludeSemantics(
-                        child: Text(
-                          name,
-                          style: const TextStyle(
-                            fontSize: 23,
-                            height: 1.15,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                          ),
+                  const SizedBox(height: 8),
+                  Semantics(
+                    label: 'Propriedade selecionada: $name',
+                    child: ExcludeSemantics(
+                      child: Text(
+                        name,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          height: 1.12,
+                          letterSpacing: -.5,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
-                    if (municipality != null && uf != null) ...[
-                      const SizedBox(height: 8),
-                      Text(
-                        '$municipality · $uf',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          color: Color(0xFFEAF0DC),
-                        ),
+                  ),
+                  if (municipality != null && uf != null) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      '$municipality · $uf',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFFE8F1DE),
                       ),
-                    ],
+                    ),
                   ],
-                ),
-              ),
-              const SizedBox(width: 12),
-              const ExcludeSemantics(
-                child: SizedBox(
-                  width: 65,
-                  height: 62,
-                  child: CustomPaint(painter: FieldSketch()),
-                ),
-              ),
-            ],
-          ),
-          if (controller.properties.length > 1) ...[
-            const SizedBox(height: 10),
-            OutlinedButton.icon(
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Colors.white,
-                side: const BorderSide(color: Color(0xFFB5C8A8)),
-              ),
-              onPressed: controller.loading
-                  ? null
-                  : () async {
-                      final id = await showModalBottomSheet<String>(
-                        context: context,
-                        showDragHandle: true,
-                        builder: (context) => SafeArea(
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(20),
-                                child: Text(
-                                  'Escolha a propriedade',
-                                  style: AgroDesign.section,
-                                ),
-                              ),
-                              ...controller.properties.map(
-                                (p) => ListTile(
-                                  minVerticalPadding: 14,
-                                  leading: Icon(
-                                    p['id'] == controller.propertyId
-                                        ? Icons.check_circle
-                                        : Icons.landscape_outlined,
+                  if (controller.properties.length > 1) ...[
+                    const SizedBox(height: 10),
+                    OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        side: const BorderSide(color: Color(0xFFB5C8A8)),
+                      ),
+                      onPressed: controller.loading
+                          ? null
+                          : () async {
+                              final id = await showModalBottomSheet<String>(
+                                context: context,
+                                showDragHandle: true,
+                                builder: (context) => SafeArea(
+                                  child: ListView(
+                                    shrinkWrap: true,
+                                    children: [
+                                      const Padding(
+                                        padding: EdgeInsets.all(20),
+                                        child: Text(
+                                          'Escolha a propriedade',
+                                          style: AgroDesign.section,
+                                        ),
+                                      ),
+                                      ...controller.properties.map(
+                                        (p) => ListTile(
+                                          minVerticalPadding: 14,
+                                          leading: Icon(
+                                            p['id'] == controller.propertyId
+                                                ? Icons.check_circle
+                                                : Icons.landscape_outlined,
+                                          ),
+                                          title: Text(p['name']),
+                                          onTap: () => Navigator.pop(
+                                            context,
+                                            p['id'] as String,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  title: Text(p['name']),
-                                  onTap: () =>
-                                      Navigator.pop(context, p['id'] as String),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                      if (id != null) await controller.load(id);
-                    },
-              icon: const Icon(Icons.swap_horiz),
-              label: const Text('Trocar propriedade'),
+                              );
+                              if (id != null) await controller.load(id);
+                            },
+                      icon: const Icon(Icons.swap_horiz),
+                      label: const Text('Trocar propriedade'),
+                    ),
+                  ],
+                ],
+              ),
             ),
           ],
-        ],
+        ),
       ),
     );
   }
@@ -531,58 +540,63 @@ class QuickAction extends StatelessWidget {
     this.compact = false,
   });
   @override
-  Widget build(BuildContext context) => SizedBox(
-    width: width,
-    child: OutlinedButton(
-      style: ButtonStyle(
-        padding: WidgetStatePropertyAll(EdgeInsets.all(compact ? 12 : 16)),
-        minimumSize: const WidgetStatePropertyAll(Size(48, 100)),
-        backgroundColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.disabled)
-              ? AgroDesign.disabled
-              : AgroDesign.wash,
-        ),
-        foregroundColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.disabled)
-              ? AgroDesign.muted
-              : AgroDesign.forest,
-        ),
-        side: WidgetStateProperty.resolveWith(
-          (s) => BorderSide(
-            color: s.contains(WidgetState.focused)
-                ? AgroDesign.forest
-                : AgroDesign.line,
-            width: s.contains(WidgetState.focused) ? 2 : 1,
+  Widget build(BuildContext context) {
+    final art = label == 'Cadastrar produção'
+        ? FarmArt.harvest
+        : label == 'Oferecer produtos'
+        ? FarmArt.offer
+        : label == 'Rastrear lote'
+        ? FarmArt.route
+        : FarmArt.orders;
+    final tint = art == FarmArt.harvest
+        ? AgroDesign.wash
+        : art == FarmArt.offer
+        ? const Color(0xFFF5ECD8)
+        : art == FarmArt.route
+        ? AgroDesign.sky
+        : const Color(0xFFF0E7DF);
+    return SizedBox(
+      width: width,
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          padding: const EdgeInsets.all(12),
+          minimumSize: const Size(48, 100),
+          backgroundColor: enabled ? tint : AgroDesign.disabled,
+          foregroundColor: AgroDesign.forest,
+          side: const BorderSide(color: Colors.transparent),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
           ),
         ),
-        shape: WidgetStatePropertyAll(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        ),
-      ),
-      onPressed: enabled ? onPressed : null,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 26),
-              const Spacer(),
-              if (!enabled) const Icon(Icons.lock_outline, size: 15),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 15,
-              height: 1.25,
-              fontWeight: FontWeight.w700,
+        onPressed: enabled ? onPressed : null,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                FarmIllustration(
+                  art: art,
+                  width: 68,
+                  height: compact ? 40 : 48,
+                ),
+                const Spacer(),
+                Icon(enabled ? Icons.north_east : Icons.lock_outline, size: 16),
+              ],
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 14,
+                height: 1.25,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 class RecentLotCard extends StatelessWidget {
@@ -698,7 +712,14 @@ class FirstProductionCard extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text('SEU PRIMEIRO PASSO', style: AgroDesign.eyebrow),
+        const Row(
+          children: [
+            Expanded(
+              child: Text('SEU PRIMEIRO PASSO', style: AgroDesign.eyebrow),
+            ),
+            FarmIllustration(art: FarmArt.harvest, width: 72, height: 48),
+          ],
+        ),
         const SizedBox(height: 12),
         const Text('Dê uma origem à sua colheita.', style: AgroDesign.title),
         const SizedBox(height: 10),
@@ -766,7 +787,12 @@ class WeatherSummary extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    if (weather['status'] != 'available') {
+    final temperature = weather['temperatureC'];
+    final observed = DateTime.tryParse(weather['observedAt']?.toString() ?? '');
+    if (weather['status'] != 'available' ||
+        temperature is! num ||
+        !temperature.isFinite ||
+        observed == null) {
       return const Row(
         children: [
           Icon(Icons.cloud_off_outlined, size: 16, color: AgroDesign.muted),
@@ -784,88 +810,143 @@ class WeatherSummary extends StatelessWidget {
         ],
       );
     }
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AgroDesign.attention,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          const Icon(Icons.wb_cloudy_outlined, color: AgroDesign.earth),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    final locality = weather['locality'] as Json? ?? {};
+    final condition =
+        weather['description']?.toString() ?? 'Condição não informada';
+    final large = MediaQuery.textScalerOf(context).scale(14) > 22;
+    final stale = offline || weather['stale'] == true;
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(22),
+      child: ColoredBox(
+        color: AgroDesign.sky,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Stack(
               children: [
-                Text(
-                  '${weather['locality']?['municipality'] ?? 'Localidade cadastrada'}${weather['locality']?['uf'] == null ? '' : '/${weather['locality']['uf']}'}${weather['locality']?['approximate'] == true ? ' · referência aproximada' : ''}',
-                  style: AgroDesign.caption,
-                ),
-                Text(
-                  '${(weather['temperatureC'] as num).round()} °C · ${weather['description']}',
-                  style: AgroDesign.body,
-                ),
-                if (offline)
-                  const Text(
-                    'Salvo offline · não é uma observação atual',
-                    style: AgroDesign.caption,
+                if (!large)
+                  Positioned(
+                    right: -10,
+                    top: 8,
+                    child: FarmIllustration(
+                      art: FarmArt.weather,
+                      width: 132,
+                      height: 88,
+                      condition: condition,
+                      night: weather['icon']?.toString().endsWith('n') == true,
+                    ),
                   ),
-                Text(
-                  'Observação: ${dateLabel(weather['observedAt'])}',
-                  style: AgroDesign.caption,
-                ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    minimumSize: const Size(48, 48),
-                    alignment: Alignment.centerLeft,
-                  ),
-                  onPressed: () async {
-                    try {
-                      final opened = await launchUrl(
-                        Uri.https('openweathermap.org', '/'),
-                        mode: LaunchMode.externalApplication,
-                      );
-                      if (!opened && context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Fonte: https://openweathermap.org/'),
-                          ),
-                        );
-                      }
-                    } on Object {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Fonte: https://openweathermap.org/'),
-                          ),
-                        );
-                      }
-                    }
-                  },
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Image.asset(
-                        'assets/weather/openweather.png',
-                        width: 85,
-                        semanticLabel: 'OpenWeather',
-                      ),
-                      const Text(
-                        'Dados meteorológicos fornecidos pela OpenWeather',
-                        style: TextStyle(
-                          fontSize: 12,
+                      Text(
+                        '${locality['municipality'] ?? 'Localidade cadastrada'}${locality['uf'] == null ? '' : '/${locality['uf']}'}',
+                        style: AgroDesign.caption.copyWith(
+                          color: AgroDesign.ink,
                           fontWeight: FontWeight.w700,
                         ),
                       ),
+                      const SizedBox(height: 4),
+                      Padding(
+                        padding: EdgeInsets.only(right: large ? 0 : 110),
+                        child: Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 10,
+                          children: [
+                            Text(
+                              '${temperature.round()} °C',
+                              style: const TextStyle(
+                                fontSize: 36,
+                                height: 1.15,
+                                letterSpacing: -1.5,
+                                fontWeight: FontWeight.w700,
+                                color: AgroDesign.forest,
+                              ),
+                            ),
+                            Text(condition, style: AgroDesign.body),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Observação: ${dateLabel(weather['observedAt'])}',
+                        style: AgroDesign.caption,
+                      ),
+                      if (locality['approximate'] == true)
+                        const Text(
+                          'Referência aproximada do município',
+                          style: AgroDesign.caption,
+                        ),
+                      if (stale)
+                        const Text(
+                          'Salvo · não é uma observação atual',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: AgroDesign.earth,
+                          ),
+                        ),
                     ],
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            Container(
+              decoration: const BoxDecoration(
+                border: Border(top: BorderSide(color: Color(0xFFC9DDE1))),
+              ),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  minimumSize: const Size(48, 48),
+                  foregroundColor: AgroDesign.muted,
+                  shape: const RoundedRectangleBorder(),
+                ),
+                onPressed: () async {
+                  try {
+                    final opened = await launchUrl(
+                      Uri.https('openweathermap.org', '/'),
+                      mode: LaunchMode.externalApplication,
+                    );
+                    if (opened || !context.mounted) return;
+                  } on Object {
+                    if (!context.mounted) return;
+                  }
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Fonte: https://openweathermap.org/'),
+                      ),
+                    );
+                  }
+                },
+                child: Row(
+                  children: [
+                    Image.asset(
+                      'assets/weather/openweather.png',
+                      width: 42,
+                      semanticLabel: 'OpenWeather',
+                    ),
+                    const SizedBox(width: 8),
+                    const Expanded(
+                      child: Text(
+                        'Weather data provided by OpenWeather',
+                        style: TextStyle(fontSize: 11, height: 1.25),
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    const Icon(Icons.open_in_new, size: 13),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -937,42 +1018,4 @@ class HomeError extends StatelessWidget {
       ],
     ),
   );
-}
-
-class FieldSketch extends CustomPainter {
-  const FieldSketch();
-  @override
-  void paint(Canvas canvas, Size size) {
-    final p = Paint()
-      ..color = const Color(0xFFB8CC8D)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.7;
-    for (var i = 0; i < 4; i++) {
-      final path = Path()
-        ..moveTo(0, size.height - 2 - i * 9)
-        ..quadraticBezierTo(
-          size.width * .45,
-          size.height - 35 - i * 7,
-          size.width,
-          size.height - 10 - i * 10,
-        );
-      canvas.drawPath(path, p);
-    }
-    final barn = Path()
-      ..moveTo(16, 29)
-      ..lineTo(16, 14)
-      ..lineTo(28, 5)
-      ..lineTo(40, 14)
-      ..lineTo(40, 25);
-    canvas.drawPath(barn, p);
-    canvas.drawRect(const Rect.fromLTWH(25, 16, 7, 10), p);
-    canvas.drawCircle(
-      const Offset(54, 8),
-      4,
-      Paint()..color = const Color(0xFFE3CE8E),
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant FieldSketch oldDelegate) => false;
 }

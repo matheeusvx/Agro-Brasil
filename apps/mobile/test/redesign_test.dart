@@ -33,7 +33,9 @@ void main() {
       expect(tester.takeException(), isNull);
       await expectLater(
         find.byKey(const ValueKey('capture')),
-        matchesGoldenFile('../../../docs/design/depois/$scenario-390x844.png'),
+        matchesGoldenFile(
+          '../../../docs/design/goldens-v2/$scenario-390x844.png',
+        ),
       );
     });
   }

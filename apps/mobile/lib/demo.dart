@@ -5,6 +5,7 @@ import 'data.dart';
 
 const scenarios = [
   'solicitacao',
+  'clima',
   'primeiro-acesso',
   'retirada',
   'recebimento',
@@ -12,7 +13,18 @@ const scenarios = [
   'offline',
   'erro',
   'carregando',
+  'clima-pendencia',
 ];
+
+// Valores exclusivos da galeria, sempre sinalizada como fictícia.
+Json demoWeather() => {
+  'status': 'available',
+  'temperatureC': 25,
+  'description': 'Nublado',
+  'icon': '04d',
+  'observedAt': '2026-11-05T12:00:00Z',
+  'locality': {'municipality': 'São Paulo', 'uf': 'SP', 'approximate': true},
+};
 
 class MemoryStore implements SnapshotStore {
   final Map<String, Json> values = {};
@@ -47,7 +59,7 @@ Json demoHome(String scenario) {
     'isDemonstration': true,
     'fetchedAt': '2026-11-05T12:00:00Z',
     'weather': {'status': 'unavailable'},
-    'pending': ['primeiro-acesso', 'sem-pendencias'].contains(scenario)
+    'pending': ['primeiro-acesso', 'sem-pendencias', 'clima'].contains(scenario)
         ? <Json>[]
         : [
             {
@@ -117,7 +129,99 @@ class DemoRepository implements Repository {
       );
     }
     if (path.startsWith('/producer-home')) return demoHome(scenario);
-    if (path.endsWith('/weather')) return {'status': 'unavailable'};
+    if (path.endsWith('/weather')) {
+      return scenario.startsWith('clima')
+          ? demoWeather()
+          : {'status': 'unavailable'};
+    }
+    final productions = [
+      {
+        'id': 'demo-production',
+        'propertyId': 'demo-property',
+        'cropName': 'Alface',
+        'quantityKg': 12.5,
+        'seasonLabel': 'Primavera 2026',
+        'lot': {'id': 'demo-lot'},
+      },
+      {
+        'id': 'demo-production-2',
+        'propertyId': 'demo-property',
+        'cropName': 'Tomate',
+        'quantityKg': 8,
+        'seasonLabel': 'Primavera 2026',
+        'lot': {'id': 'demo-lot-2'},
+      },
+    ];
+    if (path.startsWith('/productions')) {
+      return {'data': scenario == 'primeiro-acesso' ? <Json>[] : productions};
+    }
+    if (path.startsWith('/offers')) {
+      return {
+        'data': scenario == 'primeiro-acesso'
+            ? <Json>[]
+            : [
+                {
+                  'id': 'demo-offer',
+                  'lotId': 'demo-lot',
+                  'cropName': 'Alface',
+                  'availableKg': 8.5,
+                  'status': 'PUBLICADA',
+                },
+                {
+                  'id': 'demo-offer-2',
+                  'lotId': 'demo-lot-2',
+                  'cropName': 'Tomate',
+                  'availableKg': 8,
+                  'status': 'RASCUNHO',
+                },
+              ],
+      };
+    }
+    if (path.startsWith('/orders')) {
+      return {
+        'data': [
+          {
+            'id': 'demo-order',
+            'lotId': 'demo-lot',
+            'cropName': 'Alface',
+            'quantityKg': 4,
+            'status': scenario == 'retirada'
+                ? 'ACEITO'
+                : scenario == 'recebimento'
+                ? 'RETIRADO'
+                : 'SOLICITADO',
+            if (scenario == 'retirada' || scenario == 'recebimento')
+              'shipment': {
+                'id': 'demo-shipment',
+                'carrierOrganizationId': null,
+              },
+          },
+        ],
+      };
+    }
+    if (path.startsWith('/lots/')) {
+      return {
+        'data': [
+          {
+            'type': 'ORIGEM_REGISTRADA',
+            'recordedAt': '2026-11-04T12:00:00Z',
+            'location': {'municipality': 'São Paulo', 'uf': 'SP'},
+          },
+          {
+            'type': 'OFERTA_PUBLICADA',
+            'recordedAt': '2026-11-04T14:00:00Z',
+            'location': {'municipality': 'São Paulo', 'uf': 'SP'},
+          },
+          if (scenario == 'recebimento')
+            {
+              'type': 'RETIRADA_REGISTRADA',
+              'recordedAt': '2026-11-05T12:00:00Z',
+              'location': {'municipality': 'São Paulo', 'uf': 'SP'},
+            },
+        ],
+      };
+    }
+
     return {
       'data': <Json>[],
       'pagination': {'total': 0},
@@ -132,7 +236,10 @@ class DemoRepository implements Repository {
 HomeController demoController(String scenario) {
   final store = MemoryStore();
   if (scenario == 'offline') {
-    store.values['fixture/demo-property'] = demoHome('recebimento');
+    store.values['fixture/demo-property'] = {
+      ...demoHome('recebimento'),
+      'weather': demoWeather(),
+    };
   }
   return HomeController(DemoRepository(scenario), store);
 }

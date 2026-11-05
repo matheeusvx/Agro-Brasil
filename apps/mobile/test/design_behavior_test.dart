@@ -6,6 +6,61 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  test('saudação da home usa primeiro nome cadastrado ou fallback', () {
+    expect(homeGreeting('Matheus Morelli Rodrigues'), 'Olá, Matheus');
+    expect(homeGreeting('  Ana   Maria Silva  '), 'Olá, Ana');
+    expect(homeGreeting('João'), 'Olá, João');
+    expect(homeGreeting(null), 'Olá, produtor');
+    expect(homeGreeting('   '), 'Olá, produtor');
+  });
+  testWidgets('home exibe somente texto de saudação antes do clima', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(390, 844));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    final controller = demoController('clima');
+    await tester.pumpWidget(AgroApp(controller: controller));
+    await tester.pumpAndSettle();
+    controller.home!['userName'] = 'Matheus Morelli Rodrigues';
+    controller.changed();
+    await tester.pumpAndSettle();
+    expect(find.text('Olá, Matheus'), findsOneWidget);
+    expect(
+      find.text('Acompanhe sua produção e sua rotina de hoje.'),
+      findsOneWidget,
+    );
+    expect(find.byType(PropertyHeader), findsNothing);
+    expect(
+      find.descendant(
+        of: find.byType(HomeGreeting),
+        matching: find.byType(Icon),
+      ),
+      findsNothing,
+    );
+    expect(
+      tester.getRect(find.byType(HomeGreeting)).bottom,
+      lessThan(tester.getRect(find.byType(WeatherSummary)).top),
+    );
+    expect(find.text('25 °C'), findsOneWidget);
+  });
+  testWidgets('clima válido mantém a pendência acionável antes da rolagem', (
+    tester,
+  ) async {
+    await tester.binding.setSurfaceSize(const Size(390, 844));
+    addTearDown(() => tester.binding.setSurfaceSize(null));
+    await tester.pumpWidget(
+      AgroApp(controller: demoController('clima-pendencia')),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('25 °C'), findsOneWidget);
+    final action = find.text('Responder solicitação');
+    expect(
+      tester.getRect(action).bottom,
+      lessThan(tester.getRect(find.byType(NavigationBar)).top),
+    );
+    expect(action.hitTestable(), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
   setUpAll(() async {
     await (FontLoader('Roboto')
           ..addFont(rootBundle.load('assets/fonts/roboto-regular.ttf'))
@@ -92,6 +147,8 @@ void main() {
       'name': 'Outra propriedade fictícia',
     });
     controller.changed();
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Perfil').last);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Trocar propriedade'));
     await tester.pumpAndSettle();

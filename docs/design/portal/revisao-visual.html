@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agro+ Brasil — revisão visual do portal</title>
+<style>
+  :root { color-scheme: light; font-family: Arial, sans-serif; color:#213c30; background:#f7f8f3 }
+  * { box-sizing:border-box } body { max-width:1560px; margin:auto; padding:40px 28px 72px }
+  header { border-bottom:1px solid #dbe2d7; padding-bottom:28px; margin-bottom:32px }
+  small { color:#5e7054; letter-spacing:.1em; font-size:11px } h1 { font-size:36px; letter-spacing:-1.3px; margin:14px 0 }
+  h2 { font-size:23px; margin:48px 0 12px } h3 { font-size:16px; margin:0 0 14px } p { line-height:1.6; max-width:1050px; color:#54664d }
+  a { color:#235740; text-underline-offset:4px } nav { display:flex; flex-wrap:wrap; gap:22px; margin-top:24px }
+  .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; align-items:start }
+  figure { margin:0; padding:16px; background:white; border:1px solid #dfe5d9; border-radius:12px; overflow:hidden }
+  figure img { display:block; width:100%; height:auto; border-radius:5px; border:1px solid #e8ece3 }
+  figcaption { font-size:12px; margin-top:14px; line-height:1.6; color:#54664d }
+  .compare { align-items:stretch } .compare figure { display:flex; flex-direction:column }
+  .compare .frame { height:430px; display:flex; align-items:center; justify-content:center; background:#f9faf6; border-radius:7px }
+  .compare img { max-height:100%; width:auto; max-width:100%; object-fit:contain }
+  .compare figcaption { margin-top:auto; padding-top:16px }
+  .note { padding:20px 24px; background:#edf2e8; border-radius:10px; margin-top:24px }
+  .wide { margin-top:20px } .wide img { width:100%; max-width:1440px; margin:auto }
+  @media(max-width:850px) { body { padding:24px 16px } .grid { grid-template-columns:1fr } h1 { font-size:28px } .compare .frame { height:360px } }
+</style>
+<header>
+  <small>AGRO+ BRASIL · PORTAL DE GESTÃO · INCREMENTO 1</small>
+  <h1>Do campo a um espaço de trabalho.</h1>
+  <p>Capturas reais do portal Next.js no Microsoft Edge, com Express/MongoDB e um banco de teste isolado. Registros fictícios de teste são criados pela API; nenhum número está embutido no portal. Não são mockups.</p>
+  <nav aria-label="Seções da revisão">
+    <a href="#home">Home e resoluções</a><a href="#gestao">Gestão de Produção</a><a href="#graficos">Referências e gráficos</a><a href="#estados">Estados e permissões</a><a href="resultado.md">Relatório técnico</a>
+  </nav>
+</header>
+<main>
+  <section id="home">
+    <h2>Home · 1440 × 900</h2>
+    <p>Saudação e contexto no topo. Uma situação prioritária, três indicadores operacionais, no máximo dois gráficos e movimentações recentes abaixo. Clima indisponível recebe tratamento discreto.</p>
+    <figure class="wide"><a href="evidencias/home-1440.png"><img src="evidencias/home-1440.png" alt="Home do produtor em 1440 por 900 com sidebar expandida"></a><figcaption>Sidebar expandida. Clique nas imagens para consultar os arquivos em tamanho original. <a href="evidencias/home-completa.png">Ver home completa, incluindo movimentações recentes.</a></figcaption></figure>
+    <div class="grid wide">
+      <figure><a href="evidencias/home-1366.png"><img src="evidencias/home-1366.png" alt="Home em 1366 por 768"></a><figcaption>1366 × 768. A hierarquia permanece estável e os gráficos continuam lado a lado.</figcaption></figure>
+      <figure><a href="evidencias/home-1024.png"><img src="evidencias/home-1024.png" alt="Home em 1024 por 768"></a><figcaption>1024 × 768. Gráficos em coluna preservam os rótulos. Conteúdo prossegue por rolagem.</figcaption></figure>
+      <figure><a href="evidencias/sidebar-recolhida.png"><img src="evidencias/sidebar-recolhida.png" alt="Home com sidebar recolhida"></a><figcaption>Menu recolhido amplia o espaço útil; os links mantêm nome acessível e estado ativo.</figcaption></figure>
+      <figure><a href="evidencias/pedido-prioritario.png"><img src="evidencias/pedido-prioritario.png" alt="Drawer de consulta do pedido prioritário"></a><figcaption>Consulta do pedido prioritário. Ações de alteração do pedido pertencem ao próximo incremento.</figcaption></figure>
+    </div>
+  </section>
+  <section id="gestao">
+    <h2>Produção · listagem e fluxos contextuais</h2>
+    <p>Consulta primeiro; cadastro quando necessário. Filtros, seleção, exportação CSV, paginação e detalhes atuam sobre registros autorizados. Produção, lote e origem são gravados juntos no backend existente.</p>
+    <div class="grid">
+      <figure><a href="evidencias/producao.png"><img src="evidencias/producao.png" alt="Listagem profissional da produção"></a><figcaption>Lista com busca, filtros de cultura/safra, ordenação, seleção, exportação e paginação.</figcaption></figure>
+      <figure><a href="evidencias/producao-filtrada.png"><img src="evidencias/producao-filtrada.png" alt="Produção filtrada por Tomate"></a><figcaption>Pesquisa contextual: apenas os registros correspondentes, com total filtrado.</figcaption></figure>
+      <figure><a href="evidencias/detalhes-lote.png"><img src="evidencias/detalhes-lote.png" alt="Drawer com dados da produção e eventos do lote"></a><figcaption>Detalhes consultados sob demanda; timeline compacta de eventos confirmados.</figcaption></figure>
+      <figure><a href="evidencias/cadastro.png"><img src="evidencias/cadastro.png" alt="Drawer de cadastro de produção"></a><figcaption>Cadastro em grupos, origem pré-preenchida e confirmação explícita. Foco visível e rodapé de ação fixo.</figcaption></figure>
+      <figure><a href="evidencias/cadastro-preenchido.png"><img src="evidencias/cadastro-preenchido.png" alt="Cadastro preenchido antes do envio"></a><figcaption>Quantidade, cultura, safra, colheita e origem; o portal não refaz regras de negócio.</figcaption></figure>
+      <figure><a href="evidencias/cadastro-concluido.png"><img src="evidencias/cadastro-concluido.png" alt="Lista atualizada após gravação real da produção"></a><figcaption>Confirmação após resposta da API. O teste verifica a persistência do décimo registro no MongoDB isolado.</figcaption></figure>
+    </div>
+  </section>
+  <section id="graficos">
+    <h2>Referências × componentes reais</h2>
+    <p>As imagens originais permanecem na pasta local de referências e não entram nos assets do aplicativo. Comparamos linguagem visual e leitura quantitativa, sem copiar composição literal, receita fictícia ou indicadores financeiros.</p>
+    <h3>Barras · seleção com profundidade sutil</h3>
+    <div class="grid compare">
+      <figure><div class="frame"><img src="../referencias/ref_05_barras.png" alt="Referência fornecida de barras com profundidade"></div><figcaption><strong>Referência.</strong> Colunas prismáticas, categoria verde selecionada e área branca de respiro. A tela de referência apresenta dados financeiros que não fazem parte do portal.</figcaption></figure>
+      <figure><div class="frame"><img src="evidencias/grafico-barras.png" alt="Gráfico real da produção em kg por cultura"></div><figcaption><strong>Implementação.</strong> Topo e lateral discretos, seleção verde profunda, alturas em uma escala comum, valores absolutos e legenda operável. Soma de kg por cultura da propriedade, sem série mensal inventada.</figcaption></figure>
+    </div>
+    <h3 class="wide">Rosca · distribuição sem distorção</h3>
+    <div class="grid compare">
+      <figure><div class="frame"><img src="../referencias/ref_06_rosca.png" alt="Referência fornecida de rosca segmentada"></div><figcaption><strong>Referência.</strong> Anel espesso com sombra, segmentos distintos e destaque da categoria. Percentuais e legenda completam a leitura.</figcaption></figure>
+      <figure><div class="frame"><img src="evidencias/grafico-rosca.png" alt="Gráfico real da contagem de pedidos por situação"></div><figcaption><strong>Implementação.</strong> Tons agrícolas, sombra discreta, contagem central, legenda lateral, percentuais e seleção. Ângulos proporcionais à contagem real; sem perspectiva ou expansão que altere a interpretação.</figcaption></figure>
+    </div>
+    <div class="grid wide">
+      <figure><a href="evidencias/tooltip-barras.png"><img src="evidencias/tooltip-barras.png" alt="Tooltip real das barras"></a><figcaption>Hover na coluna mostra cultura e valor em kg. Legenda fornece alternativa por teclado.</figcaption></figure>
+      <figure><a href="evidencias/tooltip-rosca.png"><img src="evidencias/tooltip-rosca.png" alt="Tooltip real da rosca"></a><figcaption>Hover no segmento informa contagem e percentual, com valores também disponíveis na legenda.</figcaption></figure>
+    </div>
+    <p class="note">A volumetria foi contida para servir à gestão: os gráficos não representam dinheiro, estoque disponível, produtividade ou impacto. Cada componente informa sua unidade, universo e limite de interpretação.</p>
+  </section>
+  <section id="estados">
+    <h2>Estados, contexto e permissões</h2>
+    <div class="grid">
+      <figure><a href="evidencias/producao-vazia.png"><img src="evidencias/producao-vazia.png" alt="Propriedade sem produções"></a><figcaption>Propriedade vazia: orientação de cadastro, sem números ou histórico simulados.</figcaption></figure>
+      <figure><a href="evidencias/somente-leitura.png"><img src="evidencias/somente-leitura.png" alt="Organização acessada com papel de leitura"></a><figcaption>Outro vínculo, papel LEITOR. Cadastro desabilitado; tentativa direta também rejeitada pela API.</figcaption></figure>
+      <figure><a href="evidencias/erro-recuperavel.png"><img src="evidencias/erro-recuperavel.png" alt="Erro recuperável de consulta"></a><figcaption>Falha controlada apenas no teste. O erro é explícito e oferece recuperação; não se transforma em total zero.</figcaption></figure>
+      <figure><a href="evidencias/carregamento.png"><img src="evidencias/carregamento.png" alt="Carregamento do workspace"></a><figcaption>Carregamento sem manter registros do contexto anterior visíveis.</figcaption></figure>
+    </div>
+  </section>
+  <p class="note">Validação: build e TypeScript aprovados, 6 testes do portal, 23 de API/clima e 36 de integração. Quatro auditorias axe sem violações detectadas. Os 72 arquivos inventariados do mobile/web/API permaneceram idênticos. Sem commit ou push. Motiva foi estudado localmente; MARELI não estava disponível para comparação direta.</p>
+</main>
+</html>

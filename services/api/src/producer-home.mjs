@@ -13,6 +13,7 @@ export function producerHomeRouter(db, weather) {
   router.get('/producer-home', async (req, res) => {
     if (req.context.organizationType !== 'PEQUENO_PRODUTOR_RURAL') throw new HttpError(403, 'FORBIDDEN', 'Esta experiência é do pequeno produtor rural.');
     const property = await ownedProperty(db, req);
+    const user = await db.collection('users').findOne({ _id: req.identity.userId }, { projection: { displayName: 1 } });
     const productions = await db.collection('productions').find({ organizationId: req.context.organizationId, propertyId: property._id }, { projection: { lot: 1, cropName: 1, quantityKg: 1, createdAt: 1 } }).toArray();
     const lotIds = productions.map(p => p.lot.id);
     const pending = await db.collection('orders').aggregate([
@@ -33,7 +34,7 @@ export function producerHomeRouter(db, weather) {
       recent.push({ id: item.lotId, cropName: p.cropName, quantityKg: p.quantityKg, lastEvent: { type: item.event.type, recordedAt: item.event.recordedAt, location: item.event.location } });
       if (recent.length === 2) break;
     }
-    res.json({ property: propertyView(property), hasProductions: productions.length > 0,
+    res.json({ userName: typeof user?.displayName === 'string' ? user.displayName : null, property: propertyView(property), hasProductions: productions.length > 0,
       pending: pending.map(o => ({ id: o._id, lotId: o.lotId, status: o.status, quantityKg: o.quantityGrams / 1000, cropName: productions.find(p => p.lot.id === o.lotId)?.cropName, shipmentId: o.shipment?.id || null, carrierOrganizationId: o.shipment?.carrierOrganizationId || null })),
       recentLots: recent, canWrite: ['ADMIN', 'EDITOR'].includes(req.context.role), isDemonstration: req.context.isDemonstration, fetchedAt: new Date().toISOString() });
   });

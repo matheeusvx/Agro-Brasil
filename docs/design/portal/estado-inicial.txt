@@ -1,0 +1,41 @@
+ M apps/mobile/.metadata
+ M apps/mobile/analysis_options.yaml
+ M apps/mobile/lib/data.dart
+ M apps/mobile/lib/demo.dart
+ M apps/mobile/lib/design.dart
+ M apps/mobile/lib/home.dart
+ M apps/mobile/lib/main.dart
+ M apps/mobile/lib/tasks.dart
+ M apps/mobile/test/design_behavior_test.dart
+ M apps/mobile/test/redesign_test.dart
+ M apps/mobile/test/weather_test.dart
+ M apps/mobile/test/widget_test.dart
+ M services/api/src/producer-home.mjs
+ M services/api/test/integration.test.mjs
+?? COMO_USAR.txt
+?? apps/mobile/android/
+?? apps/mobile/lib/desktop.dart
+?? apps/mobile/lib/desktop_charts.dart
+?? apps/mobile/lib/illustrations.dart
+?? apps/mobile/lib/records.dart
+?? apps/mobile/test/desktop_test.dart
+?? apps/mobile/test/v2_flow_test.dart
+?? docs/design/AUDITORIA_V2.md
+?? docs/design/CRITERIOS_ACEITACAO_UI_V2.md
+?? docs/design/DESIGN_SYSTEM_V2.md
+?? docs/design/DIRECAO_VISUAL_V2.md
+?? docs/design/PROMPT_CODEX_REDESIGN_V2.md
+?? docs/design/RESULTADO_V2.md
+?? docs/design/REVISAO_VISUAL_V2.html
+?? docs/design/android-v2/
+?? docs/design/backend-v2-transacoes.json
+?? docs/design/comparacao-v2.png
+?? docs/design/desktop/
+?? docs/design/flutter-analyze-v2.txt
+?? docs/design/flutter-test-v2.txt
+?? docs/design/goldens-v2/
+?? docs/design/home-saudacao/
+?? docs/design/referencias/
+?? docs/design/web-v2/
+?? scripts/capture-android-v2.ps1
+?? scripts/smoke-desktop.mjs

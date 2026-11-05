@@ -1,0 +1,7 @@
+Logo oficial OpenWeather, sem alterações.
+Origem: https://openweathermap.org/payload/api/files/file/logo_files.zip
+Arquivo original: Logo files/Master logo/RGB (for screen)/OpenWeather-Master-Logo RGB.png
+Obtido em 05/11/2026 para atribuição do provedor, não como identidade Agro+.
+Instruções de atribuição: https://openweathermap.org/faq (License).
+Marca OpenWeather pertence ao respectivo titular; não se aplica a licença do código do projeto ao logo.
+A conta/plano e sua licença de dados precisam ser confirmados antes da ativação.

@@ -86,6 +86,17 @@ test('fluxo HTTP, persistência MongoDB e isolamento entre organizações', { ti
       const home = await (await request(`/api/v1/producer-home?propertyId=${fresh}`)).json(); assert.equal(home.hasProductions, false); assert.deepEqual(home.recentLots, []); assert.deepEqual(home.pending, []);
       const weather = await (await request(`/api/v1/properties/${fresh}/weather`)).json(); assert.equal(weather.status, 'unavailable'); assert.equal(weather.temperatureC, undefined);
     });
+    await t.test('saudação da home recebe somente o nome do usuário autenticado', async () => {
+      await db.collection('users').updateOne({ _id: ids.user }, { $set: { displayName: 'Matheus Morelli Rodrigues' } });
+      await db.collection('users').updateOne({ _id: ids.otherUser }, { $set: { displayName: 'Outra Pessoa' } });
+      const home = await (await request(`/api/v1/producer-home?propertyId=${ids.property}`)).json();
+      assert.equal(home.userName, 'Matheus Morelli Rodrigues');
+      const otherHome = await (await request(`/api/v1/producer-home?propertyId=${ids.foreignProperty}`, { bearer: otherToken, organization: ids.otherOrg })).json();
+      assert.equal(otherHome.userName, 'Outra Pessoa');
+      await db.collection('users').updateOne({ _id: ids.user }, { $unset: { displayName: '' } });
+      const unnamedHome = await (await request(`/api/v1/producer-home?propertyId=${ids.property}`)).json();
+      assert.equal(unnamedHome.userName, null);
+    });
     await t.test('impede leitura cruzada por ID e listagem', async () => {
       const other = { bearer: otherToken, organization: ids.otherOrg };
       assert.equal((await request(`/api/v1/productions/${production.id}`, other)).status, 404);

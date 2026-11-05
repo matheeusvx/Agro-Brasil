@@ -1,0 +1,14 @@
+AGRO+ BRASIL — KIT DE REFERÊNCIAS PARA UI/UX, VERSÃO 2
+
+Este ZIP foi preparado a partir dos cinco arquivos de imagem enviados nesta conversa.
+
+1. Extraia o ZIP sobre a RAIZ do projeto local:
+   C:\Users\Sucesso\Documents\agro+brasil
+   A extração deve gerar: docs\design\referencias\...
+2. O kit nao substitui codigo Flutter nem modifica as funcionalidades da API.
+3. Abra docs/design/PROMPT_CODEX_REDESIGN_V2.md e use-o como instrucao para o Codex.
+4. Envie ao Codex o caminho docs/design/referencias/README.md e exija leitura visual dos PNGs.
+5. Os PNGs servem APENAS como referências internas. A pasta tem um .gitignore
+   local que impede incluir estes exemplos de terceiros em um push público por acidente.
+6. Podem ser versionados os DOCUMENTOS do kit, desde que revisados.
+7. O resultado final deve usar ilustrações e elementos ORIGINAIS, nao recortes das referências.
