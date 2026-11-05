@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.data/
+.cache/
+coverage/
+*.log
+__pycache__/
+.venv/
+.dart_tool/
+build/
+.idea/
+.DS_Store

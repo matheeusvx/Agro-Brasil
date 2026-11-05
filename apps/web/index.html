@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agro+ Brasil | Minha produção</title>
+  <link rel="stylesheet" href="styles.css"><script src="app.js" defer></script><script src="commerce.js" defer></script>
+</head>
+<body>
+  <header><span class="brand">AGRO<span>+</span> BRASIL</span><p>Produção conectada. Origem registrada.</p></header>
+  <main>
+    <aside class="notice">Demonstração local com quatro perfis fictícios: produção, oferta, pedido, retirada e recebimento integral. Histórico por eventos confirmados, sem GPS contínuo e sem impacto social real medido.</aside>
+    <section aria-labelledby="session-title">
+      <h1 id="session-title">Minha produção</h1><p>Pequenos produtores rurais · Cooperativas · Instituições · Compradores locais</p>
+      <form id="session-form">
+        <label for="token">Token temporário de demonstração</label>
+        <div class="row"><input id="token" type="password" required autocomplete="off" maxlength="200" aria-describedby="token-help"><button type="submit">Acessar organizações</button></div>
+        <small id="token-help">Gerado localmente em .data/demo-sessions.json. O token permanece apenas na memória desta página.</small>
+      </form>
+      <div id="organization-box" hidden><label for="organization">Organização autorizada</label><select id="organization"></select><button id="logout" type="button" class="secondary">Encerrar sessão</button></div>
+    </section>
+    <p id="message" role="status" aria-live="polite"></p>
+    <div id="workspace" hidden>
+      <section aria-labelledby="summary-title"><h2 id="summary-title">Visão da organização</h2><div class="metrics"><div><span id="total">0</span><p>Registros de produção</p></div><div><h3>Distribuição por cultura</h3><ul id="distribution"></ul></div></div></section>
+      <section id="producer-section" aria-labelledby="form-title">
+        <h2 id="form-title">Registrar produção</h2><p>O lote e seu evento de origem serão criados junto com o registro.</p>
+        <form id="production-form">
+          <div class="grid">
+            <label>Propriedade<select name="propertyId" required></select></label>
+            <label>Cultura<select name="cropId" required></select></label>
+            <label>Safra<input name="seasonLabel" required maxlength="60" placeholder="Ex.: 2026/2"></label>
+            <label>Quantidade colhida (kg)<input name="quantityKg" type="number" required min="0.001" max="1000000000" step="0.001"></label>
+            <label>Data da colheita<input name="harvestedOn" type="date" required></label>
+            <label>Município de origem<input name="municipality" required maxlength="120"></label>
+            <label>UF<select name="uf" required><option value="">Selecione</option></select></label>
+          </div>
+          <label class="checkbox"><input name="locationConfirmed" type="checkbox" required> Confirmo que este município e UF correspondem à origem informada.</label>
+          <button type="submit">Registrar produção e lote</button>
+        </form>
+      </section>
+      <section aria-labelledby="list-title"><div class="row"><h2 id="list-title">Produções e lotes</h2><button id="refresh" class="secondary" type="button">Atualizar</button></div><p id="list-info"></p><ul id="productions" class="productions"></ul></section>
+      <section aria-labelledby="operation-title">
+        <h2 id="operation-title">Local da operação</h2><p>Informe e confirme a localização antes de publicar, solicitar, aceitar, cancelar, retirar ou receber. O horário é registrado pelo servidor.</p>
+        <div class="grid"><label>Município da operação<input id="operation-city" maxlength="120"></label><label>UF da operação<input id="operation-uf" maxlength="2" placeholder="SP"></label></div>
+        <label class="checkbox"><input id="operation-confirmed" type="checkbox"> Confirmo a localização desta operação demonstrativa.</label>
+      </section>
+      <section id="offer-section" hidden aria-labelledby="offer-title">
+        <h2 id="offer-title">Ofertar excedente</h2><p>Uma oferta por lote neste incremento. Crie o rascunho e depois publique na listagem abaixo.</p>
+        <form id="offer-form"><div class="grid">
+          <label>Lote para oferta<select id="offer-lot" required></select></label>
+          <label>Quantidade ofertada (kg)<input name="quantityKg" type="number" min="0.001" max="1000000000" step="0.001" required></label>
+          <label>Destino<select name="destinationMode" aria-label="Destino"><option value="DOACAO">Doação</option><option value="VENDA">Venda</option></select></label>
+          <label>Preço por kg (centavos; zero na doação)<input name="unitPriceCents" type="number" min="0" max="1000000000" step="1" value="0" required></label>
+          <label>Disponível até (horário local)<input name="availableUntil" type="datetime-local" required></label>
+        </div><button type="submit">Criar oferta</button></form>
+      </section>
+      <section aria-labelledby="offers-title"><h2 id="offers-title">Ofertas agrícolas</h2><p id="offers-info"></p><ul id="offers" class="productions"></ul></section>
+      <section aria-labelledby="orders-title"><h2 id="orders-title">Pedidos e operações autorizadas</h2><p>O pequeno produtor rural pode designar uma cooperativa no aceite. Sem designação, ele registra a retirada diretamente.</p><ul id="orders" class="productions"></ul></section>
+      <section id="history-section" hidden aria-labelledby="history-title"><h2 id="history-title">Histórico do lote</h2><p id="lot-id"></p><p id="history-info"></p><ol id="history"></ol></section>
+    </div>
+  </main>
+  <footer>Agro+ Brasil · CitizenTech · FIAP 2026.2 · Eventos confirmados, sem GPS contínuo.</footer>
+</body>
+</html>

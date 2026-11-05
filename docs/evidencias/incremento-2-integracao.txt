@@ -1,0 +1,208 @@
+
+> agro-mais-brasil@0.1.0 test:integration
+> node --env-file-if-exists=.env --test --test-concurrency=1 services/api/test/integration.test.mjs services/api/test/commerce.test.mjs
+
+TAP version 13
+# Subtest: jornada comercial com transações reais e quatro públicos
+    # Subtest: nega publicação por outro público e oferta superior ao lote
+    ok 1 - nega publicação por outro público e oferta superior ao lote
+      ---
+      duration_ms: 36.9958
+      type: 'test'
+      ...
+    # Subtest: criação idempotente, chave com outro conteúdo e limite de uma oferta por lote
+    ok 2 - criação idempotente, chave com outro conteúdo e limite de uma oferta por lote
+      ---
+      duration_ms: 44.5783
+      type: 'test'
+      ...
+    # Subtest: rascunho não é listado e publicação expõe somente projeção comercial
+    ok 3 - rascunho não é listado e publicação expõe somente projeção comercial
+      ---
+      duration_ms: 31.8504
+      type: 'test'
+      ...
+    # Subtest: solicitação não pode ultrapassar saldo nem escolher organização arbitrária
+    ok 4 - solicitação não pode ultrapassar saldo nem escolher organização arbitrária
+      ---
+      duration_ms: 17.1445
+      type: 'test'
+      ...
+    # Subtest: pedidos e aceites concorrentes nunca reservam além do saldo
+    ok 5 - pedidos e aceites concorrentes nunca reservam além do saldo
+      ---
+      duration_ms: 52.9112
+      type: 'test'
+      ...
+    # Subtest: outra organização não vê pedidos, eventos e remessas; origem privada não vaza
+    ok 6 - outra organização não vê pedidos, eventos e remessas; origem privada não vaza
+      ---
+      duration_ms: 29.2964
+      type: 'test'
+      ...
+    # Subtest: recebimento antes da retirada e retirada por destinatário são recusados
+    ok 7 - recebimento antes da retirada e retirada por destinatário são recusados
+      ---
+      duration_ms: 13.2855
+      type: 'test'
+      ...
+    # Subtest: cooperativa designada retira; repetição concorrente com mesma chave não duplica
+    ok 8 - cooperativa designada retira; repetição concorrente com mesma chave não duplica
+      ---
+      duration_ms: 22.5554
+      type: 'test'
+      ...
+    # Subtest: não cancela após retirada nem confirma recebimento parcial
+    ok 9 - não cancela após retirada nem confirma recebimento parcial
+      ---
+      duration_ms: 12.9526
+      type: 'test'
+      ...
+    # Subtest: destinatário confirma; repetição não duplica quantidade nem histórico
+    ok 10 - destinatário confirma; repetição não duplica quantidade nem histórico
+      ---
+      duration_ms: 47.7233
+      type: 'test'
+      ...
+    # Subtest: cancela solicitado sem liberar e cancela aceito exatamente uma vez
+    ok 11 - cancela solicitado sem liberar e cancela aceito exatamente uma vez
+      ---
+      duration_ms: 50.5935
+      type: 'test'
+      ...
+    # Subtest: fluxo direto sem cooperativa para comprador local
+    ok 12 - fluxo direto sem cooperativa para comprador local
+      ---
+      duration_ms: 40.0415
+      type: 'test'
+      ...
+    # Subtest: falha ao inserir evento desfaz reserva, pedido e comando na mesma transação
+    ok 13 - falha ao inserir evento desfaz reserva, pedido e comando na mesma transação
+      ---
+      duration_ms: 25.2593
+      type: 'test'
+      ...
+    # Subtest: origem permanece intacta e eventos são paginados sem expor outra operação
+    ok 14 - origem permanece intacta e eventos são paginados sem expor outra operação
+      ---
+      duration_ms: 21.7899
+      type: 'test'
+      ...
+    # Subtest: perfil leitor e localização não confirmada não alteram operações
+    ok 15 - perfil leitor e localização não confirmada não alteram operações
+      ---
+      duration_ms: 11.052
+      type: 'test'
+      ...
+    # Subtest: dados, eventos e idempotência sobrevivem ao reinício da aplicação
+    ok 16 - dados, eventos e idempotência sobrevivem ao reinício da aplicação
+      ---
+      duration_ms: 36.8739
+      type: 'test'
+      ...
+    1..16
+ok 1 - jornada comercial com transações reais e quatro públicos
+  ---
+  duration_ms: 2356.5198
+  type: 'test'
+  ...
+# Subtest: fluxo HTTP, persistência MongoDB e isolamento entre organizações
+    # Subtest: nega acesso sem identidade
+    ok 1 - nega acesso sem identidade
+      ---
+      duration_ms: 27.8006
+      type: 'test'
+      ...
+    # Subtest: uma pessoa consulta seus dois vínculos autorizados
+    ok 2 - uma pessoa consulta seus dois vínculos autorizados
+      ---
+      duration_ms: 12.4232
+      type: 'test'
+      ...
+    # Subtest: nega organização sem vínculo e não grava
+    ok 3 - nega organização sem vínculo e não grava
+      ---
+      duration_ms: 27.1156
+      type: 'test'
+      ...
+    # Subtest: instituição não registra produção de pequeno produtor rural
+    ok 4 - instituição não registra produção de pequeno produtor rural
+      ---
+      duration_ms: 8.8176
+      type: 'test'
+      ...
+    # Subtest: não aceita propriedade de outra organização
+    ok 5 - não aceita propriedade de outra organização
+      ---
+      duration_ms: 11.8893
+      type: 'test'
+      ...
+    # Subtest: valida entrada HTTP
+    ok 6 - valida entrada HTTP
+      ---
+      duration_ms: 13.5966
+      type: 'test'
+      ...
+    # Subtest: cria produção, lote e evento em uma gravação persistida
+    ok 7 - cria produção, lote e evento em uma gravação persistida
+      ---
+      duration_ms: 8.7794
+      type: 'test'
+      ...
+    # Subtest: consulta e agrega indicadores reais da organização
+    ok 8 - consulta e agrega indicadores reais da organização
+      ---
+      duration_ms: 19.9202
+      type: 'test'
+      ...
+    # Subtest: banco standalone recusa comércio sem simular transação
+    ok 9 - banco standalone recusa comércio sem simular transação
+      ---
+      duration_ms: 11.0793
+      type: 'test'
+      ...
+    # Subtest: impede leitura cruzada por ID e listagem
+    ok 10 - impede leitura cruzada por ID e listagem
+      ---
+      duration_ms: 16.5741
+      type: 'test'
+      ...
+    # Subtest: perfil leitor não cria e vínculo revogado perde acesso
+    ok 11 - perfil leitor não cria e vínculo revogado perde acesso
+      ---
+      duration_ms: 9.3564
+      type: 'test'
+      ...
+    # Subtest: trata JSON inválido, tamanho excessivo, 404 e serve a página
+    ok 12 - trata JSON inválido, tamanho excessivo, 404 e serve a página
+      ---
+      duration_ms: 13.1678
+      type: 'test'
+      ...
+    # Subtest: mantém registro após reiniciar API e processo MongoDB no mesmo diretório
+    ok 13 - mantém registro após reiniciar API e processo MongoDB no mesmo diretório
+      ---
+      duration_ms: 773.9958
+      type: 'test'
+      ...
+    # Subtest: token expirado é recusado
+    ok 14 - token expirado é recusado
+      ---
+      duration_ms: 2.2149
+      type: 'test'
+      ...
+    1..14
+ok 2 - fluxo HTTP, persistência MongoDB e isolamento entre organizações
+  ---
+  duration_ms: 1946.2048
+  type: 'test'
+  ...
+1..2
+# tests 32
+# suites 0
+# pass 32
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5330.6793

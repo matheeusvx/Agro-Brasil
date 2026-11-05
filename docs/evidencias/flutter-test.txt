@@ -1,0 +1,19 @@
+00:00 +0: loading C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart
+00:00 +0: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: HTTP usa identidade e organização, sem chave meteorológica
+00:00 +1: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: cache é por ator, organização e propriedade; offline é somente leitura
+00:00 +2: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: 401 nunca reutiliza cache para contornar autorização
+00:00 +3: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: sair remove os snapshots do escopo atual
+00:01 +4: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: (setUpAll)
+00:01 +4: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: solicitacao (fixture identificada)
+00:02 +5: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: primeiro-acesso (fixture identificada)
+00:02 +6: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: retirada (fixture identificada)
+00:02 +7: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: recebimento (fixture identificada)
+00:02 +8: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: sem-pendencias (fixture identificada)
+00:03 +9: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: offline (fixture identificada)
+00:03 +10: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: erro (fixture identificada)
+00:03 +11: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: carregando (fixture identificada)
+00:03 +12: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:03 +13: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: alvos e rótulos acessíveis
+00:04 +14: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: layout estreito e texto em 200% sem overflow
+00:04 +15: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: (tearDownAll)
+00:04 +15: All tests passed!

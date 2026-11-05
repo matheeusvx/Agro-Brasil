@@ -1,0 +1,80 @@
+
+> agro-mais-brasil@0.1.0 test
+> node --test services/api/test/unit.test.mjs services/api/test/weather.test.mjs
+
+TAP version 13
+# Subtest: aceita produção válida e remove espaços de textos
+ok 1 - aceita produção válida e remove espaços de textos
+  ---
+  duration_ms: 1.9758
+  type: 'test'
+  ...
+# Subtest: rejeita massas inválidas, strings e precisão além de grama
+ok 2 - rejeita massas inválidas, strings e precisão além de grama
+  ---
+  duration_ms: 0.4642
+  type: 'test'
+  ...
+# Subtest: rejeita data inexistente, futura e datetime no lugar de data
+ok 3 - rejeita data inexistente, futura e datetime no lugar de data
+  ---
+  duration_ms: 0.286
+  type: 'test'
+  ...
+# Subtest: exige município, UF válida e confirmação explícita de origem
+ok 4 - exige município, UF válida e confirmação explícita de origem
+  ---
+  duration_ms: 0.2889
+  type: 'test'
+  ...
+# Subtest: rejeita tentativa de atribuir organização, responsável ou operadores MongoDB
+ok 5 - rejeita tentativa de atribuir organização, responsável ou operadores MongoDB
+  ---
+  duration_ms: 0.2387
+  type: 'test'
+  ...
+# Subtest: produção, lote e origem possuem IDs distintos e responsáveis definidos pelo contexto
+ok 6 - produção, lote e origem possuem IDs distintos e responsáveis definidos pelo contexto
+  ---
+  duration_ms: 0.492
+  type: 'test'
+  ...
+# Subtest: sem configuração não chama fonte nem inventa clima
+ok 7 - sem configuração não chama fonte nem inventa clima
+  ---
+  duration_ms: 0.9731
+  type: 'test'
+  ...
+# Subtest: sem coordenadas cadastradas não geocodifica por suposição
+ok 8 - sem coordenadas cadastradas não geocodifica por suposição
+  ---
+  duration_ms: 0.1519
+  type: 'test'
+  ...
+# Subtest: usa coordenadas da propriedade, valida resposta e mantém chave no servidor
+ok 9 - usa coordenadas da propriedade, valida resposta e mantém chave no servidor
+  ---
+  duration_ms: 2.0006
+  type: 'test'
+  ...
+# Subtest: erro do provedor retorna indisponível sem chave ou URL
+ok 10 - erro do provedor retorna indisponível sem chave ou URL
+  ---
+  duration_ms: 0.2783
+  type: 'test'
+  ...
+# Subtest: dado antigo ou inválido não se apresenta como clima atual
+ok 11 - dado antigo ou inválido não se apresenta como clima atual
+  ---
+  duration_ms: 0.3459
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 78.5778

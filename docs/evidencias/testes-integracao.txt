@@ -1,0 +1,99 @@
+
+> agro-mais-brasil@0.1.0 test:integration
+> node --env-file-if-exists=.env --test --test-concurrency=1 services/api/test/integration.test.mjs
+
+TAP version 13
+# Subtest: fluxo HTTP, persistência MongoDB e isolamento entre organizações
+    # Subtest: nega acesso sem identidade
+    ok 1 - nega acesso sem identidade
+      ---
+      duration_ms: 26.5722
+      type: 'test'
+      ...
+    # Subtest: uma pessoa consulta seus dois vínculos autorizados
+    ok 2 - uma pessoa consulta seus dois vínculos autorizados
+      ---
+      duration_ms: 12.3723
+      type: 'test'
+      ...
+    # Subtest: nega organização sem vínculo e não grava
+    ok 3 - nega organização sem vínculo e não grava
+      ---
+      duration_ms: 23.9823
+      type: 'test'
+      ...
+    # Subtest: instituição não registra produção de pequeno produtor rural
+    ok 4 - instituição não registra produção de pequeno produtor rural
+      ---
+      duration_ms: 9.1076
+      type: 'test'
+      ...
+    # Subtest: não aceita propriedade de outra organização
+    ok 5 - não aceita propriedade de outra organização
+      ---
+      duration_ms: 12.0392
+      type: 'test'
+      ...
+    # Subtest: valida entrada HTTP
+    ok 6 - valida entrada HTTP
+      ---
+      duration_ms: 16.9044
+      type: 'test'
+      ...
+    # Subtest: cria produção, lote e evento em uma gravação persistida
+    ok 7 - cria produção, lote e evento em uma gravação persistida
+      ---
+      duration_ms: 11.3991
+      type: 'test'
+      ...
+    # Subtest: consulta e agrega indicadores reais da organização
+    ok 8 - consulta e agrega indicadores reais da organização
+      ---
+      duration_ms: 24.0149
+      type: 'test'
+      ...
+    # Subtest: impede leitura cruzada por ID e listagem
+    ok 9 - impede leitura cruzada por ID e listagem
+      ---
+      duration_ms: 21.2243
+      type: 'test'
+      ...
+    # Subtest: perfil leitor não cria e vínculo revogado perde acesso
+    ok 10 - perfil leitor não cria e vínculo revogado perde acesso
+      ---
+      duration_ms: 14.5549
+      type: 'test'
+      ...
+    # Subtest: trata JSON inválido, tamanho excessivo, 404 e serve a página
+    ok 11 - trata JSON inválido, tamanho excessivo, 404 e serve a página
+      ---
+      duration_ms: 30.6334
+      type: 'test'
+      ...
+    # Subtest: mantém registro após reiniciar API e processo MongoDB no mesmo diretório
+    ok 12 - mantém registro após reiniciar API e processo MongoDB no mesmo diretório
+      ---
+      duration_ms: 749.6896
+      type: 'test'
+      ...
+    # Subtest: token expirado é recusado
+    ok 13 - token expirado é recusado
+      ---
+      duration_ms: 3.237
+      type: 'test'
+      ...
+    1..13
+ok 1 - fluxo HTTP, persistência MongoDB e isolamento entre organizações
+  ---
+  duration_ms: 1683.9507
+  type: 'test'
+  ...
+1..1
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2237.351

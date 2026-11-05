@@ -1,0 +1,37 @@
+{
+  "verifiedAt": "2026-11-05T13:36:09.246Z",
+  "environment": "DEMONSTRACAO_LOCAL",
+  "database": "mongodb",
+  "productionId": "db22c8c0-99e9-430f-9b05-1e1134cbb6b1",
+  "lotId": "fab790b0-365d-40f4-9814-534aa8c9ded3",
+  "crop": "Alface",
+  "quantityKg": 12.5,
+  "seasonLabel": "DEMO 2026/2",
+  "isDemonstration": true,
+  "event": {
+    "type": "ORIGEM_REGISTRADA",
+    "occurredAt": "2026-11-05T13:33:36.946Z",
+    "location": {
+      "municipality": "São Paulo",
+      "uf": "SP"
+    },
+    "responsibleRecorded": true,
+    "locationConfirmationRecorded": true
+  },
+  "indicators": {
+    "total": 1,
+    "distribution": [
+      {
+        "cropId": "91d56997-e4ee-45dd-84b7-f19c99194b39",
+        "cropName": "Alface",
+        "count": 1,
+        "quantityKg": 12.5
+      }
+    ]
+  },
+  "readOnlyVerification": true,
+  "limitations": [
+    "Cadastro e origem apenas; sem oferta, pedido, retirada ou recebimento.",
+    "Não representa produção real ou benefício social medido."
+  ]
+}

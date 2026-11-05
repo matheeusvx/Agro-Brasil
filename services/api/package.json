@@ -1,0 +1,6 @@
+{
+  "name": "@agro-mais-brasil/api",
+  "private": true,
+  "type": "module",
+  "description": "API Express; comandos e dependências gerenciados na raiz"
+}

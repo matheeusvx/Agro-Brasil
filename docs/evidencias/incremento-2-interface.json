@@ -1,0 +1,375 @@
+{
+  "verifiedAt": "2026-11-05T14:06:44.592Z",
+  "environment": "DEMONSTRACAO_LOCAL_FICTICIA",
+  "readOnlyVerification": true,
+  "lotId": "fab790b0-365d-40f4-9814-534aa8c9ded3",
+  "profiles": [
+    {
+      "type": "PEQUENO_PRODUTOR_RURAL",
+      "organizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+      "orders": [
+        {
+          "id": "8b8a80ec-e03a-45da-a0c5-88a7d51e97c1",
+          "status": "RECEBIDO",
+          "quantityKg": 2,
+          "shipmentId": "fd839381-e0ba-4db2-9252-203ef665306d",
+          "carrierOrganizationId": null,
+          "receiptId": "9ceb7d43-581d-44a6-ab33-b1ee4e19e9c1"
+        },
+        {
+          "id": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "status": "RECEBIDO",
+          "quantityKg": 4,
+          "shipmentId": "113a9ed4-f5f1-4735-884c-7e888549a962",
+          "carrierOrganizationId": "22fdaf47-e671-4b81-a311-ce38c62b80fd",
+          "receiptId": "3ae51e95-dd0d-4ad5-9c73-50f8acc1f3af"
+        }
+      ],
+      "events": [
+        {
+          "id": "5e828ce3-dda7-4462-8ad7-974d7807c959",
+          "type": "ORIGEM_REGISTRADA",
+          "orderId": null,
+          "occurredAt": "2026-11-05T13:33:36.946Z",
+          "responsibleOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "ab2202f6-12ec-466d-b2fa-eb4c7e25e910",
+          "type": "OFERTA_PUBLICADA",
+          "orderId": null,
+          "occurredAt": "2026-11-05T13:56:40.605Z",
+          "responsibleOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "6e89d5c8-67f0-4f83-8f82-4c5b4434158d",
+          "type": "PEDIDO_SOLICITADO",
+          "orderId": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "occurredAt": "2026-11-05T13:56:51.036Z",
+          "responsibleOrganizationId": "981b35b0-3725-4dd6-95ff-0d5bb18cb2af",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "c143548b-c75e-42f1-ab00-23ba526aefbe",
+          "type": "PEDIDO_ACEITO",
+          "orderId": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "occurredAt": "2026-11-05T13:57:02.557Z",
+          "responsibleOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "cfdc4afc-fba9-4817-aaaf-3c7310a9bff7",
+          "type": "RETIRADA_REGISTRADA",
+          "orderId": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "occurredAt": "2026-11-05T13:57:13.899Z",
+          "responsibleOrganizationId": "22fdaf47-e671-4b81-a311-ce38c62b80fd",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "e6debaec-e0f9-4d99-98a3-cd720cbbd918",
+          "type": "RECEBIMENTO_CONFIRMADO",
+          "orderId": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "occurredAt": "2026-11-05T13:57:26.663Z",
+          "responsibleOrganizationId": "981b35b0-3725-4dd6-95ff-0d5bb18cb2af",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "7b6ce9fa-404d-4385-8979-0c95d6d15be3",
+          "type": "PEDIDO_SOLICITADO",
+          "orderId": "8b8a80ec-e03a-45da-a0c5-88a7d51e97c1",
+          "occurredAt": "2026-11-05T13:57:44.795Z",
+          "responsibleOrganizationId": "26914bff-1516-442f-a1da-4e9774047ab0",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "fdd1a6c0-694d-4770-8380-7deb460ff6e7",
+          "type": "PEDIDO_ACEITO",
+          "orderId": "8b8a80ec-e03a-45da-a0c5-88a7d51e97c1",
+          "occurredAt": "2026-11-05T13:57:56.878Z",
+          "responsibleOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "cf62d02c-c1e6-4b6c-8a9c-294c567be025",
+          "type": "RETIRADA_REGISTRADA",
+          "orderId": "8b8a80ec-e03a-45da-a0c5-88a7d51e97c1",
+          "occurredAt": "2026-11-05T13:58:00.955Z",
+          "responsibleOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "ef4e3092-3407-4420-9234-b355172b21d4",
+          "type": "RECEBIMENTO_CONFIRMADO",
+          "orderId": "8b8a80ec-e03a-45da-a0c5-88a7d51e97c1",
+          "occurredAt": "2026-11-05T13:58:14.366Z",
+          "responsibleOrganizationId": "26914bff-1516-442f-a1da-4e9774047ab0",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        }
+      ]
+    },
+    {
+      "type": "COOPERATIVA",
+      "organizationId": "22fdaf47-e671-4b81-a311-ce38c62b80fd",
+      "orders": [
+        {
+          "id": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "status": "RECEBIDO",
+          "quantityKg": 4,
+          "shipmentId": "113a9ed4-f5f1-4735-884c-7e888549a962",
+          "carrierOrganizationId": "22fdaf47-e671-4b81-a311-ce38c62b80fd",
+          "receiptId": "3ae51e95-dd0d-4ad5-9c73-50f8acc1f3af"
+        }
+      ],
+      "events": [
+        {
+          "id": "5e828ce3-dda7-4462-8ad7-974d7807c959",
+          "type": "ORIGEM_REGISTRADA",
+          "orderId": null,
+          "occurredAt": "2026-11-05T13:33:36.946Z",
+          "responsibleOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "6e89d5c8-67f0-4f83-8f82-4c5b4434158d",
+          "type": "PEDIDO_SOLICITADO",
+          "orderId": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "occurredAt": "2026-11-05T13:56:51.036Z",
+          "responsibleOrganizationId": "981b35b0-3725-4dd6-95ff-0d5bb18cb2af",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "c143548b-c75e-42f1-ab00-23ba526aefbe",
+          "type": "PEDIDO_ACEITO",
+          "orderId": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "occurredAt": "2026-11-05T13:57:02.557Z",
+          "responsibleOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "cfdc4afc-fba9-4817-aaaf-3c7310a9bff7",
+          "type": "RETIRADA_REGISTRADA",
+          "orderId": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "occurredAt": "2026-11-05T13:57:13.899Z",
+          "responsibleOrganizationId": "22fdaf47-e671-4b81-a311-ce38c62b80fd",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "e6debaec-e0f9-4d99-98a3-cd720cbbd918",
+          "type": "RECEBIMENTO_CONFIRMADO",
+          "orderId": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "occurredAt": "2026-11-05T13:57:26.663Z",
+          "responsibleOrganizationId": "981b35b0-3725-4dd6-95ff-0d5bb18cb2af",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        }
+      ]
+    },
+    {
+      "type": "INSTITUICAO",
+      "organizationId": "981b35b0-3725-4dd6-95ff-0d5bb18cb2af",
+      "orders": [
+        {
+          "id": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "status": "RECEBIDO",
+          "quantityKg": 4,
+          "shipmentId": "113a9ed4-f5f1-4735-884c-7e888549a962",
+          "carrierOrganizationId": "22fdaf47-e671-4b81-a311-ce38c62b80fd",
+          "receiptId": "3ae51e95-dd0d-4ad5-9c73-50f8acc1f3af"
+        }
+      ],
+      "events": [
+        {
+          "id": "5e828ce3-dda7-4462-8ad7-974d7807c959",
+          "type": "ORIGEM_REGISTRADA",
+          "orderId": null,
+          "occurredAt": "2026-11-05T13:33:36.946Z",
+          "responsibleOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "6e89d5c8-67f0-4f83-8f82-4c5b4434158d",
+          "type": "PEDIDO_SOLICITADO",
+          "orderId": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "occurredAt": "2026-11-05T13:56:51.036Z",
+          "responsibleOrganizationId": "981b35b0-3725-4dd6-95ff-0d5bb18cb2af",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "c143548b-c75e-42f1-ab00-23ba526aefbe",
+          "type": "PEDIDO_ACEITO",
+          "orderId": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "occurredAt": "2026-11-05T13:57:02.557Z",
+          "responsibleOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "cfdc4afc-fba9-4817-aaaf-3c7310a9bff7",
+          "type": "RETIRADA_REGISTRADA",
+          "orderId": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "occurredAt": "2026-11-05T13:57:13.899Z",
+          "responsibleOrganizationId": "22fdaf47-e671-4b81-a311-ce38c62b80fd",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "e6debaec-e0f9-4d99-98a3-cd720cbbd918",
+          "type": "RECEBIMENTO_CONFIRMADO",
+          "orderId": "af96a16e-7096-4901-9c4d-666c26052cd6",
+          "occurredAt": "2026-11-05T13:57:26.663Z",
+          "responsibleOrganizationId": "981b35b0-3725-4dd6-95ff-0d5bb18cb2af",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        }
+      ]
+    },
+    {
+      "type": "COMPRADOR_LOCAL",
+      "organizationId": "26914bff-1516-442f-a1da-4e9774047ab0",
+      "orders": [
+        {
+          "id": "8b8a80ec-e03a-45da-a0c5-88a7d51e97c1",
+          "status": "RECEBIDO",
+          "quantityKg": 2,
+          "shipmentId": "fd839381-e0ba-4db2-9252-203ef665306d",
+          "carrierOrganizationId": null,
+          "receiptId": "9ceb7d43-581d-44a6-ab33-b1ee4e19e9c1"
+        }
+      ],
+      "events": [
+        {
+          "id": "5e828ce3-dda7-4462-8ad7-974d7807c959",
+          "type": "ORIGEM_REGISTRADA",
+          "orderId": null,
+          "occurredAt": "2026-11-05T13:33:36.946Z",
+          "responsibleOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "7b6ce9fa-404d-4385-8979-0c95d6d15be3",
+          "type": "PEDIDO_SOLICITADO",
+          "orderId": "8b8a80ec-e03a-45da-a0c5-88a7d51e97c1",
+          "occurredAt": "2026-11-05T13:57:44.795Z",
+          "responsibleOrganizationId": "26914bff-1516-442f-a1da-4e9774047ab0",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "fdd1a6c0-694d-4770-8380-7deb460ff6e7",
+          "type": "PEDIDO_ACEITO",
+          "orderId": "8b8a80ec-e03a-45da-a0c5-88a7d51e97c1",
+          "occurredAt": "2026-11-05T13:57:56.878Z",
+          "responsibleOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "cf62d02c-c1e6-4b6c-8a9c-294c567be025",
+          "type": "RETIRADA_REGISTRADA",
+          "orderId": "8b8a80ec-e03a-45da-a0c5-88a7d51e97c1",
+          "occurredAt": "2026-11-05T13:58:00.955Z",
+          "responsibleOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        },
+        {
+          "id": "ef4e3092-3407-4420-9234-b355172b21d4",
+          "type": "RECEBIMENTO_CONFIRMADO",
+          "orderId": "8b8a80ec-e03a-45da-a0c5-88a7d51e97c1",
+          "occurredAt": "2026-11-05T13:58:14.366Z",
+          "responsibleOrganizationId": "26914bff-1516-442f-a1da-4e9774047ab0",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        }
+      ]
+    }
+  ],
+  "offers": [
+    {
+      "id": "9e595f7b-1c2a-4164-b1cc-6c0e62a4ed17",
+      "lotId": "fab790b0-365d-40f4-9814-534aa8c9ded3",
+      "sellerOrganizationId": "26704a54-b846-4091-b54f-0a08ad352a79",
+      "sellerName": "PEQUENO_PRODUTOR_RURAL — DEMONSTRAÇÃO",
+      "cropName": "Alface",
+      "territory": {
+        "municipality": "São Paulo",
+        "uf": "SP"
+      },
+      "quantityKg": 10,
+      "availableKg": 4,
+      "destinationMode": "DOACAO",
+      "unitPriceCents": 0,
+      "availableUntil": "2026-11-06T21:00:00.000Z",
+      "status": "PUBLICADA",
+      "isDemonstration": true
+    }
+  ]
+}

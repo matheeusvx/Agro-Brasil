@@ -1,0 +1,34 @@
+{
+  "verifiedAt": "2026-11-05T14:58:57.547Z",
+  "environment": "TESTE_ISOLADO_FICTICIO",
+  "database": "MongoDB replica set real",
+  "offerId": "c40f04f5-29b9-4da9-aa33-a69039afe9d4",
+  "lotId": "051265db-41fc-4c88-b812-4ee34c3e98e1",
+  "cooperativeOrderId": "3d0fff43-174c-4fe8-a304-4a9ddf6dc3ba",
+  "directOrderId": "4c4efe54-9929-41f0-8f24-f5e918768336",
+  "balance": {
+    "_id": "c40f04f5-29b9-4da9-aa33-a69039afe9d4",
+    "lotId": "051265db-41fc-4c88-b812-4ee34c3e98e1",
+    "quantityGrams": 10000,
+    "availableUntil": "2026-11-06T14:58:57.031Z",
+    "destinationMode": "DOACAO",
+    "unitPriceCents": 0,
+    "availableGrams": 1999,
+    "reservedGrams": 0,
+    "dispatchedGrams": 0,
+    "receivedGrams": 8001,
+    "sellerOrganizationId": "917aa61d-cbfd-4691-a5e7-fee1e1f9391a",
+    "sellerName": "producer FICTÍCIO",
+    "cropName": "Alface",
+    "territory": {
+      "municipality": "São Paulo",
+      "uf": "SP"
+    },
+    "status": "PUBLICADA",
+    "createdAt": "2026-11-05T14:58:57.076Z",
+    "isDemonstration": true
+  },
+  "traceEventCount": 15,
+  "originalEventPreserved": true,
+  "applicationRestartVerified": true
+}

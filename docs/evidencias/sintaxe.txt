@@ -1,0 +1,5 @@
+
+> agro-mais-brasil@0.1.0 check
+> node scripts/check.mjs
+
+Sintaxe JavaScript verificada.

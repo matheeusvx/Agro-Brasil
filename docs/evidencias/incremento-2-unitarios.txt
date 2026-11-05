@@ -1,0 +1,50 @@
+
+> agro-mais-brasil@0.1.0 test
+> node --test services/api/test/unit.test.mjs
+
+TAP version 13
+# Subtest: aceita produção válida e remove espaços de textos
+ok 1 - aceita produção válida e remove espaços de textos
+  ---
+  duration_ms: 2.528
+  type: 'test'
+  ...
+# Subtest: rejeita massas inválidas, strings e precisão além de grama
+ok 2 - rejeita massas inválidas, strings e precisão além de grama
+  ---
+  duration_ms: 15.5177
+  type: 'test'
+  ...
+# Subtest: rejeita data inexistente, futura e datetime no lugar de data
+ok 3 - rejeita data inexistente, futura e datetime no lugar de data
+  ---
+  duration_ms: 0.6211
+  type: 'test'
+  ...
+# Subtest: exige município, UF válida e confirmação explícita de origem
+ok 4 - exige município, UF válida e confirmação explícita de origem
+  ---
+  duration_ms: 0.3803
+  type: 'test'
+  ...
+# Subtest: rejeita tentativa de atribuir organização, responsável ou operadores MongoDB
+ok 5 - rejeita tentativa de atribuir organização, responsável ou operadores MongoDB
+  ---
+  duration_ms: 0.2885
+  type: 'test'
+  ...
+# Subtest: produção, lote e origem possuem IDs distintos e responsáveis definidos pelo contexto
+ok 6 - produção, lote e origem possuem IDs distintos e responsáveis definidos pelo contexto
+  ---
+  duration_ms: 0.5847
+  type: 'test'
+  ...
+1..6
+# tests 6
+# suites 0
+# pass 6
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 99.1601
