@@ -1,0 +1,3 @@
+00:00 +0: loading C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/live_api.dart
+00:00 +0: Flutter/Dart consulta home real, catálogo e eventos com autorização
+00:00 +1: All tests passed!

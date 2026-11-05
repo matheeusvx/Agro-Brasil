@@ -10,6 +10,7 @@ import 'data.dart';
 import 'demo.dart';
 import 'home.dart';
 import 'tasks.dart';
+import 'design.dart';
 
 const galleryEnabled = bool.fromEnvironment('DEMO_GALLERY');
 Uri apiBase() {
@@ -374,11 +375,18 @@ class _AppShellState extends State<AppShell> {
         toolbarHeight: MediaQuery.textScalerOf(context).scale(18) > 27
             ? 80
             : 64,
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.eco, color: Color(0xFF24563C)),
-            SizedBox(width: 8),
-            Flexible(
+            Container(
+              padding: const EdgeInsets.all(7),
+              decoration: BoxDecoration(
+                color: AgroDesign.forest,
+                borderRadius: BorderRadius.circular(11),
+              ),
+              child: const Icon(Icons.eco, color: Colors.white, size: 22),
+            ),
+            const SizedBox(width: 10),
+            const Flexible(
               child: Text(
                 'Agro+ Brasil',
                 maxLines: 2,
@@ -428,32 +436,12 @@ class _AppShellState extends State<AppShell> {
               kind: ['home', 'production', 'offers', 'orders'][selected],
               focusId: focusId,
             ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: selected,
-        onDestinationSelected: (index) => setState(() {
+      bottomNavigationBar: AgroNavigationBar(
+        selected: selected,
+        onSelected: (index) => setState(() {
           selected = index;
           focusId = null;
         }),
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Início',
-          ),
-          NavigationDestination(icon: Icon(Icons.grass), label: 'Produção'),
-          NavigationDestination(
-            icon: Icon(Icons.sell_outlined),
-            label: 'Ofertas',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.inventory_2_outlined),
-            label: 'Pedidos',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            label: 'Perfil',
-          ),
-        ],
       ),
     ),
   );

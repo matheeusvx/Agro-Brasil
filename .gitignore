@@ -12,3 +12,7 @@ __pycache__/
 build/
 .idea/
 .DS_Store
+
+# Ferramentas locais de autoria (não fazem parte da plataforma)
+.agents/
+skills-lock.json

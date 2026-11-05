@@ -1,5 +1,7 @@
 # Capturas da home Flutter
 
+Atualizadas no primeiro ciclo de redesign. As capturas anteriores e a comparação estão em [docs/design/comparacao.md](../../design/comparacao.md). A referência Git anterior foi preservada; essas substituições golden foram revisadas visualmente e testadas novamente sem atualização automática.
+
 PNGs produzidos pelo renderer Flutter em testes de widget, com fonte Roboto e ícones carregados. **São cenários fictícios identificados, não pedidos ou validações reais.** As capturas não são mockups de imagem nem arquivos desenhados por IA. Dimensão de teste: 390 × 1450; o conteúdo rola em telas menores. Também foi testada largura 320 com texto em 200%.
 
 | Estado | Captura |

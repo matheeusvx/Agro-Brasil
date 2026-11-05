@@ -1,0 +1,38 @@
+{
+  "verifiedAt": "2026-11-05T15:43:35.009506Z",
+  "client": "Dart HTTP real",
+  "readOnly": true,
+  "home": {
+    "property": {
+      "id": "f3f91733-9b88-4f5c-b86b-55ab2ea6d642",
+      "name": "Sítio fictício — DEMONSTRAÇÃO",
+      "municipality": "São Paulo",
+      "uf": "SP"
+    },
+    "hasProductions": true,
+    "pending": [],
+    "recentLots": [
+      {
+        "id": "fab790b0-365d-40f4-9814-534aa8c9ded3",
+        "cropName": "Alface",
+        "quantityKg": 12.5,
+        "lastEvent": {
+          "type": "RECEBIMENTO_CONFIRMADO",
+          "recordedAt": "2026-11-05T13:58:14.366Z",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        }
+      }
+    ],
+    "canWrite": true,
+    "isDemonstration": true,
+    "fetchedAt": "2026-11-05T15:43:34.991Z"
+  },
+  "weather": {
+    "status": "unavailable",
+    "reason": "NOT_CONFIGURED",
+    "message": "Clima indisponível"
+  }
+}

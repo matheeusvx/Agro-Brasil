@@ -91,3 +91,7 @@ A suíte comercial inicia replica set real em `.data/commerce-<uuid>` e testa co
 - [Verificação do segundo incremento](docs/evidencias/incremento-2.md)
 
 Sem credenciais no repositório: `.env`, `.data`, `.cache` e `node_modules` são ignorados. O lockfile fixa a resolução das dependências. Não há integração nem atualização automática de Trello.
+
+## Redesign da home
+
+A home do pequeno produtor rural possui estados de primeiro acesso, pendências, erro e consulta offline. Veja [Design System](docs/design/design-system.md), [auditoria](docs/design/auditoria-home.md) e [comparação antes/depois](docs/design/comparacao.md). A skill de apoio à autoria é local e não é distribuída neste repositório.

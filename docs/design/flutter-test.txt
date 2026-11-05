@@ -1,0 +1,42 @@
+00:00 +0: loading C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart
+00:00 +0: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: HTTP usa identidade e organização, sem chave meteorológica
+00:00 +1: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: cache é por ator, organização e propriedade; offline é somente leitura
+00:00 +2: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: 401 nunca reutiliza cache para contornar autorização
+00:00 +3: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: sair remove os snapshots do escopo atual
+00:00 +4: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: (setUpAll)
+00:00 +4: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: saudação só utiliza nome pessoal válido disponível
+00:00 +5: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: offline apresenta todos os atalhos de rede desativados
+00:01 +6: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +7: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: solicitacao (fixture identificada)
+00:01 +8: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: solicitacao (fixture identificada)
+00:01 +9: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: solicitacao (fixture identificada)
+00:01 +10: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: retirada
+00:01 +11: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: primeira ação está visível em 390x844 e responde ao teclado
+00:01 +12: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: primeiro-acesso (fixture identificada)
+00:01 +13: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: recebimento
+00:01 +14: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: uma propriedade não exige abrir seletor sem alternativas
+00:02 +15: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: retirada (fixture identificada)
+00:02 +16: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: retirada (fixture identificada)
+00:02 +17: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: troca entre propriedades continua disponível e separa o cache
+00:02 +18: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: troca entre propriedades continua disponível e separa o cache
+00:02 +19: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: troca entre propriedades continua disponível e separa o cache
+00:02 +20: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: erro
+00:02 +21: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: sem-pendencias (fixture identificada)
+00:02 +22: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: perfil de leitura não recebe ações de alteração habilitadas
+00:02 +23: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: perfil de leitura não recebe ações de alteração habilitadas
+00:02 +24: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: offline (fixture identificada)
+00:02 +25: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: 320px, texto 200%, rolagem: solicitacao
+00:02 +26: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: 320px, texto 200%, rolagem: solicitacao
+00:02 +27: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: carregando (fixture identificada)
+00:02 +28: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: 320px, texto 200%, rolagem: primeiro-acesso
+00:02 +29: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:02 +30: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:03 +31: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:03 +32: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:03 +33: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:03 +34: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: 320px, texto 200%, rolagem: erro
+00:03 +35: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: alvos e rótulos acessíveis
+00:03 +36: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: alvos e rótulos acessíveis
+00:03 +37: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: layout estreito e texto em 200% sem overflow
+00:03 +38: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: (tearDownAll)
+00:03 +38: All tests passed!
