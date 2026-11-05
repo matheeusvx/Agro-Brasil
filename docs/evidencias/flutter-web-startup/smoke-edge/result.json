@@ -1,0 +1,154 @@
+{
+  "verifiedAt": "2026-11-05T16:55:19.146Z",
+  "browser": "156.0.4314.58",
+  "executable": "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+  "mode": "ISOLATED_FICTITIOUS_DATABASE",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "loginRendered": true,
+  "authenticationVerified": true,
+  "producerHomeRendered": true,
+  "weather": {
+    "status": "unavailable",
+    "reason": "NOT_CONFIGURED",
+    "message": "Clima indisponível"
+  },
+  "reloadVerified": true,
+  "externalRequestsBlockedByTest": true,
+  "errors": [],
+  "failedRequests": [],
+  "responses": [
+    {
+      "url": "http://127.0.0.1:52156/mobile/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/flutter_bootstrap.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/canvaskit/chromium/canvaskit.wasm",
+      "status": 200,
+      "type": "application/wasm"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/favicon.svg",
+      "status": 200,
+      "type": "image/svg+xml"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/canvaskit/chromium/canvaskit.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/main.dart.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/assets/FontManifest.json",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/assets/fonts/MaterialIcons-Regular.otf",
+      "status": 200,
+      "type": "font/otf"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/assets/assets/fonts/roboto-regular.ttf",
+      "status": 200,
+      "type": "font/ttf"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/assets/assets/fonts/roboto-bold.ttf",
+      "status": 200,
+      "type": "font/ttf"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+      "status": 200,
+      "type": "font/ttf"
+    },
+    {
+      "url": "http://127.0.0.1:52156/api/v1/me",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/api/v1/catalog",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/api/v1/producer-home?propertyId=615d2c55-a716-4256-8906-ad66efe24608",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/api/v1/properties/615d2c55-a716-4256-8906-ad66efe24608/weather",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/flutter_bootstrap.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/canvaskit/chromium/canvaskit.wasm",
+      "status": 200,
+      "type": "application/wasm"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/canvaskit/chromium/canvaskit.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/favicon.svg",
+      "status": 200,
+      "type": "image/svg+xml"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/main.dart.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/assets/FontManifest.json",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/assets/fonts/MaterialIcons-Regular.otf",
+      "status": 200,
+      "type": "font/otf"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/assets/assets/fonts/roboto-regular.ttf",
+      "status": 200,
+      "type": "font/ttf"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/assets/assets/fonts/roboto-bold.ttf",
+      "status": 200,
+      "type": "font/ttf"
+    },
+    {
+      "url": "http://127.0.0.1:52156/mobile/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+      "status": 200,
+      "type": "font/ttf"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ import { commerceRouter, lotView } from './commerce.mjs';
 import { producerHomeRouter, propertyView } from './producer-home.mjs';
 import { weatherProvider } from './weather.mjs';
 
-export function createApp(db, { demoAuthEnabled = false, weather = weatherProvider() } = {}) {
+export function createApp(db, { demoAuthEnabled = false, weather = weatherProvider({ locationStore: db.collection('weatherLocations') }) } = {}) {
   const app = express();
   app.disable('x-powered-by');
   app.use((_req, res, next) => {

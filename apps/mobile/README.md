@@ -27,10 +27,13 @@ O cache SharedPreferences guarda somente catálogo e snapshot da home por origem
 
 ## Clima
 
-`GET /properties/:id/weather` é um proxy autenticado; usa somente coordenadas cadastradas naquela propriedade e pertencentes à organização. O app não recebe chave ou escolhe coordenadas do provedor. Chave ausente, integração desligada, coordenadas ausentes, falha ou dado meteorológico antigo resultam em `unavailable`. O cadastro atual tem município/UF, mas não coordenadas verificadas; geocodificação automática e edição de propriedades estão pendentes. Por isso a demonstração real apresenta **Clima indisponível**.
+O endpoint autenticado `GET /properties/:id/weather` prioriza coordenadas da propriedade com `verified: true` e `consent: true`. Sem elas, resolve município/UF/BR com OpenWeather Geocoding, validando nome, país e estado. Resultados ambíguos são recusados. A referência municipal é identificada como aproximada e persiste no MongoDB por 30 dias, inclusive entre reinícios. Não há uso automático do GPS.
 
-OpenWeather Current Weather exige chave e plano com acesso ao produto. A documentação e as condições de acesso foram consultadas em 05/11/2026: [documentação](https://openweathermap.org/api/current), [planos](https://openweathermap.org/price), [FAQ/atribuição](https://openweathermap.org/faq). Não foi criada conta, contratada assinatura ou realizada consulta meteorológica real. Antes de ativar, confirmar a chave/plano, atribuição/licença e cadastrar coordenadas autorizadas. Variáveis somente no backend: `WEATHER_ENABLED=true`, `OPENWEATHER_API_KEY`. Cache de observação por dez minutos; timeout de quatro segundos; dados com mais de duas horas são recusados. O resumo exibe fonte/horário, temperatura e umidade **do ar**, sem inferir irrigação ou umidade do solo.
+Configuração exclusivamente no backend: `WEATHER_ENABLED=true` e `OPENWEATHER_API_KEY` no `.env` ignorado pelo Git; depois reiniciar a API. Não colocar chave no Dart, assets, URLs do aplicativo ou logs. Sem chave a integração continua desabilitada. Cadastro e verificação de coordenadas ainda não possuem interface.
 
+Cache de até dez minutos, limitado à validade da observação (duas horas), timeout de quatro segundos por chamada e orçamento de 50 chamadas upstream/minuto por processo (inclui geocodificação). Ajustar o construtor conforme quota do plano; não é limitador distribuído. O resumo exibe localidade, temperatura, condição, horário e atribuição com logo/link oficiais. Offline apresenta a cópia salva explicitamente como não atual. Umidade do ar permanece no contrato, sem inferir solo ou irrigação. Não há previsão de chuva nesta etapa.
+
+Não havia chave configurada nesta execução: consulta meteorológica real e captura com dados do provedor permanecem pendentes. [Relatório e logs](../../docs/evidencias/openweather/relatorio.md). Documentação: [Current Weather](https://openweathermap.org/api/current), [Geocoding](https://openweathermap.org/api/geocoding-api), [atribuição](https://openweathermap.org/faq). Confirmar produtos, quota e licença da conta antes de ativar.
 ## Demonstração e testes
 
 Capturas reais do renderer Flutter, com fixtures identificadas: [oito estados](../../docs/evidencias/mobile/README.md). Fixtures nunca são inseridas no MongoDB. Galeria opcional, exclusivamente demonstrativa e sem gravações:
@@ -48,3 +51,7 @@ Os testes cobrem navegação, oito estados, snapshot offline, isolamento do cach
 Três dashboards territoriais, análises hídricas, alertas preditivos, indicador de benefício social completo, QR Code, autenticação de produção, aplicativo dos outros três públicos e telas avançadas. Prazo Flutter informado: 19/11/2026 23h55, America/Sao_Paulo. Esta home não encerra a entrega acadêmica inteira.
 
 O backend demo vincula-se a loopback por segurança. Emulador/dispositivo requer configuração específica; não mudar bind nem expor tokens demo para atender ao dispositivo. Definir identidade e acesso adequados antes da integração fora da máquina.
+
+## Validação de inicialização no navegador
+
+Da raiz: `npm.cmd run build:mobile` e `npm.cmd run test:mobile:smoke`. O primeiro comando fixa o build sem CDN; o segundo inicia servidor Express real e MongoDB isolado, usa navegador Chromium instalado e verifica autenticação/home renderizadas, com rede externa bloqueada. O smoke falha diante de erro JavaScript, CSP, recurso ausente ou falha de renderização. Detalhes e modo `--existing`: README da raiz. Não basta executar apenas testes de widgets para validar a entrega web.

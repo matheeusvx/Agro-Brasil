@@ -1,0 +1,12 @@
+{
+  "verifiedAt": "2026-11-05T16:42:14.284Z",
+  "enabled": false,
+  "keyConfigured": false,
+  "realProviderConsultation": false,
+  "reason": "OPENWEATHER_API_KEY_NOT_CONFIGURED",
+  "result": {
+    "status": "unavailable",
+    "reason": "NOT_CONFIGURED",
+    "message": "Clima indisponível"
+  }
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'data.dart';
 import 'design.dart';
@@ -765,7 +766,7 @@ class WeatherSummary extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    if (weather['status'] != 'available' || offline) {
+    if (weather['status'] != 'available') {
       return const Row(
         children: [
           Icon(Icons.cloud_off_outlined, size: 16, color: AgroDesign.muted),
@@ -798,16 +799,68 @@ class WeatherSummary extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
+                  '${weather['locality']?['municipality'] ?? 'Localidade cadastrada'}${weather['locality']?['uf'] == null ? '' : '/${weather['locality']['uf']}'}${weather['locality']?['approximate'] == true ? ' · referência aproximada' : ''}',
+                  style: AgroDesign.caption,
+                ),
+                Text(
                   '${(weather['temperatureC'] as num).round()} °C · ${weather['description']}',
                   style: AgroDesign.body,
                 ),
+                if (offline)
+                  const Text(
+                    'Salvo offline · não é uma observação atual',
+                    style: AgroDesign.caption,
+                  ),
                 Text(
-                  'Umidade do ar: ${weather['humidityPercent']}% · ${dateLabel(weather['observedAt'])}',
+                  'Observação: ${dateLabel(weather['observedAt'])}',
                   style: AgroDesign.caption,
                 ),
-                const Text(
-                  'Fonte: OpenWeather · openweathermap.org',
-                  style: AgroDesign.caption,
+                TextButton(
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: const Size(48, 48),
+                    alignment: Alignment.centerLeft,
+                  ),
+                  onPressed: () async {
+                    try {
+                      final opened = await launchUrl(
+                        Uri.https('openweathermap.org', '/'),
+                        mode: LaunchMode.externalApplication,
+                      );
+                      if (!opened && context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Fonte: https://openweathermap.org/'),
+                          ),
+                        );
+                      }
+                    } on Object {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Fonte: https://openweathermap.org/'),
+                          ),
+                        );
+                      }
+                    }
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Image.asset(
+                        'assets/weather/openweather.png',
+                        width: 85,
+                        semanticLabel: 'OpenWeather',
+                      ),
+                      const Text(
+                        'Dados meteorológicos fornecidos pela OpenWeather',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

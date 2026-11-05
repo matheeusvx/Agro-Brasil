@@ -95,3 +95,11 @@ Sem credenciais no repositório: `.env`, `.data`, `.cache` e `node_modules` são
 ## Redesign da home
 
 A home do pequeno produtor rural possui estados de primeiro acesso, pendências, erro e consulta offline. Veja [Design System](docs/design/design-system.md), [auditoria](docs/design/auditoria-home.md) e [comparação antes/depois](docs/design/comparacao.md). A skill de apoio à autoria é local e não é distribuída neste repositório.
+
+## Build e smoke test do Flutter Web
+
+Na raiz, use `npm.cmd run build:mobile`: mantém `/mobile/` e inclui CanvasKit local com `--no-web-resources-cdn`, compatível com a CSP restrita à própria origem. A instalação do Flutter precisa estar no PATH. O build gerado continua ignorado pelo Git.
+
+Depois execute `npm.cmd run test:mobile:smoke`. O teste usa playwright-core e Edge/Chrome instalado, inicia Express e MongoDB isolados e verifica renderização, login, home, reload, fontes e WebAssembly com acessos externos bloqueados. Não precisa da API da porta 3000 nem de chave meteorológica. Para outro Chromium, configure `SMOKE_BROWSER_PATH`. Evidências padrão ficam em `.data/mobile-smoke`; `SMOKE_EVIDENCE_DIR` permite escolher outra pasta.
+
+Para validar a API demonstrativa já ativa na porta 3000: `npm.cmd run test:mobile:smoke -- --existing`; exige `.data/demo-sessions.json` com sessão válida. Tokens não são registrados. [Diagnóstico e capturas](docs/evidencias/flutter-web-startup/relatorio.md).

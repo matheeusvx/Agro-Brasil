@@ -53,3 +53,9 @@ LEITOR nunca altera. ADMIN gerencia apenas a própria organização; não é adm
 ## Armazenamento atual
 
 Coleções da base: `users`, `organizations`, `memberships`, `properties`, `crops`, `demoTokens`, `productions`. Segundo incremento: `offers`, `orders`, `traceEvents`, `commands`. `productions.lot.events` preserva somente o evento inicial. `demoTokens` guarda hash e expiração; não compõe autenticação de produção. Novos índices únicos limitam uma oferta por lote, uma remessa por ID e um evento por operação/tipo. Validadores MongoDB para escrita fora da API permanecem pendentes; alterações diretas no banco não são protegidas pelas regras do serviço.
+
+## Referência meteorológica complementar
+
+Propriedade: município/UF já existentes; `coordinates` opcional `{latitude, longitude, verified, consent}`. Usar posição precisa apenas com ambos os flags verdadeiros e coordenadas numéricas nos intervalos [-90,90]/[-180,180]. Verificação e consentimento precisam ser obtidos por processo autorizado; não inferir de coordenadas legadas. Não foi criado endpoint de edição.
+
+Coleção `weatherLocations`: `_id` SHA-256 de propriedade/organização/município normalizado/UF; `location` com latitude, longitude, `source: OpenWeather Geocoding`, `precision: municipality`, `approximate: true`; município, UF, `resolvedAt` ISO e `expiresAt` epoch ms. Upsert de um documento; validade de 30 dias conferida pelo adaptador. Falhas ambíguas/sem resultado ficam 24h com `reason` e sem localização. Troca de município/UF altera a identidade. Expiração lógica, sem TTL ou limpeza automática nesta versão. Não guarda chave nem observações; cache de condições em memória limitado a 256 escopos.

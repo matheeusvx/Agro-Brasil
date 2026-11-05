@@ -16,6 +16,14 @@ class SwitchRepository extends DemoRepository {
     if (failure >= 0) {
       return Future.error(ApiFailure(failure, 'falha de teste'));
     }
+    if (path.endsWith('/weather')) {
+      return Future.value({
+        'status': 'available',
+        'temperatureC': 21,
+        'observedAt': '2026-11-05T12:00:00Z',
+        'description': 'fixture de teste',
+      });
+    }
     return super.read(path);
   }
 }
@@ -55,6 +63,8 @@ void main() {
       expect(controller.offline, true);
       expect(controller.canWrite, false);
       expect(controller.home, isNotNull);
+      expect(controller.home!['weather']['temperatureC'], 21);
+      expect(controller.home!['weather']['observedAt'], '2026-11-05T12:00:00Z');
       await controller.load('outra-propriedade');
       expect(controller.home, isNull);
       expect(controller.error, isNotNull);

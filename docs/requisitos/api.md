@@ -41,7 +41,7 @@ Listagem: `{ data: [...], pagination: { total, limit, offset } }`. Indicadores: 
 
 `GET /producer-home?propertyId=<UUID>` exige organização de pequeno produtor rural e propriedade ativa dessa organização. Retorna `property`, `hasProductions`, `pending` (até duas, SOLICITADO antes de ACEITO antes de RETIRADO), `recentLots` (até dois por última movimentação), `canWrite`, `isDemonstration`, `fetchedAt`. Não retorna agregados analíticos nem agenda de coleta. Propriedade alheia retorna 404.
 
-`GET /catalog` inclui município/UF nas propriedades autorizadas, sem alterar id/name existentes. `GET /properties/:id/weather` verifica a mesma propriedade e retorna `{status:'unavailable',reason,message}` ou observação com fonte, atribuição, horário, temperatura e umidade do ar. Apenas coordenadas cadastradas no backend são usadas. Chave, URL autenticada e erros do provedor não são retornados. Falha climática não fabrica dados nem impede o uso da home. Sem configuração válida: indisponível. Cadastro/verificação de coordenadas e credenciais permanecem pendentes.
+`GET /catalog` inclui município/UF nas propriedades autorizadas, sem alterar id/name existentes. O endpoint meteorológico mantém a autorização pela organização. Consulte o contrato OpenWeather atualizado ao final deste documento.
 
 ## Comércio e logística implementados — segundo incremento
 
@@ -74,3 +74,14 @@ Formato atual: `{ "error": { "code": "INVALID_INPUT", "message": "Descrição co
 400 entrada/referência/paginação/JSON/chave inválidos; 401 identidade ausente, inválida ou expirada; 403 vínculo/papel/tipo não permitido; 404 recurso não acessível; 409 conflito de saldo, estado ou idempotência; 413 corpo grande; 500 falha interna sem stack/URI; 503 identidade não configurada ou TRANSACTIONS_REQUIRED em MongoDB standalone. Não há fallback para falsa atomicidade.
 
 Sem autenticação demo habilitada, a API protegida falha fechada com 503. Cadastro de usuários e login de produção não são endpoints desta entrega.
+
+## OpenWeather — contrato atualizado
+
+`GET /api/v1/properties/:id/weather` conserva autenticação/autorização por organização. Resposta direta, sem envelope data:
+
+- Indisponível: `{status: "unavailable", reason, message: "Clima indisponível"}`.
+- Disponível: `{status: "available", source: "OpenWeather", attributionUrl: "https://openweathermap.org/", temperatureC, humidityPercent, description, observedAt, fetchedAt, cached, locality: {municipality, uf, source, precision, approximate}, limitation}`.
+
+Datas ISO UTC, temperatura °C, umidade relativa do ar em %. `precision`: property ou municipality; município geocodificado sempre aproximado. Chave e coordenadas não são retornadas. Não há previsão de chuva.
+
+Razões: NOT_CONFIGURED, PROPERTY_LOCALITY_REQUIRED, INVALID_PROPERTY_COORDINATES, AMBIGUOUS_LOCALITY, LOCALITY_NOT_FOUND, INVALID_GEOCODING_RESPONSE, INVALID_OBSERVATION, TIMEOUT, RATE_LIMITED, PROVIDER_UNAVAILABLE. Falhas climáticas retornam HTTP 200 indisponível; autorização conserva 401/403/404. Esta seção substitui a descrição anterior sobre uso exclusivo de coordenadas cadastradas. [Detalhes](../evidencias/openweather/relatorio.md).

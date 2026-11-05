@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "description": "Fundação acadêmica do Agro+ Brasil — CitizenTech FIAP 2026.2",
-  "engines": { "node": ">=22.19.0" },
+  "engines": {
+    "node": ">=22.19.0"
+  },
   "scripts": {
     "start": "node --env-file-if-exists=.env services/api/src/server.mjs",
     "dev": "node --env-file-if-exists=.env --watch services/api/src/server.mjs",
@@ -14,8 +16,16 @@
     "test:integration": "node --env-file-if-exists=.env --test --test-concurrency=1 services/api/test/integration.test.mjs services/api/test/commerce.test.mjs",
     "check": "node scripts/check.mjs",
     "verify:demo": "node --env-file-if-exists=.env scripts/verify-demo.mjs",
-    "verify:commerce": "node --env-file-if-exists=.env scripts/verify-commerce-demo.mjs"
+    "verify:commerce": "node --env-file-if-exists=.env scripts/verify-commerce-demo.mjs",
+    "build:mobile": "node scripts/build-mobile.mjs",
+    "test:mobile:smoke": "node scripts/smoke-mobile.mjs"
   },
-  "dependencies": { "express": "^5.1.0", "mongodb": "^6.20.0" },
-  "devDependencies": { "mongodb-memory-server-core": "^10.2.0" }
+  "dependencies": {
+    "express": "^5.1.0",
+    "mongodb": "^6.20.0"
+  },
+  "devDependencies": {
+    "mongodb-memory-server-core": "^10.2.0",
+    "playwright-core": "^1.64.1"
+  }
 }

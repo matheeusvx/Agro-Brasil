@@ -1,0 +1,152 @@
+
+> agro-mais-brasil@0.1.0 test
+> node --test services/api/test/unit.test.mjs services/api/test/weather.test.mjs
+
+TAP version 13
+# Subtest: aceita produção válida e remove espaços de textos
+ok 1 - aceita produção válida e remove espaços de textos
+  ---
+  duration_ms: 2.4003
+  type: 'test'
+  ...
+# Subtest: rejeita massas inválidas, strings e precisão além de grama
+ok 2 - rejeita massas inválidas, strings e precisão além de grama
+  ---
+  duration_ms: 1.159
+  type: 'test'
+  ...
+# Subtest: rejeita data inexistente, futura e datetime no lugar de data
+ok 3 - rejeita data inexistente, futura e datetime no lugar de data
+  ---
+  duration_ms: 0.3432
+  type: 'test'
+  ...
+# Subtest: exige município, UF válida e confirmação explícita de origem
+ok 4 - exige município, UF válida e confirmação explícita de origem
+  ---
+  duration_ms: 0.3222
+  type: 'test'
+  ...
+# Subtest: rejeita tentativa de atribuir organização, responsável ou operadores MongoDB
+ok 5 - rejeita tentativa de atribuir organização, responsável ou operadores MongoDB
+  ---
+  duration_ms: 0.2303
+  type: 'test'
+  ...
+# Subtest: produção, lote e origem possuem IDs distintos e responsáveis definidos pelo contexto
+ok 6 - produção, lote e origem possuem IDs distintos e responsáveis definidos pelo contexto
+  ---
+  duration_ms: 0.4647
+  type: 'test'
+  ...
+# Subtest: sem configuração não chama fonte nem inventa clima
+ok 7 - sem configuração não chama fonte nem inventa clima
+  ---
+  duration_ms: 1.1325
+  type: 'test'
+  ...
+# Subtest: sem coordenadas ou município não inventa localização
+ok 8 - sem coordenadas ou município não inventa localização
+  ---
+  duration_ms: 0.4388
+  type: 'test'
+  ...
+# Subtest: usa coordenadas da propriedade, valida resposta e mantém chave no servidor
+ok 9 - usa coordenadas da propriedade, valida resposta e mantém chave no servidor
+  ---
+  duration_ms: 1.9225
+  type: 'test'
+  ...
+# Subtest: erro do provedor retorna indisponível sem chave ou URL
+ok 10 - erro do provedor retorna indisponível sem chave ou URL
+  ---
+  duration_ms: 0.4932
+  type: 'test'
+  ...
+# Subtest: dado antigo ou inválido não se apresenta como clima atual
+ok 11 - dado antigo ou inválido não se apresenta como clima atual
+  ---
+  duration_ms: 0.5675
+  type: 'test'
+  ...
+# Subtest: geocodifica município/UF/BR, persiste aproximação e reutiliza em outra instância
+ok 12 - geocodifica município/UF/BR, persiste aproximação e reutiliza em outra instância
+  ---
+  duration_ms: 3.5025
+  type: 'test'
+  ...
+# Subtest: geocodificação ambígua é recusada e a falha é armazenada
+ok 13 - geocodificação ambígua é recusada e a falha é armazenada
+  ---
+  duration_ms: 0.6946
+  type: 'test'
+  ...
+# Subtest: não aceita cidade homônima de outro estado ou país, nem resultado sem estado
+ok 14 - não aceita cidade homônima de outro estado ou país, nem resultado sem estado
+  ---
+  duration_ms: 1.6462
+  type: 'test'
+  ...
+# Subtest: troca de município muda a consulta, o cache e a localidade retornada
+ok 15 - troca de município muda a consulta, o cache e a localidade retornada
+  ---
+  duration_ms: 1.2518
+  type: 'test'
+  ...
+# Subtest: coordenadas verificadas e consentidas têm precedência; coordenada inválida é recusada
+ok 16 - coordenadas verificadas e consentidas têm precedência; coordenada inválida é recusada
+  ---
+  duration_ms: 0.7273
+  type: 'test'
+  ...
+# Subtest: sem consentimento/verificação usa apenas a referência municipal, sem GPS automático
+ok 17 - sem consentimento/verificação usa apenas a referência municipal, sem GPS automático
+  ---
+  duration_ms: 0.3928
+  type: 'test'
+  ...
+# Subtest: timeout e rate limit têm falhas sanitizadas e cooldown
+ok 18 - timeout e rate limit têm falhas sanitizadas e cooldown
+  ---
+  duration_ms: 0.3757
+  type: 'test'
+  ...
+# Subtest: limite local impede consumo acima do orçamento por minuto
+ok 19 - limite local impede consumo acima do orçamento por minuto
+  ---
+  duration_ms: 0.2612
+  type: 'test'
+  ...
+# Subtest: cache não mantém observação expirada e deduplica chamadas simultâneas
+ok 20 - cache não mantém observação expirada e deduplica chamadas simultâneas
+  ---
+  duration_ms: 0.3683
+  type: 'test'
+  ...
+# Subtest: resposta meteorológica inválida não gera observação
+ok 21 - resposta meteorológica inválida não gera observação
+  ---
+  duration_ms: 0.5253
+  type: 'test'
+  ...
+# Subtest: habilitado sem chave não consulta o provedor
+ok 22 - habilitado sem chave não consulta o provedor
+  ---
+  duration_ms: 0.1103
+  type: 'test'
+  ...
+# Subtest: timeout cancela efetivamente o fetch pelo AbortSignal
+ok 23 - timeout cancela efetivamente o fetch pelo AbortSignal
+  ---
+  duration_ms: 10.2883
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 420.1404

@@ -8,6 +8,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server-core';
 import { connectDatabase } from '../src/database.mjs';
 import { createApp } from '../src/app.mjs';
 import { tokenHash } from '../src/auth.mjs';
+import { weatherProvider } from '../src/weather.mjs';
 
 // Sem mocks de persistência: processo mongod real, base exclusiva por execução.
 test('fluxo HTTP, persistência MongoDB e isolamento entre organizações', { timeout: 240000 }, async t => {
@@ -21,6 +22,20 @@ test('fluxo HTTP, persistência MongoDB e isolamento entre organizações', { ti
     const token = randomBytes(32).toString('base64url');
     const otherToken = randomBytes(32).toString('base64url');
     const db = connection.db;
+    await t.test('referência meteorológica municipal persiste entre instâncias do adaptador', async () => {
+      let geocodingCalls = 0;
+      const options = { enabled: true, apiKey: 'fixture-key', locationStore: db.collection('weatherLocations'), fetcher: async url => {
+        if (url.pathname.includes('/geo/')) { geocodingCalls++; return { ok:true, json:async()=>[{name:'São Paulo',state:'São Paulo',country:'BR',lat:-23.55,lon:-46.63}] }; }
+        return { ok:true, json:async()=>({dt:Math.floor(Date.now()/1000),main:{temp:23,humidity:70},weather:[{description:'fixture de teste'}],sys:{country:'BR'}}) };
+      } };
+      const property = { _id:ids.property,organizationId:ids.org,municipality:'São Paulo',uf:'SP' };
+      assert.equal((await weatherProvider(options)(property)).status,'available');
+      assert.equal((await weatherProvider(options)(property)).status,'available');
+      assert.equal(geocodingCalls,1);
+      const saved = await db.collection('weatherLocations').findOne({municipality:'São Paulo'});
+      assert.equal(saved.location.precision,'municipality'); assert.equal(saved.location.approximate,true);
+      assert.equal(JSON.stringify(saved).includes('fixture-key'),false);
+    });
     await db.collection('users').insertMany([{ _id: ids.user, status: 'ATIVO' }, { _id: ids.otherUser, status: 'ATIVO' }]);
     await db.collection('organizations').insertMany([{ _id: ids.org, type: 'PEQUENO_PRODUTOR_RURAL', status: 'ATIVA' }, { _id: ids.otherOrg, type: 'PEQUENO_PRODUTOR_RURAL', status: 'ATIVA' }, { _id: ids.institution, type: 'INSTITUICAO', status: 'ATIVA' }]);
     await db.collection('memberships').insertMany([{ userId: ids.user, organizationId: ids.org, role: 'ADMIN', status: 'ATIVO' }, { userId: ids.otherUser, organizationId: ids.otherOrg, role: 'ADMIN', status: 'ATIVO' }, { userId: ids.user, organizationId: ids.institution, role: 'ADMIN', status: 'ATIVO' }]);
