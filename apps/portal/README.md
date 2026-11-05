@@ -46,10 +46,12 @@ Relatórios e screenshots: `docs/design/portal/`. Decisões e contratos: `arquit
 ## Limites do incremento
 
 - Espaço funcional do pequeno produtor; os demais públicos precisam de fluxos próprios.
-- Ofertas, Pedidos e Rastreabilidade completos são próximos incrementos. A home permite consulta do pedido prioritário e Produção mostra os eventos do lote.
+- Ofertas possui listagem, criação e publicação em `/ofertas`; [contratos, motion e evidências](../../docs/design/portal/ofertas.md). Pedidos e Rastreabilidade completos são próximos incrementos. A home permite consulta do pedido prioritário e Produção mostra os eventos do lote.
 - Sem edição de produção: o contrato existente oferece criação e consulta.
 - Gráficos agregam os registros autorizados da propriedade, sem inventar séries históricas, finanças ou impacto.
 - Clima depende da configuração existente no backend. Ausência não é substituída por dados fictícios.
 - Até 10 mil registros por consulta paginada. Acima disso, erro explícito; agregação no servidor pode ser proposta futuramente.
 
 Fontes e assets locais mantêm os respectivos avisos de licença em `public/`. Referências visuais não são distribuídas como assets do portal. Não há dependência da stack de demonstração stageshow.
+
+Para testar Ofertas em banco isolado, depois do build: `node scripts/smoke-portal.mjs --offers` na raiz. Inclui perda de resposta e replay de criação/publicação, permissões, validações, paginação, filtros, acessibilidade e redução de movimento.

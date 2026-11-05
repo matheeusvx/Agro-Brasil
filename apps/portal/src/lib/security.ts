@@ -7,7 +7,9 @@ export function allowedProxyPath(endpoint: string, method: string) {
   const allowed = new RegExp(
     "^/(catalog|producer-home|productions(?:/" +
       uuid +
-      ")?|orders|offers|properties/" +
+      ")?|orders|offers(?:/" +
+      uuid +
+      "/publish)?|properties/" +
       uuid +
       "/weather|lots/" +
       uuid +
@@ -16,6 +18,10 @@ export function allowedProxyPath(endpoint: string, method: string) {
   );
   return (
     allowed.test(endpoint) &&
-    (method === "GET" || (method === "POST" && endpoint === "/productions"))
+    ((method === "GET" && !endpoint.endsWith("/publish")) ||
+      (method === "POST" &&
+        (endpoint === "/productions" ||
+          endpoint === "/offers" ||
+          new RegExp("^/offers/" + uuid + "/publish$", "i").test(endpoint))))
   );
 }

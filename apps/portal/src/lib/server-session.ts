@@ -26,18 +26,12 @@ const local = isLoopback;
 export function localGate(req: NextRequest) {
   const publicUrl = new URL(req.url);
   publicUrl.host = req.headers.get("host") ?? publicUrl.host;
-  if (
-    process.env.PORTAL_DEMO_ENABLED !== "true" ||
-    !local(publicUrl.hostname)
-  )
+  if (process.env.PORTAL_DEMO_ENABLED !== "true" || !local(publicUrl.hostname))
     throw new Error("LOCAL_ONLY");
   const forwarded = req.headers.get("x-forwarded-host");
   if (forwarded && !local(new URL("http://" + forwarded).hostname))
     throw new Error("LOCAL_ONLY");
-  if (
-    req.method !== "GET" &&
-    req.headers.get("origin") !== publicUrl.origin
-  )
+  if (req.method !== "GET" && req.headers.get("origin") !== publicUrl.origin)
     throw new Error("ORIGIN");
 }
 export function apiBase() {
@@ -56,6 +50,7 @@ export async function backend(
   token: string,
   organization?: string,
   body?: string,
+  idempotencyKey?: string,
 ) {
   return fetch(apiBase() + "/api/v1" + path, {
     method: body === undefined ? "GET" : "POST",
@@ -64,6 +59,7 @@ export async function backend(
     signal: AbortSignal.timeout(15000),
     headers: {
       Authorization: "Bearer " + token,
+      ...(idempotencyKey ? { "Idempotency-Key": idempotencyKey } : {}),
       ...(organization ? { "X-Organization-Id": organization } : {}),
       ...(body !== undefined ? { "Content-Type": "application/json" } : {}),
     },

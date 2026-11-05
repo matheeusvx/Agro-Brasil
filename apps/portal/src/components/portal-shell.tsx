@@ -38,6 +38,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
   const links = [
     { href: "/visao-geral", label: "Visão geral", icon: LayoutDashboard },
     { href: "/producao", label: "Produção", icon: Sprout },
+    { href: "/ofertas", label: "Ofertas", icon: Tags },
   ];
   return (
     <div className={"portal-frame " + (collapsed ? "is-collapsed" : "")}>
@@ -83,7 +84,6 @@ export function PortalShell({ children }: { children: ReactNode }) {
             <p className="sidebar-section mt-7">PRÓXIMOS ESPAÇOS</p>
           )}
           {[
-            { label: "Ofertas", icon: Tags },
             { label: "Pedidos", icon: PackageCheck },
             { label: "Rastreabilidade", icon: Route },
           ].map(({ label, icon: Icon }) => (
@@ -112,7 +112,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
             <Settings2 size={18} />
             {!collapsed && <span>Perfil e configurações</span>}
           </Link>
-          
+
           <button
             className="nav-item"
             onClick={() =>
@@ -153,9 +153,11 @@ export function PortalShell({ children }: { children: ReactNode }) {
               <strong>
                 {path === "/producao"
                   ? "Produção"
-                  : path === "/perfil"
-                    ? "Perfil"
-                    : "Visão geral"}
+                  : path === "/ofertas"
+                    ? "Ofertas"
+                    : path === "/perfil"
+                      ? "Perfil"
+                      : "Visão geral"}
               </strong>
             </div>
           </div>
@@ -214,7 +216,6 @@ export function PortalShell({ children }: { children: ReactNode }) {
         <main id="main" tabIndex={-1} className="main-content">
           {children}
         </main>
-        
       </div>
     </div>
   );

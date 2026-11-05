@@ -344,370 +344,395 @@ try {
     });
     result.screenshots.push(name + ".png");
   }
-  for (const [width, height] of [
-    [1440, 900],
-    [1366, 768],
-    [1024, 768],
-  ]) {
-    await page.setViewportSize({ width, height });
-    await page.waitForTimeout(300);
-    await capture("home-" + width);
-    assert.equal(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth > innerWidth,
-      ),
-      false,
-    );
-  }
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await audit("home");
-  await page.screenshot({
-    path: resolve(directory, "home-completa.png"),
-    fullPage: true,
-    animations: "disabled",
-  });
-  result.screenshots.push("home-completa.png");
-  await page.getByRole("button", { name: "Recolher menu lateral" }).click();
-  await page.waitForTimeout(250);
-  const contextBounds = await page.locator(".context-controls").boundingBox();
-  assert.ok(
-    contextBounds &&
-      contextBounds.x >= 0 &&
-      contextBounds.x + contextBounds.width <= 1440,
-    "Contexto deve continuar no viewport ao recolher menu",
-  );
-  assert.equal(
-    await page.evaluate(
-      () => document.documentElement.scrollWidth > innerWidth,
-    ),
-    false,
-  );
-  result.sidebarContextBounds = contextBounds;
-  await page.evaluate(() => window.scrollTo(0, 0));
-  await page.waitForTimeout(150);
-  await capture("sidebar-recolhida");
-  await page.getByRole("button", { name: "Expandir menu lateral" }).click();
-  await page.getByRole("button", { name: /Tomate.*kg/ }).hover();
-  await page.getByRole("button", { name: /Tomate.*kg/ }).click();
-  await page.getByLabel("Distribuição da produção").scrollIntoViewIfNeeded();
-  await capture("graficos");
-  for (const [label, name] of [
-    ["Distribuição da produção", "grafico-barras"],
-    ["Distribuição dos pedidos", "grafico-rosca"],
-  ]) {
-    await page.getByLabel(label, { exact: true }).screenshot({
-      path: resolve(directory, name + ".png"),
+  if (process.argv.includes("--offers")) {
+    const { runOffers } = await import("./portal-offers-browser.mjs");
+    await runOffers({
+      page,
+      context,
+      db,
+      ids,
+      productions,
+      crops,
+      base,
+      capture,
+      audit,
+      result,
+    });
+  } else {
+    for (const [width, height] of [
+      [1440, 900],
+      [1366, 768],
+      [1024, 768],
+    ]) {
+      await page.setViewportSize({ width, height });
+      await page.waitForTimeout(300);
+      await capture("home-" + width);
+      assert.equal(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth > innerWidth,
+        ),
+        false,
+      );
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await audit("home");
+    await page.screenshot({
+      path: resolve(directory, "home-completa.png"),
+      fullPage: true,
       animations: "disabled",
     });
-    result.screenshots.push(name + ".png");
-  }
-  await page.locator(".recharts-bar-rectangle").nth(1).hover();
-  await page
-    .locator(".recharts-tooltip-wrapper")
-    .first()
-    .waitFor({ state: "visible" });
-  await capture("tooltip-barras");
-  const ring = await page.locator(".donut-canvas").boundingBox();
-  await page.mouse.move(ring.x + ring.width / 2 + 73, ring.y + ring.height / 2);
-  await page
-    .locator(".recharts-tooltip-wrapper")
-    .nth(1)
-    .waitFor({ state: "visible" });
-  await capture("tooltip-rosca");
-  await page.getByRole("button", { name: "Consultar pedido" }).click();
-  await page
-    .getByRole("heading", { name: "Detalhes da solicitação" })
-    .waitFor();
-  await capture("pedido-prioritario");
-  await page.keyboard.press("Escape");
-  await page.getByRole("link", { name: "Produção", exact: true }).click();
-  await page.getByRole("heading", { name: "Minha produção" }).waitFor();
-  await capture("producao");
-  await audit("producao");
-  for (const width of [1366, 1024]) {
-    await page.setViewportSize({ width, height: 768 });
-    await capture("producao-" + width);
+    result.screenshots.push("home-completa.png");
+    await page.getByRole("button", { name: "Recolher menu lateral" }).click();
+    await page.waitForTimeout(250);
+    const contextBounds = await page.locator(".context-controls").boundingBox();
+    assert.ok(
+      contextBounds &&
+        contextBounds.x >= 0 &&
+        contextBounds.x + contextBounds.width <= 1440,
+      "Contexto deve continuar no viewport ao recolher menu",
+    );
     assert.equal(
       await page.evaluate(
         () => document.documentElement.scrollWidth > innerWidth,
       ),
       false,
     );
-  }
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.getByRole("button", { name: "Próxima página" }).click();
-  assert.equal(await page.locator("tbody tr").count(), 1);
-  await page.getByRole("button", { name: "Página anterior" }).click();
-  assert.equal(await page.locator("tbody tr").count(), 8);
-  await page.getByLabel("Selecionar registros desta página").check();
-  const downloadPromise = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Exportar seleção" }).click();
-  const download = await downloadPromise;
-  const csv = await readFile(await download.path(), "utf8");
-  assert.equal(csv.split("\r\n").length, 9);
-  assert.ok(csv.includes("Quantidade (kg)"));
-  await page.getByLabel("Selecionar registros desta página").uncheck();
-  await page
-    .getByRole("textbox", { name: "Pesquisar produção" })
-    .fill("Tomate");
-  await page.waitForTimeout(150);
-  assert.equal(await page.locator("tbody tr").count(), 2);
-  await capture("producao-filtrada");
-  await page.getByRole("textbox", { name: "Pesquisar produção" }).fill("");
-  await page.getByLabel("Filtrar por cultura").selectOption(crops[2]._id);
-  assert.equal(await page.locator("tbody tr").count(), 2);
-  await page.getByLabel("Filtrar por cultura").selectOption("");
-  await page
-    .getByRole("button", { name: /Ver detalhes de Alface/ })
-    .first()
-    .click();
-  await page.getByRole("heading", { name: "Detalhes da produção" }).waitFor();
-  await page.getByText("Caminho do lote", { exact: true }).waitFor();
-  await capture("detalhes-lote");
-  await audit("detalhes");
-  await page.keyboard.press("Escape");
-  await page
-    .getByRole("button", { name: "Nova produção", exact: true })
-    .click();
-  await page
-    .getByRole("heading", { name: "Da colheita ao primeiro registro." })
-    .waitFor();
-  await capture("cadastro");
-  await audit("cadastro");
-  for (const width of [1366, 1024]) {
-    await page.setViewportSize({ width, height: 768 });
-    await capture("cadastro-" + width);
-    assert.equal(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth > innerWidth,
-      ),
-      false,
+    result.sidebarContextBounds = contextBounds;
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.waitForTimeout(150);
+    await capture("sidebar-recolhida");
+    await page.getByRole("button", { name: "Expandir menu lateral" }).click();
+    await page.getByRole("button", { name: /Tomate.*kg/ }).hover();
+    await page.getByRole("button", { name: /Tomate.*kg/ }).click();
+    await page.getByLabel("Distribuição da produção").scrollIntoViewIfNeeded();
+    await capture("graficos");
+    for (const [label, name] of [
+      ["Distribuição da produção", "grafico-barras"],
+      ["Distribuição dos pedidos", "grafico-rosca"],
+    ]) {
+      await page.getByLabel(label, { exact: true }).screenshot({
+        path: resolve(directory, name + ".png"),
+        animations: "disabled",
+      });
+      result.screenshots.push(name + ".png");
+    }
+    await page.locator(".recharts-bar-rectangle").nth(1).hover();
+    await page
+      .locator(".recharts-tooltip-wrapper")
+      .first()
+      .waitFor({ state: "visible" });
+    await capture("tooltip-barras");
+    const ring = await page.locator(".donut-canvas").boundingBox();
+    await page.mouse.move(
+      ring.x + ring.width / 2 + 73,
+      ring.y + ring.height / 2,
     );
-    assert.equal(
-      await page
-        .getByRole("button", { name: "Registrar produção", exact: true })
-        .isVisible(),
-      true,
-    );
-  }
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.locator('select[name="cropId"]').selectOption(crops[1]._id);
-  await page.locator('input[name="quantityKg"]').fill("25.75");
-  await page.locator('input[name="seasonLabel"]').fill("Verão 2026/27");
-  await page.locator('input[name="confirmed"]').check();
-  await capture("cadastro-preenchido");
-  await page
-    .getByRole("button", { name: "Registrar produção", exact: true })
-    .click();
-  await page
-    .getByText("Produção registrada. Lote e origem criados juntos.", {
-      exact: true,
-    })
-    .waitFor();
-  assert.equal(
-    await db
-      .collection("productions")
-      .countDocuments({ organizationId: ids.org }),
-    10,
-  );
-  await capture("cadastro-concluido");
-  // Somente os estados de falha são controlados; os registros vêm da API/MongoDB isolados.
-  await page.route("**/api/agro/catalog", (route) =>
-    route.fulfill({
-      status: 503,
-      contentType: "application/json",
-      body: JSON.stringify({
-        error: {
-          message:
-            "Serviço temporariamente indisponível no teste de recuperação.",
-        },
-      }),
-    }),
-  );
-  await page.getByRole("button", { name: "Atualizar dados" }).click();
-  await page
-    .getByRole("heading", { name: "Não foi possível carregar seu espaço." })
-    .waitFor();
-  await capture("erro-recuperavel");
-  await page.unroute("**/api/agro/catalog");
-  await page.route("**/api/agro/catalog", async (route) => {
-    await new Promise((r) => setTimeout(r, 700));
-    await route.continue();
-  });
-  await page.getByRole("button", { name: "Tentar novamente" }).click();
-  await page
-    .getByRole("status", { name: "Carregando espaço de trabalho" })
-    .waitFor();
-  await capture("carregamento");
-  await page.getByRole("heading", { name: "Minha produção" }).waitFor();
-  await page.unroute("**/api/agro/catalog");
-  const requestHeaders = { Origin: base };
-  const invalidContext = await context.request.post(base + "/api/session", {
-    headers: requestHeaders,
-    data: { organizationId: randomUUID() },
-  });
-  assert.equal(invalidContext.status(), 403);
-  const csrf = await context.request.post(base + "/api/agro/productions", {
-    headers: { Origin: "https://example.com" },
-    data: {},
-  });
-  assert.equal(csrf.status(), 403);
-  const forbidden = await context.request.post(base + "/api/agro/orders", {
-    headers: requestHeaders,
-    data: {},
-  });
-  assert.equal(forbidden.status(), 404);
-  await page
-    .getByLabel("Propriedade", { exact: true })
-    .selectOption(ids.secondProperty);
-  await page
-    .getByText("Sua próxima colheita começa aqui.", { exact: true })
-    .waitFor();
-  await capture("producao-vazia");
-  await page.getByLabel("Organização ativa").selectOption(ids.otherOrg);
-  await page
-    .getByText("Sua próxima colheita começa aqui.", { exact: true })
-    .waitFor();
-  assert.equal(
+    await page
+      .locator(".recharts-tooltip-wrapper")
+      .nth(1)
+      .waitFor({ state: "visible" });
+    await capture("tooltip-rosca");
+    await page.getByRole("button", { name: "Consultar pedido" }).click();
+    await page
+      .getByRole("heading", { name: "Detalhes da solicitação" })
+      .waitFor();
+    await capture("pedido-prioritario");
+    await page.keyboard.press("Escape");
+    await page.getByRole("link", { name: "Produção", exact: true }).click();
+    await page.getByRole("heading", { name: "Minha produção" }).waitFor();
+    await capture("producao");
+    await audit("producao");
+    for (const width of [1366, 1024]) {
+      await page.setViewportSize({ width, height: 768 });
+      await capture("producao-" + width);
+      assert.equal(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth > innerWidth,
+        ),
+        false,
+      );
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.getByRole("button", { name: "Próxima página" }).click();
+    assert.equal(await page.locator("tbody tr").count(), 1);
+    await page.getByRole("button", { name: "Página anterior" }).click();
+    assert.equal(await page.locator("tbody tr").count(), 8);
+    await page.getByLabel("Selecionar registros desta página").check();
+    const downloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Exportar seleção" }).click();
+    const download = await downloadPromise;
+    const csv = await readFile(await download.path(), "utf8");
+    assert.equal(csv.split("\r\n").length, 9);
+    assert.ok(csv.includes("Quantidade (kg)"));
+    await page.getByLabel("Selecionar registros desta página").uncheck();
+    await page
+      .getByRole("textbox", { name: "Pesquisar produção" })
+      .fill("Tomate");
+    await page.waitForTimeout(150);
+    assert.equal(await page.locator("tbody tr").count(), 2);
+    await capture("producao-filtrada");
+    await page.getByRole("textbox", { name: "Pesquisar produção" }).fill("");
+    await page.getByLabel("Filtrar por cultura").selectOption(crops[2]._id);
+    assert.equal(await page.locator("tbody tr").count(), 2);
+    await page.getByLabel("Filtrar por cultura").selectOption("");
+    await page
+      .getByRole("button", { name: /Ver detalhes de Alface/ })
+      .first()
+      .click();
+    await page.getByRole("heading", { name: "Detalhes da produção" }).waitFor();
+    await page.getByText("Caminho do lote", { exact: true }).waitFor();
+    await capture("detalhes-lote");
+    await audit("detalhes");
+    await page.keyboard.press("Escape");
     await page
       .getByRole("button", { name: "Nova produção", exact: true })
-      .isDisabled(),
-    true,
-  );
-  await capture("somente-leitura");
-  const denied = await context.request.post(base + "/api/agro/productions", {
-    headers: requestHeaders,
-    data: {
-      propertyId: ids.property,
-      cropId: crops[0]._id,
-      quantityKg: 1,
-      seasonLabel: "Intruso",
-      harvestedOn: "2026-10-01",
-      ...location,
-    },
-  });
-  assert.equal(denied.status(), 403);
-  assert.equal(
+      .click();
+    await page
+      .getByRole("heading", { name: "Da colheita ao primeiro registro." })
+      .waitFor();
+    await capture("cadastro");
+    await audit("cadastro");
+    for (const width of [1366, 1024]) {
+      await page.setViewportSize({ width, height: 768 });
+      await capture("cadastro-" + width);
+      assert.equal(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth > innerWidth,
+        ),
+        false,
+      );
+      assert.equal(
+        await page
+          .getByRole("button", { name: "Registrar produção", exact: true })
+          .isVisible(),
+        true,
+      );
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.locator('select[name="cropId"]').selectOption(crops[1]._id);
+    await page.locator('input[name="quantityKg"]').fill("25.75");
+    await page.locator('input[name="seasonLabel"]').fill("Verão 2026/27");
+    await page.locator('input[name="confirmed"]').check();
+    await capture("cadastro-preenchido");
+    await page
+      .getByRole("button", { name: "Registrar produção", exact: true })
+      .click();
+    await page
+      .getByText("Produção registrada. Lote e origem criados juntos.", {
+        exact: true,
+      })
+      .waitFor();
+    assert.equal(
+      await db
+        .collection("productions")
+        .countDocuments({ organizationId: ids.org }),
+      10,
+    );
+    await capture("cadastro-concluido");
+    // Somente os estados de falha são controlados; os registros vêm da API/MongoDB isolados.
+    await page.route("**/api/agro/catalog", (route) =>
+      route.fulfill({
+        status: 503,
+        contentType: "application/json",
+        body: JSON.stringify({
+          error: {
+            message:
+              "Serviço temporariamente indisponível no teste de recuperação.",
+          },
+        }),
+      }),
+    );
+    await page.getByRole("button", { name: "Atualizar dados" }).click();
+    await page
+      .getByRole("heading", { name: "Não foi possível carregar seu espaço." })
+      .waitFor();
+    await capture("erro-recuperavel");
+    await page.unroute("**/api/agro/catalog");
+    await page.route("**/api/agro/catalog", async (route) => {
+      await new Promise((r) => setTimeout(r, 700));
+      await route.continue();
+    });
+    await page.getByRole("button", { name: "Tentar novamente" }).click();
+    await page
+      .getByRole("status", { name: "Carregando espaço de trabalho" })
+      .waitFor();
+    await capture("carregamento");
+    await page.getByRole("heading", { name: "Minha produção" }).waitFor();
+    await page.unroute("**/api/agro/catalog");
+    const requestHeaders = { Origin: base };
+    const invalidContext = await context.request.post(base + "/api/session", {
+      headers: requestHeaders,
+      data: { organizationId: randomUUID() },
+    });
+    assert.equal(invalidContext.status(), 403);
+    const csrf = await context.request.post(base + "/api/agro/productions", {
+      headers: { Origin: "https://example.com" },
+      data: {},
+    });
+    assert.equal(csrf.status(), 403);
+    const forbidden = await context.request.post(base + "/api/agro/orders", {
+      headers: requestHeaders,
+      data: {},
+    });
+    assert.equal(forbidden.status(), 404);
+    await page
+      .getByLabel("Propriedade", { exact: true })
+      .selectOption(ids.secondProperty);
+    await page
+      .getByText("Sua próxima colheita começa aqui.", { exact: true })
+      .waitFor();
+    await capture("producao-vazia");
+    await page.getByLabel("Organização ativa").selectOption(ids.otherOrg);
+    await page
+      .getByText("Sua próxima colheita começa aqui.", { exact: true })
+      .waitFor();
+    assert.equal(
+      await page
+        .getByRole("button", { name: "Nova produção", exact: true })
+        .isDisabled(),
+      true,
+    );
+    await capture("somente-leitura");
+    const denied = await context.request.post(base + "/api/agro/productions", {
+      headers: requestHeaders,
+      data: {
+        propertyId: ids.property,
+        cropId: crops[0]._id,
+        quantityKg: 1,
+        seasonLabel: "Intruso",
+        harvestedOn: "2026-10-01",
+        ...location,
+      },
+    });
+    assert.equal(denied.status(), 403);
+    assert.equal(
+      await db
+        .collection("productions")
+        .countDocuments({ organizationId: ids.otherOrg }),
+      0,
+    );
+    const crossRead = await context.request.get(
+      base + "/api/agro/productions/" + productions[0].id,
+    );
+    assert.ok([403, 404].includes(crossRead.status()));
+    result.checks.push(
+      "listagem, pesquisa, cultura, drawer/eventos, cadastro persistido, propriedade vazia, troca de organização, LEITOR sem escrita, proxy restrito e CSRF",
+    );
+    await page.waitForTimeout(5000);
+    // Fixture adicional isolada: pedidos encerrados, categoria única e nenhuma pendência.
     await db
-      .collection("productions")
-      .countDocuments({ organizationId: ids.otherOrg }),
-    0,
-  );
-  const crossRead = await context.request.get(
-    base + "/api/agro/productions/" + productions[0].id,
-  );
-  assert.ok([403, 404].includes(crossRead.status()));
-  result.checks.push(
-    "listagem, pesquisa, cultura, drawer/eventos, cadastro persistido, propriedade vazia, troca de organização, LEITOR sem escrita, proxy restrito e CSRF",
-  );
-  await page.waitForTimeout(5000);
-  // Fixture adicional isolada: pedidos encerrados, categoria única e nenhuma pendência.
-  await db
-    .collection("orders")
-    .updateMany({ organizationId: ids.org }, { $set: { status: "RECEBIDO" } });
-  await db
-    .collection("orders")
-    .updateMany({}, { $set: { status: "RECEBIDO" } });
-  await page.getByLabel("Organização ativa").selectOption(ids.org);
-  await page
-    .getByLabel("Propriedade", { exact: true })
-    .selectOption(ids.property);
-  await page.getByRole("link", { name: "Visão geral", exact: true }).click();
-  await page
-    .getByRole("heading", { name: "Tudo em dia por aqui.", exact: true })
-    .waitFor();
-  assert.equal(await page.locator(".priority-panel.clear").count(), 1);
-  assert.equal(
-    await page.locator(".workspace-footer, .organization-note").count(),
-    0,
-  );
-  assert.equal(await page.locator(".donut-legend button").count(), 1);
-  for (const width of [1440, 1366, 1024]) {
-    await page.setViewportSize({ width, height: width === 1440 ? 900 : 768 });
-    await capture("rotina-restaurada-" + width);
-    const box = await page.locator(".priority-panel.clear").boundingBox();
-    const row = await page.locator(".priority-row").boundingBox();
-    const metrics = await page.locator(".metrics-grid").boundingBox();
-    assert.ok(box.width <= 520);
-    assert.ok(box.height <= 120);
-    assert.ok(
-      metrics.y - row.y - row.height >= 16 &&
-        metrics.y - row.y - row.height <= 24,
-    );
+      .collection("orders")
+      .updateMany(
+        { organizationId: ids.org },
+        { $set: { status: "RECEBIDO" } },
+      );
+    await db
+      .collection("orders")
+      .updateMany({}, { $set: { status: "RECEBIDO" } });
+    await page.getByLabel("Organização ativa").selectOption(ids.org);
+    await page
+      .getByLabel("Propriedade", { exact: true })
+      .selectOption(ids.property);
+    await page.getByRole("link", { name: "Visão geral", exact: true }).click();
+    await page
+      .getByRole("heading", { name: "Tudo em dia por aqui.", exact: true })
+      .waitFor();
+    assert.equal(await page.locator(".priority-panel.clear").count(), 1);
     assert.equal(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth > innerWidth,
-      ),
-      false,
+      await page.locator(".workspace-footer, .organization-note").count(),
+      0,
     );
-  }
-  await audit("home-sem-pendencias");
-  assert.equal(
-    await page.getByText("Clima indisponível", { exact: true }).count(),
-    1,
-  );
-  assert.equal(await page.locator(".weather-compact").count(), 0);
-  await capture("clima-indisponivel");
-  weatherEnabledForTest = true;
-  await db
-    .collection("properties")
-    .updateOne(
-      { _id: ids.secondProperty },
-      { $set: { municipality: "Valinhos" } },
-    );
-  await page.getByRole("button", { name: "Atualizar dados" }).click();
-  await page.getByText("23 °C em Campinas", { exact: true }).waitFor();
-  await page
-    .getByText("Referência aproximada do município", { exact: true })
-    .waitFor();
-  for (const width of [1440, 1366, 1024]) {
-    await page.setViewportSize({ width, height: width === 1440 ? 900 : 768 });
-    await capture("clima-saudacao-" + width);
+    assert.equal(await page.locator(".donut-legend button").count(), 1);
+    for (const width of [1440, 1366, 1024]) {
+      await page.setViewportSize({ width, height: width === 1440 ? 900 : 768 });
+      await capture("rotina-restaurada-" + width);
+      const box = await page.locator(".priority-panel.clear").boundingBox();
+      const row = await page.locator(".priority-row").boundingBox();
+      const metrics = await page.locator(".metrics-grid").boundingBox();
+      assert.ok(box.width <= 520);
+      assert.ok(box.height <= 120);
+      assert.ok(
+        metrics.y - row.y - row.height >= 16 &&
+          metrics.y - row.y - row.height <= 24,
+      );
+      assert.equal(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth > innerWidth,
+        ),
+        false,
+      );
+    }
+    await audit("home-sem-pendencias");
     assert.equal(
-      await page.evaluate(
-        () => document.documentElement.scrollWidth > innerWidth,
-      ),
-      false,
+      await page.getByText("Clima indisponível", { exact: true }).count(),
+      1,
     );
-  }
-  await audit("clima-saudacao");
-  await page
-    .getByLabel("Propriedade", { exact: true })
-    .selectOption(ids.secondProperty);
-  await page.getByText("29 °C em Valinhos", { exact: true }).waitFor();
-  assert.equal(
-    await page.getByText("23 °C em Campinas", { exact: true }).count(),
-    0,
-  );
-  await capture("clima-troca-propriedade");
-  result.checks.push(
-    "clima em linha: indisponível, duas temperaturas/cidades controladas, atualização por propriedade, atribuição e rotina preservada",
-  );
+    assert.equal(await page.locator(".weather-compact").count(), 0);
+    await capture("clima-indisponivel");
+    weatherEnabledForTest = true;
+    await db
+      .collection("properties")
+      .updateOne(
+        { _id: ids.secondProperty },
+        { $set: { municipality: "Valinhos" } },
+      );
+    await page.getByRole("button", { name: "Atualizar dados" }).click();
+    await page.getByText("23 °C em Campinas", { exact: true }).waitFor();
+    await page
+      .getByText("Referência aproximada do município", { exact: true })
+      .waitFor();
+    for (const width of [1440, 1366, 1024]) {
+      await page.setViewportSize({ width, height: width === 1440 ? 900 : 768 });
+      await capture("clima-saudacao-" + width);
+      assert.equal(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth > innerWidth,
+        ),
+        false,
+      );
+    }
+    await audit("clima-saudacao");
+    await page
+      .getByLabel("Propriedade", { exact: true })
+      .selectOption(ids.secondProperty);
+    await page.getByText("29 °C em Valinhos", { exact: true }).waitFor();
+    assert.equal(
+      await page.getByText("23 °C em Campinas", { exact: true }).count(),
+      0,
+    );
+    await capture("clima-troca-propriedade");
+    result.checks.push(
+      "clima em linha: indisponível, duas temperaturas/cidades controladas, atualização por propriedade, atribuição e rotina preservada",
+    );
 
-  await page
-    .getByRole("link", { name: "Perfil e configurações", exact: true })
-    .click();
-  await page
-    .getByRole("heading", { name: "Perfil e configurações", exact: true })
-    .waitFor();
-  await capture("perfil");
-  await page
-    .getByRole("button", { name: "Sair do portal", exact: true })
-    .click();
-  await page.getByRole("button", { name: "Entrar no portal" }).waitFor();
-  assert.equal(
-    (await context.request.get(base + "/api/agro/catalog")).status(),
-    401,
-  );
-  result.checks.push(
-    "logout invalida sessão; paginação e CSV; recuperação de erro e carregamento; leitura cruzada rejeitada; quatro auditorias axe sem violações",
-  );
+    await page
+      .getByRole("link", { name: "Perfil e configurações", exact: true })
+      .click();
+    await page
+      .getByRole("heading", { name: "Perfil e configurações", exact: true })
+      .waitFor();
+    await capture("perfil");
+    await page
+      .getByRole("button", { name: "Sair do portal", exact: true })
+      .click();
+    await page.getByRole("button", { name: "Entrar no portal" }).waitFor();
+    assert.equal(
+      (await context.request.get(base + "/api/agro/catalog")).status(),
+      401,
+    );
+    result.checks.push(
+      "logout invalida sessão; paginação e CSV; recuperação de erro e carregamento; leitura cruzada rejeitada; quatro auditorias axe sem violações",
+    );
+  }
   assert.deepEqual(errors, []);
   result.errors = errors;
   result.verifiedAt = new Date().toISOString();
   result.browser = await browser.version();
   await writeFile(
-    resolve(directory, "result.json"),
+    resolve(
+      directory,
+      process.argv.includes("--offers") ? "ofertas-result.json" : "result.json",
+    ),
     JSON.stringify(result, null, 2),
   );
   console.log(

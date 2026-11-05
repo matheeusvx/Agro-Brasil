@@ -21,6 +21,16 @@ async function proxy(
         { error: { message: "Operação não disponível neste incremento." } },
         { status: 404 },
       );
+    const key = req.headers.get("Idempotency-Key");
+    if (
+      req.method === "POST" &&
+      endpoint.startsWith("/offers") &&
+      (!key || !/^[a-zA-Z0-9_-]{8,128}$/.test(key))
+    )
+      return Response.json(
+        { error: { message: "Chave de idempotência válida é obrigatória." } },
+        { status: 400 },
+      );
     const text = req.method === "POST" ? await req.text() : undefined;
     if (text && Buffer.byteLength(text) > 16384)
       return Response.json(
@@ -32,11 +42,21 @@ async function proxy(
       session.token,
       session.organizationId,
       text,
+      key ?? undefined,
     );
     const data = await response.json();
     return Response.json(data, {
       status: response.status,
-      headers: { "Cache-Control": "no-store" },
+      headers: {
+        "Cache-Control": "no-store",
+        ...(response.headers.has("Idempotency-Replayed")
+          ? {
+              "Idempotency-Replayed": response.headers.get(
+                "Idempotency-Replayed",
+              )!,
+            }
+          : {}),
+      },
     });
   } catch (error) {
     return routeError(error);

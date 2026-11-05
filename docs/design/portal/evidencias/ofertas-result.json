@@ -1,0 +1,23 @@
+{
+  "mode": "BANCO_ISOLADO_FICTICIO_API_REAL",
+  "screenshots": [
+    "ofertas-lista-1440.png",
+    "ofertas-lista-1366.png",
+    "ofertas-lista-1024.png",
+    "ofertas-criacao.png",
+    "ofertas-criacao-1366.png",
+    "ofertas-confirmar-publicacao.png",
+    "ofertas-publicacao-1366.png",
+    "ofertas-publicada.png",
+    "ofertas-rascunhos.png",
+    "ofertas-erro.png",
+    "ofertas-leitor-vazio.png"
+  ],
+  "checks": [
+    "cookie HttpOnly / SameSite Strict; nenhum token em HTML ou storage; origem externa rejeitada",
+    "Ofertas: criação VENDA e publicação reais; resposta perdida e replay das duas operações sem duplicatas; preço em centavos; pesquisa; três resoluções; LEITOR; lote estrangeiro; chave obrigatória; reduced-motion; axe lista/criação/publicação"
+  ],
+  "errors": [],
+  "verifiedAt": "2026-11-05T23:14:04.227Z",
+  "browser": "156.0.4314.58"
+}
