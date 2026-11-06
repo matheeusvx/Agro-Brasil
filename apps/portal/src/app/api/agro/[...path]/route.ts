@@ -24,7 +24,7 @@ async function proxy(
     const key = req.headers.get("Idempotency-Key");
     if (
       req.method === "POST" &&
-      endpoint.startsWith("/offers") &&
+      endpoint !== "/productions" &&
       (!key || !/^[a-zA-Z0-9_-]{8,128}$/.test(key))
     )
       return Response.json(

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
   Plus,
@@ -630,6 +631,12 @@ export function Offers() {
                   <span>kg disponíveis</span>
                 </div>
               </div>
+              <Link
+                className="text-link my-4"
+                href={"/producao?lote=" + detail.lotId}
+              >
+                Consultar lote de origem
+              </Link>
               <dl className="detail-list">
                 <div>
                   <dt>Quantidade ofertada</dt>

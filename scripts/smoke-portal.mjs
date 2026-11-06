@@ -344,7 +344,24 @@ try {
     });
     result.screenshots.push(name + ".png");
   }
-  if (process.argv.includes("--offers")) {
+  if (process.argv.includes("--trace")) {
+    const { runTrace } = await import("./portal-trace-browser.mjs");
+    await runTrace({
+      page,
+      context,
+      db,
+      ids,
+      base,
+      apiRequest,
+      productions,
+      capture,
+      audit,
+      result,
+    });
+  } else if (process.argv.includes("--orders")) {
+    const { runOrders } = await import("./portal-orders-browser.mjs");
+    await runOrders({ page, context, db, ids, base, capture, audit, result });
+  } else if (process.argv.includes("--offers")) {
     const { runOffers } = await import("./portal-offers-browser.mjs");
     await runOffers({
       page,
@@ -731,7 +748,13 @@ try {
   await writeFile(
     resolve(
       directory,
-      process.argv.includes("--offers") ? "ofertas-result.json" : "result.json",
+      process.argv.includes("--trace")
+        ? "rastreabilidade-result.json"
+        : process.argv.includes("--orders")
+          ? "pedidos-result.json"
+          : process.argv.includes("--offers")
+            ? "ofertas-result.json"
+            : "result.json",
     ),
     JSON.stringify(result, null, 2),
   );

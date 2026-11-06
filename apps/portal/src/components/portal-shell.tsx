@@ -39,6 +39,8 @@ export function PortalShell({ children }: { children: ReactNode }) {
     { href: "/visao-geral", label: "Visão geral", icon: LayoutDashboard },
     { href: "/producao", label: "Produção", icon: Sprout },
     { href: "/ofertas", label: "Ofertas", icon: Tags },
+    { href: "/pedidos", label: "Pedidos", icon: PackageCheck },
+    { href: "/rastreabilidade", label: "Rastreabilidade", icon: Route },
   ];
   return (
     <div className={"portal-frame " + (collapsed ? "is-collapsed" : "")}>
@@ -79,27 +81,6 @@ export function PortalShell({ children }: { children: ReactNode }) {
                 </>
               )}
             </Link>
-          ))}
-          {!collapsed && (
-            <p className="sidebar-section mt-7">PRÓXIMOS ESPAÇOS</p>
-          )}
-          {[
-            { label: "Pedidos", icon: PackageCheck },
-            { label: "Rastreabilidade", icon: Route },
-          ].map(({ label, icon: Icon }) => (
-            <div
-              key={label}
-              className="nav-item future"
-              title={label + " · próximo incremento"}
-            >
-              <Icon size={18} />
-              {!collapsed && (
-                <>
-                  <span>{label}</span>
-                  <LockKeyhole size={12} />
-                </>
-              )}
-            </div>
           ))}
         </nav>
         <div className="sidebar-footer">
@@ -153,11 +134,15 @@ export function PortalShell({ children }: { children: ReactNode }) {
               <strong>
                 {path === "/producao"
                   ? "Produção"
-                  : path === "/ofertas"
-                    ? "Ofertas"
-                    : path === "/perfil"
-                      ? "Perfil"
-                      : "Visão geral"}
+                  : path.startsWith("/rastreabilidade")
+                    ? "Rastreabilidade"
+                    : path === "/pedidos"
+                      ? "Pedidos"
+                      : path === "/ofertas"
+                        ? "Ofertas"
+                        : path === "/perfil"
+                          ? "Perfil"
+                          : "Visão geral"}
               </strong>
             </div>
           </div>

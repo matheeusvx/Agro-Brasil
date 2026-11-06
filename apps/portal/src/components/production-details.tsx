@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   Copy,
@@ -166,6 +167,12 @@ export function ProductionDetails({
                   <dd>{date(data.production.createdAt)}</dd>
                 </div>
               </dl>
+              <Link
+                className="text-link mt-5"
+                href={"/rastreabilidade?lote=" + data.production.lot.id}
+              >
+                Rastrear pedidos deste lote
+              </Link>
               <div className="mt-8 mb-5">
                 <h3 className="font-semibold text-base">Caminho do lote</h3>
                 <p className="text-xs text-[#69766d] mt-1">

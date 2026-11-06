@@ -5,9 +5,13 @@ export function allowedProxyPath(endpoint: string, method: string) {
   const uuid =
     "[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}";
   const allowed = new RegExp(
-    "^/(catalog|producer-home|productions(?:/" +
+    "^/(catalog|cooperatives|producer-home|productions(?:/" +
       uuid +
-      ")?|orders|offers(?:/" +
+      ")?|orders(?:/" +
+      uuid +
+      "/(?:accept|cancel))?|shipments/" +
+      uuid +
+      "/pickup|offers(?:/" +
       uuid +
       "/publish)?|properties/" +
       uuid +
@@ -18,10 +22,18 @@ export function allowedProxyPath(endpoint: string, method: string) {
   );
   return (
     allowed.test(endpoint) &&
-    ((method === "GET" && !endpoint.endsWith("/publish")) ||
+    ((method === "GET" && !/(publish|accept|cancel|pickup)$/.test(endpoint)) ||
       (method === "POST" &&
         (endpoint === "/productions" ||
           endpoint === "/offers" ||
+          new RegExp(
+            "^/(orders/" +
+              uuid +
+              "/(accept|cancel)|shipments/" +
+              uuid +
+              "/pickup)$",
+            "i",
+          ).test(endpoint) ||
           new RegExp("^/offers/" + uuid + "/publish$", "i").test(endpoint))))
   );
 }

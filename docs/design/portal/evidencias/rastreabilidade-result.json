@@ -1,0 +1,21 @@
+{
+  "mode": "BANCO_ISOLADO_FICTICIO_API_REAL",
+  "screenshots": [
+    "rastreabilidade-lista.png",
+    "rastreabilidade-solicitado.png",
+    "rastreabilidade-aceito.png",
+    "rastreabilidade-retirado.png",
+    "rastreabilidade-recebido.png",
+    "rastreabilidade-1440.png",
+    "rastreabilidade-1366.png",
+    "rastreabilidade-1024.png",
+    "rastreabilidade-cancelado.png"
+  ],
+  "checks": [
+    "cookie HttpOnly / SameSite Strict; nenhum token em HTML ou storage; origem externa rejeitada",
+    "Rastreabilidade: pedidos compartilhando lote sem mistura; solicitado/recebido/cancelado reais; seis eventos concluídos; consulta de metadados; teclado; três resoluções; acesso cruzado negado; MP4 real; reduced-motion e axe"
+  ],
+  "errors": [],
+  "verifiedAt": "2026-11-06T13:46:36.320Z",
+  "browser": "156.0.4314.58"
+}

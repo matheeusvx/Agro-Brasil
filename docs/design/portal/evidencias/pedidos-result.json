@@ -1,0 +1,19 @@
+{
+  "mode": "BANCO_ISOLADO_FICTICIO_API_REAL",
+  "screenshots": [
+    "pedidos-lista-1440.png",
+    "pedidos-lista-1366.png",
+    "pedidos-lista-1024.png",
+    "pedidos-detalhes.png",
+    "pedidos-aceito.png",
+    "pedidos-retirada.png",
+    "pedidos-cancelado.png"
+  ],
+  "checks": [
+    "cookie HttpOnly / SameSite Strict; nenhum token em HTML ou storage; origem externa rejeitada",
+    "Pedidos: aceite/replay sem duplicação; retirada; cancelamento; dados MongoDB; três larguras; filtro; LEITOR; redução de movimento; gravação MP4 real"
+  ],
+  "errors": [],
+  "verifiedAt": "2026-11-06T13:10:24.575Z",
+  "browser": "156.0.4314.58"
+}
