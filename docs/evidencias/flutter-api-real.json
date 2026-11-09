@@ -1,8 +1,9 @@
 {
-  "verifiedAt": "2026-11-05T15:05:58.267702Z",
+  "verifiedAt": "2026-11-09T14:25:10.612010Z",
   "client": "Dart HTTP real",
   "readOnly": true,
   "home": {
+    "userName": "Participante fictício PEQUENO_PRODUTOR_RURAL",
     "property": {
       "id": "f3f91733-9b88-4f5c-b86b-55ab2ea6d642",
       "name": "Sítio fictício — DEMONSTRAÇÃO",
@@ -12,6 +13,19 @@
     "hasProductions": true,
     "pending": [],
     "recentLots": [
+      {
+        "id": "7ba731eb-b8a2-49f4-86b9-a59c9d69405a",
+        "cropName": "Tomate",
+        "quantityKg": 100,
+        "lastEvent": {
+          "type": "ORIGEM_REGISTRADA",
+          "recordedAt": "2026-11-05T22:37:25.511Z",
+          "location": {
+            "municipality": "São Paulo",
+            "uf": "SP"
+          }
+        }
+      },
       {
         "id": "fab790b0-365d-40f4-9814-534aa8c9ded3",
         "cropName": "Alface",
@@ -28,11 +42,25 @@
     ],
     "canWrite": true,
     "isDemonstration": true,
-    "fetchedAt": "2026-11-05T15:05:58.249Z"
+    "fetchedAt": "2026-11-09T14:25:10.586Z"
   },
   "weather": {
-    "status": "unavailable",
-    "reason": "NOT_CONFIGURED",
-    "message": "Clima indisponível"
+    "status": "available",
+    "source": "OpenWeather",
+    "attributionUrl": "https://openweathermap.org/",
+    "temperatureC": 15.81,
+    "humidityPercent": 81,
+    "description": "nublado",
+    "observedAt": "2026-11-09T14:12:13.000Z",
+    "fetchedAt": "2026-11-09T14:24:24.156Z",
+    "cached": true,
+    "locality": {
+      "municipality": "São Paulo",
+      "uf": "SP",
+      "source": "OpenWeather Geocoding",
+      "precision": "municipality",
+      "approximate": true
+    },
+    "limitation": "Condição meteorológica de referência; não mede solo, irrigação ou risco hídrico individual."
   }
 }

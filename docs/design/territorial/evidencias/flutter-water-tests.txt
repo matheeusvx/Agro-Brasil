@@ -1,0 +1,16 @@
+00:00 +0: loading C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart
+00:00 +0: (setUpAll)
+00:00 +0: pacote real tem 312 meses, 9497 dias e referência só de treino
+00:00 +1: últimos agregados reproduzem contrato auditado e anomalia
+00:00 +2: nulos iniciais não viram zero e limiares mantêm empates corretos
+00:00 +3: classes diárias auditadas respeitam limiares e precisão dos CSVs
+00:00 +4: recusa versão, finalidade e número não finito incompatíveis
+00:00 +5: formatação pt-BR e calendário LST sem deslocamento de data
+00:00 +6: abre pela home inclusive offline e volta à sessão preservada
+00:02 +7: filtros e barras mudam mês e ano com números reais
+00:03 +8: barras respondem ao toque e expõem ação acessível
+00:03 +9: loading, erro recuperável e vazio nunca apresentam valores fabricados
+00:03 +10: painel segue contraste, rótulos e áreas de toque Android
+00:04 +11: 320dp, texto 200% e movimento reduzido em todas as seções
+00:04 +12: (tearDownAll)
+00:04 +12: All tests passed!

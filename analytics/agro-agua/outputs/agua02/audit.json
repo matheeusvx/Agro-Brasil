@@ -1,0 +1,203 @@
+{
+  "inventory_files_verified": 78,
+  "records": 9497,
+  "values": 66479,
+  "coverage": [
+    "2000-01-01",
+    "2025-12-31"
+  ],
+  "latitude": -23.52,
+  "longitude": -46.19,
+  "time_standard": "LST",
+  "community": "AG",
+  "units": {
+    "PRECTOTCORR": "mm/day",
+    "T2M": "C",
+    "T2M_MAX": "C",
+    "T2M_MIN": "C",
+    "RH2M": "%",
+    "WS10M": "m/s",
+    "ALLSKY_SFC_SW_DWN": "MJ/m^2/day"
+  },
+  "missing_values": 0,
+  "quality_issues": [],
+  "duplicate_dates": 0,
+  "source_api_versions": [
+    "v2.10.3"
+  ],
+  "source_products": {
+    "2000": [
+      "MERRA2",
+      "SRB",
+      "POWER"
+    ],
+    "2025": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2001": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2002": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2003": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2004": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2005": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2006": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2007": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2008": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2009": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2010": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2011": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2012": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2013": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2014": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2015": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2016": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2017": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2018": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2019": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2020": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2021": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2022": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2023": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ],
+    "2024": [
+      "MERRA2",
+      "SYN1DEG",
+      "POWER"
+    ]
+  },
+  "station": {
+    "station": "E3-097 — Estaleiro DAEE",
+    "units": "mm",
+    "latitude": -23.516666666666666,
+    "longitude": -46.2,
+    "expected_days": 366,
+    "valid_days": 184,
+    "missing_days": 182,
+    "missing_periods": [
+      {
+        "start": "2000-01-01",
+        "end": "2000-02-29",
+        "days": 60
+      },
+      {
+        "start": "2000-09-01",
+        "end": "2000-12-31",
+        "days": 122
+      }
+    ],
+    "available_start": "2000-03-01",
+    "available_end": "2000-08-31",
+    "minimum_mm": 0.0,
+    "maximum_mm": 70.1,
+    "note": "Campos vazios preservados como ausentes. Sem validação numérica NASA: janela de leitura do pluviômetro não confirmada.",
+    "distance_from_nasa_point_km": 1.085,
+    "daily_comparison_performed": false,
+    "reason": "Janela de acumulação/leitura desconhecida; apenas seis meses em 2000."
+  },
+  "approx_native_footprint_km": {
+    "meteorology_ns": 55.6,
+    "meteorology_ew": 63.7,
+    "solar_1degree_ns": 111.2,
+    "solar_1degree_ew": 102.0
+  },
+  "input_hashes": {
+    "config.json": "930be0ec2f31988bb0060ecb78557dbc93847194b36302f75ff016a9d47074c0",
+    "data/inventory.json": "c3a73df3db9a5abb1c96dd470c76685614f0004b92a74a74f9d46ce1be8e2691",
+    "data/provenance.json": "9e7f3b6504edbcc248c1afcc78e5bdd00be9261ff01d2e91436f458011b9cc11",
+    "data/processed/daily.csv": "463c9286f7384b6c4715d3ec01501eb2033deb31137187ab806242be25434a74",
+    "data/reports/quality.md": "1f070f72d36e97d9c2fb4f4b68ab214fa444e864a3e0a82676f738f91dad1cee",
+    "docs/fontes-comparacao.md": "c97bfc90451a99d1f73a1628d7292b4138e4e976ec72888e0fe466937854eab2"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "url": "https://fch.spaguas.sp.gov.br/FCHP/RecuperarMedicoes/ConsultaAlturasDiariasPluviometricasTXTPortal?idPosto=da39c05f-4d45-4aa5-8cb6-a383682e207f&anoInicial=2000&anoFinal=2000",
+  "retrieved_at_utc": "2026-11-06T14:26:10.972627+00:00",
+  "sha256": "02fe7fc5beccba8c46c7f2f21d781590e301a66d8d42cf5b927a87f01328199f",
+  "bytes": 7933,
+  "status": 200,
+  "note": "Amostra original separada; não usada para validar numericamente NASA sem harmonização."
+}

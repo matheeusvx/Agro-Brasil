@@ -1,0 +1,23 @@
+{
+  "python": "3.13.7",
+  "dependencies": {
+    "pandas": "3.1.1",
+    "numpy": "2.5.4",
+    "matplotlib": "3.11.2"
+  },
+  "reference_period": [
+    "2000-01-01",
+    "2019-12-31"
+  ],
+  "inputs": {
+    "config.json": "930be0ec2f31988bb0060ecb78557dbc93847194b36302f75ff016a9d47074c0",
+    "data/inventory.json": "c3a73df3db9a5abb1c96dd470c76685614f0004b92a74a74f9d46ce1be8e2691",
+    "data/provenance.json": "9e7f3b6504edbcc248c1afcc78e5bdd00be9261ff01d2e91436f458011b9cc11",
+    "data/processed/daily.csv": "463c9286f7384b6c4715d3ec01501eb2033deb31137187ab806242be25434a74",
+    "data/reports/quality.md": "1f070f72d36e97d9c2fb4f4b68ab214fa444e864a3e0a82676f738f91dad1cee",
+    "docs/fontes-comparacao.md": "c97bfc90451a99d1f73a1628d7292b4138e4e976ec72888e0fe466937854eab2"
+  },
+  "code_sha256": "851b71b9230759b5c327bd7b4123aa1c76fad3e0bdf3b1cadf92054bf7d00ad2",
+  "no_network": true,
+  "notes": "EDA completa é descritiva; correlações com alvo somente no treino; nenhuma avaliação de habilidade em validação/teste."
+}

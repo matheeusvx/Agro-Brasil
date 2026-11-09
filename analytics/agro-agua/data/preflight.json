@@ -1,0 +1,188 @@
+{
+  "config": {
+    "location": "Mogi das Cruzes/SP — sede municipal (IBGE 3530607)",
+    "latitude": -23.52,
+    "longitude": -46.19,
+    "coordinate_source": "https://geoftp.ibge.gov.br/cartas_e_mapas/mapas_municipais/colecao_de_mapas_municipais/2020/SP/mogi_das_cruzes/3530607_MM.pdf",
+    "community": "AG",
+    "time_standard": "LST",
+    "start": "2000-01-01",
+    "end": "2025-12-31",
+    "parameters": [
+      "PRECTOTCORR",
+      "T2M",
+      "T2M_MAX",
+      "T2M_MIN",
+      "RH2M",
+      "WS10M",
+      "ALLSKY_SFC_SW_DWN"
+    ]
+  },
+  "verified_years": [
+    2000,
+    2025
+  ],
+  "parameters": {
+    "PRECTOTCORR": {
+      "units": "mm/day",
+      "longname": "Precipitation Corrected"
+    },
+    "T2M": {
+      "units": "C",
+      "longname": "Temperature at 2 Meters"
+    },
+    "T2M_MAX": {
+      "units": "C",
+      "longname": "Temperature at 2 Meters Maximum"
+    },
+    "T2M_MIN": {
+      "units": "C",
+      "longname": "Temperature at 2 Meters Minimum"
+    },
+    "RH2M": {
+      "units": "%",
+      "longname": "Relative Humidity at 2 Meters"
+    },
+    "WS10M": {
+      "units": "m/s",
+      "longname": "Wind Speed at 10 Meters"
+    },
+    "ALLSKY_SFC_SW_DWN": {
+      "units": "MJ/m^2/day",
+      "longname": "All Sky Surface Shortwave Downward Irradiance"
+    }
+  },
+  "headers": [
+    {
+      "title": "NASA/POWER Source Native Resolution Daily Data",
+      "api": {
+        "version": "v2.10.3",
+        "name": "POWER Daily API"
+      },
+      "sources": [
+        "MERRA2",
+        "SRB",
+        "POWER"
+      ],
+      "fill_value": -999.0,
+      "time_standard": "LST",
+      "start": "20000101",
+      "end": "20001231"
+    },
+    {
+      "title": "NASA/POWER Source Native Resolution Daily Data",
+      "api": {
+        "version": "v2.10.3",
+        "name": "POWER Daily API"
+      },
+      "sources": [
+        "MERRA2",
+        "SYN1DEG",
+        "POWER"
+      ],
+      "fill_value": -999.0,
+      "time_standard": "LST",
+      "start": "20250101",
+      "end": "20251231"
+    }
+  ],
+  "coverage": {
+    "2000": {
+      "PRECTOTCORR": {
+        "returned_days": 366,
+        "non_fill_days": 366,
+        "first_valid": "20000101",
+        "last_valid": "20001231"
+      },
+      "T2M": {
+        "returned_days": 366,
+        "non_fill_days": 366,
+        "first_valid": "20000101",
+        "last_valid": "20001231"
+      },
+      "T2M_MAX": {
+        "returned_days": 366,
+        "non_fill_days": 366,
+        "first_valid": "20000101",
+        "last_valid": "20001231"
+      },
+      "T2M_MIN": {
+        "returned_days": 366,
+        "non_fill_days": 366,
+        "first_valid": "20000101",
+        "last_valid": "20001231"
+      },
+      "RH2M": {
+        "returned_days": 366,
+        "non_fill_days": 366,
+        "first_valid": "20000101",
+        "last_valid": "20001231"
+      },
+      "WS10M": {
+        "returned_days": 366,
+        "non_fill_days": 366,
+        "first_valid": "20000101",
+        "last_valid": "20001231"
+      },
+      "ALLSKY_SFC_SW_DWN": {
+        "returned_days": 366,
+        "non_fill_days": 366,
+        "first_valid": "20000101",
+        "last_valid": "20001231"
+      }
+    },
+    "2025": {
+      "PRECTOTCORR": {
+        "returned_days": 365,
+        "non_fill_days": 365,
+        "first_valid": "20250101",
+        "last_valid": "20251231"
+      },
+      "T2M": {
+        "returned_days": 365,
+        "non_fill_days": 365,
+        "first_valid": "20250101",
+        "last_valid": "20251231"
+      },
+      "T2M_MAX": {
+        "returned_days": 365,
+        "non_fill_days": 365,
+        "first_valid": "20250101",
+        "last_valid": "20251231"
+      },
+      "T2M_MIN": {
+        "returned_days": 365,
+        "non_fill_days": 365,
+        "first_valid": "20250101",
+        "last_valid": "20251231"
+      },
+      "RH2M": {
+        "returned_days": 365,
+        "non_fill_days": 365,
+        "first_valid": "20250101",
+        "last_valid": "20251231"
+      },
+      "WS10M": {
+        "returned_days": 365,
+        "non_fill_days": 365,
+        "first_valid": "20250101",
+        "last_valid": "20251231"
+      },
+      "ALLSKY_SFC_SW_DWN": {
+        "returned_days": 365,
+        "non_fill_days": 365,
+        "first_valid": "20250101",
+        "last_valid": "20251231"
+      }
+    }
+  },
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      -46.19,
+      -23.52,
+      699.38
+    ]
+  },
+  "status": "contract_verified"
+}

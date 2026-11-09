@@ -148,6 +148,7 @@ class HomeController extends ChangeNotifier {
   bool loading = true;
   bool offline = false;
   bool disposed = false;
+  bool sessionClosed = false;
   int _request = 0;
   HomeController(this.repository, this.store);
   List<Json> get properties => rows(catalog['properties']);
@@ -242,8 +243,12 @@ class HomeController extends ChangeNotifier {
   }
 
   Future<void> clear() async {
+    sessionClosed = true;
     ++_request;
     for (final property in properties) {
+      await store.remove(
+        '${repository.scope}/production-dashboard/${property['id']}',
+      );
       await store.remove('${repository.scope}/${property['id']}');
     }
     await store.remove('${repository.scope}/catalog');

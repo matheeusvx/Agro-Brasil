@@ -1,0 +1,279 @@
+{
+  "verifiedAt": "2026-11-09T14:01:57.961Z",
+  "browser": "157.0.4341.42",
+  "executable": "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe",
+  "mode": "ISOLATED_FICTITIOUS_DATABASE",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "loginRendered": true,
+  "authenticationVerified": true,
+  "producerHomeRendered": true,
+  "waterDashboardVerified": true,
+  "productionDashboardVerified": true,
+  "expectedProductionKg": 205,
+  "expectedSaleKg": 0.6,
+  "expectedDonationKg": 0.2,
+  "weather": {
+    "status": "unavailable",
+    "reason": "NOT_CONFIGURED",
+    "message": "Clima indisponível"
+  },
+  "reloadVerified": true,
+  "externalRequestsBlockedByTest": true,
+  "errors": [],
+  "failedRequests": [],
+  "responses": [
+    {
+      "url": "http://127.0.0.1:60789/mobile/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/flutter_bootstrap.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/canvaskit/chromium/canvaskit.wasm",
+      "status": 200,
+      "type": "application/wasm"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/favicon.svg",
+      "status": 200,
+      "type": "image/svg+xml"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/canvaskit/chromium/canvaskit.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/main.dart.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/FontManifest.json",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/fonts/MaterialIcons-Regular.otf",
+      "status": 200,
+      "type": "font/otf"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/assets/fonts/roboto-regular.ttf",
+      "status": 200,
+      "type": "font/ttf"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/assets/fonts/roboto-bold.ttf",
+      "status": 200,
+      "type": "font/ttf"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+      "status": 200,
+      "type": "font/ttf"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/me",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/catalog",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/producer-home?propertyId=b26c0ea6-7479-40e3-aa47-d948c6e5b643",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/properties/b26c0ea6-7479-40e3-aa47-d948c6e5b643/weather",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/assets/agua04/integration-example.json",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/assets/agua04/monthly_indicators.csv",
+      "status": 200,
+      "type": "text/csv; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/assets/agua04/historical_indicators.csv",
+      "status": 200,
+      "type": "text/csv; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/assets/agua04/training_monthly_reference.csv",
+      "status": 200,
+      "type": "text/csv; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/assets/agua04/thresholds.csv",
+      "status": 200,
+      "type": "text/csv; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/assets/agua04/provenance.json",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/productions?limit=100&offset=0",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/productions?limit=100&offset=100",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/productions?limit=100&offset=200",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/productions?limit=100&offset=0",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/offers?scope=mine&limit=100&offset=0",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/orders?limit=100&offset=0",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/productions?limit=100&offset=100",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/productions?limit=100&offset=200",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/producer-home?propertyId=cc05f58a-062d-49c7-95b6-1296502199f5",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/productions?limit=100&offset=0",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/properties/cc05f58a-062d-49c7-95b6-1296502199f5/weather",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/productions?limit=100&offset=100",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/productions?limit=100&offset=0",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/offers?scope=mine&limit=100&offset=0",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/orders?limit=100&offset=0",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/productions?limit=100&offset=200",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/productions?limit=100&offset=100",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/api/v1/productions?limit=100&offset=200",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/",
+      "status": 200,
+      "type": "text/html; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/flutter_bootstrap.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/canvaskit/chromium/canvaskit.wasm",
+      "status": 200,
+      "type": "application/wasm"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/favicon.svg",
+      "status": 200,
+      "type": "image/svg+xml"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/canvaskit/chromium/canvaskit.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/main.dart.js",
+      "status": 200,
+      "type": "text/javascript; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/FontManifest.json",
+      "status": 200,
+      "type": "application/json; charset=utf-8"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/fonts/MaterialIcons-Regular.otf",
+      "status": 200,
+      "type": "font/otf"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/assets/fonts/roboto-regular.ttf",
+      "status": 200,
+      "type": "font/ttf"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/assets/fonts/roboto-bold.ttf",
+      "status": 200,
+      "type": "font/ttf"
+    },
+    {
+      "url": "http://127.0.0.1:60789/mobile/assets/packages/cupertino_icons/assets/CupertinoIcons.ttf",
+      "status": 200,
+      "type": "font/ttf"
+    }
+  ]
+}

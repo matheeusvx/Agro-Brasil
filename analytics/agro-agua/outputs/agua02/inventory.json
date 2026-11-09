@@ -1,0 +1,152 @@
+[
+  {
+    "file": "audit.json",
+    "bytes": 4141,
+    "sha256": "5a7efa76bfa822cda671e75d42d8907ed6bb01d2289a873ccfe937b01918361b"
+  },
+  {
+    "file": "figures/01_acumulados.png",
+    "bytes": 62759,
+    "sha256": "a33ead94b718fd4b950cbf00703058712e6147443583473798713e22c3424d97"
+  },
+  {
+    "file": "figures/02_sazonalidade.png",
+    "bytes": 133512,
+    "sha256": "1664f250db59cef5818de035609ac3c65d6ca58805e4db19e7d17872d5293b78"
+  },
+  {
+    "file": "figures/03_sequencias_baixa_chuva.png",
+    "bytes": 53230,
+    "sha256": "156dd39c4dd9d8223a7f8dc0b569464f92b8f71fb84ca894c8ba837738948e92"
+  },
+  {
+    "file": "figures/04_acumulados_moveis.png",
+    "bytes": 282465,
+    "sha256": "fe9e845e99cd46c9eb26aaaf3867547dec74a6ace294ea683207d9944dec6835"
+  },
+  {
+    "file": "figures/05_temperatura_umidade.png",
+    "bytes": 225709,
+    "sha256": "f5db5be0fbb7137284fce47695841b03de5b5f1aa5d09151952728973dd3c825"
+  },
+  {
+    "file": "figures/06_relacoes_treino.png",
+    "bytes": 142319,
+    "sha256": "b2ee29f9f334c4b43ba7343a0621072067ed8e4917db17227a7df99706bcbdbd"
+  },
+  {
+    "file": "figures/07_anomalias.png",
+    "bytes": 114683,
+    "sha256": "f304e242548a8e4c876cd04201bb9d493af82beb4c1169806fa84bdda2556986"
+  },
+  {
+    "file": "figures/08_persistencia_treino.png",
+    "bytes": 58674,
+    "sha256": "fb8f07c019a8794075f876e0553c959cbc0a81ab0dea2e789a7eb3e6d91756f3"
+  },
+  {
+    "file": "provenance.json",
+    "bytes": 1052,
+    "sha256": "8f5b3af3c30252a982a7890cf942564b0009e35664a7394e9c248d5cde196460"
+  },
+  {
+    "file": "relatorio-tecnico.md",
+    "bytes": 8048,
+    "sha256": "2d6e88760aa08d8db9bd62846b395105b65b8a6c46b2aac521f2ff2c2be3492a"
+  },
+  {
+    "file": "split_manifest.json",
+    "bytes": 5464,
+    "sha256": "738e026885dfd0745c7f3acf06c862df76c05a88ff21251cc6260f4c5ddb1de3"
+  },
+  {
+    "file": "summary.json",
+    "bytes": 4424,
+    "sha256": "9eea528942abe9d663a23eb6cf83c98bd05383b0993c5929ae48eb920273c72c"
+  },
+  {
+    "file": "tables/annual.csv",
+    "bytes": 3615,
+    "sha256": "d9d894f351aa3c415ddbb714535a1651f3f8a7c458733926eae2889c804da807"
+  },
+  {
+    "file": "tables/annual_anomalies.csv",
+    "bytes": 5583,
+    "sha256": "e152dda43100177c562cd90888df50e7a5f1a6f6d45648d0e7590632b4abab5b"
+  },
+  {
+    "file": "tables/low_rain_events.csv",
+    "bytes": 145082,
+    "sha256": "9e56ef2aee9c2c62694c4858279841fab5ec7e2fed92984ff5fecc82cac29588"
+  },
+  {
+    "file": "tables/monthly.csv",
+    "bytes": 38627,
+    "sha256": "55e8c2d21cfe1ce196e4f9bb53fb59527788eed42f8d1f202c165542b809c284"
+  },
+  {
+    "file": "tables/monthly_anomalies.csv",
+    "bytes": 64492,
+    "sha256": "aff212ba4c5d40bfd27a060582becef7bd7958cd06d8a4792ff13d6e64b88e41"
+  },
+  {
+    "file": "tables/pearson_train.csv",
+    "bytes": 688,
+    "sha256": "84ac2ca97009a756892511c8491c85aaf05c140ef078e458f0d82e050595a1b9"
+  },
+  {
+    "file": "tables/prediction_design_lag0.csv",
+    "bytes": 4402370,
+    "sha256": "aa809bbfb8317da0145fc49ee307ede3ab03e64a07797f343b050e029a6c903c"
+  },
+  {
+    "file": "tables/prediction_design_lag2.csv",
+    "bytes": 4401760,
+    "sha256": "094578ededb85fc7d30d22afd9f0a3e95fa78a109f72e521a76a917804e1c712"
+  },
+  {
+    "file": "tables/prediction_design_lag7.csv",
+    "bytes": 4400246,
+    "sha256": "100391da4a28b4edc604e77e5b471363b4fc9dce21b2ad57acf445922a7c6138"
+  },
+  {
+    "file": "tables/rain_autocorrelation_train.csv",
+    "bytes": 1850,
+    "sha256": "664316af217817db1542c3ccf397ef5f984835825f4b6e76993719ae8f52671f"
+  },
+  {
+    "file": "tables/reference_annual_2000_2019.csv",
+    "bytes": 162,
+    "sha256": "fc13a2ada7db37a4a652b1af5244ee4050a2aefd7908a1288f2d8391efc57640"
+  },
+  {
+    "file": "tables/reference_daily_by_month_2000_2019.csv",
+    "bytes": 1155,
+    "sha256": "d8085460e611c78d264a338c5cd046fdb55aa0877dee0a79c6bfbb946283f70a"
+  },
+  {
+    "file": "tables/reference_monthly_2000_2019.csv",
+    "bytes": 1023,
+    "sha256": "a0c0df63570507ceef4a7d73b5c140bdf2f821b891fe4c581ea1c574e545d95e"
+  },
+  {
+    "file": "tables/rolling_rain.csv",
+    "bytes": 342682,
+    "sha256": "61c6f83156aacc37c56242f3a3b44768fadb860bcb18aca3f67186e133b3248e"
+  },
+  {
+    "file": "tables/spearman_monthly_demeaned_train.csv",
+    "bytes": 694,
+    "sha256": "214d1541cf8574092f70ae09afedcc98f45c6e3cd82fe7b17c5b9e76809be960"
+  },
+  {
+    "file": "tables/spearman_train.csv",
+    "bytes": 688,
+    "sha256": "1f00cac154185b7210ac153510bdaa56ba9a7f30861084a4ce663df4b04e7f11"
+  },
+  {
+    "file": "tables/target_feature_correlations_train.csv",
+    "bytes": 1768,
+    "sha256": "a7ccbebe69fe5179cbf2e8b67a491fa8142447a50ae70f8dab22cddb705237e7"
+  }
+]

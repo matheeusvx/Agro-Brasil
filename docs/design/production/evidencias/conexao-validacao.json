@@ -1,0 +1,33 @@
+{
+  "verifiedAtUtc": "2026-11-09T14:27:14.027Z",
+  "origin": "http://127.0.0.1:3000",
+  "checks": [
+    {
+      "path": "/health",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/catalog",
+      "status": 200
+    }
+  ],
+  "sessionExpired": false,
+  "sessionExpiresAtUtc": "2026-11-10T13:38:38.406Z",
+  "invalidTokenStatus": 401,
+  "unauthorizedOrganizationStatus": 403,
+  "productionCount": 2,
+  "productionTotalKg": 112.5,
+  "flutterAnalyze": "No issues found",
+  "flutterSuitePassed": 97,
+  "flutterLiveApiPassed": 1,
+  "androidDevice": "emulator-5554",
+  "initialAdbReverse": "absent",
+  "finalAdbReverse": "tcp:3000 tcp:3000",
+  "offline": "reverse removed, cached 112.5 kg and stale warning observed",
+  "recovery": "reverse restored, refresh succeeded and stale warning cleared",
+  "applicationCodeChanges": false
+}

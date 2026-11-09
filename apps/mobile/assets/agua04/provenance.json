@@ -1,0 +1,17 @@
+{
+  "package_version": "agua04-mobile-1",
+  "schema_version": "agua04-1.0",
+  "data_as_of": "2025-12-31",
+  "generated_at_utc": "2026-11-06T15:29:11.387090+00:00",
+  "source_directory": "analytics/agro-agua/outputs/agua04",
+  "delivery": "bundled_versioned_export_no_endpoint",
+  "files": {
+    "integration-example.json": "aa5d80c0ac3df1bc41eae72c828c6f19b40f326d5602ad1726c213cc8b2a2747",
+    "training_monthly_reference.csv": "b4671ed3586d6cfcf0a92f40bb1a7b998761c99c1f93195dd6de35f59960b69b",
+    "monthly_indicators.csv": "aff212ba4c5d40bfd27a060582becef7bd7958cd06d8a4792ff13d6e64b88e41",
+    "historical_indicators.csv": "4f5b0d4c2a2ddd5a175ce3e5b6cc97e7b39b50dd2ec76cdb5f957d2cf38b5fc4",
+    "thresholds.csv": "6c1b77d96cf07e2fffdfc841a04d7f305f9237e1fdda42c8df1a97798c94a0be",
+    "audit.json": "06325616a66c424a27710cd55631f0e5c1fc13b2b6041594bded81c40195d881",
+    "inventory.json": "4abaf96d57ae6048e9f906c23cb8afbdb23a54e9440a6e77ae66a482b542d4e7"
+  }
+}

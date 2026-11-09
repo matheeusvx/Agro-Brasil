@@ -1,0 +1,221 @@
+{
+  "blocks": {
+    "train": [
+      "2000-01-01",
+      "2019-12-31"
+    ],
+    "validation": [
+      "2020-01-01",
+      "2022-12-31"
+    ],
+    "test": [
+      "2023-01-01",
+      "2025-12-31"
+    ]
+  },
+  "target": "sum(P[t+1:t+7])",
+  "reference_fit_period": [
+    "2000-01-01",
+    "2019-12-31"
+  ],
+  "counts": {
+    "0": {
+      "train": {
+        "origin_dates": 7305,
+        "eligible": 7269,
+        "first_eligible": "2000-01-30",
+        "last_eligible": "2019-12-24",
+        "excluded_by_reason": {
+          "insufficient_past_history": 29,
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      },
+      "validation": {
+        "origin_dates": 1096,
+        "eligible": 1089,
+        "first_eligible": "2020-01-01",
+        "last_eligible": "2022-12-24",
+        "excluded_by_reason": {
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      },
+      "test": {
+        "origin_dates": 1096,
+        "eligible": 1089,
+        "first_eligible": "2023-01-01",
+        "last_eligible": "2025-12-24",
+        "excluded_by_reason": {
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      }
+    },
+    "2": {
+      "train": {
+        "origin_dates": 7305,
+        "eligible": 7267,
+        "first_eligible": "2000-02-01",
+        "last_eligible": "2019-12-24",
+        "excluded_by_reason": {
+          "insufficient_past_history": 31,
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      },
+      "validation": {
+        "origin_dates": 1096,
+        "eligible": 1089,
+        "first_eligible": "2020-01-01",
+        "last_eligible": "2022-12-24",
+        "excluded_by_reason": {
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      },
+      "test": {
+        "origin_dates": 1096,
+        "eligible": 1089,
+        "first_eligible": "2023-01-01",
+        "last_eligible": "2025-12-24",
+        "excluded_by_reason": {
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      }
+    },
+    "7": {
+      "train": {
+        "origin_dates": 7305,
+        "eligible": 7262,
+        "first_eligible": "2000-02-06",
+        "last_eligible": "2019-12-24",
+        "excluded_by_reason": {
+          "insufficient_past_history": 36,
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      },
+      "validation": {
+        "origin_dates": 1096,
+        "eligible": 1089,
+        "first_eligible": "2020-01-01",
+        "last_eligible": "2022-12-24",
+        "excluded_by_reason": {
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      },
+      "test": {
+        "origin_dates": 1096,
+        "eligible": 1089,
+        "first_eligible": "2023-01-01",
+        "last_eligible": "2025-12-24",
+        "excluded_by_reason": {
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      }
+    }
+  },
+  "feature_columns_by_lag": {
+    "0": [
+      "PRECTOTCORR_lag0",
+      "PRECTOTCORR_lag1",
+      "PRECTOTCORR_lag2",
+      "PRECTOTCORR_lag7",
+      "T2M_lag0",
+      "T2M_lag1",
+      "T2M_lag2",
+      "T2M_lag7",
+      "T2M_MAX_lag0",
+      "T2M_MAX_lag1",
+      "T2M_MAX_lag2",
+      "T2M_MAX_lag7",
+      "T2M_MIN_lag0",
+      "T2M_MIN_lag1",
+      "T2M_MIN_lag2",
+      "T2M_MIN_lag7",
+      "RH2M_lag0",
+      "RH2M_lag1",
+      "RH2M_lag2",
+      "RH2M_lag7",
+      "WS10M_lag0",
+      "WS10M_lag1",
+      "WS10M_lag2",
+      "WS10M_lag7",
+      "ALLSKY_SFC_SW_DWN_lag0",
+      "ALLSKY_SFC_SW_DWN_lag1",
+      "ALLSKY_SFC_SW_DWN_lag2",
+      "ALLSKY_SFC_SW_DWN_lag7",
+      "past_rain_7d_mm",
+      "past_rain_30d_mm",
+      "low_run_so_far_lt1_days",
+      "calendar_sin",
+      "calendar_cos"
+    ],
+    "2": [
+      "PRECTOTCORR_lag2",
+      "PRECTOTCORR_lag3",
+      "PRECTOTCORR_lag4",
+      "PRECTOTCORR_lag9",
+      "T2M_lag2",
+      "T2M_lag3",
+      "T2M_lag4",
+      "T2M_lag9",
+      "T2M_MAX_lag2",
+      "T2M_MAX_lag3",
+      "T2M_MAX_lag4",
+      "T2M_MAX_lag9",
+      "T2M_MIN_lag2",
+      "T2M_MIN_lag3",
+      "T2M_MIN_lag4",
+      "T2M_MIN_lag9",
+      "RH2M_lag2",
+      "RH2M_lag3",
+      "RH2M_lag4",
+      "RH2M_lag9",
+      "WS10M_lag2",
+      "WS10M_lag3",
+      "WS10M_lag4",
+      "WS10M_lag9",
+      "ALLSKY_SFC_SW_DWN_lag2",
+      "ALLSKY_SFC_SW_DWN_lag3",
+      "ALLSKY_SFC_SW_DWN_lag4",
+      "ALLSKY_SFC_SW_DWN_lag9",
+      "past_rain_7d_mm",
+      "past_rain_30d_mm",
+      "low_run_so_far_lt1_days",
+      "calendar_sin",
+      "calendar_cos"
+    ],
+    "7": [
+      "PRECTOTCORR_lag7",
+      "PRECTOTCORR_lag8",
+      "PRECTOTCORR_lag9",
+      "PRECTOTCORR_lag14",
+      "T2M_lag7",
+      "T2M_lag8",
+      "T2M_lag9",
+      "T2M_lag14",
+      "T2M_MAX_lag7",
+      "T2M_MAX_lag8",
+      "T2M_MAX_lag9",
+      "T2M_MAX_lag14",
+      "T2M_MIN_lag7",
+      "T2M_MIN_lag8",
+      "T2M_MIN_lag9",
+      "T2M_MIN_lag14",
+      "RH2M_lag7",
+      "RH2M_lag8",
+      "RH2M_lag9",
+      "RH2M_lag14",
+      "WS10M_lag7",
+      "WS10M_lag8",
+      "WS10M_lag9",
+      "WS10M_lag14",
+      "ALLSKY_SFC_SW_DWN_lag7",
+      "ALLSKY_SFC_SW_DWN_lag8",
+      "ALLSKY_SFC_SW_DWN_lag9",
+      "ALLSKY_SFC_SW_DWN_lag14",
+      "past_rain_7d_mm",
+      "past_rain_30d_mm",
+      "low_run_so_far_lt1_days",
+      "calendar_sin",
+      "calendar_cos"
+    ]
+  },
+  "no_models_trained": true
+}

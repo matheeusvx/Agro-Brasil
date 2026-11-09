@@ -1,0 +1,1 @@
+Smoke produção aprovado: API real, 205 registros paginados, 0,600 kg venda, 0,200 kg doação, painel hídrico e autenticação preservados.

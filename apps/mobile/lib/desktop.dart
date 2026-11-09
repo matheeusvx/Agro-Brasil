@@ -173,6 +173,11 @@ class DesktopShell extends StatelessWidget {
                       ),
                     ),
                     IconButton(
+                      tooltip: 'Inteligência hídrica territorial',
+                      onPressed: () => onNavigate('water-dashboard'),
+                      icon: const Icon(Icons.water_drop_outlined),
+                    ),
+                    IconButton(
                       tooltip: 'Atualizar informações',
                       onPressed:
                           controller.loading || controller.propertyId == null

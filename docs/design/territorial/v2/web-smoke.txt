@@ -1,0 +1,5 @@
+
+> agro-mais-brasil@0.1.0 test:mobile:smoke
+> node scripts/smoke-mobile.mjs
+
+Smoke aprovado: autenticação, home, painel hídrico real, clima desabilitado, reload, fontes e WebAssembly locais.

@@ -1,0 +1,4 @@
+- menu "Menu pop-up":
+  - group:
+    - menuitem "Propriedade fictícia — SMOKE"
+    - menuitem "Outra propriedade vazia"

@@ -1,0 +1,9 @@
+00:00 +0: loading C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/production_dashboard_test.dart
+00:00 +0: todas as páginas, propriedade, organização e ofertas próprias; reserva não subtrai duas vezes
+00:00 +1: várias culturas, vazio e produção sem oferta não viram excedente
+00:00 +2: cache isolado, desatualizado, 403 sem fallback e logout remove cópia
+00:00 +3: inconsistências de paginação e quantidade recusam totais parciais
+00:00 +4: ApiRepository transmite identidade e scope=mine em todas as páginas
+00:00 +5: gráfico interativo, detalhes, offline e alvos de toque
+00:01 +6: 320dp texto 200%, propriedade vazia e erro recuperável
+00:01 +7: All tests passed!

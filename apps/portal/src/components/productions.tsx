@@ -129,7 +129,7 @@ function ProductionList() {
     });
   }
   return (
-    <>
+    <div className="production-module">
       <div className="page-heading">
         <div>
           <p className="eyebrow">DA COLHEITA À ORIGEM</p>
@@ -405,6 +405,6 @@ function ProductionList() {
         consultar os detalhes e sua linha do tempo.
       </p>
       <ProductionDetails id={detail} onClose={() => setDetail(null)} />
-    </>
+    </div>
   );
 }

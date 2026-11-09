@@ -1,0 +1,28 @@
+{
+  "previous_verified_files": {
+    "agua01": 78,
+    "agua02": 30,
+    "agua03": 17
+  },
+  "no_fit": true,
+  "no_predict": true,
+  "no_test_opening": true,
+  "reference_period": [
+    "2000-01-01",
+    "2019-12-31"
+  ],
+  "source_updated_at_utc": "2026-11-06T14:21:49.397740+00:00",
+  "inputs": {
+    "config.json": "930be0ec2f31988bb0060ecb78557dbc93847194b36302f75ff016a9d47074c0",
+    "data/inventory.json": "c3a73df3db9a5abb1c96dd470c76685614f0004b92a74a74f9d46ce1be8e2691",
+    "data/provenance.json": "9e7f3b6504edbcc248c1afcc78e5bdd00be9261ff01d2e91436f458011b9cc11",
+    "data/processed/daily.csv": "463c9286f7384b6c4715d3ec01501eb2033deb31137187ab806242be25434a74",
+    "data/reports/quality.md": "1f070f72d36e97d9c2fb4f4b68ab214fa444e864a3e0a82676f738f91dad1cee",
+    "docs/fontes-comparacao.md": "c97bfc90451a99d1f73a1628d7292b4138e4e976ec72888e0fe466937854eab2"
+  },
+  "code_sha256": "4bc5623bfea8f86390d3bc3811b6669d57c6541628ff5ce0b143c27660669f45",
+  "previous_inventory_sha256": {
+    "agua02": "004c3966bb7b14cc02f620aaf98e20a48967a3e7e4dc49591f74e031078e0e5a",
+    "agua03": "1f3818a3ee5081fdb9bf060cbfb40530e6224bfaa8eb57a2d9f9971620ee111d"
+  }
+}

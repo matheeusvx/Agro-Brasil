@@ -1,0 +1,12 @@
+{
+  "url": "https://ph.spaguas.sp.gov.br/Pluviometricos/Posto",
+  "method": "POST read-only report",
+  "station": "E3-097",
+  "year": 2000,
+  "frequency": "daily",
+  "retrieved_at_utc": "2026-11-06T14:25:48.680198+00:00",
+  "sha256": "c7dfce75663d150e75bcf536e54e4e0f130020d53dd290ac4e746180e8a6e94e",
+  "bytes": 62909,
+  "status": 200,
+  "note": "Relatório original; não integrado nem harmonizado com NASA. Janelas de acumulação e flags exigem verificação."
+}

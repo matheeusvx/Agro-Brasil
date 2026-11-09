@@ -13,6 +13,7 @@ import 'tasks.dart';
 import 'design.dart';
 import 'desktop.dart';
 import 'illustrations.dart';
+import 'territorial/water_dashboard.dart';
 
 const galleryEnabled = bool.fromEnvironment('DEMO_GALLERY');
 Uri apiBase() {
@@ -365,7 +366,12 @@ class _AppShellState extends State<AppShell> {
   }
 
   Future<void> navigate(String destination) async {
-    if (destination == 'production-new' || destination == 'offer-new') {
+    if (destination == 'water-dashboard') {
+      await Navigator.push(
+        context,
+        MaterialPageRoute<void>(builder: (_) => const WaterDashboard()),
+      );
+    } else if (destination == 'production-new' || destination == 'offer-new') {
       await Navigator.push(
         context,
         MaterialPageRoute<void>(
@@ -443,6 +449,11 @@ class _AppShellState extends State<AppShell> {
                 ],
               ),
               actions: [
+                IconButton(
+                  tooltip: 'Inteligência hídrica territorial',
+                  onPressed: () => navigate('water-dashboard'),
+                  icon: const Icon(Icons.water_drop_outlined),
+                ),
                 IconButton(
                   tooltip: 'Atualizar informações',
                   onPressed: controller.loading || controller.propertyId == null

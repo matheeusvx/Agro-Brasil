@@ -193,9 +193,10 @@ void main() {
           if (destination == 'histórico') {
             await tester.tap(find.text('Produção').last);
             await tester.pumpAndSettle();
-            await Scrollable.ensureVisible(
-              tester.element(find.text('Alface')),
-              alignment: .3,
+            await tester.scrollUntilVisible(
+              find.text('Alface').hitTestable(),
+              150,
+              scrollable: find.byType(Scrollable).first,
             );
             await tester.pumpAndSettle();
             expect(find.text('Alface').hitTestable(), findsOneWidget);

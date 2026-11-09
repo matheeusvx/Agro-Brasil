@@ -1,0 +1,21 @@
+{
+  "device": "emulator-5554",
+  "avd": "Medium_Phone_API_36.1",
+  "androidVersion": "16",
+  "api": "36",
+  "viewportDp": "390x844",
+  "screenshotPixels": "780x1688",
+  "density": 320,
+  "fontScale": 1,
+  "additionalViewport": "320x844, Android font_scale=2.0; screenshot reviewed",
+  "home": "DEMO_GALLERY offline fixture, fictitious and labeled, no writes",
+  "water": "Audited real NASA POWER AGUA-04 embedded exports; not fixture",
+  "networkDuringRecording": "Wi-Fi and mobile data disabled; restored in finally",
+  "schemaVersion": "agua04-1.0",
+  "dataAsOf": "2025-12-31",
+  "snapshotGeneratedAt": "2026-11-06T12:29:11.38709-03:00",
+  "recordedAtUtc": "2026-11-09T12:37:17.566329Z",
+  "video": "Native adb screenrecord; no mockup or synthetic frames",
+  "recordingTimeLimitSeconds": 50,
+  "actualMediaDurationSeconds": 35.960511
+}

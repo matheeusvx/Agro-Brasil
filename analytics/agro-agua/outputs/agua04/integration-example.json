@@ -1,0 +1,478 @@
+{
+  "schema_version": "agua04-1.0",
+  "purpose": "snapshot_academico_retrospectivo_sem_endpoint",
+  "data_as_of": "2025-12-31",
+  "generated_at_utc": "2026-11-06T15:29:11.387090+00:00",
+  "indicators": [
+    {
+      "id": "rain_7d",
+      "name": "Precipitação acumulada de 7 dias",
+      "description": "Soma retrospectiva incluindo o último dia LST; não é previsão.",
+      "value": 24.219999999999963,
+      "unit": "mm",
+      "municipality": {
+        "name": "Mogi das Cruzes",
+        "state": "SP",
+        "ibge_code": "3530607"
+      },
+      "reference_coordinates": {
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "role": "sede_municipal_referencia"
+      },
+      "observed_period": {
+        "start": "2025-12-25",
+        "end": "2025-12-31",
+        "time_standard": "LST"
+      },
+      "source": {
+        "name": "NASA POWER",
+        "community": "AG",
+        "frequency": "daily",
+        "url": "https://power.larc.nasa.gov/docs/services/api/temporal/daily/",
+        "daily_sha256": "463c9286f7384b6c4715d3ec01501eb2033deb31137187ab806242be25434a74"
+      },
+      "source_updated_at_utc": "2026-11-06T14:21:49.397740+00:00",
+      "quality": {
+        "status": "completo_no_periodo",
+        "dataset_completeness_pct": 100,
+        "external_validation": "nao_realizada",
+        "imputation": false
+      },
+      "limitations": [
+        "Produto meteorológico regional em grade; não mede umidade do solo, água de propriedade ou reservatórios.",
+        "LST difere de UTC/fuso civil; sem validação externa com janela alinhada.",
+        "NASA tem latência e revisões; observação final histórica não comprova disponibilidade na data original.",
+        "Níveis estatísticos exploratórios, sem validação de danos, decisões de manejo ou risco agrícola."
+      ],
+      "classification": "historico",
+      "nature": "historical_observation",
+      "operational_availability": "retrospectivo_sem_servico",
+      "decision_authorized": false,
+      "informative_level": "entre_q10_q25",
+      "reference_period": {
+        "start": "2000-01-01",
+        "end": "2019-12-31"
+      },
+      "threshold_reference": "thresholds.csv:rain_7d:12"
+    },
+    {
+      "id": "rain_30d",
+      "name": "Precipitação acumulada de 30 dias",
+      "description": "Soma retrospectiva incluindo o último dia LST; não é previsão.",
+      "value": 86.5,
+      "unit": "mm",
+      "municipality": {
+        "name": "Mogi das Cruzes",
+        "state": "SP",
+        "ibge_code": "3530607"
+      },
+      "reference_coordinates": {
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "role": "sede_municipal_referencia"
+      },
+      "observed_period": {
+        "start": "2025-12-02",
+        "end": "2025-12-31",
+        "time_standard": "LST"
+      },
+      "source": {
+        "name": "NASA POWER",
+        "community": "AG",
+        "frequency": "daily",
+        "url": "https://power.larc.nasa.gov/docs/services/api/temporal/daily/",
+        "daily_sha256": "463c9286f7384b6c4715d3ec01501eb2033deb31137187ab806242be25434a74"
+      },
+      "source_updated_at_utc": "2026-11-06T14:21:49.397740+00:00",
+      "quality": {
+        "status": "completo_no_periodo",
+        "dataset_completeness_pct": 100,
+        "external_validation": "nao_realizada",
+        "imputation": false
+      },
+      "limitations": [
+        "Produto meteorológico regional em grade; não mede umidade do solo, água de propriedade ou reservatórios.",
+        "LST difere de UTC/fuso civil; sem validação externa com janela alinhada.",
+        "NASA tem latência e revisões; observação final histórica não comprova disponibilidade na data original.",
+        "Níveis estatísticos exploratórios, sem validação de danos, decisões de manejo ou risco agrícola."
+      ],
+      "classification": "historico",
+      "nature": "historical_observation",
+      "operational_availability": "retrospectivo_sem_servico",
+      "decision_authorized": false,
+      "informative_level": "abaixo_q10",
+      "reference_period": {
+        "start": "2000-01-01",
+        "end": "2019-12-31"
+      },
+      "threshold_reference": "thresholds.csv:rain_30d:12"
+    },
+    {
+      "id": "low_run",
+      "name": "Dias consecutivos de baixa precipitação",
+      "description": "Número de dias P<1 mm/dia terminando no último dia, sem antecipar o fim do evento.",
+      "value": 0.0,
+      "unit": "days",
+      "municipality": {
+        "name": "Mogi das Cruzes",
+        "state": "SP",
+        "ibge_code": "3530607"
+      },
+      "reference_coordinates": {
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "role": "sede_municipal_referencia"
+      },
+      "observed_period": {
+        "start": "2000-01-01",
+        "end": "2025-12-31",
+        "time_standard": "LST"
+      },
+      "source": {
+        "name": "NASA POWER",
+        "community": "AG",
+        "frequency": "daily",
+        "url": "https://power.larc.nasa.gov/docs/services/api/temporal/daily/",
+        "daily_sha256": "463c9286f7384b6c4715d3ec01501eb2033deb31137187ab806242be25434a74"
+      },
+      "source_updated_at_utc": "2026-11-06T14:21:49.397740+00:00",
+      "quality": {
+        "status": "completo_no_periodo",
+        "dataset_completeness_pct": 100,
+        "external_validation": "nao_realizada",
+        "imputation": false
+      },
+      "limitations": [
+        "Produto meteorológico regional em grade; não mede umidade do solo, água de propriedade ou reservatórios.",
+        "LST difere de UTC/fuso civil; sem validação externa com janela alinhada.",
+        "NASA tem latência e revisões; observação final histórica não comprova disponibilidade na data original.",
+        "Níveis estatísticos exploratórios, sem validação de danos, decisões de manejo ou risco agrícola."
+      ],
+      "classification": "historico",
+      "nature": "historical_observation",
+      "operational_availability": "retrospectivo_sem_servico",
+      "decision_authorized": false,
+      "informative_level": "sem_sequencia",
+      "threshold_reference": "thresholds.csv:low_run:12",
+      "reference_period": {
+        "start": "2000-01-01",
+        "end": "2019-12-31"
+      }
+    },
+    {
+      "id": "monthly_rain",
+      "name": "Precipitação do mês encerrado",
+      "description": "Total de dezembro/2025, todos os dias presentes.",
+      "value": 86.56999999999996,
+      "unit": "mm",
+      "municipality": {
+        "name": "Mogi das Cruzes",
+        "state": "SP",
+        "ibge_code": "3530607"
+      },
+      "reference_coordinates": {
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "role": "sede_municipal_referencia"
+      },
+      "observed_period": {
+        "start": "2025-12-01",
+        "end": "2025-12-31",
+        "time_standard": "LST"
+      },
+      "source": {
+        "name": "NASA POWER",
+        "community": "AG",
+        "frequency": "daily",
+        "url": "https://power.larc.nasa.gov/docs/services/api/temporal/daily/",
+        "daily_sha256": "463c9286f7384b6c4715d3ec01501eb2033deb31137187ab806242be25434a74"
+      },
+      "source_updated_at_utc": "2026-11-06T14:21:49.397740+00:00",
+      "quality": {
+        "status": "completo_no_periodo",
+        "dataset_completeness_pct": 100,
+        "external_validation": "nao_realizada",
+        "imputation": false
+      },
+      "limitations": [
+        "Produto meteorológico regional em grade; não mede umidade do solo, água de propriedade ou reservatórios.",
+        "LST difere de UTC/fuso civil; sem validação externa com janela alinhada.",
+        "NASA tem latência e revisões; observação final histórica não comprova disponibilidade na data original.",
+        "Níveis estatísticos exploratórios, sem validação de danos, decisões de manejo ou risco agrícola."
+      ],
+      "classification": "historico",
+      "nature": "historical_observation",
+      "operational_availability": "retrospectivo_sem_servico",
+      "decision_authorized": false,
+      "informative_level": "abaixo_q10",
+      "threshold_reference": "thresholds.csv:monthly_rain:12"
+    },
+    {
+      "id": "monthly_anomaly_absolute",
+      "name": "Anomalia mensal de precipitação",
+      "description": "Comparação descritiva de dezembro/2025 com dezembro/2000-2019; não é SPI ou alerta oficial.",
+      "value": -99.70000000000002,
+      "unit": "mm",
+      "municipality": {
+        "name": "Mogi das Cruzes",
+        "state": "SP",
+        "ibge_code": "3530607"
+      },
+      "reference_coordinates": {
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "role": "sede_municipal_referencia"
+      },
+      "observed_period": {
+        "start": "2025-12-01",
+        "end": "2025-12-31",
+        "time_standard": "LST"
+      },
+      "source": {
+        "name": "NASA POWER",
+        "community": "AG",
+        "frequency": "daily",
+        "url": "https://power.larc.nasa.gov/docs/services/api/temporal/daily/",
+        "daily_sha256": "463c9286f7384b6c4715d3ec01501eb2033deb31137187ab806242be25434a74"
+      },
+      "source_updated_at_utc": "2026-11-06T14:21:49.397740+00:00",
+      "quality": {
+        "status": "completo_no_periodo",
+        "dataset_completeness_pct": 100,
+        "external_validation": "nao_realizada",
+        "imputation": false
+      },
+      "limitations": [
+        "Produto meteorológico regional em grade; não mede umidade do solo, água de propriedade ou reservatórios.",
+        "LST difere de UTC/fuso civil; sem validação externa com janela alinhada.",
+        "NASA tem latência e revisões; observação final histórica não comprova disponibilidade na data original.",
+        "Níveis estatísticos exploratórios, sem validação de danos, decisões de manejo ou risco agrícola."
+      ],
+      "classification": "informativo",
+      "nature": "climate_anomaly",
+      "operational_availability": "retrospectivo_sem_servico",
+      "decision_authorized": false,
+      "informative_level": null,
+      "reference_period": {
+        "start": "2000-01-01",
+        "end": "2019-12-31"
+      },
+      "related_level_indicator": "monthly_rain"
+    },
+    {
+      "id": "monthly_anomaly_relative",
+      "name": "Anomalia mensal de precipitação",
+      "description": "Comparação descritiva de dezembro/2025 com dezembro/2000-2019; não é SPI ou alerta oficial.",
+      "value": -53.52445374993291,
+      "unit": "%",
+      "municipality": {
+        "name": "Mogi das Cruzes",
+        "state": "SP",
+        "ibge_code": "3530607"
+      },
+      "reference_coordinates": {
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "role": "sede_municipal_referencia"
+      },
+      "observed_period": {
+        "start": "2025-12-01",
+        "end": "2025-12-31",
+        "time_standard": "LST"
+      },
+      "source": {
+        "name": "NASA POWER",
+        "community": "AG",
+        "frequency": "daily",
+        "url": "https://power.larc.nasa.gov/docs/services/api/temporal/daily/",
+        "daily_sha256": "463c9286f7384b6c4715d3ec01501eb2033deb31137187ab806242be25434a74"
+      },
+      "source_updated_at_utc": "2026-11-06T14:21:49.397740+00:00",
+      "quality": {
+        "status": "completo_no_periodo",
+        "dataset_completeness_pct": 100,
+        "external_validation": "nao_realizada",
+        "imputation": false
+      },
+      "limitations": [
+        "Produto meteorológico regional em grade; não mede umidade do solo, água de propriedade ou reservatórios.",
+        "LST difere de UTC/fuso civil; sem validação externa com janela alinhada.",
+        "NASA tem latência e revisões; observação final histórica não comprova disponibilidade na data original.",
+        "Níveis estatísticos exploratórios, sem validação de danos, decisões de manejo ou risco agrícola."
+      ],
+      "classification": "informativo",
+      "nature": "climate_anomaly",
+      "operational_availability": "retrospectivo_sem_servico",
+      "decision_authorized": false,
+      "informative_level": null,
+      "reference_period": {
+        "start": "2000-01-01",
+        "end": "2019-12-31"
+      },
+      "related_level_indicator": "monthly_rain"
+    },
+    {
+      "id": "monthly_anomaly_standardized",
+      "name": "Anomalia mensal de precipitação",
+      "description": "Comparação descritiva de dezembro/2025 com dezembro/2000-2019; não é SPI ou alerta oficial.",
+      "value": -1.5505122735075632,
+      "unit": "1",
+      "municipality": {
+        "name": "Mogi das Cruzes",
+        "state": "SP",
+        "ibge_code": "3530607"
+      },
+      "reference_coordinates": {
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "role": "sede_municipal_referencia"
+      },
+      "observed_period": {
+        "start": "2025-12-01",
+        "end": "2025-12-31",
+        "time_standard": "LST"
+      },
+      "source": {
+        "name": "NASA POWER",
+        "community": "AG",
+        "frequency": "daily",
+        "url": "https://power.larc.nasa.gov/docs/services/api/temporal/daily/",
+        "daily_sha256": "463c9286f7384b6c4715d3ec01501eb2033deb31137187ab806242be25434a74"
+      },
+      "source_updated_at_utc": "2026-11-06T14:21:49.397740+00:00",
+      "quality": {
+        "status": "completo_no_periodo",
+        "dataset_completeness_pct": 100,
+        "external_validation": "nao_realizada",
+        "imputation": false
+      },
+      "limitations": [
+        "Produto meteorológico regional em grade; não mede umidade do solo, água de propriedade ou reservatórios.",
+        "LST difere de UTC/fuso civil; sem validação externa com janela alinhada.",
+        "NASA tem latência e revisões; observação final histórica não comprova disponibilidade na data original.",
+        "Níveis estatísticos exploratórios, sem validação de danos, decisões de manejo ou risco agrícola."
+      ],
+      "classification": "informativo",
+      "nature": "climate_anomaly",
+      "operational_availability": "retrospectivo_sem_servico",
+      "decision_authorized": false,
+      "informative_level": null,
+      "reference_period": {
+        "start": "2000-01-01",
+        "end": "2019-12-31"
+      },
+      "related_level_indicator": "monthly_rain"
+    },
+    {
+      "id": "monthly_seasonal_reference",
+      "name": "Média histórica de dezembro",
+      "description": "Média dos 20 totais completos de dezembro no treino; não é normal oficial de 30 anos.",
+      "value": 186.26999999999998,
+      "unit": "mm",
+      "municipality": {
+        "name": "Mogi das Cruzes",
+        "state": "SP",
+        "ibge_code": "3530607"
+      },
+      "reference_coordinates": {
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "role": "sede_municipal_referencia"
+      },
+      "observed_period": {
+        "start": "2000-01-01",
+        "end": "2019-12-31",
+        "time_standard": "LST"
+      },
+      "source": {
+        "name": "NASA POWER",
+        "community": "AG",
+        "frequency": "daily",
+        "url": "https://power.larc.nasa.gov/docs/services/api/temporal/daily/",
+        "daily_sha256": "463c9286f7384b6c4715d3ec01501eb2033deb31137187ab806242be25434a74"
+      },
+      "source_updated_at_utc": "2026-11-06T14:21:49.397740+00:00",
+      "quality": {
+        "status": "completo_no_periodo",
+        "dataset_completeness_pct": 100,
+        "external_validation": "nao_realizada",
+        "imputation": false
+      },
+      "limitations": [
+        "Produto meteorológico regional em grade; não mede umidade do solo, água de propriedade ou reservatórios.",
+        "LST difere de UTC/fuso civil; sem validação externa com janela alinhada.",
+        "NASA tem latência e revisões; observação final histórica não comprova disponibilidade na data original.",
+        "Níveis estatísticos exploratórios, sem validação de danos, decisões de manejo ou risco agrícola."
+      ],
+      "classification": "informativo",
+      "nature": "historical_reference",
+      "operational_availability": "retrospectivo_sem_servico",
+      "decision_authorized": false,
+      "informative_level": null,
+      "sample_years": 20
+    },
+    {
+      "id": "ridge_archived_next7",
+      "name": "Estimativa experimental Ridge arquivada",
+      "description": "Estimativa já calculada no AGUA-03, reapresentada sem nova inferência; alvo de sete dias após a origem.",
+      "value": 41.66415465563673,
+      "unit": "mm",
+      "municipality": {
+        "name": "Mogi das Cruzes",
+        "state": "SP",
+        "ibge_code": "3530607"
+      },
+      "reference_coordinates": {
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "role": "sede_municipal_referencia"
+      },
+      "observed_period": {
+        "start": "2000-01-01",
+        "end": "2025-12-24",
+        "time_standard": "LST"
+      },
+      "source": {
+        "name": "NASA POWER",
+        "community": "AG",
+        "frequency": "daily",
+        "url": "https://power.larc.nasa.gov/docs/services/api/temporal/daily/",
+        "daily_sha256": "463c9286f7384b6c4715d3ec01501eb2033deb31137187ab806242be25434a74"
+      },
+      "source_updated_at_utc": "2026-11-06T14:21:49.397740+00:00",
+      "quality": {
+        "status": "completo_no_periodo",
+        "dataset_completeness_pct": 100,
+        "external_validation": "nao_realizada",
+        "imputation": false
+      },
+      "limitations": [
+        "Produto meteorológico regional em grade; não mede umidade do solo, água de propriedade ou reservatórios.",
+        "LST difere de UTC/fuso civil; sem validação externa com janela alinhada.",
+        "NASA tem latência e revisões; observação final histórica não comprova disponibilidade na data original.",
+        "Níveis estatísticos exploratórios, sem validação de danos, decisões de manejo ou risco agrícola."
+      ],
+      "classification": "experimental",
+      "nature": "experimental_estimate",
+      "operational_availability": "retrospectivo_sem_servico",
+      "decision_authorized": false,
+      "informative_level": null,
+      "origin_date": "2025-12-24",
+      "target_period": {
+        "start": "2025-12-25",
+        "end": "2025-12-31",
+        "time_standard": "LST"
+      },
+      "archived_prediction_file": "outputs/agua03/test_predictions.csv",
+      "model_frozen_at_utc": "2026-11-06T15:02:46.571458+00:00",
+      "model_evaluation": {
+        "mae_mm": 14.244647057700682,
+        "r2": 0.226383456202512,
+        "gain_mae_pct": 9.88357265883698,
+        "high_rain_gain_mae_pct": 0.1515773168986767,
+        "individual_prediction_interval": null
+      }
+    }
+  ]
+}

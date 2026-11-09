@@ -71,18 +71,33 @@ try {
   await page.getByText('Clima indisponível',{exact:true}).waitFor();
   await page.getByText('Cadastrar minha primeira produção',{exact:true}).or(page.getByText('Ações rápidas',{exact:true})).first().waitFor();
   await page.screenshot({path:resolve(directory,'home.png')});
+  // Territorial history is independent of the fictitious property's live weather.
+  await page.getByRole('button',{name:'Inteligência hídrica territorial',exact:true}).click();
+  // Flutter merges adjacent text into accessible paragraphs on web.
+  await page.getByText('Mogi das Cruzes/SP',{exact:false}).first().waitFor();
+  await page.getByText('86,57',{exact:false}).first().waitFor();
+  await page.getByText('Choveu 54% menos que a média histórica',{exact:false}).first().waitFor();
+  await page.getByText('Dados históricos até 31/12/2025 · NASA POWER',{exact:false}).first().waitFor();
+  await page.screenshot({path:resolve(directory,'water-dashboard.png')});
+  await page.getByRole('button',{name:'Voltar',exact:true}).click();
+  await page.getByText('Clima indisponível',{exact:true}).waitFor();
   // Reload com o mesmo perfil exercita eventuais registros do service worker do build.
   await page.reload(); await page.getByRole('button',{name:'Verificar acesso',exact:true}).waitFor();
   assert.equal(responses.some(r=>r.url.endsWith('.wasm') && r.status===200 && r.type?.includes('application/wasm')),true,'WebAssembly foi carregado');
   assert.equal(responses.some(r=>r.url.endsWith('roboto-regular.ttf') && r.status===200),true,'Fonte local carregada');
   assert.deepEqual(responses.filter(r=>r.status>=400),[],'Nenhum HTTP de erro');
   assert.deepEqual(failedRequests,[],'Nenhum recurso bloqueado ou externo'); assert.deepEqual(errors,[],'Console sem erro');
-  const evidence={verifiedAt:new Date().toISOString(),browser:await browser.version(),executable:executablePath,mode:existing?'EXISTING_LOCAL_DEMONSTRATION':'ISOLATED_FICTITIOUS_DATABASE',viewport:{width:390,height:844},loginRendered:true,authenticationVerified:true,producerHomeRendered:true,weather:weatherBody,reloadVerified:true,externalRequestsBlockedByTest:true,errors,failedRequests,responses};
-  await writeFile(resolve(directory,'result.json'),JSON.stringify(evidence,null,2)); console.log('Smoke aprovado: autenticação, home, clima desabilitado, reload, fontes e WebAssembly locais.');
+  const evidence={verifiedAt:new Date().toISOString(),browser:await browser.version(),executable:executablePath,mode:existing?'EXISTING_LOCAL_DEMONSTRATION':'ISOLATED_FICTITIOUS_DATABASE',viewport:{width:390,height:844},loginRendered:true,authenticationVerified:true,producerHomeRendered:true,waterDashboardVerified:true,weather:weatherBody,reloadVerified:true,externalRequestsBlockedByTest:true,errors,failedRequests,responses};
+  await writeFile(resolve(directory,'result.json'),JSON.stringify(evidence,null,2)); console.log('Smoke aprovado: autenticação, home, painel hídrico real, clima desabilitado, reload, fontes e WebAssembly locais.');
 } catch (error) {
   const sanitize = value => String(value).split(token || '\0').join('[REDACTED]');
   await mkdir(directory,{recursive:true});
-  await writeFile(resolve(directory,'failure.json'),JSON.stringify({error:sanitize(error.message),errors:errors.map(sanitize),failedRequests},null,2));
+  const failedPage = browser?.contexts()[0]?.pages()[0];
+  if (failedPage) {
+    await failedPage.screenshot({path:resolve(directory,'failure.png')}).catch(()=>{});
+    await writeFile(resolve(directory,'failure-accessibility.txt'),sanitize(await failedPage.locator('body').ariaSnapshot()));
+  }
+  await writeFile(resolve(directory,'failure.json'),JSON.stringify({error:sanitize(error.message),errors:errors.map(sanitize),failedRequests,responses},null,2));
   console.error('Smoke falhou. Consulte failure.json sanitizado.'); process.exitCode=1;
 } finally {
   if(browser) await browser.close(); if(server) await new Promise(r=>server.close(r));

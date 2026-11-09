@@ -1,0 +1,158 @@
+{
+  "reference_period": [
+    "2000-01-01",
+    "2019-12-31"
+  ],
+  "eda_period": [
+    "2000-01-01",
+    "2025-12-31"
+  ],
+  "annual_rain_mean_mm": 1322.270769230769,
+  "annual_rain_min": {
+    "year": 2025,
+    "mm": 739.2800000000001
+  },
+  "annual_rain_max": {
+    "year": 2009,
+    "mm": 1908.75
+  },
+  "oct_mar_fraction_of_total": 0.7363570943225873,
+  "rainiest_calendar_month": 1,
+  "driest_calendar_month": 8,
+  "zero_days": 1016,
+  "low_days_lt1": 4897,
+  "longest_low_spell": {
+    "start": "2022-06-11",
+    "end": "2022-07-28",
+    "days": 48,
+    "left_censored": false,
+    "right_censored": false
+  },
+  "daily_rain_max": {
+    "date": "2005-05-25",
+    "mm": 122.29
+  },
+  "max_trailing_7d": {
+    "end": "2011-03-05",
+    "mm": 174.11999999999995
+  },
+  "max_trailing_30d": {
+    "end": "2011-01-11",
+    "mm": 399.8
+  },
+  "target_correlations_train_only": {
+    "past_rain_7d_mm": 0.4188568203981085,
+    "past_rain_30d_mm": 0.4660096316945522,
+    "RH2M_lag0": 0.10740866683004954,
+    "calendar_sin": -0.13203366878623093,
+    "calendar_cos": 0.5685576653195427
+  },
+  "daily_rain_lag1_corr_train": 0.39866766414596194,
+  "daily_rain_lag1_demeaned_corr_train": 0.3384662468816379,
+  "daily_rain_lag7_demeaned_corr_train": 0.002636527304711785,
+  "temperature_mean_C": 20.19221122459724,
+  "rh_mean_pct": 79.893105191113,
+  "warmest_annual_mean": {
+    "year": 2024,
+    "C": 21.743469945355194
+  },
+  "lowest_annual_rh": {
+    "year": 2014,
+    "pct": 73.02923287671233
+  },
+  "split_counts_by_availability_lag": {
+    "0": {
+      "train": {
+        "origin_dates": 7305,
+        "eligible": 7269,
+        "first_eligible": "2000-01-30",
+        "last_eligible": "2019-12-24",
+        "excluded_by_reason": {
+          "insufficient_past_history": 29,
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      },
+      "validation": {
+        "origin_dates": 1096,
+        "eligible": 1089,
+        "first_eligible": "2020-01-01",
+        "last_eligible": "2022-12-24",
+        "excluded_by_reason": {
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      },
+      "test": {
+        "origin_dates": 1096,
+        "eligible": 1089,
+        "first_eligible": "2023-01-01",
+        "last_eligible": "2025-12-24",
+        "excluded_by_reason": {
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      }
+    },
+    "2": {
+      "train": {
+        "origin_dates": 7305,
+        "eligible": 7267,
+        "first_eligible": "2000-02-01",
+        "last_eligible": "2019-12-24",
+        "excluded_by_reason": {
+          "insufficient_past_history": 31,
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      },
+      "validation": {
+        "origin_dates": 1096,
+        "eligible": 1089,
+        "first_eligible": "2020-01-01",
+        "last_eligible": "2022-12-24",
+        "excluded_by_reason": {
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      },
+      "test": {
+        "origin_dates": 1096,
+        "eligible": 1089,
+        "first_eligible": "2023-01-01",
+        "last_eligible": "2025-12-24",
+        "excluded_by_reason": {
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      }
+    },
+    "7": {
+      "train": {
+        "origin_dates": 7305,
+        "eligible": 7262,
+        "first_eligible": "2000-02-06",
+        "last_eligible": "2019-12-24",
+        "excluded_by_reason": {
+          "insufficient_past_history": 36,
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      },
+      "validation": {
+        "origin_dates": 1096,
+        "eligible": 1089,
+        "first_eligible": "2020-01-01",
+        "last_eligible": "2022-12-24",
+        "excluded_by_reason": {
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      },
+      "test": {
+        "origin_dates": 1096,
+        "eligible": 1089,
+        "first_eligible": "2023-01-01",
+        "last_eligible": "2025-12-24",
+        "excluded_by_reason": {
+          "target_crosses_boundary_or_unavailable": 7
+        }
+      }
+    }
+  },
+  "no_model_trained": true,
+  "no_validation_or_test_skill_computed": true,
+  "decision": "GO condicional para experimento retrospectivo; habilidade preditiva não demonstrada; uso operacional ainda não justificado."
+}

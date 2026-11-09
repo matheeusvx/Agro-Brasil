@@ -1,0 +1,184 @@
+{
+  "expected_records": 9497,
+  "source_records": 9497,
+  "processed_records": 9497,
+  "duplicate_dates": 0,
+  "missing_dates": [],
+  "raw_values_by_variable": {
+    "PRECTOTCORR": 9497,
+    "T2M": 9497,
+    "T2M_MAX": 9497,
+    "T2M_MIN": 9497,
+    "RH2M": 9497,
+    "WS10M": 9497,
+    "ALLSKY_SFC_SW_DWN": 9497
+  },
+  "available_start": "2000-01-01",
+  "available_end": "2025-12-31",
+  "variables": {
+    "PRECTOTCORR": {
+      "units": "mm/day",
+      "valid": 9497,
+      "missing": 0,
+      "completeness_pct": 100.0,
+      "missing_periods": [],
+      "screening_range": [
+        0,
+        1000
+      ],
+      "available_start": "2000-01-01",
+      "available_end": "2025-12-31",
+      "statistics": {
+        "count": 9497.0,
+        "mean": 3.61998947035906,
+        "std": 6.277285494892506,
+        "min": 0.0,
+        "25%": 0.05,
+        "50%": 0.89,
+        "75%": 4.48,
+        "max": 122.29
+      }
+    },
+    "T2M": {
+      "units": "C",
+      "valid": 9497,
+      "missing": 0,
+      "completeness_pct": 100.0,
+      "missing_periods": [],
+      "screening_range": [
+        -50,
+        60
+      ],
+      "available_start": "2000-01-01",
+      "available_end": "2025-12-31",
+      "statistics": {
+        "count": 9497.0,
+        "mean": 20.19221122459724,
+        "std": 3.262262156392507,
+        "min": 8.16,
+        "25%": 17.97,
+        "50%": 20.45,
+        "75%": 22.69,
+        "max": 30.75
+      }
+    },
+    "T2M_MAX": {
+      "units": "C",
+      "valid": 9497,
+      "missing": 0,
+      "completeness_pct": 100.0,
+      "missing_periods": [],
+      "screening_range": [
+        -50,
+        60
+      ],
+      "available_start": "2000-01-01",
+      "available_end": "2025-12-31",
+      "statistics": {
+        "count": 9497.0,
+        "mean": 26.06745603874908,
+        "std": 3.917238981770295,
+        "min": 10.26,
+        "25%": 23.8,
+        "50%": 26.29,
+        "75%": 28.6,
+        "max": 38.85
+      }
+    },
+    "T2M_MIN": {
+      "units": "C",
+      "valid": 9497,
+      "missing": 0,
+      "completeness_pct": 100.0,
+      "missing_periods": [],
+      "screening_range": [
+        -50,
+        60
+      ],
+      "available_start": "2000-01-01",
+      "available_end": "2025-12-31",
+      "statistics": {
+        "count": 9497.0,
+        "mean": 15.916583131515214,
+        "std": 3.3093169105337648,
+        "min": 2.67,
+        "25%": 13.52,
+        "50%": 16.17,
+        "75%": 18.6,
+        "max": 24.32
+      }
+    },
+    "RH2M": {
+      "units": "%",
+      "valid": 9497,
+      "missing": 0,
+      "completeness_pct": 100.0,
+      "missing_periods": [],
+      "screening_range": [
+        0,
+        100
+      ],
+      "available_start": "2000-01-01",
+      "available_end": "2025-12-31",
+      "statistics": {
+        "count": 9497.0,
+        "mean": 79.893105191113,
+        "std": 9.117692592460328,
+        "min": 28.58,
+        "25%": 75.34,
+        "50%": 81.89,
+        "75%": 86.42,
+        "max": 96.57
+      }
+    },
+    "WS10M": {
+      "units": "m/s",
+      "valid": 9497,
+      "missing": 0,
+      "completeness_pct": 100.0,
+      "missing_periods": [],
+      "screening_range": [
+        0,
+        100
+      ],
+      "available_start": "2000-01-01",
+      "available_end": "2025-12-31",
+      "statistics": {
+        "count": 9497.0,
+        "mean": 3.35545751289881,
+        "std": 1.1522623911509546,
+        "min": 1.06,
+        "25%": 2.48,
+        "50%": 3.14,
+        "75%": 4.04,
+        "max": 12.06
+      }
+    },
+    "ALLSKY_SFC_SW_DWN": {
+      "units": "MJ/m^2/day",
+      "valid": 9497,
+      "missing": 0,
+      "completeness_pct": 100.0,
+      "missing_periods": [],
+      "screening_range": [
+        0,
+        60
+      ],
+      "available_start": "2000-01-01",
+      "available_end": "2025-12-31",
+      "statistics": {
+        "count": 9497.0,
+        "mean": 16.33116668421607,
+        "std": 5.901595306014725,
+        "min": 1.67,
+        "25%": 12.3,
+        "50%": 16.17,
+        "75%": 20.54,
+        "max": 32.13
+      }
+    }
+  },
+  "issues": [],
+  "source_messages": [],
+  "retrieved_at_utc": "2026-11-06T14:21:49.397740+00:00"
+}

@@ -1,0 +1,87 @@
+[
+  {
+    "file": "cv_metrics.csv",
+    "bytes": 2134,
+    "sha256": "ecf47ccc039952fb5d6873e8683ab858c8af7fa25bb61cdb5d831a9c3bfecbd4"
+  },
+  {
+    "file": "development_metrics.csv",
+    "bytes": 1113,
+    "sha256": "e2303d6fdb7adf7f5cd73b60457ababea6baf1926b8f86ae17ed88fc82c26758"
+  },
+  {
+    "file": "development_predictions.csv",
+    "bytes": 854221,
+    "sha256": "bf0405819209e63c1d5a2ce8037e3190822ac7f67ca2f4986120822f2710fced"
+  },
+  {
+    "file": "figures/01_real_estimado.png",
+    "bytes": 202043,
+    "sha256": "d2346a872fd4348c70ed73a93683916fd750dc17d72662fda1dfbd7c435eebba"
+  },
+  {
+    "file": "figures/02_erros.png",
+    "bytes": 52204,
+    "sha256": "9be14971866b3d44250fb7856a5250281b8934ef57ce314a58516711f2a77eaa"
+  },
+  {
+    "file": "figures/03_periodos.png",
+    "bytes": 24246,
+    "sha256": "9b97df70e1ee08565beddbea603eb683fe7edc2561dee49c7aec03d57e240009"
+  },
+  {
+    "file": "figures/04_serie_teste.png",
+    "bytes": 130375,
+    "sha256": "c85415d975c74b6b2ed19d696da291225c3eb21d54bc61adb69456971c0de340"
+  },
+  {
+    "file": "frozen.json",
+    "bytes": 7831,
+    "sha256": "f271da845a169e162e35081256ffeea0afa927e8bee2724c02cfeb07651cfed2"
+  },
+  {
+    "file": "metrics.csv",
+    "bytes": 33117,
+    "sha256": "22dda8c94c873da2f81a92c5a3c20f968620c101b082dc27322849355ac56f73"
+  },
+  {
+    "file": "metrics.json",
+    "bytes": 68242,
+    "sha256": "f295b532de426aae6470ddca232742156ba0258f99fc236fe3256154ce8029a0"
+  },
+  {
+    "file": "models/hgb.joblib",
+    "bytes": 58133,
+    "sha256": "5808b9c5a7671d9c1b1eed75f552f0f8bf53a639d431ba29258b575136114302"
+  },
+  {
+    "file": "models/ridge.joblib",
+    "bytes": 2020,
+    "sha256": "a7bb4c2a54caa0f7124bf713ec528e4313f18d602af4e3a19b8f51da81535e52"
+  },
+  {
+    "file": "relatorio-tecnico.md",
+    "bytes": 6274,
+    "sha256": "7fba49e3c2c0c11037e989a0fae40b1fa0db664e0586fb3d0daed3ef47a28d6f"
+  },
+  {
+    "file": "test-completed.json",
+    "bytes": 210,
+    "sha256": "a35a643bbd77b5eb3318c861c09c04016b05e9265d43980fdd7097391eab47c6"
+  },
+  {
+    "file": "test-opened.json",
+    "bytes": 174,
+    "sha256": "c5a4d88e0ea9c21bede21bc7cfd55a9007a29f8505d1c7a858e9c75f10192d55"
+  },
+  {
+    "file": "test_predictions.csv",
+    "bytes": 109919,
+    "sha256": "8469b6fa9afcd5abb8d048f2a35d1e38f744a79ecee37d3827e869acd62e0677"
+  },
+  {
+    "file": "uncertainty.csv",
+    "bytes": 1667,
+    "sha256": "873f516044abffd6f735fe6516f03a8c2b32ad2bd4c59f2becbe29aabae82438"
+  }
+]

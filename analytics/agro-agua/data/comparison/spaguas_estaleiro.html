@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Banco de Dados Hidrológicos - DAEE</title>
+    <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="/bootstrap-icons/font/bootstrap-icons.css" />
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" lang="en" content="Banco de Dados Hidrológicos - DAEE">
+    <link rel="icon" sizes="192x192" href="/img/favicons/android-chrome-192x192.png">
+    <!-- for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Banco de Dados Hidrológicos - DAEE">
+    <meta name="theme-color" content="#FFFFFF">
+    <link rel="shortcut icon" href="/img/favicons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicons/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="/img/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/img/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/img/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/img/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/img/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/img/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/img/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/img/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/img/favicons/apple-touch-icon-167x167.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favicons/apple-touch-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="1024x1024" href="/img/favicons/apple-touch-icon-1024x1024.png">
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.js"></script>
+
+</head>
+<body>
+    <header b-laoaqm4fxh class="c-header hidrologia">
+        <nav b-laoaqm4fxh class="c-header--nav o-container">
+            <h1 b-laoaqm4fxh class="c-header--nav__logo">
+                <a href="/">
+                    <img src="/img/main/hidrologia-logo.png" alt="" class="c-header--nav__logo-img">
+                </a>
+            </h1>
+            <ul b-laoaqm4fxh class="c-header--nav__menu">
+                <li b-laoaqm4fxh class="c-header--nav__menu-item has-submenu">
+                    <a b-laoaqm4fxh href="#" class="c-header--nav__menu-item_link" id="menu-fluvio" tipo="fluviometrico">
+                        Dados Fluviométricos
+                    </a>
+                    <ul b-laoaqm4fxh class="c-header--nav__submenu">
+                        <li b-laoaqm4fxh class="c-header--nav__submenu-item">
+                            <a b-laoaqm4fxh href="/Fluviometricos" class="c-header--nav__submenu-item_link">
+                                Medições Fluviométricas
+                            </a>
+                        </li>
+                        <li b-laoaqm4fxh class="c-header--nav__submenu-item">
+                            <a class="c-header--nav__submenu-item_link" href="/Fluviometricos/MedidorEletronico">
+                                Medidor Eletrônico
+                            </a>
+                        </li>
+                        <li b-laoaqm4fxh class="c-header--nav__submenu-item">
+                            <a class="c-header--nav__submenu-item_link" href="/Fluviometricos/MedicoesSedimentares">
+                                Sedimentometria
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li b-laoaqm4fxh class="c-header--nav__menu-item">
+                    <a b-laoaqm4fxh href="/Pluviometricos" class="c-header--nav__menu-item_link" tipo="pluviometrico">
+                        Dados Pluviométricos
+                    </a>
+                </li>
+
+                <li b-laoaqm4fxh class="c-header--nav__menu-item has-submenu">
+                    <a b-laoaqm4fxh href="#" class="c-header--nav__menu-item_link" id="menu-piezo" tipo="piezometrico">
+                        Dados Piezométricos
+                    </a>
+                    <ul b-laoaqm4fxh class="c-header--nav__submenu">
+                        <li b-laoaqm4fxh class="c-header--nav__submenu-item">
+                            <a b-laoaqm4fxh href="/Piezometricos" class="c-header--nav__submenu-item_link">
+                                Medições Piezométricas
+                            </a>
+                        </li>
+                        <li b-laoaqm4fxh class="c-header--nav__submenu-item">
+                            <a class="c-header--nav__submenu-item_link" href="/Piezometricos/MedidorEletronico">
+                                Medidor Eletrônico 
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+       
+    </header>
+    <div b-laoaqm4fxh class="container" id="containerLayout" style="flex: 1;">
+        <main b-laoaqm4fxh role="main">
+            
+
+<style type="text/css">
+
+
+    html,
+    body {
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-size-adjust: 100%;
+        text-rendering: optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        overflow: auto;
+        width: 100%;
+        overflow-x: hidden;
+        margin: 0;
+        right: 0;
+    }
+
+    body {
+        background: #f6f6f6;
+    }
+
+    /** {
+            font-family: Nunito, sans-serif;
+            font-weight: 400;
+            line-height: 1;
+            font-size: 16px;
+            min-width: 0;
+            color: #616161;
+            outline: 0 !important;
+        }*/
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        color: #323232;
+        margin: 0;
+    }
+
+    p {
+        color: #616161;
+        margin: 0;
+    }
+
+    ul,
+    ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    img {
+        max-height: 100%;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    hr {
+        border: 1px solid #EBEBEB;
+        -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+    }
+
+    .c-header .o-container {
+        padding: 0 20px;
+        gap: 20px;
+        max-width: 1076px;
+        margin: 0 auto;
+        height: 100%;
+    }
+
+    .c-header.hidrologia {
+        background: #06383D;
+        height: 60px;
+        padding: 0;
+    }
+
+        .c-header.hidrologia .c-header--nav {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            -ms-flex-align: end;
+            align-items: flex-end;
+        }
+
+    .c-header--nav__logo {
+        margin-bottom: 9px;
+    }
+
+    .c-header--nav__menu {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex: unset;
+        flex: unset;
+    }
+
+    .c-header--nav__menu-item_link {
+        padding: 15px 20px;
+        color: #ffffff;
+        background: transparent;
+        display: block;
+        border-radius: 4px 4px 0 0;
+        transition: 0.25s all ease-out;
+    }
+
+        .c-header--nav__menu-item_link:hover {
+            background: #f6f6f6;
+            color: #06383D;
+        }
+
+        .c-header--nav__menu-item_link.active {
+            background: #f6f6f6;
+            color: #06383D;
+        }
+
+    .table-css.table.table-sm {
+        min-width: 1300px;
+        width: 1300px;
+    }
+
+    .w-1300 {
+        max-width: 1300px;
+    }
+
+    .table-css-anual.table.table-sm {
+        min-width: 300px;
+        width: 300px;
+    }
+
+    table.table-sm th,
+    td {
+        min-width: 100px;
+        width: 100px;
+    }
+</style>
+<link rel="stylesheet" href="/css/cssFCH.css" />
+<link rel="stylesheet" href="/css/relatorios.css" />
+<link rel="stylesheet" href="/css/navbar.css" />
+<form method="post" id="formRelatorio" class="col-xl-12" action="/Pluviometricos/Posto">
+    <section class="card col-xl-7 d-flex me-auto ms-auto align-items-center">
+        <div class="form-header col-xl-12">
+            <h5>E3-097 - ESTALEIRO DAEE</h5>
+            <p>Escolha os dados que deseja consultar</p>
+            <div class="text-danger validation-summary-valid" data-valmsg-summary="true"><ul><li style="display:none"></li>
+</ul></div>
+            <hr />
+        </div>
+
+        <div class="form-fch col-xl-9">
+            <input type="hidden" data-val="true" data-val-required="The Id field is required." id="Id" name="Id" value="da39c05f-4d45-4aa5-8cb6-a383682e207f" />
+            <input type="hidden" data-val="true" data-val-required="The PaginaAtual field is required." id="PaginaAtual" name="PaginaAtual" value="1" />
+            <input type="hidden" value="{&quot;idPostoSemAreia&quot;:null,&quot;prefixoPostoSemAreia&quot;:null,&quot;id&quot;:&quot;da39c05f-4d45-4aa5-8cb6-a383682e207f&quot;,&quot;idUgrhi&quot;:&quot;8171acd1-69cd-4949-89b2-9a2a0e70d916&quot;,&quot;nomeUgrhi&quot;:&quot;ALTO TIETE&quot;,&quot;prefixo&quot;:&quot;E3-097&quot;,&quot;municipio&quot;:&quot;MOJI DAS CRUZES&quot;,&quot;latitude&quot;:&quot;23\u00B0 31\u0027 00\u0027\u0027 &quot;,&quot;longitude&quot;:&quot;46\u00B0 12\u0027 00\u0027\u0027 &quot;,&quot;cursoDagua&quot;:&quot;TIETE,R&quot;,&quot;area&quot;:&quot;&quot;,&quot;nomePosto&quot;:&quot;ESTALEIRO DAEE&quot;,&quot;dataInstalacao&quot;:&quot;1961-01-01T00:00:00&quot;,&quot;exibicoesFluviometricas&quot;:null}" id="PostoDTO" name="PostoDTO" />
+            <div class="form-group">
+                <label class="control-label" for="TipoConsulta">Tipo de Dados</label>
+                <select class="form-control form-select" data-val="true" data-val-required="Tipo de Dados &#xE9; obrigat&#xF3;rio !" id="TipoConsulta" name="TipoConsulta">
+                    <option value="" selected disabled>Selecione ...</option>
+                    <option value="ChuvasDiarias">Chuvas Diárias</option>
+                    <option value="ChuvasMensais">Chuvas Mensais</option>
+                </select>
+                <span class="text-danger field-validation-valid" style="padding-left: calc(100% - 416px)!important" data-valmsg-for="TipoConsulta" data-valmsg-replace="true"></span>
+            </div>
+                <div class="form-group">
+                    <label class="control-label" for="AnoInicial">Ano Inicial</label>
+                    <select class="form-control form-select" data-val="true" data-val-range="O valor de Ano Inicial &#xE9; entre 1753 e 9999 !" data-val-range-max="9999" data-val-range-min="1753" data-val-required="Ano Inicial &#xE9; obrigat&#xF3;rio !" id="AnoInicial" name="AnoInicial">
+                    <option disabled="disabled" selected="selected" value="">Selecione...</option>
+<option value="1961">1961</option>
+<option value="1962">1962</option>
+<option value="1963">1963</option>
+<option value="1964">1964</option>
+<option value="1965">1965</option>
+<option value="1966">1966</option>
+<option value="1967">1967</option>
+<option value="1968">1968</option>
+<option value="1969">1969</option>
+<option value="1970">1970</option>
+<option value="1971">1971</option>
+<option value="1972">1972</option>
+<option value="1973">1973</option>
+<option value="1974">1974</option>
+<option value="1975">1975</option>
+<option value="1976">1976</option>
+<option value="1977">1977</option>
+<option value="1978">1978</option>
+<option value="1979">1979</option>
+<option value="1980">1980</option>
+<option value="1981">1981</option>
+<option value="1982">1982</option>
+<option value="1983">1983</option>
+<option value="1984">1984</option>
+<option value="1985">1985</option>
+<option value="1986">1986</option>
+<option value="1987">1987</option>
+<option value="1988">1988</option>
+<option value="1989">1989</option>
+<option value="1990">1990</option>
+<option value="1991">1991</option>
+<option value="1992">1992</option>
+<option value="1993">1993</option>
+<option value="1994">1994</option>
+<option value="1995">1995</option>
+<option value="1996">1996</option>
+<option value="1997">1997</option>
+<option value="1998">1998</option>
+<option value="1999">1999</option>
+<option value="2000">2000</option>
+</select>
+                    <span class="text-danger field-validation-valid" style="padding-left: calc(100% - 416px)!important" data-valmsg-for="AnoInicial" data-valmsg-replace="true"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="AnoFinal">Ano Final</label>
+                    <select class="form-control form-select" data-val="true" data-val-range="O valor de Ano Final &#xE9; entre 1753 e 9999 !" data-val-range-max="9999" data-val-range-min="1753" data-val-required="Ano Final &#xE9; obrigat&#xF3;rio !" id="AnoFinal" name="AnoFinal">
+                    <option disabled="disabled" selected="selected" value="">Selecione...</option>
+<option value="1961">1961</option>
+<option value="1962">1962</option>
+<option value="1963">1963</option>
+<option value="1964">1964</option>
+<option value="1965">1965</option>
+<option value="1966">1966</option>
+<option value="1967">1967</option>
+<option value="1968">1968</option>
+<option value="1969">1969</option>
+<option value="1970">1970</option>
+<option value="1971">1971</option>
+<option value="1972">1972</option>
+<option value="1973">1973</option>
+<option value="1974">1974</option>
+<option value="1975">1975</option>
+<option value="1976">1976</option>
+<option value="1977">1977</option>
+<option value="1978">1978</option>
+<option value="1979">1979</option>
+<option value="1980">1980</option>
+<option value="1981">1981</option>
+<option value="1982">1982</option>
+<option value="1983">1983</option>
+<option value="1984">1984</option>
+<option value="1985">1985</option>
+<option value="1986">1986</option>
+<option value="1987">1987</option>
+<option value="1988">1988</option>
+<option value="1989">1989</option>
+<option value="1990">1990</option>
+<option value="1991">1991</option>
+<option value="1992">1992</option>
+<option value="1993">1993</option>
+<option value="1994">1994</option>
+<option value="1995">1995</option>
+<option value="1996">1996</option>
+<option value="1997">1997</option>
+<option value="1998">1998</option>
+<option value="1999">1999</option>
+<option value="2000">2000</option>
+</select>
+                    <span class="text-danger field-validation-valid" style="padding-left: calc(100% - 416px)!important" data-valmsg-for="AnoFinal" data-valmsg-replace="true"></span>
+                </div>
+
+
+
+        </div>
+    </section>
+    <div class="row d-flex">
+        <div class="form-group form-group-btns col-12 justify-content-center">
+            <a class="btn btn-outline-primary" href="/Pluviometricos">Voltar</a>
+            <input type="submit" value="Consultar" class="btn btn-primary" />
+        </div>
+    </div>
+
+
+<input name="__RequestVerificationToken" type="hidden" value="CfDJ8BxsaDBdYDBCk1N98c33IW8fd2NaUfgUXy4wD7__se7xDGrujXfGbVQmLub0BPEPMQo6TYtkkTuSVdgp6b_0mbDnBu75i1Sl3sGrty00ptY573QIrJdtrkCj1iuu0MZGUwN1AegBiK0BiEhhRtkOKzE" /></form>
+
+
+
+        </main>
+    </div>
+    <div b-laoaqm4fxh id="loadingDiv">
+        <div b-laoaqm4fxh class="d-flex justify-content-center align-items-center">
+            <div b-laoaqm4fxh class="spinner-border text-success" role="status">
+                <span b-laoaqm4fxh class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div b-laoaqm4fxh class="modal fade modal-xl" id="modalGrafico" tabindex="-1" aria-labelledby="modalGrafico" aria-hidden="true">
+        <div b-laoaqm4fxh class="modal-dialog">
+            <div b-laoaqm4fxh class="modal-content">
+                <div b-laoaqm4fxh class="modal-header">
+                    <h5 b-laoaqm4fxh class="modal-title" id="tituloGrafico"></h5>
+                    <button b-laoaqm4fxh type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div b-laoaqm4fxh class="modal-body" id="grafico">
+                    <div b-laoaqm4fxh><canvas b-laoaqm4fxh id="myChart"> </canvas></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Modal -->
+
+    <script src="/lib/googlemaps/js-api-loader/dist/index.min.js"></script>
+    <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+    <script src="/js/Limitadores.js"></script>
+    <script src="/lib/jquery.mask/jquery.mask.min.js"></script>
+    <script src="/js/site.js?v=15wf6lZxQLH1pErXgxGU_S92wjLamTb4BeQKqfgYRBE"></script>
+    <script src="/js/alertaBootstrap.js"></script>
+    <script>
+        $(document).ready(() => {
+
+            $('#loadingDiv').hide();
+            if (window.location.href.indexOf("Fluviometricos") > -1) {
+                $('.c-header--nav__menu-item_link[tipo=fluviometrico]').addClass('active');
+                $('#menu-fluvio').parent().addClass('active');
+                
+            }
+            else if (window.location.href.indexOf("Pluviometricos") > -1) {
+                $('.c-header--nav__menu-item_link[tipo=pluviometrico]').addClass('active');
+            }
+            else if (window.location.href.indexOf("Piezometricos") > -1) {
+                $('.c-header--nav__menu-item_link[tipo=piezometrico]').addClass('active');
+                $('#menu-piezo').parent().addClass('active');
+                
+            }
+            ajustarEspacoSubmenu();
+        })
+
+
+    </script>
+    <script>
+
+
+
+        //var oldXHR = window.XMLHttpRequest;
+
+        //$('#loadingDiv').hide();
+
+        //function newXHR() {
+        //    var realXHR = new oldXHR();
+        //    realXHR.addEventListener("readystatechange", function() {
+        //        if (realXHR.readyState == 1) {
+        //            $('#loadingDiv').show();
+        //        }
+        //        if (realXHR.readyState == 4) {
+        //            $('#loadingDiv').hide();
+        //        }
+        //    }, false);
+        //    return realXHR;
+        //}
+
+        //window.XMLHttpRequest = newXHR;
+
+
+    </script>
+    
+<script src="/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+
+        const tipoRelatorio = '';
+
+        $('#formRelatorio').submit((e) => {
+            e.preventDefault();
+            if ($('#formRelatorio').valid()) {
+                $('#loadingDiv').show();
+                let tipoRelatorioSelecionado = $('#TipoConsulta').val();
+
+                if (tipoRelatorio !== tipoRelatorioSelecionado) {
+                    $('#PaginaAtual').val(1);
+                }
+
+                e.currentTarget.submit();
+            }
+        })
+
+
+        $('#containerLayout').addClass('container-fluid').removeClass('container');
+        $(document).ready(() => {
+            const anoInicialModel = "null"
+            const anoFinalModel = "null"
+
+            $('.page-link').on('click', (ele) => {
+                let page = $(ele.currentTarget).attr('page');
+                $('#PaginaAtual').val(page);
+                $('#formRelatorio').submit();
+            })
+
+        })
+
+        function downloadTXT(url) {
+            window.open(url, "_blank");
+        }
+
+        function downloadXLS(url) {
+            window.open(url, "_blank");
+        }
+
+    </script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+# Somente autoria/validação do PDF, separada do ambiente científico.
+# Nesta entrega foram usadas as bibliotecas já presentes no runtime Codex.
+reportlab==4.4.9
+pypdf==6.10.0

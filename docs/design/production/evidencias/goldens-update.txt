@@ -1,0 +1,18 @@
+00:00 +0: loading C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart
+00:00 +0: (setUpAll)
+00:00 +0: duas etapas de production em 320px e texto 200%
+00:01 +1: duas etapas de offer em 320px e texto 200%
+00:01 +2: voltar do cadastro atualiza a lista sem Future no setState
+00:01 +3: cadastro em etapas preserva dados, origem e envio idempotente
+00:02 +4: tela Produção em 390x844
+00:02 +5: tela Ofertas em 390x844
+00:02 +6: tela Pedidos em 390x844
+00:02 +7: tela Perfil em 390x844
+00:02 +8: tela histórico em 390x844
+00:03 +9: tela Produção em 320 e texto 200%
+00:03 +10: tela Ofertas em 320 e texto 200%
+00:03 +11: tela Pedidos em 320 e texto 200%
+00:03 +12: tela Perfil em 320 e texto 200%
+00:03 +13: tela histórico em 320 e texto 200%
+00:03 +14: (tearDownAll)
+00:03 +14: All tests passed!

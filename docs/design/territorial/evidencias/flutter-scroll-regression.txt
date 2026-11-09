@@ -1,0 +1,5 @@
+00:00 +0: loading C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart
+00:00 +0: (setUpAll)
+00:00 +0: trocar série diária preserva a posição vertical do painel
+00:01 +1: (tearDownAll)
+00:01 +1: All tests passed!

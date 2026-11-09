@@ -1,0 +1,26 @@
+{
+  "station": "E3-097 — Estaleiro DAEE",
+  "units": "mm",
+  "latitude": -23.516666666666666,
+  "longitude": -46.2,
+  "expected_days": 366,
+  "valid_days": 184,
+  "missing_days": 182,
+  "missing_periods": [
+    {
+      "start": "2000-01-01",
+      "end": "2000-02-29",
+      "days": 60
+    },
+    {
+      "start": "2000-09-01",
+      "end": "2000-12-31",
+      "days": 122
+    }
+  ],
+  "available_start": "2000-03-01",
+  "available_end": "2000-08-31",
+  "minimum_mm": 0.0,
+  "maximum_mm": 70.1,
+  "note": "Campos vazios preservados como ausentes. Sem validação numérica NASA: janela de leitura do pluviômetro não confirmada."
+}

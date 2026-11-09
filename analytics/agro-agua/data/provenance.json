@@ -1,0 +1,2634 @@
+{
+  "config": {
+    "location": "Mogi das Cruzes/SP — sede municipal (IBGE 3530607)",
+    "latitude": -23.52,
+    "longitude": -46.19,
+    "coordinate_source": "https://geoftp.ibge.gov.br/cartas_e_mapas/mapas_municipais/colecao_de_mapas_municipais/2020/SP/mogi_das_cruzes/3530607_MM.pdf",
+    "community": "AG",
+    "time_standard": "LST",
+    "start": "2000-01-01",
+    "end": "2025-12-31",
+    "parameters": [
+      "PRECTOTCORR",
+      "T2M",
+      "T2M_MAX",
+      "T2M_MIN",
+      "RH2M",
+      "WS10M",
+      "ALLSKY_SFC_SW_DWN"
+    ]
+  },
+  "python": "3.13.7",
+  "dependencies": {
+    "requests": "2.34.2",
+    "pandas": "3.1.1",
+    "numpy": "2.5.4",
+    "matplotlib": "3.11.2"
+  },
+  "responses": [
+    {
+      "file": "power_20000101_20001231_6256afeaf3d66cbd03c7.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20000101",
+        "end": "20001231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20000101&end=20001231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:20:36.069183+00:00",
+      "status": 200,
+      "sha256": "a87460e5cd18bb648e9a67b159cfc568acc0bf6b04b0937fb20ee77325cb5c9d",
+      "bytes": 43505,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43505",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:06 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede215-3ffce373599b932020f9c28f;Parent=506adce103421ed5;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "54c1f755-8978-4695-b489-debcb54e5879",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20000101_20001231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43505",
+        "x-data-sources": "merra2,srb,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.779",
+        "x-amz-apigw-id": "GbBDgHwdvHcEWxA=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.792",
+        "x-objects-time": "0.002",
+        "Via": "1.1 b02e367278560409ab9f3626e5d3eb58.cloudfront.net (CloudFront), 1.1 35f8f6b31a87ba487ea4d6316394421c.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "HoIRkqDAyYotUlWBa_yNZOvvxXk8obuNABGW_0srqgSJbUtgRrZTBA=="
+      }
+    },
+    {
+      "file": "power_20250101_20251231_6004a33ea6befb20bdb4.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20250101",
+        "end": "20251231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20250101&end=20251231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:20:38.793585+00:00",
+      "status": 200,
+      "sha256": "d1b19c6f54c08f29b9208dea5ad61cbf1adb24bea32d74f5fba341a3fd867840",
+      "bytes": 43357,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43357",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:09 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede218-1881195b5a36553d54e59a4e;Parent=7b27466cb5feb4a7;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "2b00b5f0-517b-4477-aaf1-6540e9e0629a",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20250101_20251231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43357",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.637",
+        "x-amz-apigw-id": "GbBD9F-DPHcEuQg=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.651",
+        "x-objects-time": "0.002",
+        "Via": "1.1 9d4ca67a92139183f9d68b53378a5222.cloudfront.net (CloudFront), 1.1 35f8f6b31a87ba487ea4d6316394421c.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "BdyYZnyQo9Mc4PRxfZQKkTqLURDdqH3Qs0cX2ljxvcHEX8vxsBJPZA=="
+      }
+    },
+    {
+      "file": "power_20010101_20011231_87d6508ef67e90e3e675.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20010101",
+        "end": "20011231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20010101&end=20011231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:20:55.682515+00:00",
+      "status": 200,
+      "sha256": "21b7b31bb6a606f0cd143abd71e4cf381949c52f9525bda95a1340d315d31130",
+      "bytes": 43394,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43394",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:26 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede229-3c7fb82814c9f8f2404c87e6;Parent=6aeee839381e32cc;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "ebef2477-f6b7-40a3-a586-83354b490b5a",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20010101_20011231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43394",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.647",
+        "x-amz-apigw-id": "GbBGmF5rPHcEtJg=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.661",
+        "x-objects-time": "0.002",
+        "Via": "1.1 0a32216b145740b571b35917348aaf28.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "piKGXt5sBDtRpxuE3ddltGtyIhTkIhWW_L8WpNgFcGocNYDhzGiRuw=="
+      }
+    },
+    {
+      "file": "power_20020101_20021231_4f5d3fd68866375f3bf7.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20020101",
+        "end": "20021231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20020101&end=20021231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:20:58.136128+00:00",
+      "status": 200,
+      "sha256": "3519b5feff24b4334f1d3342784141c226949b246daa55ba8485992dbe7079ed",
+      "bytes": 43446,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43446",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:28 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede22c-09f5197c2d787f1d4f9c1039;Parent=73a86ea7e59792eb;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "1358f686-269f-4052-a777-ba52534f48e8",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20020101_20021231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43446",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.386",
+        "x-amz-apigw-id": "GbBHBFgLvHcEHgA=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.399",
+        "x-objects-time": "0.001",
+        "Via": "1.1 0a32216b145740b571b35917348aaf28.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "slldsvH0UmMgiGXEORWDqD0AEOfnYFvkuUH2bNu7vcQfaMMsmqI-gw=="
+      }
+    },
+    {
+      "file": "power_20030101_20031231_9917ec8cd1122052c63b.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20030101",
+        "end": "20031231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20030101&end=20031231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:00.646312+00:00",
+      "status": 200,
+      "sha256": "4b85e563a2615021132d7f50a9d87465c50addcec8576e82638dc60645362209",
+      "bytes": 43405,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43405",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:31 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede22e-3d60643f5108b4134e6ed055;Parent=4337e337ebc3244d;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "1a952cdd-d558-46ad-aa3f-db6e461506b1",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20030101_20031231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43405",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.435",
+        "x-amz-apigw-id": "GbBHaFiwPHcEctg=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.448",
+        "x-objects-time": "0.001",
+        "Via": "1.1 e6e36b350cf1254dffad1b916f880e0a.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "m45A_JC0KuepNyuQmh5gUt7Db2ILw-lxu7mjz5M2Pr731e8JSZX55w=="
+      }
+    },
+    {
+      "file": "power_20040101_20041231_d529d093190b2d0de094.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20040101",
+        "end": "20041231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20040101&end=20041231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:02.737874+00:00",
+      "status": 200,
+      "sha256": "16e7f52e725d80c54fb16ec76cac26de0023400e9b2605577d05ba3d2ce819b5",
+      "bytes": 43465,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43465",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:33 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede231-5de4db9e62e99575135b6043;Parent=6242dcef84b19153;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "6e822907-57b4-45f1-81e7-f65c04647eca",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20040101_20041231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43465",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.368",
+        "x-amz-apigw-id": "GbBHvH3cvHcEsRg=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.381",
+        "x-objects-time": "0.002",
+        "Via": "1.1 b02e367278560409ab9f3626e5d3eb58.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "Af-caOTMuHrPcuLSAcLe6umI5iOpKweP_0zGxGxM5ryZ2mmOthkufA=="
+      }
+    },
+    {
+      "file": "power_20050101_20051231_2b399c7ff6e4f937fcd4.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20050101",
+        "end": "20051231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20050101&end=20051231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:04.931282+00:00",
+      "status": 200,
+      "sha256": "99fcdde0ef644f30acfa1ccc2936f765dcb4e9c2b52314a7b274043d8f40a392",
+      "bytes": 43362,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43362",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:35 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede233-1658d8790914e7e53aa24571;Parent=208fa361108269df;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "84be769a-be8e-4f31-8787-e9008c14ddc1",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20050101_20051231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43362",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.452",
+        "x-amz-apigw-id": "GbBIEFacPHcEtCw=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.465",
+        "x-objects-time": "0.002",
+        "Via": "1.1 cb23f97d3717a7367d5178bed515b382.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "9uQbzqXZugODiquKS916ZrSTXB44EmHuyvGo5-xO2yxrPL-GTbeSJA=="
+      }
+    },
+    {
+      "file": "power_20060101_20061231_6a12b9724550bd22b8e7.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20060101",
+        "end": "20061231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20060101&end=20061231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:07.436008+00:00",
+      "status": 200,
+      "sha256": "7739ea45b85488a486a7734cd2d855e2fb987efacd1759f55c61ed8f9ed49e12",
+      "bytes": 43384,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43384",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:38 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede235-389d70be5fd12393140fc338;Parent=22dceb0f68a605b7;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "2b156e32-0d52-4eaa-904b-7148949d661c",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20060101_20061231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43384",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.421",
+        "x-amz-apigw-id": "GbBIeF-SPHcEUbQ=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.434",
+        "x-objects-time": "0.001",
+        "Via": "1.1 96c94bd34fb97b507852dc7072d32bee.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "uR7GZabb34ArIPCMnz9mdM5m5iDhBJzhw73BeMzMNnqnRLLX_6oozw=="
+      }
+    },
+    {
+      "file": "power_20070101_20071231_9b9d078dc7f240d4ff7e.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20070101",
+        "end": "20071231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20070101&end=20071231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:10.005791+00:00",
+      "status": 200,
+      "sha256": "c9d821b4d54d6a52b02d414186c23b3916cb22636ef4d410274ddfed2b38b9fc",
+      "bytes": 43317,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43317",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:40 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede238-23d479641a1267d75fe0187b;Parent=220b0e20bbbcf710;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "5daf5aed-491e-4c81-9c43-294d7bd843de",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20070101_20071231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43317",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.493",
+        "x-amz-apigw-id": "GbBI3G80vHcEJTA=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.51",
+        "x-objects-time": "0.006",
+        "Via": "1.1 96c94bd34fb97b507852dc7072d32bee.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "gb-5ZcIUhUlGIvm46s-KPnynJ8x4ecA4n0e4I_o_sEBRSW75jZN5NQ=="
+      }
+    },
+    {
+      "file": "power_20080101_20081231_3b41f4d0273d7d96be2d.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20080101",
+        "end": "20081231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20080101&end=20081231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:12.457341+00:00",
+      "status": 200,
+      "sha256": "d45a1982dcf090e4d9d406aa2d05e33f4db146b7f89487c26745487091b32162",
+      "bytes": 43517,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43517",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:43 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede23a-0690cfe04af3a40e0e75df3d;Parent=739ccde695e3b4f7;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "c5990958-6901-4791-972f-6145f8add81a",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20080101_20081231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43517",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.37",
+        "x-amz-apigw-id": "GbBJQEZ0vHcEM7w=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.383",
+        "x-objects-time": "0.002",
+        "Via": "1.1 b02e367278560409ab9f3626e5d3eb58.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "o5z-KEo5qcBLBWWNzKOLSNwZRUJUnmKkzJP2Ut0zjXNIdyRLT03IAQ=="
+      }
+    },
+    {
+      "file": "power_20090101_20091231_cc935f4b65e633633c0b.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20090101",
+        "end": "20091231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20090101&end=20091231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:14.964575+00:00",
+      "status": 200,
+      "sha256": "ce57de3aa42228c45ee6b82044728f022fb345381d02045fc87ed441d00b137e",
+      "bytes": 43414,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43414",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:45 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede23d-4743ced125625ebb2b53d12b;Parent=5112bce755221c53;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "e710e066-e1f7-47ec-a294-0b9450907758",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20090101_20091231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43414",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.409",
+        "x-amz-apigw-id": "GbBJpFeLvHcEQhg=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.423",
+        "x-objects-time": "0.002",
+        "Via": "1.1 8cd4f2cff2622d3eddcddd7d1ac6a182.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "ppe1zy_-jcsx2seF6ukEnLVA37wSZeyhyrAUSmo07CJQ9mLPrVTXPQ=="
+      }
+    },
+    {
+      "file": "power_20100101_20101231_f72f646248afc5cad206.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20100101",
+        "end": "20101231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20100101&end=20101231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:17.519832+00:00",
+      "status": 200,
+      "sha256": "70f9de947e1c827838ecae92c6425753367c3d7682dae77626b63ccf79f37410",
+      "bytes": 43365,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43365",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:48 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede23f-5d139f6d4033654801fa2180;Parent=32f5516d8e7ad6b7;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "ac5ca759-d70f-4199-987a-fa1973894183",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20100101_20101231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43365",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.483",
+        "x-amz-apigw-id": "GbBKCEfnPHcEmhw=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.496",
+        "x-objects-time": "0.002",
+        "Via": "1.1 0f08a65f6ed7930eab03478cbd532206.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "-UnNF9QSITEt8dS_T6pVN1VXcmtBklzd8uC-z-bPIky9gqAV33iyHw=="
+      }
+    },
+    {
+      "file": "power_20110101_20111231_e479488d28669b52b2d6.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20110101",
+        "end": "20111231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20110101&end=20111231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:19.772055+00:00",
+      "status": 200,
+      "sha256": "407b179b3c70c5755b9890085e924e67421bfbfd1b5e79133976401975161b61",
+      "bytes": 43365,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43365",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:50 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede241-7660a6b426375c4c3dc58e76;Parent=6ac773ae465181bd;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "eefdbdb5-2db6-46bd-84c4-0ccf345251fb",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20110101_20111231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43365",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.519",
+        "x-amz-apigw-id": "GbBKYH-sPHcEeRg=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.532",
+        "x-objects-time": "0.002",
+        "Via": "1.1 04728507815ea7e30b5e56c507073eac.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "R7TPRIU-G7J6E27r864EGQuY71bGY2ntiVEAjOItF0MrTHEIYvCsKA=="
+      }
+    },
+    {
+      "file": "power_20120101_20121231_0375856b4acc46392b96.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20120101",
+        "end": "20121231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20120101&end=20121231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:22.075112+00:00",
+      "status": 200,
+      "sha256": "c9718ee6963df563342ec1f956f952ca567dccf94f370421a64b1215c723fbbc",
+      "bytes": 43514,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43514",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:52 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede244-5f057b76053085fd05ff4bc9;Parent=38b182ce9a79c85a;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "7d2dcf30-6b6d-46c4-afa6-5f9014b32ab7",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20120101_20121231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43514",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.54",
+        "x-amz-apigw-id": "GbBKvF8ivHcEqrQ=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.553",
+        "x-objects-time": "0.001",
+        "Via": "1.1 0f08a65f6ed7930eab03478cbd532206.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "p-0vsUVZLiSKXPsqri7XtnaS3oEjCLCc_IWWLu7q1-p5vG2sJzjrOQ=="
+      }
+    },
+    {
+      "file": "power_20130101_20131231_09d19dc8ea81f7a64949.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20130101",
+        "end": "20131231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20130101&end=20131231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:24.192624+00:00",
+      "status": 200,
+      "sha256": "32ef4471995ccbdf8923a39fb3401e9df4d4271737d607baeecf102ee488c8bd",
+      "bytes": 43356,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43356",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:54 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede246-503ff9c631693ea230c82944;Parent=0d1733b66f17a44a;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "1a1e63c1-6237-475e-b886-cf5e4ed96952",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20130101_20131231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43356",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.392",
+        "x-amz-apigw-id": "GbBLGE8BPHcERkw=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.405",
+        "x-objects-time": "0.002",
+        "Via": "1.1 b8cfd26f5262aff651b15f7f4e446c28.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "RSaSB4Fa08I2Y8z9k6Z_VrnT6b2ReH7unZ1YRk-IoWRkt-6rVG6LRw=="
+      }
+    },
+    {
+      "file": "power_20140101_20141231_cdb78cb80c384152dfc8.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20140101",
+        "end": "20141231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20140101&end=20141231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:26.301093+00:00",
+      "status": 200,
+      "sha256": "e949a1fa81831c00df5342e2b66c13223f18726d654ca57a38d8f7ab75ff8597",
+      "bytes": 43351,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43351",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:57 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede248-1ffe2a7a675da1ed7979b26e;Parent=725431ce68385e3d;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "84706b76-54e7-45d9-9dab-eb1327050f66",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20140101_20141231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43351",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.374",
+        "x-amz-apigw-id": "GbBLbF57PHcERHA=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.388",
+        "x-objects-time": "0.002",
+        "Via": "1.1 0f08a65f6ed7930eab03478cbd532206.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "6gdycaIv9DGEzNtNsZDRFEaKqBBekr3Mz_jooAA8y4D-xfN-2rWV9w=="
+      }
+    },
+    {
+      "file": "power_20150101_20151231_7957e5b5ed8841128011.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20150101",
+        "end": "20151231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20150101&end=20151231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:28.437825+00:00",
+      "status": 200,
+      "sha256": "6c8cfa2160bece6f47f4436a4fc22745a60fdb26d312e48a310197126c1ab33a",
+      "bytes": 43387,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43387",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:20:59 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede24a-7b05f7c66a3f56a707601d7b;Parent=2a67f0fb01ded283;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "475d22a1-c59a-491c-b8a8-221233a27ce8",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20150101_20151231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43387",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.408",
+        "x-amz-apigw-id": "GbBLwGJyvHcEBFg=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.421",
+        "x-objects-time": "0.001",
+        "Via": "1.1 e6e36b350cf1254dffad1b916f880e0a.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "MOLeWl0EvN2HiCG42LKNt2Xt8DpwkJ4x2tWzYFDJnijkDhpwbfVslw=="
+      }
+    },
+    {
+      "file": "power_20160101_20161231_591875debcc4df83afc3.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20160101",
+        "end": "20161231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20160101&end=20161231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:30.888122+00:00",
+      "status": 200,
+      "sha256": "70a3b9cec8f24c080b6b0a6a7b1cadadf5601dc391a2c220e445248fca579a39",
+      "bytes": 43516,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43516",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:21:01 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede24d-7d67506c35ab17b959a689b2;Parent=6a9d56591eabedf4;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "06f1a1c8-8db6-4bbf-9f4d-0f9bbee31edc",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20160101_20161231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43516",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.374",
+        "x-amz-apigw-id": "GbBMJGcTPHcEOAQ=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.387",
+        "x-objects-time": "0.002",
+        "Via": "1.1 3832c062a798c21eccc3bd3da1fe80e2.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "X08q8XCF0t07dECkuuumv1M21teNflLqbtoX3gySQGyqPmGs2tLJiw=="
+      }
+    },
+    {
+      "file": "power_20170101_20171231_b027c24bc9603478eb51.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20170101",
+        "end": "20171231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20170101&end=20171231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:33.376882+00:00",
+      "status": 200,
+      "sha256": "6c261f0c155522e6d70af527e23245e3f2be05c99e2b0565d461045e6494264e",
+      "bytes": 43368,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43368",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:21:04 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede24f-1425c8c56557a15820b7e1cd;Parent=691d3964ffe01264;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "6ac83dc3-e452-4a00-9036-47b2597accf3",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20170101_20171231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43368",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.412",
+        "x-amz-apigw-id": "GbBMhEloPHcEkaA=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.425",
+        "x-objects-time": "0.002",
+        "Via": "1.1 9d4ca67a92139183f9d68b53378a5222.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "OZBu6sQSaPhbRYhD2NmVQtM1_3HJahfXYvbyR0j2oIWGSefIR0UtYg=="
+      }
+    },
+    {
+      "file": "power_20180101_20181231_966c75403570836c34b5.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20180101",
+        "end": "20181231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20180101&end=20181231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:35.526636+00:00",
+      "status": 200,
+      "sha256": "349320b788edc1d0798e9a77eef81cf309c19cbdb8bf07ca283041e7c2ee3a5c",
+      "bytes": 43432,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43432",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:21:06 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede251-6ed7f0b91a60662d39ddef08;Parent=7fe7e80828caec24;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "8ad617c0-33bb-44d9-9079-12d2ea2c7d44",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20180101_20181231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43432",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.406",
+        "x-amz-apigw-id": "GbBM3HTcPHcEQhg=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.419",
+        "x-objects-time": "0.002",
+        "Via": "1.1 39a49a4059b711b7f797888436260848.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "nTqHkY7nvhZ4ACZ6ChurYNYy8UDq7iWSqG1TW5LtqBHei0PXA5lHSw=="
+      }
+    },
+    {
+      "file": "power_20190101_20191231_10a115b310c3f86662cd.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20190101",
+        "end": "20191231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20190101&end=20191231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:38.004178+00:00",
+      "status": 200,
+      "sha256": "88dd0e9ad88e1884b36d988f12f962b2b1df4e588578f380ef95c9a52df1faee",
+      "bytes": 43398,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43398",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:21:08 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede254-4222a1df1c4cf9176ce018bd;Parent=717e3a4c394aae8b;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "aa7a34a4-f193-4329-82ec-5d1033700129",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20190101_20191231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43398",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.399",
+        "x-amz-apigw-id": "GbBNQHBvPHcErrQ=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.412",
+        "x-objects-time": "0.002",
+        "Via": "1.1 e1c620e0357610b341f195cb65445b40.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "sUIptwaah7LRMQBCIILyKM97jLFaxe-It25tTkbg49iS7oWDk7eE-A=="
+      }
+    },
+    {
+      "file": "power_20200101_20201231_2e03186d34fef7efa7d7.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20200101",
+        "end": "20201231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20200101&end=20201231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:40.170883+00:00",
+      "status": 200,
+      "sha256": "9ff2ee2e457310391caf5f24756ccbd88efc5bcd177c99ddf87da5c72439f9fd",
+      "bytes": 43533,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43533",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:21:10 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede256-4e2bfd73579ab1743e220faf;Parent=2aec7d46eead823f;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "c3ed8320-0570-4e43-897c-075146ee71cb",
+        "x-process-time": "0.02",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20200101_20201231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43533",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.423",
+        "x-amz-apigw-id": "GbBNlEPrPHcER6Q=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.445",
+        "x-objects-time": "0.0",
+        "Via": "1.1 39a49a4059b711b7f797888436260848.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "WxJEalCCYXEJEGqMu7_tBl4WSllZgn0bDU6abMf2e-jGmpxf5KVC0Q=="
+      }
+    },
+    {
+      "file": "power_20210101_20211231_bd0d3b330ac708b5916a.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20210101",
+        "end": "20211231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20210101&end=20211231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:41.972808+00:00",
+      "status": 200,
+      "sha256": "9e50dd5f5de793c9838933ede3b4a9a97f77fbdfec21d73a63a3c3d6455f6ac7",
+      "bytes": 43401,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43401",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:21:13 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede258-11cb381d13d3b6bb454ce4a4;Parent=5452baf4dc006f9d;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "247e9ce0-5c21-4d3b-a84c-dbbc9557ab3b",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20210101_20211231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43401",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.383",
+        "x-amz-apigw-id": "GbBN7G5MPHcEFkQ=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.396",
+        "x-objects-time": "0.002",
+        "Via": "1.1 96c94bd34fb97b507852dc7072d32bee.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "x8Oiu12hZ8-fVhYhCN6nyVigia5GXMalGJ7vePLp9zmTNReUBLJSEA=="
+      }
+    },
+    {
+      "file": "power_20220101_20221231_68c214efc1c396147f6c.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20220101",
+        "end": "20221231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20220101&end=20221231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:44.471552+00:00",
+      "status": 200,
+      "sha256": "5631463b2944ad71596f68bab803a8e74439909bdefa042af4035025b384e030",
+      "bytes": 43359,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43359",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:21:15 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede25a-7aa564d237e8eb5750fee3b5;Parent=32e834c70463dfa4;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "11f9e68e-6c6a-496f-92fa-0ef291f3f5d9",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20220101_20221231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43359",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.424",
+        "x-amz-apigw-id": "GbBOQHTsvHcELng=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.437",
+        "x-objects-time": "0.002",
+        "Via": "1.1 0a32216b145740b571b35917348aaf28.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "Nz4GjDINYrkJWF3z_SUVc4Z8KQ79dkGczko0ZMSxNTju0TfxmpITlA=="
+      }
+    },
+    {
+      "file": "power_20230101_20231231_5a0cc01ca0b7b28c1572.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20230101",
+        "end": "20231231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20230101&end=20231231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:46.923024+00:00",
+      "status": 200,
+      "sha256": "b0f0575e345cb8c43a1a9170b357123a99b4cc78d616beec603d9f55ab1add54",
+      "bytes": 43424,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43424",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:21:17 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede25d-11f77ec31e8859142aaa5f86;Parent=69b400a84cb153c1;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "97d0320b-c555-4df3-90d1-80691b086f6c",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20230101_20231231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43424",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.37",
+        "x-amz-apigw-id": "GbBOpE0DvHcEpfg=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.383",
+        "x-objects-time": "0.001",
+        "Via": "1.1 96c94bd34fb97b507852dc7072d32bee.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "o0j8_m_3noFFPfIJaBk_YsbqKwEHtpZnzYESx7sGEAPf-5biOwfDBQ=="
+      }
+    },
+    {
+      "file": "power_20240101_20241231_4c9716bef6ba8f481396.json",
+      "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+      "params": {
+        "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+        "community": "AG",
+        "latitude": -23.52,
+        "longitude": -46.19,
+        "start": "20240101",
+        "end": "20241231",
+        "format": "JSON",
+        "time-standard": "LST"
+      },
+      "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20240101&end=20241231&format=JSON&time-standard=LST",
+      "retrieved_at_utc": "2026-11-06T14:21:49.397740+00:00",
+      "status": 200,
+      "sha256": "cb40a370bec22e9c070c76d77e90d94c6af9b2488a1cb31ee2291ab580e96c38",
+      "bytes": 43518,
+      "headers": {
+        "Content-Type": "application/json",
+        "Content-Length": "43518",
+        "Connection": "keep-alive",
+        "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+        "Date": "Fri, 06 Nov 2026 14:21:20 GMT",
+        "X-Amzn-Trace-Id": "Root=1-6aede25f-05b7f11205f7d85b3f594e1d;Parent=2720cce3cb3b4f6c;Sampled=0;Lineage=1:de7b4c15:0",
+        "x-amzn-RequestId": "8cc1c15b-3cb7-48d5-bb31-b1232a89d2da",
+        "x-process-time": "0.01",
+        "content-disposition": "inline; filename=POWER_Point_Daily_20240101_20241231_023d52S_046d19W_LST.json",
+        "x-amzn-Remapped-content-length": "43518",
+        "x-data-sources": "merra2,syn1deg,power",
+        "content-language": "en-US",
+        "x-app-name": "daily",
+        "x-archive-time": "0.399",
+        "x-amz-apigw-id": "GbBPCGfKvHcEv5w=",
+        "vary": "Origin",
+        "x-app-version": "v2.10.3",
+        "x-service-time": "0.412",
+        "x-objects-time": "0.001",
+        "Via": "1.1 39a49a4059b711b7f797888436260848.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+        "X-Cache": "Miss from cloudfront",
+        "X-Amz-Cf-Id": "-uoD3XsrjwzkfteIdsOMx2KpdzAWDop_uscDbYDc9a_SY8xQj-Ndkw=="
+      }
+    }
+  ],
+  "source_metadata": [
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SRB",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20000101",
+        "end": "20001231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20250101",
+        "end": "20251231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20010101",
+        "end": "20011231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20020101",
+        "end": "20021231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20030101",
+        "end": "20031231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20040101",
+        "end": "20041231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20050101",
+        "end": "20051231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20060101",
+        "end": "20061231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20070101",
+        "end": "20071231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20080101",
+        "end": "20081231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20090101",
+        "end": "20091231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20100101",
+        "end": "20101231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20110101",
+        "end": "20111231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20120101",
+        "end": "20121231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20130101",
+        "end": "20131231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20140101",
+        "end": "20141231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20150101",
+        "end": "20151231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20160101",
+        "end": "20161231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20170101",
+        "end": "20171231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20180101",
+        "end": "20181231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20190101",
+        "end": "20191231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20200101",
+        "end": "20201231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20210101",
+        "end": "20211231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20220101",
+        "end": "20221231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20230101",
+        "end": "20231231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    },
+    {
+      "header": {
+        "title": "NASA/POWER Source Native Resolution Daily Data",
+        "api": {
+          "version": "v2.10.3",
+          "name": "POWER Daily API"
+        },
+        "sources": [
+          "MERRA2",
+          "SYN1DEG",
+          "POWER"
+        ],
+        "fill_value": -999.0,
+        "time_standard": "LST",
+        "start": "20240101",
+        "end": "20241231"
+      },
+      "parameters": {
+        "PRECTOTCORR": {
+          "units": "mm/day",
+          "longname": "Precipitation Corrected"
+        },
+        "T2M": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters"
+        },
+        "T2M_MAX": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Maximum"
+        },
+        "T2M_MIN": {
+          "units": "C",
+          "longname": "Temperature at 2 Meters Minimum"
+        },
+        "RH2M": {
+          "units": "%",
+          "longname": "Relative Humidity at 2 Meters"
+        },
+        "WS10M": {
+          "units": "m/s",
+          "longname": "Wind Speed at 10 Meters"
+        },
+        "ALLSKY_SFC_SW_DWN": {
+          "units": "MJ/m^2/day",
+          "longname": "All Sky Surface Shortwave Downward Irradiance"
+        }
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -46.19,
+          -23.52,
+          699.38
+        ]
+      },
+      "messages": []
+    }
+  ],
+  "code_sha256": "9bb97e7c61af487d2fc7bd50022b827308a8c88a14dfd975c5dc4e7af05e5505",
+  "config_sha256": "930be0ec2f31988bb0060ecb78557dbc93847194b36302f75ff016a9d47074c0"
+}

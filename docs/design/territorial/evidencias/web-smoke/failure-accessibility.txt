@@ -1,0 +1,21 @@
+- button "Voltar"
+- heading "Inteligência hídrica" [level=2]
+- group:
+  - text: PAINEL TERRITORIAL / 01 Mogi das Cruzes/SP NASA POWER AG · Histórico regional 2000–2025 · LST Histórico até 31/12/2025. Consulta offline, sem atualização em tempo real.
+  - button "Ano do histórico 2025"
+  - button "Mês encerrado Dezembro"
+  - text: "CHUVA NO MÊS Dezembro de 2025 86,57 mm 53,52% abaixo da média deste mês Referência 2000–2019: 186,27 mm 01/12/2025 a 31/12/2025 · LST Agregado histórico regional; não mede a água da sua propriedade."
+  - 'banner "O ritmo das chuvas Compare os meses do ano com a referência histórica. Histórico de 2025 Média 2000–2019 0 mm Escala até 240 mm Toque nas barras para explorar · deslize para os lados Dezembro de 2025: 86,57 mm. Média de referência: 186,27 mm. Sazonalidade: média de 20 totais por mês (2000–2019). Não é previsão nem normal climatológica oficial de 30 anos. Ver valores por mês"':
+    - group:
+      - 'button "Janeiro de 2025: 142,94 mm. Média de referência: 233,25 mm. Selecionar mês."'
+      - 'button "Fevereiro de 2025: 90,57 mm. Média de referência: 175,74 mm. Selecionar mês."'
+      - 'button "Março de 2025: 82,00 mm. Média de referência: 155,59 mm. Selecionar mês."'
+      - 'button "Abril de 2025: 90,33 mm. Média de referência: 90,43 mm. Selecionar mês."'
+      - 'button "Maio de 2025: 12,94 mm. Média de referência: 67,77 mm. Selecionar mês."'
+      - 'button "Junho de 2025: 30,90 mm. Média de referência: 50,14 mm. Selecionar mês."'
+      - 'button "Julho de 2025: 11,20 mm. Média de referência: 63,97 mm. Selecionar mês."'
+      - 'button "Agosto de 2025: 8,90 mm. Média de referência: 38,21 mm. Selecionar mês."'
+      - 'button "Setembro de 2025: 38,38 mm. Média de referência: 71,91 mm. Selecionar mês."'
+      - 'button "Outubro de 2025: 85,72 mm. Média de referência: 105,49 mm. Selecionar mês."'
+      - 'button "Novembro de 2025: 58,83 mm. Média de referência: 158,59 mm. Selecionar mês."'
+      - 'button "Dezembro de 2025: 86,57 mm. Média de referência: 186,27 mm. Selecionar mês."'

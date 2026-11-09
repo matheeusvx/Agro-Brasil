@@ -1,0 +1,42 @@
+{
+  "endpoint": "https://power.larc.nasa.gov/api/temporal/daily/point",
+  "params": {
+    "parameters": "PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,WS10M,ALLSKY_SFC_SW_DWN",
+    "community": "AG",
+    "latitude": -23.52,
+    "longitude": -46.19,
+    "start": "20200101",
+    "end": "20201231",
+    "format": "JSON",
+    "time-standard": "LST"
+  },
+  "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR%2CT2M%2CT2M_MAX%2CT2M_MIN%2CRH2M%2CWS10M%2CALLSKY_SFC_SW_DWN&community=AG&latitude=-23.52&longitude=-46.19&start=20200101&end=20201231&format=JSON&time-standard=LST",
+  "retrieved_at_utc": "2026-11-06T14:21:40.170883+00:00",
+  "status": 200,
+  "sha256": "9ff2ee2e457310391caf5f24756ccbd88efc5bcd177c99ddf87da5c72439f9fd",
+  "bytes": 43533,
+  "headers": {
+    "Content-Type": "application/json",
+    "Content-Length": "43533",
+    "Connection": "keep-alive",
+    "X-Amz-Cf-Pop": "GRU1-P6, GRU1-P6",
+    "Date": "Fri, 06 Nov 2026 14:21:10 GMT",
+    "X-Amzn-Trace-Id": "Root=1-6aede256-4e2bfd73579ab1743e220faf;Parent=2aec7d46eead823f;Sampled=0;Lineage=1:de7b4c15:0",
+    "x-amzn-RequestId": "c3ed8320-0570-4e43-897c-075146ee71cb",
+    "x-process-time": "0.02",
+    "content-disposition": "inline; filename=POWER_Point_Daily_20200101_20201231_023d52S_046d19W_LST.json",
+    "x-amzn-Remapped-content-length": "43533",
+    "x-data-sources": "merra2,syn1deg,power",
+    "content-language": "en-US",
+    "x-app-name": "daily",
+    "x-archive-time": "0.423",
+    "x-amz-apigw-id": "GbBNlEPrPHcER6Q=",
+    "vary": "Origin",
+    "x-app-version": "v2.10.3",
+    "x-service-time": "0.445",
+    "x-objects-time": "0.0",
+    "Via": "1.1 39a49a4059b711b7f797888436260848.cloudfront.net (CloudFront), 1.1 31fd1f001d7f4cd71b29f3092fe4e2ac.cloudfront.net (CloudFront)",
+    "X-Cache": "Miss from cloudfront",
+    "X-Amz-Cf-Id": "WxJEalCCYXEJEGqMu7_tBl4WSllZgn0bDU6abMf2e-jGmpxf5KVC0Q=="
+  }
+}

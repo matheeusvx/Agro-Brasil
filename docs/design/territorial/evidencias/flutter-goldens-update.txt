@@ -1,0 +1,90 @@
+00:00 +0: loading C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart
+00:00 +0: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: HTTP usa identidade e organização, sem chave meteorológica
+00:00 +1: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: cache é por ator, organização e propriedade; offline é somente leitura
+00:00 +2: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: 401 nunca reutiliza cache para contornar autorização
+00:00 +3: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/data_test.dart: sair remove os snapshots do escopo atual
+00:00 +4: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: (setUpAll)
+00:00 +4: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: saudação da home usa primeiro nome cadastrado ou fallback
+00:00 +5: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: home exibe somente texto de saudação antes do clima
+00:01 +6: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/desktop_test.dart: desktop estado primeiro-acesso
+00:01 +7: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/desktop_test.dart: desktop estado primeiro-acesso
+00:01 +8: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/desktop_test.dart: desktop estado primeiro-acesso
+00:01 +9: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/desktop_test.dart: desktop estado primeiro-acesso
+00:01 +10: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +11: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +12: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +13: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +14: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +15: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/redesign_test.dart: redesign 390x844: solicitacao
+00:01 +16: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:01 +17: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:01 +18: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:01 +19: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +20: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +21: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +22: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +23: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +24: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +25: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +26: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +27: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +28: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +29: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: duas etapas de production em 320px e texto 200%
+00:02 +30: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: solicitacao (fixture identificada)
+00:02 +31: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: captura Flutter real: solicitacao (fixture identificada)
+00:02 +32: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/design_behavior_test.dart: primeira ação está visível em 390x844 e responde ao teclado
+00:02 +33: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:02 +34: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:02 +35: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:02 +36: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:02 +37: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +38: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +39: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +40: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +41: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +42: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +43: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +44: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +45: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +46: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +47: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +48: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +49: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +50: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +51: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:03 +52: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +53: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +54: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +55: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +56: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +57: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +58: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +59: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +60: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +61: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +62: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +63: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +64: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +65: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: abre pela home inclusive offline e volta à sessão preservada
+00:04 +66: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:05 +67: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:05 +68: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:05 +69: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:05 +70: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: atalho cadastrar abre formulário e navegação inferior funciona
+00:05 +71: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: filtros e barras mudam mês e ano com números reais
+00:05 +72: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: filtros e barras mudam mês e ano com números reais
+00:05 +73: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: alvos e rótulos acessíveis
+00:05 +74: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/widget_test.dart: alvos e rótulos acessíveis
+00:05 +75: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: tela Perfil em 390x844
+00:05 +76: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: loading, erro recuperável e vazio nunca apresentam valores fabricados
+00:05 +77: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: loading, erro recuperável e vazio nunca apresentam valores fabricados
+00:05 +78: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: loading, erro recuperável e vazio nunca apresentam valores fabricados
+00:06 +79: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: loading, erro recuperável e vazio nunca apresentam valores fabricados
+00:06 +80: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: tela Ofertas em 320 e texto 200%
+00:06 +81: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: painel segue contraste, rótulos e áreas de toque Android
+00:06 +82: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: painel segue contraste, rótulos e áreas de toque Android
+00:06 +83: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: painel segue contraste, rótulos e áreas de toque Android
+00:06 +84: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/v2_flow_test.dart: tela histórico em 320 e texto 200%
+00:06 +85: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: 320dp, texto 200% e movimento reduzido em todas as seções
+00:07 +86: C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/water_dashboard_test.dart: (tearDownAll)
+00:07 +86: All tests passed!

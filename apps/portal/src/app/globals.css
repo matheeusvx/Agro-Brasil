@@ -2282,7 +2282,9 @@ body:has(.offers-module) [data-sonner-toast][data-type="success"] {
 .offers-module .crop-cell small {
   color: #526b45;
 }
-.orders-module {
+.orders-module,
+.production-module,
+.trace-module {
   animation: order-enter 240ms cubic-bezier(0.25, 0.8, 0.25, 1) both;
 }
 .order-row {
@@ -2376,6 +2378,8 @@ body:has(.offers-module) [data-sonner-toast][data-type="success"] {
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  .production-module,
+  .trace-module,
   .orders-module,
   .orders-module *,
   .order-drawer,

@@ -1,0 +1,2 @@
+API/MongoDB saudáveis; Android encaminhado para http://127.0.0.1:3000.
+Use uma sessão demonstrativa válida. Repita após reiniciar/reconectar o emulador ou ADB.

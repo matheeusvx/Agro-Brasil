@@ -1,0 +1,47 @@
+[
+  {
+    "file": "audit.json",
+    "bytes": 1196,
+    "sha256": "06325616a66c424a27710cd55631f0e5c1fc13b2b6041594bded81c40195d881"
+  },
+  {
+    "file": "historical_indicators.csv",
+    "bytes": 847766,
+    "sha256": "4f5b0d4c2a2ddd5a175ce3e5b6cc97e7b39b50dd2ec76cdb5f957d2cf38b5fc4"
+  },
+  {
+    "file": "integration-example.json",
+    "bytes": 19086,
+    "sha256": "aa5d80c0ac3df1bc41eae72c828c6f19b40f326d5602ad1726c213cc8b2a2747"
+  },
+  {
+    "file": "monthly_indicators.csv",
+    "bytes": 64492,
+    "sha256": "aff212ba4c5d40bfd27a060582becef7bd7958cd06d8a4792ff13d6e64b88e41"
+  },
+  {
+    "file": "output/pdf/sintese-executiva.pdf",
+    "bytes": 111212,
+    "sha256": "e4028ea056d0e2ced3646641fa7f1a2fa14e5f6c9593aad6f69325bb605b1192"
+  },
+  {
+    "file": "output/pdf/sintese-executiva.png",
+    "bytes": 291561,
+    "sha256": "089335439b4ea7c7776dd4c956e75c352ace6b38fd6358c853a3abba94806ba4"
+  },
+  {
+    "file": "output/pdf/sintese-executiva.txt",
+    "bytes": 2646,
+    "sha256": "d74c035a79de58fa9930b55806ba7b6c6427af5c779c2a25b520787ddb753415"
+  },
+  {
+    "file": "thresholds.csv",
+    "bytes": 4775,
+    "sha256": "6c1b77d96cf07e2fffdfc841a04d7f305f9237e1fdda42c8df1a97798c94a0be"
+  },
+  {
+    "file": "training_monthly_reference.csv",
+    "bytes": 1167,
+    "sha256": "b4671ed3586d6cfcf0a92f40bb1a7b998761c99c1f93195dd6de35f59960b69b"
+  }
+]

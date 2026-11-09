@@ -1,0 +1,82 @@
+[
+  {
+    "nomePosto": "ESTALEIRO DAEE",
+    "nomeUgrhi": "ALTO TIETE",
+    "prefixoPosto": "E3-097",
+    "nomeMunicipio": "MOJI DAS CRUZES",
+    "latitude": "23° 31' 00''",
+    "longitude": "46° 12' 00''"
+  },
+  {
+    "nomePosto": "GRANJA RIO ACIMA",
+    "nomeUgrhi": "ALTO TIETE",
+    "prefixoPosto": "E3-133",
+    "nomeMunicipio": "MOJI DAS CRUZES",
+    "latitude": "23° 31' 00''",
+    "longitude": "46° 07' 00''"
+  },
+  {
+    "nomePosto": "MOJI DAS CRUZES (BOMBA RECALQUE)",
+    "nomeUgrhi": "ALTO TIETE",
+    "prefixoPosto": "E3-105",
+    "nomeMunicipio": "MOJI DAS CRUZES",
+    "latitude": "23° 31' 00''",
+    "longitude": "46° 10' 00''"
+  },
+  {
+    "nomePosto": "SANTO ANGELO",
+    "nomeUgrhi": "ALTO TIETE",
+    "prefixoPosto": "E3-032",
+    "nomeMunicipio": "MOJI DAS CRUZES",
+    "latitude": "23° 35' 00''",
+    "longitude": "46° 14' 00''"
+  },
+  {
+    "nomePosto": "SERRA DO ITAPETI (DER)",
+    "nomeUgrhi": "ALTO TIETE",
+    "prefixoPosto": "E3-093",
+    "nomeMunicipio": "MOJI DAS CRUZES",
+    "latitude": "23° 31' 00''",
+    "longitude": "46° 14' 00''"
+  },
+  {
+    "nomePosto": "TAIACUPEBA",
+    "nomeUgrhi": "ALTO TIETE",
+    "prefixoPosto": "E3-223",
+    "nomeMunicipio": "MOJI DAS CRUZES",
+    "latitude": "23° 40' 00''",
+    "longitude": "46° 11' 00''"
+  },
+  {
+    "nomePosto": "VILA CINTRA (DER)",
+    "nomeUgrhi": "ALTO TIETE",
+    "prefixoPosto": "E3-092",
+    "nomeMunicipio": "MOJI DAS CRUZES",
+    "latitude": "23° 33' 00''",
+    "longitude": "46° 14' 00''"
+  },
+  {
+    "nomePosto": "BAIRRO TABOAO",
+    "nomeUgrhi": "PARAIBA DO SUL",
+    "prefixoPosto": "E3-112",
+    "nomeMunicipio": "MOJI DAS CRUZES",
+    "latitude": "23° 27' 00''",
+    "longitude": "46° 14' 00''"
+  },
+  {
+    "nomePosto": "ITAPETI",
+    "nomeUgrhi": "PARAIBA DO SUL",
+    "prefixoPosto": "E3-234",
+    "nomeMunicipio": "MOJI DAS CRUZES",
+    "latitude": "23° 25' 00''",
+    "longitude": "46° 11' 00''"
+  },
+  {
+    "nomePosto": "TABUAO",
+    "nomeUgrhi": "PARAIBA DO SUL",
+    "prefixoPosto": "E3-103",
+    "nomeMunicipio": "MOJI DAS CRUZES",
+    "latitude": "23° 23' 00''",
+    "longitude": "46° 10' 00''"
+  }
+]

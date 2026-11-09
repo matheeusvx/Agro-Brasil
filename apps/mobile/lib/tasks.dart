@@ -7,6 +7,7 @@ import 'home.dart';
 import 'design.dart';
 import 'illustrations.dart';
 import 'records.dart';
+import 'territorial/production_dashboard.dart';
 
 Future<List<Json>> allRows(Repository repository, String endpoint) async {
   final result = <Json>[];
@@ -141,6 +142,19 @@ class _TaskPageState extends State<TaskPage> {
                   : FarmArt.route,
             ),
             const SizedBox(height: 12),
+            if (widget.kind == 'production')
+              OutlinedButton.icon(
+                onPressed: c.propertyId == null
+                    ? null
+                    : () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) => ProductionDashboard(controller: c),
+                        ),
+                      ),
+                icon: const Icon(Icons.bar_chart),
+                label: const Text('Produção e excedentes'),
+              ),
             if (c.repository.fixture)
               const InfoStrip(
                 icon: Icons.science_outlined,

@@ -1,0 +1,11 @@
+{
+  "location": "Mogi das Cruzes/SP — sede municipal (IBGE 3530607)",
+  "latitude": -23.52,
+  "longitude": -46.19,
+  "coordinate_source": "https://geoftp.ibge.gov.br/cartas_e_mapas/mapas_municipais/colecao_de_mapas_municipais/2020/SP/mogi_das_cruzes/3530607_MM.pdf",
+  "community": "AG",
+  "time_standard": "LST",
+  "start": "2000-01-01",
+  "end": "2025-12-31",
+  "parameters": ["PRECTOTCORR", "T2M", "T2M_MAX", "T2M_MIN", "RH2M", "WS10M", "ALLSKY_SFC_SW_DWN"]
+}
