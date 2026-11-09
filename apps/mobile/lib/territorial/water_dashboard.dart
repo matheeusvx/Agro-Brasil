@@ -607,7 +607,7 @@ class _WaterContentState extends State<_WaterContent> {
                         Text('Próximos painéis', style: AgroDesign.section),
                         SizedBox(height: 8),
                         Text(
-                          'Produção e excedentes · disponível na aba Produção\nLogística · não implementado',
+                          'Produção e excedentes · disponível na aba Produção\nLogística · disponível na aba Pedidos',
                           style: AgroDesign.body,
                         ),
                         SizedBox(height: 8),

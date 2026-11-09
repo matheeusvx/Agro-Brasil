@@ -1,0 +1,6 @@
+﻿
+00:00 +0: loading C:/Users/Sucesso/Documents/agro+brasil/apps/mobile/test/live_logistics_api.dart
+00:00 +0: painel lê pedidos e eventos reais, isolados por organização
+00:00 +1: All tests passed!
+
+

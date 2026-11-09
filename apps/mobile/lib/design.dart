@@ -7,6 +7,11 @@ abstract final class AgroDesign {
   static const forest = Color(0xFF173F32);
   static const green = Color(0xFF285E45);
   static const leaf = Color(0xFF73A760);
+
+  /// Verde do "+" da logo. Destaque pontual: 4,7:1 sobre [forest], mas não
+  /// atinge contraste de texto sobre branco ou creme.
+  static const brand = Color(0xFF02BE32);
+  static const brandWash = Color(0xFFD6F3DC);
   static const cream = Color(0xFFFAF8F1);
   static const sky = Color(0xFFE2F0F4);
   static const sun = Color(0xFFF3C969);
@@ -46,6 +51,27 @@ abstract final class AgroDesign {
     fontWeight: FontWeight.w700,
     letterSpacing: 1.2,
     color: muted,
+  );
+}
+
+/// Logo oficial, com "Agro" branco: usar somente sobre superfícies escuras.
+class AgroLogo extends StatelessWidget {
+  static const asset = 'assets/branding/agro-brasil-logo.png';
+  static const aspectRatio = 1379 / 364;
+  final double height;
+  const AgroLogo({super.key, this.height = 26});
+  @override
+  Widget build(BuildContext context) => Semantics(
+    image: true,
+    label: 'Agro+ Brasil',
+    child: Image.asset(
+      asset,
+      height: height,
+      width: height * aspectRatio,
+      fit: BoxFit.contain,
+      filterQuality: FilterQuality.medium,
+      excludeFromSemantics: true,
+    ),
   );
 }
 
@@ -90,7 +116,7 @@ class AgroNavigationBar extends StatelessWidget {
                                 ? AgroDesign.forest
                                 : AgroDesign.muted,
                             backgroundColor: selected == i
-                                ? AgroDesign.wash
+                                ? AgroDesign.brandWash
                                 : Colors.transparent,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16),
@@ -144,7 +170,7 @@ class AgroNavigationBar extends StatelessWidget {
                 height: 72,
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                indicatorColor: const Color(0xFFDEEACC),
+                indicatorColor: AgroDesign.brandWash,
                 indicatorShape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                 ),

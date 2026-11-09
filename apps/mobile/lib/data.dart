@@ -249,6 +249,9 @@ class HomeController extends ChangeNotifier {
       await store.remove(
         '${repository.scope}/production-dashboard/${property['id']}',
       );
+      await store.remove(
+        '${repository.scope}/logistics-dashboard/${property['id']}',
+      );
       await store.remove('${repository.scope}/${property['id']}');
     }
     await store.remove('${repository.scope}/catalog');

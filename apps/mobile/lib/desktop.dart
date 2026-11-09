@@ -40,13 +40,9 @@ class DesktopShell extends StatelessWidget {
                 children: [
                   const Padding(
                     padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Text(
-                      'Agro+ Brasil',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 23,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: AgroLogo(height: 36),
                     ),
                   ),
                   const Text(

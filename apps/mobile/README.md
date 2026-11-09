@@ -10,7 +10,13 @@ Somente `availableKg` de ofertas PUBLICADAS com prazo futuro entra em venda/doa�
 
 Cache privado de consulta por origem/usuário/organização/propriedade, sem tokens. Erro de rede/5xx permite snapshot explicitamente desatualizado; erros de autorização/consistência não permitem fallback. Atualizar tenta reconectar mesmo quando a home estava offline. Sair limpa o novo cache das propriedades da sessão junto dos snapshots existentes. A sessão inicial continua exigindo autenticação online. As ações abrem as telas operacionais existentes; nenhuma escrita é feita pelo dashboard.
 
-[Auditoria de contratos](../../docs/design/production/auditoria.md) e [validação/evidências](../../docs/design/production/resultado.md). `scripts/smoke-production.mjs` usa MongoDB/Express isolados e 205 produções de teste para conferir paginação, reservas, venda/doação e troca para propriedade vazia. Dados de evidência são demonstrativos e identificados, nunca estatísticas regionais. Logística permanece pendente.
+[Auditoria de contratos](../../docs/design/production/auditoria.md) e [validação/evidências](../../docs/design/production/resultado.md). `scripts/smoke-production.mjs` usa MongoDB/Express isolados e 205 produções de teste para conferir paginação, reservas, venda/doação e troca para propriedade vazia. Dados de evidência são demonstrativos e identificados, nunca estatísticas regionais.
+
+## Logística — terceiro dashboard
+
+Na aba **Pedidos**, toque em **Acompanhar logística**. O painel mostra pedidos em andamento, a distribuição por situação, o que depende do produtor e, quando há confirmação, os municípios de retirada e recebimento. Usa `/productions`, `/orders` e `/lots/:id/events`, sem rotas, distâncias ou previsões, que não existem no contrato. Retirada não é recebimento: só o destinatário confirma.
+
+[Auditoria de contratos](../../docs/design/logistics/auditoria.md) e [validação/evidências](../../docs/design/logistics/resultado.md). `scripts/serve-logistics-android.mjs` sobe uma API isolada na porta 3310, com estados criados pelos comandos reais; `test/live_logistics_api.dart` a consulta por HTTP.
 
 ## Inteligência Hídrica — incremento 1
 
@@ -70,7 +76,7 @@ Os testes cobrem navegação, oito estados, snapshot offline, isolamento do cach
 
 ## Fora desta execução
 
-Dashboard territorial de Logística, alertas preditivos operacionais, indicador de benefício social completo, QR Code, autenticação de produção, aplicativo dos outros três públicos e telas avançadas. Os dois dashboards disponíveis têm recortes distintos (propriedade autorizada e histórico regional hídrico); ainda falta o terceiro painel acadêmico. Prazo Flutter informado: 19/11/2026 23h55, America/Sao_Paulo.
+Alertas preditivos operacionais, indicador de benefício social completo, QR Code, autenticação de produção, aplicativo dos outros três públicos e telas avançadas. Os três dashboards disponíveis têm recortes distintos: histórico regional hídrico, propriedade autorizada e operações confirmadas dos pedidos da propriedade. Prazo Flutter informado: 19/11/2026 23h55, America/Sao_Paulo.
 
 O backend demo vincula-se a loopback por segurança. No emulador Android local, preserve `http://127.0.0.1:3000` e encaminhe a porta por ADB. Da raiz, com MongoDB e API ativos, execute:
 

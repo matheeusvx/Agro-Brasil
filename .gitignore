@@ -16,3 +16,9 @@ build/
 # Ferramentas locais de autoria (não fazem parte da plataforma)
 .agents/
 skills-lock.json
+
+
+# Skills locais do Claude Code
+.claude/skills/
+.claude/settings.local.json
+

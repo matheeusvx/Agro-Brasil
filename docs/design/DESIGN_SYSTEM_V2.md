@@ -11,6 +11,8 @@ Fonte única Roboto local (regular e bold), sem CDN. Título 24/1,2; seção 19/
 | forest | #173F32 | Estrutura, texto de destaque e ação principal |
 | green | #285E45 | Ações secundárias |
 | leaf | #73A760 | Vegetação e desenho, não texto pequeno |
+| brand | #02BE32 | Verde do “+” da logo: destaque pontual sobre `forest` (4,7:1). Não usar como texto sobre branco ou creme |
+| brandWash | #D6F3DC | Fundo do destino selecionado na navegação |
 | cream | #FAF8F1 | Fundo de leitura |
 | paper | #FFFFFF | Registros e formulários |
 | sky | #E2F0F4 | Superfície climática e rastreio |
@@ -22,6 +24,15 @@ Fonte única Roboto local (regular e bold), sem CDN. Título 24/1,2; seção 19/
 | danger | #912F27 | Erro com texto/ícone |
 
 Espaçamento 4/8/12/16/20/24/32 dp; gutter 20; raio 16 para controles, 22–24 para módulos. Botões primários 52 dp e links 48 dp de área mínima. Sem sombra nos cartões; a profundidade vem dos planos das ilustrações.
+
+## Identidade da marca (mobile)
+
+Original preservado em `docs/design/branding/agro-brasil-logo-original.png`. Nenhum asset redesenha a marca; todos são recortes ou reduções desse arquivo.
+
+- `AgroLogo(height: 26)` usa `assets/branding/agro-brasil-logo.png` (recorte sem reamostragem, 1379×364). O “Agro” é branco: aplicar **somente sobre `forest`** ou superfície tão escura quanto. Rótulo semântico “Agro+ Brasil”.
+- Variante compacta: o “+” e a bandeira, recortados do original (477×205, a partir de x=1291, y=263). Usada apenas no ícone do launcher, onde a logo completa fica ilegível.
+- Ícone Android adaptativo: fundo `forest`, variante compacta em 60 dp de 108 dp. Splash: `forest` com a logo completa (`launch_background` até Android 11; `values-v31`/`values-night-v31` no Android 12+).
+- Hierarquia de cor: `forest` estrutura, `brand` pontua, creme e branco deixam a leitura leve. Ações principais continuam em `forest`.
 
 ## Componentes e exemplos
 

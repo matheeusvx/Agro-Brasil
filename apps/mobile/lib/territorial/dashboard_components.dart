@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import '../design.dart';
 import 'water_data.dart';
 
-const dashboardLime = Color(0xFFD7F58B);
+const dashboardLime = AgroDesign.brand;
 
 /// Motion follows Android's remove-animation setting and web reduced motion.
 Duration dashboardMotion(BuildContext context) =>

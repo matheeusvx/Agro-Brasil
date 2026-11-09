@@ -97,9 +97,22 @@ ThemeData agroTheme() => ThemeData(
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
+      foregroundColor: AgroDesign.forest,
+      side: const BorderSide(color: AgroDesign.forest),
       minimumSize: const Size(48, 52),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     ),
+  ),
+  dialogTheme: DialogThemeData(
+    backgroundColor: AgroDesign.paper,
+    surfaceTintColor: Colors.transparent,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(AgroDesign.radius),
+    ),
+  ),
+  bottomSheetTheme: const BottomSheetThemeData(
+    backgroundColor: AgroDesign.paper,
+    surfaceTintColor: Colors.transparent,
   ),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(minimumSize: const Size(48, 48)),
@@ -234,17 +247,29 @@ class _SessionPageState extends State<SessionPage> {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(28),
-                child: const ColoredBox(
-                  color: AgroDesign.sky,
-                  child: FarmIllustration(width: 370, height: 170),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ColoredBox(
+                      color: AgroDesign.forest,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 30, 20, 26),
+                        child: Center(
+                          child: Semantics(
+                            header: true,
+                            child: const AgroLogo(height: 56),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const ColoredBox(
+                      color: AgroDesign.sky,
+                      child: FarmIllustration(width: 370, height: 150),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 16),
-              Text(
-                'Agro+ Brasil',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 20),
               const Text('Meu campo, meu dia.', style: AgroDesign.title),
               const SizedBox(height: 8),
               const Text(
@@ -421,33 +446,12 @@ class _AppShellState extends State<AppShell> {
       appBar: MediaQuery.sizeOf(context).width >= 1000
           ? null
           : AppBar(
+              backgroundColor: AgroDesign.forest,
+              foregroundColor: Colors.white,
               toolbarHeight: MediaQuery.textScalerOf(context).scale(18) > 27
                   ? 80
                   : 64,
-              title: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(7),
-                    decoration: BoxDecoration(
-                      color: AgroDesign.forest,
-                      borderRadius: BorderRadius.circular(11),
-                    ),
-                    child: const Icon(Icons.eco, color: Colors.white, size: 22),
-                  ),
-                  const SizedBox(width: 10),
-                  const Flexible(
-                    child: Text(
-                      'Agro+ Brasil',
-                      maxLines: 2,
-                      style: TextStyle(
-                        fontSize: 18,
-                        height: 1,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              title: const AgroLogo(),
               actions: [
                 IconButton(
                   tooltip: 'Inteligência hídrica territorial',
@@ -456,6 +460,7 @@ class _AppShellState extends State<AppShell> {
                 ),
                 IconButton(
                   tooltip: 'Atualizar informações',
+                  disabledColor: Colors.white54,
                   onPressed: controller.loading || controller.propertyId == null
                       ? null
                       : () => controller.load(controller.propertyId!),

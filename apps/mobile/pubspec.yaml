@@ -21,6 +21,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/branding/agro-brasil-logo.png
     - assets/weather/openweather.png
     - assets/agua04/
   fonts:

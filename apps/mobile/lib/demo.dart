@@ -204,6 +204,7 @@ class DemoRepository implements Repository {
             if (scenario == 'retirada' || scenario == 'recebimento')
               'shipment': {
                 'id': 'demo-shipment',
+                'status': scenario == 'retirada' ? 'PLANEJADA' : 'RETIRADA',
                 'carrierOrganizationId': null,
               },
           },
@@ -214,20 +215,25 @@ class DemoRepository implements Repository {
       return {
         'data': [
           {
+            'id': 'demo-event-origin',
             'type': 'ORIGEM_REGISTRADA',
             'recordedAt': '2026-11-04T12:00:00Z',
             'location': {'municipality': 'São Paulo', 'uf': 'SP'},
           },
           {
+            'id': 'demo-event-offer',
             'type': 'OFERTA_PUBLICADA',
             'recordedAt': '2026-11-04T14:00:00Z',
             'location': {'municipality': 'São Paulo', 'uf': 'SP'},
           },
           if (scenario == 'recebimento')
             {
+              'id': 'demo-event-pickup',
+              'orderId': 'demo-order',
               'type': 'RETIRADA_REGISTRADA',
               'recordedAt': '2026-11-05T12:00:00Z',
               'location': {'municipality': 'São Paulo', 'uf': 'SP'},
+              'locationConfirmedAt': '2026-11-05T12:00:00Z',
             },
         ],
       };

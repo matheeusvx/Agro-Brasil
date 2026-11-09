@@ -7,6 +7,7 @@ import 'home.dart';
 import 'design.dart';
 import 'illustrations.dart';
 import 'records.dart';
+import 'territorial/logistics_dashboard.dart';
 import 'territorial/production_dashboard.dart';
 
 Future<List<Json>> allRows(Repository repository, String endpoint) async {
@@ -154,6 +155,29 @@ class _TaskPageState extends State<TaskPage> {
                       ),
                 icon: const Icon(Icons.bar_chart),
                 label: const Text('Produção e excedentes'),
+              ),
+            if (widget.kind == 'orders' && widget.focusId == null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: OutlinedButton.icon(
+                  onPressed: c.propertyId == null
+                      ? null
+                      : () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (_) => LogisticsDashboard(controller: c),
+                            ),
+                          );
+                          if (mounted) {
+                            setState(() {
+                              future = load();
+                            });
+                          }
+                        },
+                  icon: const Icon(Icons.inventory_2_outlined),
+                  label: const Text('Acompanhar logística'),
+                ),
               ),
             if (c.repository.fixture)
               const InfoStrip(
