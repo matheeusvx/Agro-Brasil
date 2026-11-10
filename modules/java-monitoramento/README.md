@@ -1,6 +1,6 @@
-# Agro+ Água — monitoramento Java, Etapas 1 a 3
+# Agro+ Água — monitoramento Java, Etapas 1 a 4
 
-Módulo acadêmico independente da FIAP Global Solution POO 2026.2, na branch `feat/poo-java`. Público: comunidades rurais e responsáveis por sistemas coletivos de água. A proposta futura é apoiar a investigação de consumo elevado e possíveis desperdícios. Esta versão entrega domínio, sensores simulados, H2/JDBC em arquivo, duas estratégias polimórficas de previsão, Factory e geração automática de alertas fundamentados. Os resultados são demonstrações didáticas e não comprovam vazamentos. O menu de console permanece para a Etapa 4.
+Módulo acadêmico independente da FIAP Global Solution POO 2026.2, na branch `feat/poo-java`. Público: comunidades rurais e responsáveis por sistemas coletivos de água. A proposta futura é apoiar a investigação de consumo elevado e possíveis desperdícios. Esta versão entrega domínio, sensores simulados, H2/JDBC em arquivo, duas estratégias polimórficas de previsão, Factory e geração automática de alertas fundamentados. Os resultados são demonstrações didáticas e não comprovam vazamentos. O menu de console integra as operações com tratamento de erros, relógio simulado e deduplicação persistente de alertas.
 
 ## Ambiente e reprodução
 
@@ -12,6 +12,7 @@ java -version
 mvn -version
 mvn "-Dmaven.repo.local=.m2/repository" compile
 mvn "-Dmaven.repo.local=.m2/repository" clean verify
+mvn "-Dmaven.repo.local=.m2/repository" compile exec:java
 ```
 
 No ambiente verificado em 10/11/2026: Oracle JDK 21.0.10; Maven 3.9.16 instalado em Downloads, fora do PATH. Nesse computador, substituir `mvn` por:
@@ -19,30 +20,20 @@ No ambiente verificado em 10/11/2026: Oracle JDK 21.0.10; Maven 3.9.16 instalado
 ```powershell
 & "$env:USERPROFILE/Downloads/apache-maven-3.9.16/bin/mvn.cmd" "-Dmaven.repo.local=.m2/repository" compile
 & "$env:USERPROFILE/Downloads/apache-maven-3.9.16/bin/mvn.cmd" "-Dmaven.repo.local=.m2/repository" clean verify
+& "$env:USERPROFILE/Downloads/apache-maven-3.9.16/bin/mvn.cmd" "-Dmaven.repo.local=.m2/repository" compile exec:java
 ```
 
 O primeiro uso precisa acessar o Maven Central. O repositório de dependências fica em `.m2/repository` dentro deste módulo; ele e `target/` estão ignorados no Git. O POM fixa Java 21, JUnit Jupiter **5.11.4**, Compiler **3.13.0** e Surefire **3.5.2**. A dependência de produção é **H2 2.4.240**, sem Spring, ORM ou pool de conexões. Os testes também usam **Mockito 5.14.2**, com agente explícito no Surefire para simular os DAOs finais sem alterar essas classes no Java 21. Referência: [documentação oficial do Mockito, seção 0.3](https://github.com/mockito/mockito/blob/v5.14.2/mockito-core/src/main/java/org/mockito/Mockito.java).
 
-O build gera `target/agua-monitoramento-0.1.0-SNAPSHOT.jar`, uma biblioteca sem classe principal; não executar com `java -jar`. Os testes exercitam a captura de leituras. Para experimentar manualmente após compilar:
+O comando `compile exec:java` inicia `br.com.agromais.agua.SistemaMonitoramento` pelo Exec Maven Plugin **3.5.0**, sem JShell. O JAR comum não inclui as dependências; executar pelo Maven, que monta o classpath. Entrada e saída do programa usam UTF-8. O código de acesso **didático** é `AGRO-AGUA`; ele não representa autenticação de produção.
+
+Por padrão, o banco é `.data/agro-agua.mv.db`, relativo ao diretório de execução. O mesmo caminho reabre o banco e aplica as migrações aditivas. Para uma demonstração separada dos dados existentes, usar um caminho-base próprio e repeti-lo ao reiniciar:
 
 ```powershell
-jshell --class-path target/classes
+& "$env:USERPROFILE/Downloads/apache-maven-3.9.16/bin/mvn.cmd" "-Dmaven.repo.local=.m2/repository" "-Dexec.args=.data/apresentacao-etapa4" compile exec:java
 ```
 
-No JShell:
-
-```java
-import br.com.agromais.agua.dominio.*;
-import java.util.List;
-Sensor sensor = new SensorConsumo("consumo-demo-1");
-Medicao medicao = Medicao.capturar(sensor);
-System.out.println("DEMONSTRAÇÃO: " + medicao.getValor() + " " + medicao.getUnidade() + " em " + medicao.getDataHora());
-ComponenteTerritorial ponto = new PontoMonitoramento("ponto-demo-1", "Reservatório demonstrativo", "Região demonstrativa", List.of(sensor));
-System.out.println(ponto.verificarStatus());
-DadosTerritorio dados = new DadosTerritorio("Região demonstrativa", "codigo-demo", 150, 100, 1, 5);
-dados.alterarLimiares("codigo-demo", 120, 90, 1, 4);
-/exit
-```
+O argumento não inclui a extensão `.mv.db`. Escolher outro nome de banco/sensor se uma demonstração anterior já usou esse caminho; não é necessário apagar arquivo algum.
 
 ## Classes e responsabilidades
 
@@ -56,7 +47,7 @@ Arquivos em `src/main/java/br/com/agromais/agua/`, nos pacotes `dominio`, `excec
 | `SensorConsumo` | Simula volume consumido na janela fixa de um minuto, em L. |
 | `SensorVazao` | Simula vazão instantânea em L/min. |
 | `SensorPressao` | Simula pressão instantânea em bar. |
-| `DadosTerritorio` | Encapsula região, código de acesso e quatro limiares; alterações autorizadas e validadas em conjunto. |
+| `DadosTerritorio` | Encapsula região, código e quatro limiares; alterações autorizadas. O console persiste a configuração pelo DAO. |
 | `Medicao` | Leitura imutável com sensor, id, tipo, valor, unidade, data/hora e indicação de demonstração. Copia metadados para preservar o registro. |
 | `TipoSensor` | Enum com unidades e faixas admissíveis por grandeza. |
 | `StatusComponente` | Enum: `SEM_SENSORES`, `OPERACIONAL`, `FONTE_INDISPONIVEL`. |
@@ -75,6 +66,11 @@ Arquivos em `src/main/java/br/com/agromais/agua/`, nos pacotes `dominio`, `excec
 | `TipoPrevisao` / `FabricaPrevisao` | Configuração e criação centralizada da estratégia concreta. |
 | `ServicoMonitoramento` | Consulta o DAO, executa a estratégia abstrata, classifica e grava alertas. |
 | `ResultadoMonitoramento` | Record com a previsão e `Optional<Alerta>` para distinguir resultado normal sem alerta de uma falha. |
+| `SistemaMonitoramento` | Loop Scanner, apresentação e captura dos erros de aplicação. |
+| `HistoricoMedicoes` | Validação de consistência compartilhada entre coleta e estratégias, extraída da base sem mudar as regras. |
+| `ColetaSimulada` | Gera amostras separadas por um minuto lógico e grava o lote em transação. |
+| `ChaveAnalise` | Calcula SHA-256 do contexto da análise para idempotência. |
+| `DadosTerritorioDAO` | Carrega e salva região e limiares; não persiste o código de acesso. |
 
 ## Decisões e conceitos de POO
 
@@ -100,9 +96,9 @@ As faixas são hipóteses didáticas plausíveis para um pequeno ponto coletivo,
 
 Consumo é volume da janela de um minuto, não hidrômetro acumulado. Seu limiar usa L na mesma janela; vazão usa L/min e pressão usa bar. Limites de consumo e vazão devem ser positivos e não exceder 200; pressão deve obedecer `0 <= mínima < máxima <= 10`. Valores que ultrapassem limiares configurados ainda podem ser medições válidas: a classificação usa os limiares de `DadosTerritorio`, sem confundir faixa válida da grandeza com limite de atenção.
 
-Uma chamada representa uma amostra, sem temporizador, espera real ou agendador. Consumo, vazão e pressão são sorteados independentemente; não se deve inferir balanço hidráulico entre eles. As três implementações simuladas retornam `isDemonstracao() == true`, propagado à medição; `SensorHistorico` preserva a origem armazenada. `OffsetDateTime` guarda também o deslocamento UTC. A captura registra o horário após a leitura. O construtor permite horário explícito para testes e reconstrução pelo DAO.
+Uma chamada ao sensor representa um valor simulado. A coleta do console atribui a cada amostra um minuto lógico explícito, sem temporizador, espera real ou agendador; não confunde chamadas instantâneas com passagem de tempo físico. Consumo, vazão e pressão são sorteados independentemente; não se deve inferir balanço hidráulico entre eles. As três implementações simuladas retornam `isDemonstracao() == true`, propagado à medição; `SensorHistorico` preserva a origem armazenada. `OffsetDateTime` guarda também o deslocamento UTC. A captura registra o horário após a leitura. O construtor permite horário explícito para testes e reconstrução pelo DAO.
 
-O status do ponto expressa somente disponibilidade: lista vazia resulta em `SEM_SENSORES`; qualquer fonte configurada como inativa resulta em `FONTE_INDISPONIVEL`; caso contrário, `OPERACIONAL`. Não usa limiares nem classifica desperdício. `getStatus()` retorna a última verificação; `verificarStatus()` a atualiza.
+O status operacional do ponto expressa somente disponibilidade: lista vazia resulta em `SEM_SENSORES`; qualquer fonte configurada como inativa resulta em `FONTE_INDISPONIVEL`; caso contrário, `OPERACIONAL`. Não usa limiares nem classifica desperdício. `getStatus()` retorna a última verificação; `verificarStatus()` a atualiza.
 
 ## Validação automatizada
 
@@ -123,65 +119,36 @@ Verificação em 10/11/2026 com JDK 21.0.10 e Maven 3.9.16: `compile` aprovado e
 
 O banco é local, embarcado, com usuário `sa` e senha vazia para esta demonstração acadêmica. Não há servidor, console H2 ou conexão externa. `BancoH2` não mantém recursos abertos: cada DAO abre e fecha sua própria conexão. Ao fechar a última conexão, o H2 encerra o banco e mantém o arquivo. Para reabrir, fornecer exatamente o mesmo caminho.
 
-A inicialização executa somente `CREATE TABLE IF NOT EXISTS` e `CREATE INDEX IF NOT EXISTS`. Não usa `DROP`, `TRUNCATE`, recriação de schema, carga de demonstração ou limpeza automática. O comando Maven `clean` exclui `target/`, sem afetar `.data/`. Alterações futuras no formato das tabelas precisarão de migração explícita; `IF NOT EXISTS` não migra uma tabela já existente.
+A inicialização usa `CREATE TABLE/INDEX IF NOT EXISTS` e, na Etapa 4, `ALTER TABLE alerta ADD COLUMN IF NOT EXISTS` para a chave de deduplicação. Não usa `DROP`, `TRUNCATE`, recriação de schema, carga de demonstração ou limpeza automática. O comando Maven `clean` exclui `target/`, sem afetar `.data/`. A migração aditiva implementada mantém todas as linhas antigas. Alterações futuras no formato das tabelas também precisarão de migração explícita; `CREATE TABLE IF NOT EXISTS` sozinho não migra uma tabela já existente.
 
 ### Tabelas
 
-Todos os campos abaixo são `NOT NULL`. As chaves são `BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY`.
+Todos os campos abaixo são `NOT NULL`, exceto `alerta.chave_idempotencia`, que aceita nulos para os registros legados/manuais. As chaves são `BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY`.
 
 | Tabela | Colunas além de `id` |
 | --- | --- |
 | `medicao` | `sensor_id VARCHAR`, `tipo VARCHAR`, `demonstracao BOOLEAN`, `valor DOUBLE PRECISION`, `unidade VARCHAR`, `data_hora TIMESTAMP(9) WITH TIME ZONE` |
-| `alerta` | `sensor_id VARCHAR`, `tipo VARCHAR`, `demonstracao BOOLEAN`, `nivel VARCHAR`, `previsao DOUBLE PRECISION`, `limiar DOUBLE PRECISION`, `unidade VARCHAR`, `justificativa VARCHAR`, `data_hora TIMESTAMP(9) WITH TIME ZONE` |
+| `alerta` | `sensor_id VARCHAR`, `tipo VARCHAR`, `demonstracao BOOLEAN`, `nivel VARCHAR`, `previsao DOUBLE PRECISION`, `limiar DOUBLE PRECISION`, `unidade VARCHAR`, `justificativa VARCHAR`, `data_hora TIMESTAMP(9) WITH TIME ZONE`, `chave_idempotencia VARCHAR(64)` |
 
-Cada tabela tem um índice `(sensor_id, data_hora, id)`. Textos são Unicode, sem um limite pequeno artificial que corte identificadores ou justificativas aceitos no domínio. `DOUBLE PRECISION` corresponde ao `double` já utilizado. JDBC usa `setObject(OffsetDateTime)` e `getObject(..., OffsetDateTime.class)`, sem conversão por relógio local ou texto. A precisão 9 preserva nanossegundos e o offset original; a ordenação é pelo instante, inclusive com offsets diferentes. Empates são resolvidos pelo id crescente.
+Medição e alerta têm índice `(sensor_id, data_hora, id)`. Alerta tem também índice único `uq_alerta_chave(chave_idempotencia)`. A tabela `territorio` possui id fixo 1, região e quatro limiares (`DOUBLE PRECISION`), todos obrigatórios; id é chave primária com `CHECK(id=1)`. Textos são Unicode, sem um limite pequeno artificial que corte identificadores ou justificativas aceitos no domínio. `DOUBLE PRECISION` corresponde ao `double` já utilizado. JDBC usa `setObject(OffsetDateTime)` e `getObject(..., OffsetDateTime.class)`, sem conversão por relógio local ou texto. A precisão 9 preserva nanossegundos e o offset original; a ordenação é pelo instante, inclusive com offsets diferentes. Empates são resolvidos pelo id crescente.
 
 Fontes consultadas: [H2 — bancos em arquivo e fechamento](https://h2database.com/html/features.html#database_url) e [H2 — tipos de dados e TIMESTAMP WITH TIME ZONE](https://h2database.com/html/datatypes.html#timestamp_with_time_zone).
 
 ### Operações e validações
 
-- `MedicaoDAO.salvar(Medicao)` e `AlertaDAO.salvar(Alerta)` inserem uma linha e retornam o id gerado. Cada chamada usa autocommit, sem alterar registros anteriores; chamadas repetidas representam inserções distintas.
+- `MedicaoDAO.salvar(Medicao)` e `AlertaDAO.salvar(Alerta)` inserem uma linha e retornam o id gerado. Cada inserção individual usa autocommit, sem alterar registros anteriores. Alertas automáticos com a mesma chave retornam o id existente; gravações manuais sem chave continuam inserções independentes para compatibilidade. `MedicaoDAO.salvarTodas` usa uma transação para o lote, com rollback em falha.
 - `MedicaoDAO.listarPorSensor(String)` filtra por id. `AlertaDAO.listarPorSensor(String)` filtra por id e `listarTodos()` consulta todos. Todos retornam listas não modificáveis, em ordem cronológica crescente; histórico ausente retorna lista vazia.
 - Todo SQL é fixo. Os valores entram exclusivamente por parâmetros `?` de `PreparedStatement`. A concatenação no código ocorre apenas na montagem do caminho da URL H2, não na construção de SQL com dados.
 - Conexões, statements, resultados e chaves geradas usam `try-with-resources`. Erros SQL são propagados como `PersistenciaException` com a causa original, sem fallback para memória ou histórico vazio.
 - Os DAOs recebem objetos já validados e reconstroem pelo construtor do domínio. As regras de faixa, unidade e conteúdo permanecem no domínio; não há cópia dessas regras numéricas em SQL. As tabelas protegem a estrutura com chave e `NOT NULL`. Escrita SQL externa pode adulterar regras de negócio; se isso ocorrer, a consulta falha explicitamente ao reconstruir o registro inválido, em vez de entregá-lo como válido.
 
-O sensor é armazenado como um retrato de id, tipo e origem demonstrativa em cada registro. Não há cadastro/tabela de sensores ou pontos nesta etapa. Usar ids estáveis e distintos para equipamentos distintos, inclusive em regiões diferentes; o DAO não atribui um id novo ao sensor. A referência carregada é um `SensorHistorico`, que preserva os metadados e lança `FonteIndisponivelException` se alguém tentar capturar nova leitura. A disponibilidade e a semente do gerador não representam histórico e não são persistidas. As classes originais da Etapa 1 e seus quatro arquivos de testes foram mantidos.
+O sensor é armazenado como um retrato de id, tipo e origem demonstrativa em cada registro. Não há cadastro/tabela de sensores ou pontos nesta etapa. Usar ids estáveis e distintos para equipamentos distintos, inclusive em regiões diferentes; o DAO não atribui um id novo ao sensor. A referência carregada é um `SensorHistorico`, que preserva os metadados e lança `FonteIndisponivelException` se alguém tentar capturar nova leitura. A disponibilidade e a semente do gerador não representam histórico e não são persistidas. Os testes originais foram mantidos. Na Etapa 4, o domínio de território ganhou alteração autorizada da região e o alerta ganhou uma chave opcional; as validações anteriores permanecem.
 
 `Alerta` não calcula previsão nem decide nível. Na Etapa 3, o serviço passa a fornecer esses dados; a criação manual da Etapa 2 continua disponível. Nível e justificativa são obrigatórios; previsão e limiar devem ser finitos e aceitos pelo `TipoSensor`, com unidade correspondente. Não se exige `previsao > limiar`, pois pressão abaixo do mínimo também poderá motivar alerta. As estratégias e a política automática da Etapa 3 são descritas abaixo.
 
-### Exemplo manual em duas sessões
+### Execução
 
-Após compilar, iniciar JShell com H2 no classpath, a partir da pasta deste módulo:
-
-```powershell
-jshell --class-path "target/classes;.m2/repository/com/h2database/h2/2.4.240/h2-2.4.240.jar"
-```
-
-Primeira sessão (grava dados demonstrativos no arquivo local, sem apagar o que já existir):
-
-```java
-import br.com.agromais.agua.dominio.*;
-import br.com.agromais.agua.persistencia.*;
-import java.time.OffsetDateTime;
-BancoH2 banco = new BancoH2();
-Sensor sensor = new SensorConsumo("consumo-manual-demo");
-new MedicaoDAO(banco).salvar(new Medicao(sensor, 61.25, "L", OffsetDateTime.now()));
-new AlertaDAO(banco).salvar(new Alerta(NivelAlerta.ALERTA, sensor, 80, 60, "L", "DEMONSTRAÇÃO: projeção informada manualmente", OffsetDateTime.now()));
-/exit
-```
-
-Iniciar JShell novamente com o mesmo classpath e diretório. Segunda sessão:
-
-```java
-import br.com.agromais.agua.persistencia.*;
-BancoH2 banco = new BancoH2();
-new MedicaoDAO(banco).listarPorSensor("consumo-manual-demo").forEach(m -> System.out.println("DEMONSTRAÇÃO: " + m.getValor() + " " + m.getUnidade() + " em " + m.getDataHora()));
-new AlertaDAO(banco).listarPorSensor("consumo-manual-demo").forEach(a -> System.out.println(a.getNivel() + ": " + a.getPrevisao() + " / " + a.getLimiar() + " " + a.getUnidade() + " — " + a.getJustificativa()));
-/exit
-```
-
-O exemplo manual é opcional; a validação automatizada não o executa nem acessa `.data/` do usuário. Não há menu completo ou entrypoint de produção.
+A aplicação é iniciada pelo comando Maven apresentado no início deste README. O fluxo do menu e a política de continuidade estão na seção da Etapa 4 abaixo. O banco padrão só é aberto quando a aplicação é iniciada explicitamente; os testes nunca o acessam.
 
 ### Testes novos e evidência de reinício
 
@@ -240,7 +207,7 @@ As duas implementações chamam a validação comum herdada antes de somar qualq
 4. Os instantes UTC sejam estritamente crescentes, sem duplicatas, com cadência constante. Offsets diferentes são aceitos quando os instantes preservam a cadência.
 5. A quantidade mínima da estratégia seja atendida.
 
-A cadência exata é uma decisão conservadora desta demonstração: uma série irregular é rejeitada, sem interpolar, preencher lacunas ou reordenar. Capturas manuais com `now()` podem ter intervalos irregulares; a futura rotina de demonstração deverá fornecer horários de amostragem coerentes ou definir explicitamente uma política de reamostragem. Janelas são agrupamentos de N amostras, não filtros por calendário. Não há política de idade máxima do histórico nesta etapa; a estimativa se refere à sequência apresentada, sem alegar previsão atual de campo.
+A cadência exata é uma decisão conservadora desta demonstração: uma série irregular é rejeitada, sem interpolar, preencher lacunas ou reordenar. Capturas legadas com `now()` podem ter intervalos irregulares; o console preserva esses registros e permite iniciar outra série identificada por um novo id, com cadência lógica de um minuto. Janelas são agrupamentos de N amostras, não filtros por calendário. Não há política de idade máxima do histórico nesta etapa; a estimativa se refere à sequência apresentada, sem alegar previsão atual de campo.
 
 `DadosInvalidosException` informa histórico insuficiente com sensor, quantidade necessária e disponível. Inconsistências também geram erro explícito. Não se devolve zero ou uma previsão parcial. Uma projeção fora da faixa falha na construção de `ResultadoPrevisao`, com valor calculado, unidade e causa: **não há clamp, arredondamento corretivo ou gravação de alerta**. Exemplo: médias A=0 L e R=120 L produzem 240 L, que excedem a faixa aceita de 0 a 200 L; o serviço informa o erro e não emite alerta com valor artificialmente limitado a 200 L.
 
@@ -248,7 +215,7 @@ A cadência exata é uma decisão conservadora desta demonstração: uma série 
 
 `FabricaPrevisao` implementa **Simple Factory**, centralizando em um único `switch` a criação por `TipoPrevisao`. Foi escolhida porque o chamador conhece a configuração desejada e não precisa conhecer construtores concretos nem repetir a escolha em vários locais. Não se trata de uma hierarquia de Factory Method.
 
-O construtor configurado de `ServicoMonitoramento` chama a Factory de verdade. O campo e a execução do serviço usam somente `EstrategiaPrevisao` e `estrategia.prever(...)`, sem `instanceof` ou seleção por classe. Cada filha chama `super(tamanhoJanela, quantidadeJanelas)`, compartilha os invariantes da base e sobrescreve o cálculo. Um segundo construtor aceita a abstração pronta por injeção. Não foi necessário remover `final` ou reescrever os DAOs para usar Mockito.
+O construtor configurado de `ServicoMonitoramento` chama a Factory de verdade. O campo e a execução do serviço usam somente `EstrategiaPrevisao` e `estrategia.prever(...)`, sem `instanceof` ou seleção por classe. Cada filha chama `super(tamanhoJanela, quantidadeJanelas)`, compartilha os invariantes da base e sobrescreve o cálculo. Um segundo construtor aceita a abstração pronta por injeção. Não foi necessário remover `final` dos DAOs para usar Mockito.
 
 ### Regras de alerta
 
@@ -264,32 +231,11 @@ As faixas são hipóteses didáticas para demonstrar regras distintas: a vazão 
 
 A largura da faixa de pressão é positiva pelas validações existentes, mesmo quando a mínima é zero. Previsão, limiar e unidade sempre correspondem ao mesmo tipo. A classificação compara decimalmente `desvio` com `referência × fração`, usando `BigDecimal.valueOf`, sem divisão ou arredondamento. Isso corrige a fronteira em que `2 − 1.6` com `double` ficava ligeiramente abaixo de 0.4, rebaixando indevidamente 10% de desvio. Os cálculos de previsão e os valores persistidos continuam sendo `double`; não há ajuste do resultado previsto para fazê-lo caber na faixa.
 
-O alerta inclui sensor, tipo, valor previsto, unidade, limite inferior/superior violado, nível e a explicação da estratégia. Dados simulados são identificados como **DEMONSTRAÇÃO**. O horário do alerta é o horário da análise. A gravação usa o `AlertaDAO` já existente. Se falhar, `PersistenciaException` é propagada. Uma execução grava no máximo um alerta por sensor; executar novamente pode criar outro alerta para a mesma série. Deduplicação e prevenção de repetição ficam para uma política explícita futura.
+O alerta inclui sensor, tipo, valor previsto, unidade, limite inferior/superior violado, nível e a explicação da estratégia. Dados simulados são identificados como **DEMONSTRAÇÃO**. O horário do alerta é o horário da análise. A gravação usa o `AlertaDAO` já existente. Se falhar, `PersistenciaException` é propagada. Uma execução confirma no máximo um alerta por contexto. A política persistente da Etapa 4 impede duplicação para o mesmo contexto e preserva o primeiro registro e seu horário.
 
-### Uso sem menu
+### Demonstração automatizada das duas estratégias
 
-Com H2 no classpath do JShell mostrado acima, este exemplo opcional consulta o banco local existente e grava alerta somente quando fundamentado:
-
-```java
-import br.com.agromais.agua.dominio.*;
-import br.com.agromais.agua.persistencia.*;
-import br.com.agromais.agua.servico.*;
-BancoH2 banco = new BancoH2();
-DadosTerritorio dados = new DadosTerritorio("Região demo", "codigo-demo", 100, 100, 2, 6);
-ServicoMonitoramento servico = new ServicoMonitoramento(new MedicaoDAO(banco), new AlertaDAO(banco), dados, TipoPrevisao.COMPARACAO, 5);
-// Exige dez medições consistentes já gravadas para esse id; não insere amostras automaticamente.
-ResultadoMonitoramento resultado = servico.analisar("consumo-manual-demo");
-System.out.println(resultado.previsao().explicacao());
-System.out.println(resultado.alerta().map(Alerta::getJustificativa).orElse("Sem alerta: previsão dentro dos limites."));
-```
-
-Se o banco contiver apenas a amostra do exemplo da Etapa 2, a análise falhará claramente por histórico insuficiente. Para uma demonstração completa reproduzível, sem popular ou modificar `.data/`, executar o teste H2:
-
-```powershell
-& "$env:USERPROFILE/Downloads/apache-maven-3.9.16/bin/mvn.cmd" "-Dmaven.repo.local=.m2/repository" "-Dtest=MonitoramentoH2Test" test
-```
-
-Esse teste grava dez amostras em arquivo temporário: cinco de 90 L e cinco de 120 L. Com limite 100 L, a média móvel prevê **120 L / ALERTA** e a comparação prevê **150 L / CRITICO**. Cada estratégia roda em um banco isolado e o alerta é recuperado após reabrir o arquivo. Também são testados pressão baixa, resultado normal, ausência de histórico, identidade reutilizada com tipo diferente e extrapolação inválida, sem alerta indevido.
+`MonitoramentoH2Test` grava dez amostras em arquivo temporário: cinco de 90 L e cinco de 120 L. Com limite 100 L, a média móvel prevê **120 L / ALERTA** e a comparação prevê **150 L / CRITICO**. Cada estratégia roda em um banco isolado e o alerta é recuperado após reabrir o arquivo. O menu usa as mesmas estratégias e DAOs, sem duplicar os cálculos.
 
 ### Validação da Etapa 3
 
@@ -304,9 +250,80 @@ Esse teste grava dez amostras em arquivo temporário: cinco de 90 L e cinco de 1
 
 O teste Mockito usa `ArgumentCaptor`, verifica a ordem consulta/gravação e confirma ausência de chamadas de gravação nos casos rejeitados. Os testes são AAA. O build compilou 28 arquivos de produção e 15 de teste. Relatórios ficam em `target/surefire-reports/`, ignorados pelo Git. A única extensão de uma classe antiga foi um construtor com causa em `DadosInvalidosException`, necessário para informar a projeção inválida sem perder o erro de validação original; DAOs e as classes de dados anteriores foram preservados.
 
-## Preparação para Etapa 4
+## Aplicação de console — Etapa 4
 
-Integrar o menu de console para configurar a estratégia, capturar medições, consultar histórico e analisar sensores. Capturar exceções com mensagens úteis, sem engolir erros. A demonstração de série deve usar cadência coerente; definir também a política de repetição de alertas e a exibição das limitações do histórico. Não há menu ou agendador nesta entrega. As gravações JDBC continuam independentes; uma operação futura que precise gravar medição e alerta atomicamente exigirá transação compartilhada.
+### Menu e fluxo completo de demonstração
+
+| Opção | Operação real |
+| --- | --- |
+| 1 | Verifica três sensores simulados e o `PontoMonitoramento`; não consome uma leitura. |
+| 2 | Escolhe tipo e id, coleta de 1 a 1000 amostras e grava o lote no H2. Enter escolhe 10 amostras. |
+| 3 | Escolhe sensor, estratégia e N; consulta histórico, prevê e confirma alerta idempotente quando necessário. |
+| 4 | Lista histórico cronológico por id, com valor, tipo, unidade, horário e origem. |
+| 5 | Lista alertas persistidos, níveis, previsões, limiares, justificativas e horário real da análise. |
+| 6 | Exibe configuração; subopção 1 altera região, 2 altera os quatro limiares, 0 volta. Exige código. |
+| 7 | Mostra região, limites, funcionamento, quantidades e última leitura por sensor, qualidade da série e total de alertas. |
+| 0 | Encerra sem apagar registros. EOF também encerra com mensagem, inclusive durante uma operação. |
+
+Exemplo reproduzível em um banco de apresentação que ainda não tenha a série `consumo-demo-1m`:
+
+1. Iniciar pelo comando com `-Dexec.args=.data/apresentacao-etapa4`. Usar **1** para verificar os sensores.
+2. Usar **2**, tipo **1** (consumo), **Enter** para `consumo-demo-1m`, quantidade **10**. Dez minutos de amostras lógicas são gerados imediatamente. Consultar em **4**, id `consumo-demo-1m`.
+3. Usar **6**, subopção **2**, código **AGRO-AGUA** e limites **10**, **100**, **2**, **6**. Isso configura 10 L por janela de consumo de um minuto, 100 L/min de vazão e 2 a 6 bar de pressão. Os valores baixos de consumo são escolhidos apenas para tornar o alerta visível na demonstração.
+4. Usar **3**, id `consumo-demo-1m`, estratégia **1**, N **5**. Resultado: aproximadamente **75.8891720424875 L / CRITICO**. Repetir exatamente essa análise: não há novo registro.
+5. Usar **3**, mesmo id, estratégia **2**, N **5**. Resultado: aproximadamente **78.53566310509333 L / CRITICO**. Em **5**, há **dois alertas**, um por estratégia; repetir qualquer uma mantém dois.
+6. Usar **7** para o status, **0** para encerrar e executar novamente com o mesmo caminho. Consultar em **4** e **5**: dez leituras e dois alertas continuam presentes; executar as mesmas previsões mantém dois.
+7. Usar **2**, tipo 1, mesmo id padrão, quantidade **1**. A nova leitura recebe o minuto lógico seguinte. Usar **3**, média móvel, N=5; **5** agora mostra um terceiro alerta. Alterar o limite de consumo para 20 L em **6** e reanalisar também permite novo alerta fundamentado, pois a configuração mudou.
+
+A semente `Random(42)` é reiniciada a cada lote no console para tornar essa demonstração reproduzível. Ela usa as três classes de sensores existentes, dentro das faixas já documentadas. O padrão pode se repetir entre lotes: não representa observações físicas independentes ou uma série hidráulica real. O id pode ser personalizado na coleta; os ids padrão são `consumo-demo-1m`, `vazao-demo-1m` e `pressao-demo-1m`. Sensores legados são listados pelo catálogo para consulta, sem serem transformados em fontes ativas.
+
+### Cadência e continuidade
+
+O console usa `ColetaSimulada`: em série vazia, a primeira referência lógica é **2026-01-01T00:00:00-03:00**. Cada próxima amostra soma exatamente um minuto ao horário anterior. Para consumo, cada valor é o volume em uma janela simulada de um minuto; vazão e pressão são amostras nos mesmos passos lógicos. O horário não informa a data física em que a água foi usada. Horários dos alertas continuam sendo horários reais da execução da análise.
+
+Ao reiniciar, a última leitura do H2 determina o próximo horário, inclusive quando uma série legada válida começou em outra data ou offset. A coleta não usa `Thread.sleep`, relógio de parede para espaçar chamadas instantâneas nem temporizadores. Valida primeiro a série completa, exige origem demonstrativa, mesmo tipo e cadência prévia de um minuto. Séries irregulares, com instantes repetidos, origem diferente ou outra cadência são preservadas e recusadas para continuação; escolher um novo id em **2** permite demonstrar sem apagar ou reescrever o histórico antigo. As previsões continuam recusando históricos inconsistentes, inclusive legados.
+
+O lote é montado e validado antes da gravação. Fonte que falha durante a geração não grava parte do lote; erro SQL aciona rollback do lote inteiro quando possível, preservando a causa e qualquer falha de rollback. A coleta do console pressupõe **um escritor por série**; não coordena coletas simultâneas do mesmo id em processos diferentes. A unicidade de alertas, por outro lado, é garantida pelo banco também para análises concorrentes.
+
+### Idempotência e migração
+
+`ChaveAnalise` serializa o contexto com comprimentos explícitos de texto e calcula SHA-256. Entram na chave:
+
+- versão das regras (`agro-agua-regras-v1`), nome da implementação da estratégia e tamanho N;
+- as últimas N medições da média móvel ou 2N da comparação, em ordem: id, tipo, unidade, origem, valor e instante UTC;
+- os quatro limiares de `DadosTerritorio`.
+
+Não entram o texto da justificativa, o horário real da análise ou o nome da região. Portanto, a mesma análise permanece idempotente ao reiniciar. Novos horários/valores das leituras, outro sensor, outra estratégia, outro N ou outros limiares produzem novo contexto. Restaurar exatamente a configuração anterior, sem mudar a janela, continua sendo o contexto anterior e não duplica. Alterações apenas na região não mudam o cálculo. Os quatro limiares são considerados como uma única configuração; mudar qualquer um permite nova avaliação. A versão deve ser atualizada se uma futura revisão mudar a fórmula ou a política de níveis.
+
+`Alerta` recebe chave opcional, preservando seu construtor anterior. O serviço preenche a chave nos alertas automáticos e chama o mesmo `AlertaDAO.salvar`. A inicialização acrescenta `chave_idempotencia VARCHAR(64)` e o índice único, sem remover ou alterar linhas antigas. Vários alertas legados podem ter chave nula. Não é possível reconstruir retroativamente estratégia e janela de alertas antigos que não guardavam esse contexto: eles são preservados; a primeira análise identificada de um contexto pode acrescentar um alerta novo, e as seguintes são deduplicadas. Chamadas manuais antigas sem chave continuam independentes; o console usa o caminho automático identificado.
+
+A inserção concorrente é resolvida pela restrição única, sem depender de uma consulta prévia. Somente SQLState `23505`, com chave presente e alerta correspondente encontrado, é tratado como repetição e retorna o id original. Outros erros ou outro conflito de unicidade sem essa chave correspondente geram `PersistenciaException`. A operação repetida não altera o horário ou a justificativa já persistidos. A tela da análise apresenta o resultado calculado e confirma o alerta de forma neutra; a opção **5** mostra o registro persistido original.
+
+A tabela `territorio` carrega a região e os limites ao reiniciar. O código didático não é persistido. O menu valida uma cópia da configuração, grava pelo DAO e só então troca a referência em memória; uma falha não substitui a configuração válida atual. Entrada inválida, código incorreto, histórico insuficiente, extrapolação fora de faixa, fonte indisponível e falha de banco têm mensagens próprias e devolvem o controle ao menu. Não há `catch` vazio.
+
+### Testes e execução observada
+
+Verificação em 10/11/2026 com JDK 21.0.10 e Maven 3.9.16: **`mvn clean verify` aprovado, 199 testes, 0 falhas, 0 erros, 0 ignorados**. Os 178 testes anteriores foram mantidos sem alteração; as 21 novas execuções são:
+
+| Classe | Execuções | O que comprova |
+| --- | --- | --- |
+| `ColetaSimuladaTest` | 7 | Cadência de um minuto, continuidade após reabrir, preservação de legado, incompatibilidades, falha de fonte sem lote parcial, rollback e quantidade inválida. |
+| `IdempotenciaAlertaTest` | 4 | Repetição/reabertura, mudanças legítimas de contexto, concorrência e erros de banco não mascarados. |
+| `MigracaoConsoleTest` | 3 | Schema antigo sem chave migrado sem perda; configuração persistente e dados adulterados rejeitados. |
+| `SistemaMonitoramentoTest` | 6 | Entrada/saída controladas: menu completo, coleta, consulta, ambas as previsões, erros, acesso incorreto, extrapolação, reabertura e EOF. |
+| `ConsoleProcessoTest` | 1 | Duas JVMs executam o main real: dez leituras e dois alertas; repetição após reiniciar mantém dois; nova leitura permite o terceiro. |
+
+Todos os testes H2 usam `@TempDir`; nenhum acessa `.data/` do usuário. O build compilou 33 arquivos de produção e 20 de teste. Também foi executado o comando `compile exec:java` com roteiro controlado e banco novo descartável em `target/`: dez leituras, média móvel 75.8891720424875 L, comparação 78.53566310509333 L e dois alertas após repetir a média móvel. Resultado **BUILD SUCCESS**, com saída UTF-8 legível. Não foram geradas capturas ou gravações.
+
+Os arquivos de banco, cache Maven e `target/` continuam excluídos pelo `.gitignore` local do módulo. `mvn clean` remove somente os arquivos gerados em `target/`, não os bancos de `.data/`.
+
+### Arquivos alterados nesta etapa
+
+Criados: `SistemaMonitoramento`, `HistoricoMedicoes`, `ColetaSimulada`, `ChaveAnalise`, `DadosTerritorioDAO` e os cinco arquivos de testes listados acima. Modificados: `Alerta` (chave opcional), `DadosTerritorio` (região autorizada), `EstrategiaPrevisao` (delegação à validação extraída), `BancoH2` (migração aditiva), `MedicaoDAO` (lote e catálogo), `AlertaDAO` (deduplicação), `ServicoMonitoramento` (chave no alerta), `pom.xml` (execução) e este README. Não foram modificados outros módulos ou os testes anteriores.
+
+## Pendências para a entrega acadêmica
+
+Revisão humana do código e das decisões, completar os nomes/contribuições reais de participantes e preparar a apresentação seguindo o enunciado. O aluno deve conseguir explicar `super`, a execução polimórfica, a Simple Factory, a distinção entre tempo lógico e real, o rollback e por que uma restrição única garante idempotência após reiniciar. Não há compromisso de calibração física, autenticação de produção ou uso com sensores reais. Uma transação que precise vincular coleta e emissão de alertas atomicamente não foi implementada: são operações distintas do menu. Nenhum commit ou push foi realizado automaticamente.
 
 ## Reflexão sobre o recorte
 
@@ -314,6 +331,6 @@ Uma leitura simulada não comprova desperdício ou economia de água. Um sensor 
 
 ## Uso de IA e revisão do aluno
 
-O Codex foi utilizado para ler o README e o enunciado indicado, conferir o ambiente e a branch, propor a modelagem, implementar o núcleo da Etapa 1, a persistência JDBC/H2 da Etapa 2 e as estratégias, Factory e serviço da Etapa 3, escrever testes (incluindo Mockito, fronteiras decimais e JVMs separadas), executar o Maven e documentar decisões. A verificação automatizada cobre apenas os comportamentos descritos acima; não demonstra compreensão do aluno, validação hidráulica ou conclusão da GS completa.
+O Codex foi utilizado para ler o README e o enunciado indicado, conferir o ambiente e a branch, propor a modelagem, implementar o núcleo da Etapa 1, a persistência JDBC/H2 da Etapa 2, as estratégias, Factory e serviço da Etapa 3 e o console, relógio lógico, migrações aditivas e deduplicação da Etapa 4, escrever testes (incluindo Mockito, fronteiras decimais, menu com entrada controlada, migração, concorrência e JVMs separadas), executar o Maven e documentar decisões. A verificação automatizada cobre apenas os comportamentos descritos acima; não demonstra compreensão do aluno, validação hidráulica ou conclusão da GS completa.
 
 **Revisão do aluno: pendente.** O aluno deve revisar o código antes de assumir autoria da entrega e conseguir explicar: por que a classe base é abstrata; como os três sensores são usados pela mesma interface; como o código protege limiares sem atualização parcial; por que medição zero difere de fonte indisponível; como os parâmetros JDBC impedem SQL injetado; como o DAO reconstrói objetos validados; como o teste entre processos comprova a persistência; como as duas fórmulas diferem; por que a Factory centraliza a criação; e por que o sistema se abstém diante de dados inconsistentes ou previsões inválidas. Não foi afirmada revisão humana já realizada. Nesta etapa não há divisão de tarefas entre integrantes documentada; cabe ao aluno registrar participantes e contribuições reais na entrega final.

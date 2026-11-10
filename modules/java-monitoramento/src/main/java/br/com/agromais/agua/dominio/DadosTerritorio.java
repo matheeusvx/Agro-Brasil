@@ -4,7 +4,7 @@ import br.com.agromais.agua.excecao.DadosInvalidosException;
 
 /** Configuração local em memória. O código é uma barreira didática, não autenticação de produção. */
 public final class DadosTerritorio {
-    private final String regiao;
+    private String regiao;
     private final String codigoAcesso;
     private double limiteConsumoLitros;
     private double limiteVazaoLitrosPorMinuto;
@@ -26,6 +26,13 @@ public final class DadosTerritorio {
             throw new SecurityException("Código de acesso inválido: limiares preservados.");
         }
         definirLimiares(limiteConsumo, limiteVazao, pressaoMinima, pressaoMaxima);
+    }
+
+    public void alterarRegiao(String codigo, String regiao) {
+        if (!codigoAcesso.equals(codigo)) {
+            throw new SecurityException("Código de acesso inválido: região preservada.");
+        }
+        this.regiao = Validacao.texto(regiao, "Região");
     }
 
     private void definirLimiares(double consumo, double vazao, double minima, double maxima) {

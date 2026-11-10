@@ -15,8 +15,8 @@ import java.util.List;
 
 public final class AlertaDAO {
     private static final String INSERIR = """
-            INSERT INTO alerta(sensor_id, tipo, demonstracao, nivel, previsao, limiar, unidade, justificativa, data_hora)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO alerta(sensor_id, tipo, demonstracao, nivel, previsao, limiar, unidade, justificativa, data_hora, chave_idempotencia)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """;
     private static final String POR_SENSOR = """
             SELECT * FROM alerta WHERE sensor_id = ? ORDER BY data_hora, id
@@ -46,6 +46,7 @@ public final class AlertaDAO {
             comando.setString(7, alerta.getUnidade());
             comando.setString(8, alerta.getJustificativa());
             comando.setObject(9, alerta.getDataHora());
+            comando.setString(10, alerta.getChaveIdempotencia());
             comando.executeUpdate();
             try (var chaves = comando.getGeneratedKeys()) {
                 if (!chaves.next()) {
@@ -54,7 +55,26 @@ public final class AlertaDAO {
                 return chaves.getLong(1);
             }
         } catch (SQLException causa) {
+            if ("23505".equals(causa.getSQLState()) && alerta.getChaveIdempotencia() != null) {
+                return buscarIdExistente(alerta.getChaveIdempotencia(), causa);
+            }
             throw new PersistenciaException("Não foi possível gravar o alerta.", causa);
+        }
+    }
+
+    private long buscarIdExistente(String chave, SQLException conflito) {
+        try (var conexao = banco.abrirConexao();
+             var comando = conexao.prepareStatement("SELECT id FROM alerta WHERE chave_idempotencia = ?")) {
+            comando.setString(1, chave);
+            try (var resultado = comando.executeQuery()) {
+                if (resultado.next()) {
+                    return resultado.getLong(1); // Conflito esperado na chave única, não uma nova inserção.
+                }
+            }
+            throw new PersistenciaException("Conflito de gravação sem alerta correspondente à chave.", conflito);
+        } catch (SQLException causa) {
+            causa.addSuppressed(conflito);
+            throw new PersistenciaException("Não foi possível confirmar o alerta já registrado.", causa);
         }
     }
 
@@ -93,6 +113,6 @@ public final class AlertaDAO {
                 TipoSensor.valueOf(resultado.getString("tipo")), resultado.getBoolean("demonstracao"));
         return new Alerta(NivelAlerta.valueOf(resultado.getString("nivel")), sensor,
                 resultado.getDouble("previsao"), resultado.getDouble("limiar"), resultado.getString("unidade"),
-                resultado.getString("justificativa"), resultado.getObject("data_hora", OffsetDateTime.class));
+                resultado.getString("justificativa"), resultado.getObject("data_hora", OffsetDateTime.class), resultado.getString("chave_idempotencia"));
     }
 }

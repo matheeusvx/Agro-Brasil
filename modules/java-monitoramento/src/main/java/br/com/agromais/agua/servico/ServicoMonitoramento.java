@@ -39,7 +39,8 @@ public final class ServicoMonitoramento {
         var historico = medicaoDAO.listarPorSensor(sensorId.strip());
         // Despacho polimórfico: nenhuma verificação da classe concreta da estratégia.
         ResultadoPrevisao previsao = estrategia.prever(sensorId.strip(), historico);
-        Optional<Alerta> alerta = avaliar(previsao);
+        Optional<Alerta> alerta = avaliar(previsao).map(a ->
+                a.comChaveIdempotencia(ChaveAnalise.gerar(estrategia, historico, dados)));
         alerta.ifPresent(alertaDAO::salvar); // Falhas de gravação são propagadas, nunca sucesso aparente.
         return new ResultadoMonitoramento(previsao, alerta);
     }

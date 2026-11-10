@@ -72,6 +72,16 @@ public final class BancoH2 {
         try (Connection conexao = abrirConexao()) {
             executar(conexao, CRIAR_MEDICAO);
             executar(conexao, CRIAR_ALERTA);
+            // Migração aditiva: alertas antigos ficam com chave NULL e não são apagados.
+            executar(conexao, "ALTER TABLE alerta ADD COLUMN IF NOT EXISTS chave_idempotencia VARCHAR(64)");
+            executar(conexao, "CREATE UNIQUE INDEX IF NOT EXISTS uq_alerta_chave ON alerta(chave_idempotencia)");
+            executar(conexao, """
+                    CREATE TABLE IF NOT EXISTS territorio (
+                        id INTEGER PRIMARY KEY CHECK (id = 1), regiao VARCHAR NOT NULL,
+                        consumo DOUBLE PRECISION NOT NULL, vazao DOUBLE PRECISION NOT NULL,
+                        pressao_minima DOUBLE PRECISION NOT NULL, pressao_maxima DOUBLE PRECISION NOT NULL
+                    )
+                    """);
             executar(conexao, "CREATE INDEX IF NOT EXISTS idx_medicao_sensor_data ON medicao(sensor_id, data_hora, id)");
             executar(conexao, "CREATE INDEX IF NOT EXISTS idx_alerta_sensor_data ON alerta(sensor_id, data_hora, id)");
         }
