@@ -22,3 +22,24 @@ skills-lock.json
 .claude/skills/
 .claude/settings.local.json
 
+
+# JAVA / MAVEN
+
+
+# Dependencias Maven baixadas localmente
+.m2/
+
+# Arquivos gerados pela compilacao e testes
+target/
+*.class
+
+# Banco de dados H2 local
+*.mv.db
+*.trace.db
+*.lock.db
+
+# Configuracoes locais de IDEs Java
+*.iml
+.classpath
+.project
+.settings/

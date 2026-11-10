@@ -1,0 +1,7 @@
+/target/
+/.m2/
+/.data/
+*.mv.db
+*.trace.db
+*.lock.db
+*.temp.db
