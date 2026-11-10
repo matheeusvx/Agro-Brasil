@@ -12,7 +12,7 @@ export function WorkspaceState() {
         aria-label="Carregando espaço de trabalho"
         className="space-y-6"
       >
-        <Skeleton className="h-12 w-72" />
+        <Skeleton className="h-12 w-72 max-w-full" />
         <div className="grid grid-cols-3 gap-5">
           {[1, 2, 3].map((i) => (
             <Skeleton key={i} className="h-28" />

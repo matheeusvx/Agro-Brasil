@@ -4,6 +4,8 @@ Base local: `http://127.0.0.1:3000/api/v1`. JSON UTF-8. UUID para IDs; quantidad
 
 ## Endpoints implementados
 
+Minha Fazenda: GET `/properties/:id/farm-layout`, PUT `/properties/:id/farm-layout` e GET `/properties/:id/farm-overview`. Configuração ilustrativa persistente, controle otimista de versão e dados operacionais por propriedade. Consulte [contratos, exemplos e autorização](../arquitetura/minha-fazenda-backend.md).
+
 | Método e caminho | Permissão / resultado |
 |---|---|
 | GET /health (fora da base /api/v1) | Público, ping real no banco, 200 ou erro 500 |

@@ -16,6 +16,7 @@ import {
   LogOut,
   ChevronRight,
   LockKeyhole,
+  Tractor,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
@@ -32,15 +33,28 @@ export function PortalShell({ children }: { children: ReactNode }) {
     changeOrganization,
     logout,
   } = usePortal();
+  const firstName =
+    workspace?.home.userName?.trim().split(/\s+/)[0] || "Produtor";
   const member = session.memberships.find(
     (m) => m.organizationId === session.organizationId,
   )!;
-  const links = [
-    { href: "/visao-geral", label: "Visão geral", icon: LayoutDashboard },
-    { href: "/producao", label: "Produção", icon: Sprout },
-    { href: "/ofertas", label: "Ofertas", icon: Tags },
-    { href: "/pedidos", label: "Pedidos", icon: PackageCheck },
-    { href: "/rastreabilidade", label: "Rastreabilidade", icon: Route },
+  const groups = [
+    {
+      title: "ESPAÇO DO PRODUTOR",
+      links: [
+        { href: "/visao-geral", label: "Visão geral", icon: LayoutDashboard },
+        { href: "/minha-fazenda", label: "Minha Fazenda", icon: Tractor },
+        { href: "/producao", label: "Produção", icon: Sprout },
+      ],
+    },
+    {
+      title: "LOGÍSTICA",
+      links: [
+        { href: "/ofertas", label: "Ofertas", icon: Tags },
+        { href: "/pedidos", label: "Pedidos", icon: PackageCheck },
+        { href: "/rastreabilidade", label: "Rastreabilidade", icon: Route },
+      ],
+    },
   ];
   return (
     <div className={"portal-frame " + (collapsed ? "is-collapsed" : "")}>
@@ -53,36 +67,54 @@ export function PortalShell({ children }: { children: ReactNode }) {
           className="brand"
           aria-label="Agro+ Brasil, visão geral"
         >
-          <span className="brand-mark">
-            <Leaf size={23} />
-          </span>
           {!collapsed && (
-            <span>
-              Agro<span className="brand-plus">+</span> Brasil
-            </span>
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              className="brand-logo"
+              src="/brand/agro-mais-brasil.webp"
+              alt=""
+              width={130}
+              height={36}
+            />
           )}
+          <span
+            className={"brand-mark-v3" + (collapsed ? "" : " only-compact")}
+            aria-hidden="true"
+          >
+            +
+          </span>
         </Link>
-        {!collapsed && <p className="sidebar-section">ESPAÇO DO PRODUTOR</p>}
-        <nav aria-label="Navegação principal">
-          {links.map(({ href, label, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              title={collapsed ? label : undefined}
-              aria-label={label}
-              aria-current={path === href ? "page" : undefined}
-              className={"nav-item " + (path === href ? "active" : "")}
-            >
-              <Icon size={19} />
-              {!collapsed && (
-                <>
-                  <span>{label}</span>
-                  {path === href && <span className="nav-active-dot" />}
-                </>
-              )}
-            </Link>
-          ))}
-        </nav>
+        {groups.map((group) => (
+          <div key={group.title} className="sidebar-group">
+            {collapsed ? (
+              <hr className="sidebar-divider" aria-hidden="true" />
+            ) : (
+              <p className="sidebar-section" id={"nav-" + group.title}>
+                {group.title}
+              </p>
+            )}
+            <nav aria-label={group.title === "LOGÍSTICA" ? "Logística" : "Espaço do produtor"}>
+              {group.links.map(({ href, label, icon: Icon }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  title={collapsed ? label : undefined}
+                  aria-label={label}
+                  aria-current={path === href ? "page" : undefined}
+                  className={"nav-item " + (path === href ? "active" : "")}
+                >
+                  <Icon size={19} />
+                  {!collapsed && (
+                    <>
+                      <span>{label}</span>
+                      {path === href && <span className="nav-active-dot" />}
+                    </>
+                  )}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        ))}
         <div className="sidebar-footer">
           <Link
             href="/perfil"
@@ -132,7 +164,9 @@ export function PortalShell({ children }: { children: ReactNode }) {
               <span>Espaço de trabalho</span>
               <ChevronRight size={13} />
               <strong>
-                {path === "/producao"
+                {path === "/minha-fazenda"
+                  ? "Minha Fazenda"
+                  : path === "/producao"
                   ? "Produção"
                   : path.startsWith("/rastreabilidade")
                     ? "Rastreabilidade"
@@ -196,6 +230,15 @@ export function PortalShell({ children }: { children: ReactNode }) {
             >
               <RefreshCw size={17} className={loading ? "animate-spin" : ""} />
             </Button>
+            <div className="user-chip">
+              <span className="user-chip-avatar" aria-hidden="true">
+                {firstName.charAt(0).toUpperCase()}
+              </span>
+              <div>
+                <strong>{firstName}</strong>
+                <small>{member.role === "LEITOR" ? "Consulta" : "Produtor"}</small>
+              </div>
+            </div>
           </div>
         </header>
         <main id="main" tabIndex={-1} className="main-content">

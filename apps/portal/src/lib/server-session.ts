@@ -51,9 +51,10 @@ export async function backend(
   organization?: string,
   body?: string,
   idempotencyKey?: string,
+  method: "GET" | "POST" | "PUT" = body === undefined ? "GET" : "POST",
 ) {
   return fetch(apiBase() + "/api/v1" + path, {
-    method: body === undefined ? "GET" : "POST",
+    method,
     cache: "no-store",
     redirect: "error",
     signal: AbortSignal.timeout(15000),

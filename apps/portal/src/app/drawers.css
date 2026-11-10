@@ -1,0 +1,309 @@
+/* Gavetas e painéis laterais — versão sóbria.
+   Branco, uma cor de destaque, linhas finas em vez de caixas, sem
+   gradientes ou brilhos. Escala: 12 (rótulo auxiliar) · 13.5 (rótulo)
+   · 15 (conteúdo) · 22 (título). Pesos 500/600. */
+[data-slot="sheet-overlay"] {
+  background: rgba(20, 32, 26, 0.28) !important;
+}
+[data-slot="sheet-content"] {
+  background: #fff;
+  border-left: 1px solid #e6e9e3 !important;
+  box-shadow: -8px 0 24px rgba(20, 32, 26, 0.06) !important;
+}
+[data-slot="sheet-content"] > button:last-child {
+  top: 20px !important;
+  right: 20px !important;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  opacity: 0.6 !important;
+  color: #1d3a2e;
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+[data-slot="sheet-content"] > button:last-child:hover {
+  opacity: 1 !important;
+  background: #f2f4f0;
+}
+[data-slot="sheet-content"] > button:last-child svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+/* Cabeçalho */
+.drawer-header {
+  padding: 28px 32px 22px !important;
+  border-bottom: 1px solid #eceee9;
+  background: #fff;
+}
+.drawer-header .eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: #6b7a70;
+  margin-bottom: 6px;
+}
+.drawer-header [data-slot="sheet-title"] {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  line-height: 1.25;
+  color: #1d3a2e;
+  padding-right: 44px;
+}
+.drawer-header [data-slot="sheet-description"] {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #6b7a70;
+  margin-top: 6px;
+}
+
+/* Corpo e rodapé */
+.drawer-body {
+  padding: 26px 32px 32px !important;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #1d3a2e;
+}
+.drawer-footer {
+  padding: 16px 32px !important;
+  border-top: 1px solid #eceee9;
+  gap: 10px !important;
+}
+.drawer-footer button,
+.order-actions button,
+.order-detail button {
+  min-height: 44px;
+  padding-inline: 18px !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+  font-weight: 600;
+  box-shadow: none !important;
+}
+
+/* Pedido */
+.order-status,
+.status-badge {
+  font-size: 12.5px !important;
+  font-weight: 600;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+}
+.order-detail h2 {
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.3px;
+  color: #1d3a2e;
+}
+.order-detail > p {
+  font-size: 15px;
+  color: #4a5a50;
+}
+
+/* Lista de detalhes: linhas finas, sem caixas */
+.detail-list {
+  margin-top: 20px;
+}
+.detail-list > div {
+  grid-template-columns: 130px minmax(0, 1fr) !important;
+  padding: 13px 0 !important;
+  font-size: 14px !important;
+  border-bottom: 1px solid #eceee9 !important;
+  align-items: baseline;
+}
+.detail-list dt {
+  font-size: 13.5px;
+  color: #6b7a70 !important;
+}
+.detail-list dd {
+  font-size: 15px !important;
+  color: #1d3a2e !important;
+  font-weight: 500;
+}
+.detail-list dd.text-xs,
+.detail-list dd code {
+  font-size: 13.5px !important;
+  font-weight: 400;
+  color: #4a5a50 !important;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+.drawer-body .text-link {
+  font-size: 14px;
+  font-weight: 600;
+  min-height: 40px;
+}
+
+/* Formulários */
+.drawer-body .field-label {
+  font-size: 13.5px !important;
+  font-weight: 500;
+  color: #3d4d43 !important;
+  gap: 7px;
+}
+.drawer-body input:not([type="checkbox"]):not([type="radio"]),
+.drawer-body select {
+  height: 44px !important;
+  border-radius: 10px !important;
+  border: 1px solid #dde2da !important;
+  background: #fff !important;
+  font-size: 15px !important;
+  color: #1d3a2e !important;
+  padding: 0 12px;
+  box-shadow: none !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.drawer-body input:not([type="checkbox"]):not([type="radio"]):focus,
+.drawer-body select:focus {
+  outline: none;
+  border-color: #2f6f4f !important;
+  box-shadow: 0 0 0 3px rgba(47, 111, 79, 0.12) !important;
+}
+.drawer-body .field-label small {
+  font-size: 12.5px !important;
+  color: #6b7a70 !important;
+  margin-top: 0;
+}
+.form-grid {
+  gap: 18px 14px !important;
+}
+.form-section {
+  margin: 28px 0 14px !important;
+  gap: 10px !important;
+}
+.form-section > span {
+  width: auto !important;
+  height: auto !important;
+  background: none !important;
+  color: #2f6f4f !important;
+}
+.form-section h3 {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #1d3a2e !important;
+}
+.form-section p {
+  font-size: 13px !important;
+  color: #6b7a70 !important;
+  margin-top: 1px;
+}
+.property-context {
+  border: 1px solid #eceee9 !important;
+  border-radius: 10px !important;
+  padding: 14px 16px !important;
+  background: #fafbf9 !important;
+  color: #2f6f4f !important;
+}
+.property-context span {
+  font-size: 12px !important;
+  letter-spacing: 0.4px !important;
+  font-weight: 600;
+  color: #6b7a70 !important;
+}
+.property-context strong {
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  color: #1d3a2e !important;
+  margin-top: 2px !important;
+}
+.confirmation {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: #3d4d43 !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+}
+.confirmation input {
+  width: 18px !important;
+  height: 18px !important;
+  margin-top: 1px !important;
+  accent-color: #2f6f4f !important;
+}
+.form-assurance,
+.info-note {
+  font-size: 13.5px !important;
+  line-height: 1.5 !important;
+  color: #4a5a50 !important;
+  background: #f6f7f4 !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  padding: 12px 14px !important;
+}
+.error-inline {
+  font-size: 14px !important;
+  border-radius: 10px !important;
+}
+.order-feedback {
+  font-size: 14px;
+}
+.drawer-body h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d3a2e;
+}
+
+/* Rastreabilidade: painel "Detalhes da etapa" */
+.trace-detail {
+  padding: 24px !important;
+  border-radius: 16px !important;
+  background: #fff;
+}
+.trace-detail .eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: #6b7a70;
+}
+.trace-detail h2 {
+  font-size: 20px !important;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: #1d3a2e;
+  margin: 4px 0 8px !important;
+}
+.trace-detail dl > dt {
+  font-size: 13px !important;
+  color: #6b7a70 !important;
+  margin-top: 0 !important;
+  padding-top: 12px;
+  border-top: 1px solid #eceee9;
+}
+.trace-detail dl > dt:first-child {
+  border-top: 0;
+}
+.trace-detail dd {
+  font-size: 15px !important;
+  font-weight: 500;
+  color: #1d3a2e;
+  margin: 3px 0 12px !important;
+}
+.trace-detail dd code {
+  font-family: inherit;
+  font-size: 13.5px;
+  color: #4a5a50;
+  font-variant-numeric: tabular-nums;
+}
+.trace-detail p:not(.eyebrow) {
+  font-size: 14.5px !important;
+  color: #4a5a50;
+}
+
+@media (max-width: 640px) {
+  .drawer-header {
+    padding: 22px 20px 18px !important;
+  }
+  .drawer-header [data-slot="sheet-title"] {
+    font-size: 20px;
+  }
+  .drawer-body {
+    padding: 20px 20px 26px !important;
+  }
+  .drawer-footer {
+    padding: 14px 20px !important;
+  }
+  .detail-list > div {
+    grid-template-columns: 1fr !important;
+    gap: 2px !important;
+  }
+}
