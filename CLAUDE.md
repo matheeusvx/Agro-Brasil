@@ -13,7 +13,7 @@ Pilares: oferta x demanda; gestão da produção/excedentes; logística e rastre
 | `apps/web/` | Protótipo HTML/CSS/JS acadêmico |
 | `services/api/` | API Express 5 + MongoDB (replica set; porta API 3000, Mongo 27017) |
 | `analytics/agro-agua/` | Python: pipeline, EDA e ML (AGUA-02..04), exports auditados |
-| `modules/java-monitoramento/` | Escopo Java (não implementado) |
+| `modules/java-monitoramento/` | Java 21/Maven: console Agro+ Água, H2/JDBC, medições simuladas; independente do resto |
 | `docs/` | Requisitos, arquitetura, design system V2, evidências |
 | `scripts/` | Mongo local, seed, smoke tests, capturas Android |
 
@@ -21,10 +21,11 @@ Pilares: oferta x demanda; gestão da produção/excedentes; logística e rastre
 
 ## Estado atual
 
-- Portal: Visão geral, Produção, Ofertas, Pedidos, Rastreabilidade visual.
-- Flutter: home personalizada, Produção, Ofertas, Pedidos, Histórico, auth demonstrativa, cache offline, **Inteligência Hídrica V2** (`water_dashboard.dart`), **Produção e Excedentes V1** (`production_dashboard.dart`).
-- **Pendente: dashboard territorial de Logística** (o 3º exigido por `docs/requisitos/conformidade.md`). Também fora de escopo atual: QR Code, auth de produção, indicador de benefício social completo, apps dos outros públicos, iOS/dispositivo físico, Java.
-- Última validação reportada: 97 testes Flutter, `flutter analyze` limpo, teste HTTP real, emulador Android. Prazo Flutter: 19/11/2026 23h55 (America/Sao_Paulo).
+- Tudo integrado na `main` em 10/11/2026 (Minha Fazenda e Java incluídos); CI em `.github/workflows/ci.yml`.
+- Portal: Visão geral, Produção, Ofertas, Pedidos, Rastreabilidade visual, Minha Fazenda.
+- Flutter: home personalizada, Produção, Ofertas, Pedidos, Histórico, auth demonstrativa, cache offline, **Inteligência Hídrica V2** (`water_dashboard.dart`), **Produção e Excedentes V1** (`production_dashboard.dart`), **Logística** (`logistics_dashboard.dart`).
+- **Pendente (plano em `docs/planejamento/diagnostico-2026-11-10.md`):** indicador de impacto/benefício social, alertas explicados, vídeo/pitch. Fora de escopo: QR Code, auth de produção, telas dos outros públicos, iOS/dispositivo físico.
+- Última validação (10/11/2026, `docs/planejamento/etapa-a-resultado.md`): 126 testes Flutter, `flutter analyze` limpo, 27 + 50 testes da API, 43 do portal, 199 do Java, build web e smoke. Prazo Flutter: 19/11/2026 23h55 (America/Sao_Paulo).
 
 ## Decisões de UX (preservar)
 
@@ -51,6 +52,8 @@ npm.cmd run db:local        # terminal 1: mongod real (replica set agroLocal)
 npm.cmd run seed:demo ; npm.cmd start   # terminal 2: API em 127.0.0.1:3000
 npm.cmd run check ; npm.cmd test ; npm.cmd run test:integration
 cd apps/mobile ; flutter analyze ; flutter test
+cd apps/portal ; npm.cmd run typecheck ; npm.cmd test
+cd modules/java-monitoramento ; mvn "-Dmaven.repo.local=.m2/repository" clean verify   # Maven fora do PATH: ver README do módulo
 npm.cmd run build:mobile ; npm.cmd run test:mobile:smoke
 ./scripts/connect-android-local.ps1 -Device emulator-5554   # adb reverse tcp:3000 tcp:3000
 ```
@@ -60,7 +63,7 @@ Atualizar goldens só de forma deliberada (`flutter test --update-goldens`, ver 
 
 ## Documentos-chave
 
-`README.md` · `apps/mobile/README.md` · `docs/requisitos/api.md` · `docs/requisitos/conformidade.md` · `docs/arquitetura/` · `docs/design/DESIGN_SYSTEM_V2.md` · `docs/design/territorial/` (hídrico) · `docs/design/production/` · `analytics/agro-agua/docs/agua04-contrato-integracao.md`.
+`README.md` · `apps/mobile/README.md` · `docs/requisitos/api.md` · `docs/requisitos/conformidade.md` (matriz rubrica → evidência) · `docs/planejamento/diagnostico-2026-11-10.md` · `docs/arquitetura/` · `docs/design/DESIGN_SYSTEM_V2.md` · `docs/design/territorial/` (hídrico) · `docs/design/production/` · `docs/design/logistics/` · `docs/design/minha-fazenda/` · `modules/java-monitoramento/README.md` · `analytics/agro-agua/docs/agua04-contrato-integracao.md`.
 
 ## Processo
 

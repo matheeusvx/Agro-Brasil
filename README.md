@@ -17,19 +17,27 @@ Uma plataforma para **pequenos produtores rurais, cooperativas, instituições e
 - Ofertas, solicitações, aceite/reserva, cancelamento, retirada e recebimento integral com transações reais.
 - Cooperativa opcional designada no aceite; histórico compartilhado restrito às operações autorizadas.
 
-**Flutter:** home de tarefas, telas básicas e consulta offline da última home implementadas. Consulte [apps/mobile/README.md](apps/mobile/README.md) e [evidências da home](docs/evidencias/flutter-home.md). Preview local: http://127.0.0.1:3000/mobile/ após compilar.
+**Flutter (`apps/mobile/`):** home personalizada, Produção, Ofertas, Pedidos, Histórico, consulta offline e três dashboards territoriais — Inteligência Hídrica, Produção e Excedentes e Logística. Consulte [apps/mobile/README.md](apps/mobile/README.md). Preview local: http://127.0.0.1:3000/mobile/ após compilar.
 
-**Ainda não implementados:** QR Code, divisão/agrupamento de lotes, autenticação de produção, dashboards Flutter, modelos hídricos e sistema Java. Dados de demonstração não representam impacto social real. O segundo incremento limita cada lote a uma oferta e cada pedido a uma remessa com recebimento integral, sem pagamentos.
+**Portal de gestão (`apps/portal/`):** Next.js com Visão geral, Produção, Ofertas, Pedidos, Rastreabilidade visual e Minha Fazenda ([resultado](docs/design/minha-fazenda/resultado.md)).
+
+**Data Science (`analytics/agro-agua/`):** pipeline, EDA e dois modelos avaliados sobre dados regionais reais ([relatório final](analytics/agro-agua/docs/agua04-relatorio-final.md)). O modelo Ridge não é apresentado como previsão.
+
+**Java (`modules/java-monitoramento/`):** aplicação de console Agro+ Água com H2/JDBC, previsões polimórficas e alertas, sobre medições **simuladas** ([README do módulo](modules/java-monitoramento/README.md)). É independente da API, do portal e do Flutter.
+
+**Ainda não implementados:** QR Code, divisão/agrupamento de lotes, autenticação de produção, indicador de benefício social e telas próprias para cooperativa, instituição e comprador (esses públicos são demonstrados em `apps/web`). Dados de demonstração não representam impacto social real. O segundo incremento limita cada lote a uma oferta e cada pedido a uma remessa com recebimento integral, sem pagamentos.
 
 ## Estrutura
 
 ```text
 apps/web/                       formulário e consulta, sem framework
-apps/mobile/                    home Flutter e telas básicas de tarefas
+apps/mobile/                    Flutter: telas do produtor e dashboards territoriais
+apps/portal/                    portal de gestão Next.js/TypeScript (porta 3100)
 services/api/src/               Express, autorização, domínio e MongoDB
 services/api/test/              testes unitários e integração real
-analytics/agro-agua/            escopo Python com dados regionais reais
-modules/java-monitoramento/    escopo Java independente e sensores simulados
+analytics/agro-agua/            Python: pipeline, EDA e modelos com dados regionais reais
+modules/java-monitoramento/    Java: console Agro+ Água, H2/JDBC, sensores simulados
+.github/workflows/              integração contínua (API, portal, Flutter, Java)
 docs/arquitetura/               decisões e modelo de dados
 docs/requisitos/                API e rastreabilidade acadêmica
 docs/planejamento/              sprints e relação com cartões propostos
@@ -37,7 +45,7 @@ docs/evidencias/                resultados de verificações, sem tokens
 scripts/                       MongoDB local, seed e verificação
 ```
 
-O diretório atual é a raiz do monorepositório; não há uma pasta adicional aninhada. Um único package.json e lockfile gerenciam as dependências JavaScript. Não foram adicionados microsserviços.
+O diretório atual é a raiz do monorepositório; não há uma pasta adicional aninhada. A raiz tem o package.json e o lockfile da API e dos scripts; o portal tem os seus em `apps/portal/`. Não foram adicionados microsserviços.
 
 ## Executar no Windows / PowerShell
 
@@ -78,13 +86,24 @@ A integração inicia seu próprio MongoDB em porta livre e base isolada; não d
 
 A suíte comercial inicia replica set real em `.data/commerce-<uuid>` e testa concorrência, rollback, idempotência, estados, privacidade e operação direta/com cooperativa. Evidências desta etapa usam o prefixo `incremento-2`, preservando os relatórios históricos da fundação.
 
+### Portal, Flutter e Java
+
+```powershell
+cd apps/portal ; npm.cmd ci ; npm.cmd run typecheck ; npm.cmd test ; npm.cmd run build
+cd apps/mobile ; flutter analyze ; flutter test
+cd modules/java-monitoramento ; mvn "-Dmaven.repo.local=.m2/repository" clean verify
+```
+
+O Java requer JDK 21 e Maven 3.9.x. Os mesmos comandos rodam no GitHub Actions a cada push na `main` ([workflow](.github/workflows/ci.yml)). Resultado medido em 10/11/2026: [etapa A](docs/planejamento/etapa-a-resultado.md).
+
 ## Documentação e evidências
 
 - [Auditoria do ambiente](docs/arquitetura/auditoria-ambiente.md)
 - [Arquitetura e decisões](docs/arquitetura/arquitetura.md)
 - [Modelo de dados e estados](docs/arquitetura/modelo-dados.md)
 - [Contratos da API](docs/requisitos/api.md)
-- [Requisitos acadêmicos e limites](docs/requisitos/conformidade.md)
+- [Matriz rubrica → evidência](docs/requisitos/conformidade.md)
+- [Diagnóstico e plano até a entrega](docs/planejamento/diagnostico-2026-11-10.md)
 - [Planejamento e referências Trello](docs/planejamento/execucao-inicial.md)
 - [Relatório de verificação](docs/evidencias/verificacao.md)
 - [Segundo incremento: consistência e roteiro](docs/arquitetura/incremento-2.md)

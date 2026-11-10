@@ -4,7 +4,7 @@
 
 O Agro+ Água é o módulo Java do projeto Agro+ Brasil, desenvolvido para a Global Solution de Programação Orientada a Objetos da FIAP, no tema Territory Predictive Insights / CitizenTech. A aplicação de console registra medições simuladas, mantém históricos em H2, executa duas estratégias de previsão e persiste alertas fundamentados nas leituras e nos limiares configurados.
 
-O módulo está em `modules/java-monitoramento/`, na branch `feat/poo-java`. É independente dos demais componentes do Agro+ Brasil: não integra Flutter, portal, Express, MongoDB ou análises Python.
+O módulo está em `modules/java-monitoramento/`, na branch `main`. É independente dos demais componentes do Agro+ Brasil: não integra Flutter, portal, Express, MongoDB ou análises Python.
 
 **Natureza da entrega:** demonstração acadêmica, sem validação operacional ou hidráulica em campo. **Resultado automatizado consolidado: 199 testes aprovados, sem falhas, erros ou testes ignorados.** Esse resultado não comprova vazamentos nem desperdício real.
 
@@ -210,7 +210,7 @@ A tabela `territorio` carrega a região e os limites ao reiniciar. O código did
 Instalar **Git, JDK 21 e Maven 3.9.x**, disponíveis no PATH. A validação registrada utilizou Maven 3.9.16. O primeiro uso precisa de acesso ao Maven Central para obter dependências e plugins. Em outro computador, executar em um terminal:
 
 ```sh
-git clone --branch feat/poo-java https://github.com/matheeusvx/Agro-Brasil.git
+git clone https://github.com/matheeusvx/Agro-Brasil.git
 cd Agro-Brasil/modules/java-monitoramento
 java -version
 mvn -version
