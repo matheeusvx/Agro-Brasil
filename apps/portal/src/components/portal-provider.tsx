@@ -9,7 +9,6 @@ import {
   type ReactNode,
 } from "react";
 import {
-  Leaf,
   ArrowRight,
   ShieldCheck,
   LoaderCircle,
@@ -156,32 +155,27 @@ function Access({ onLogin }: { onLogin: (session: Session) => void }) {
   return (
     <main className="access-page">
       <section className="access-story">
-        <div className="brand">
-          <Leaf size={28} />
-          <span>
-            Agro<span className="brand-plus">+</span> Brasil
-          </span>
-        </div>
-        <div>
-          <p className="eyebrow text-[#c4d6b7]">DO CAMPO PARA NOVAS CONEXÕES</p>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="access-logo" src="/brand/agro-mais-brasil.webp" alt="Agro+ Brasil" width={170} height={47} />
+        <div className="access-copy">
+          <p className="eyebrow">DO CAMPO PARA NOVAS CONEXÕES</p>
           <h1>
-            Sua produção.
+            Sua produção<span>.</span>
             <br />
-            Novos caminhos.
+            Novos caminhos<span>.</span>
           </h1>
           <p>
             Organize sua colheita, acompanhe suas operações e mantenha a origem
             de cada lote sempre por perto.
           </p>
-          <div className="field-lines" aria-hidden="true" />
         </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="access-art" src="/assets/3d/fazenda-isometrica.webp" alt="" aria-hidden="true" />
         <small>Uma gestão mais próxima de quem produz.</small>
       </section>
       <section className="access-form">
         <div className="max-w-[390px] w-full">
-          <span className="rounded-full bg-[#edf2e8] px-3 py-1 text-xs font-semibold">
-            PORTAL DO PRODUTOR
-          </span>
+          <span className="access-tag">PORTAL DO PRODUTOR</span>
           <h2 className="text-3xl tracking-tight font-semibold mt-6">
             Bem-vindo ao seu campo.
           </h2>
@@ -225,7 +219,7 @@ function Access({ onLogin }: { onLogin: (session: Session) => void }) {
               minLength={32}
               maxLength={200}
               placeholder="Cole seu token de demonstração"
-              className="h-11"
+              className="access-input"
             />
             {error && (
               <p role="alert" className="error-inline">
@@ -233,7 +227,7 @@ function Access({ onLogin }: { onLogin: (session: Session) => void }) {
                 {error}
               </p>
             )}
-            <Button className="w-full h-11 mt-5" disabled={busy}>
+            <Button className="access-submit w-full mt-5" disabled={busy}>
               {busy ? (
                 <LoaderCircle className="animate-spin" />
               ) : (

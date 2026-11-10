@@ -31,7 +31,8 @@ async function proxy(
         { error: { message: "Chave de idempotência válida é obrigatória." } },
         { status: 400 },
       );
-    const text = req.method === "POST" ? await req.text() : undefined;
+    const method = req.method === "PUT" ? "PUT" : req.method === "POST" ? "POST" : "GET";
+    const text = method !== "GET" ? await req.text() : undefined;
     if (text && Buffer.byteLength(text) > 16384)
       return Response.json(
         { error: { message: "Solicitação muito grande." } },
@@ -43,6 +44,7 @@ async function proxy(
       session.organizationId,
       text,
       key ?? undefined,
+      method,
     );
     const data = await response.json();
     return Response.json(data, {
@@ -64,3 +66,4 @@ async function proxy(
 }
 export const GET = proxy;
 export const POST = proxy;
+export const PUT = proxy;

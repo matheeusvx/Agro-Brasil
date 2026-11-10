@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import { PortalProvider } from "@/components/portal-provider";
 import "./globals.css";
+import "./theme.css";
+import "./drawers.css";
 export const metadata: Metadata = {
   title: "Agro+ Brasil | Portal do produtor",
   description:

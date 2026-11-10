@@ -15,11 +15,15 @@ export function allowedProxyPath(endpoint: string, method: string) {
       uuid +
       "/publish)?|properties/" +
       uuid +
-      "/weather|lots/" +
+      "/(?:weather|farm-layout|farm-overview)|lots/" +
       uuid +
       "(?:/events)?)$",
     "i",
   );
+  if (method === "PUT")
+    return new RegExp("^/properties/" + uuid + "/farm-layout$", "i").test(
+      endpoint,
+    );
   return (
     allowed.test(endpoint) &&
     ((method === "GET" && !/(publish|accept|cancel|pickup)$/.test(endpoint)) ||

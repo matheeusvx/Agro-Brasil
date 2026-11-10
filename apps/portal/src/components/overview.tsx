@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   Plus,
@@ -39,167 +39,109 @@ export function Overview() {
   const requested = orders.filter((o) => o.status === "SOLICITADO").length;
   const first = home.pending[0];
   const canWrite = home.canWrite;
+  const firstName = home.userName?.trim().split(/\s+/)[0] || "produtor";
+  const hasWeather =
+    weather.status === "available" &&
+    typeof weather.temperatureC === "number" &&
+    Number.isFinite(weather.temperatureC);
   return (
     <>
-      <div className="page-heading">
-        <div>
+      <div className="ov-hero-grid">
+        <section className="ov-hero ag-rise" style={{ "--i": 0 } as React.CSSProperties}>
           <p className="eyebrow">SEU CAMPO, EM DIA</p>
-          <h1>
-            Olá, {home.userName?.trim().split(/\s+/)[0] || "produtor"}
-            <span className="heading-period">.</span>
-          </h1>
-          <div
-            className="greeting-weather"
-            aria-label="Clima regional"
-            aria-live="polite"
+          <h1>Olá, {firstName}.</h1>
+          <p>
+            {property.name}
+            {property.municipality ? ` · ${property.municipality}/${property.uf}` : ""} · atualizado às{" "}
+            {new Date(home.fetchedAt).toLocaleTimeString("pt-BR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </p>
+          <button
+            type="button"
+            className="ov-priority"
+            data-attention={first ? true : undefined}
+            onClick={() => first && setPending(first)}
+            disabled={!first}
           >
-            {weather.status === "available" &&
-            typeof weather.temperatureC === "number" &&
-            Number.isFinite(weather.temperatureC) ? (
-              <>
-                <span className="greeting-weather-reading">
-                  <CloudSun size={15} aria-hidden="true" />
-                  {Math.round(weather.temperatureC)} °C em{" "}
-                  {property.municipality}
-                </span>
-                {weather.locality?.approximate && (
-                  <small>Referência aproximada do município</small>
-                )}
-                <a
-                  href="https://openweathermap.org/"
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Dados meteorológicos fornecidos pela OpenWeather"
-                  className="greeting-weather-credit"
-                >
-                  <img
-                    src="/weather/openweather.png"
-                    alt=""
-                    width={28}
-                    height={14}
-                  />
-                  OpenWeather
-                </a>
-              </>
-            ) : (
-              <span>Clima indisponível</span>
-            )}
-          </div>
-        </div>
-        <Button onClick={openCreate} disabled={!canWrite}>
-          <Plus size={17} />
-          Registrar produção
-        </Button>
-      </div>
-      <div className="overview-context">
-        <span>
-          <MapPin size={13} />
-          {property.name}
-        </span>
-        {property.municipality && (
-          <>
-            <span className="context-dot">·</span>
-            <span>
-              {property.municipality} / {property.uf}
-            </span>
-          </>
-        )}
-        <span className="last-update">
-          <Clock3 size={12} />
-          Atualizado às{" "}
-          {new Date(home.fetchedAt).toLocaleTimeString("pt-BR", {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </span>
-      </div>
-      <div className="priority-row">
-        <section className={"priority-panel" + (!first ? " clear" : "")}>
-          <span className="priority-icon">
-            {first ? <ClipboardList size={21} /> : <Check size={21} />}
-          </span>
-          <div>
-            <p className="eyebrow">
-              {first ? "PRECISA DA SUA ATENÇÃO" : "SUA ROTINA"}
-            </p>
-            <h2>
-              {requested
-                ? `${requested} ${requested === 1 ? "solicitação aguarda" : "solicitações aguardam"} sua análise`
-                : first
-                  ? "Há uma movimentação para acompanhar"
-                  : "Tudo em dia por aqui."}
-            </h2>
-            <p>
-              {first
+            {requested
+              ? `${requested} ${requested === 1 ? "solicitação aguarda" : "solicitações aguardam"} sua análise`
+              : first
                 ? `${first.cropName} · ${number(first.quantityKg)} kg · ${statusName(first.status).toLocaleLowerCase("pt-BR")}`
                 : productions.length
-                  ? "Nenhuma pendência nesta propriedade."
-                  : "Nenhuma pendência no momento. Registre sua primeira colheita."}
-            </p>
+                  ? "Tudo em dia por aqui."
+                  : "Registre sua primeira colheita para começar."}
+          </button>
+          <div className="ov-hero-actions">
+            <button type="button" className="ag-btn ag-btn-lime" onClick={openCreate} disabled={!canWrite}>
+              <Plus size={16} /> Registrar produção
+            </button>
           </div>
-          {first ? (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setPending(first)}
-            >
-              Consultar pedido
-              <ArrowRight size={14} />
-            </Button>
-          ) : (
-            !productions.length && (
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={!canWrite}
-                onClick={openCreate}
+        </section>
+        <section
+          className="ov-card ag-rise"
+          style={{ "--i": 1 } as React.CSSProperties}
+          aria-label="Clima regional"
+          aria-live="polite"
+        >
+          <h2>Clima hoje</h2>
+          <div className="ov-weather-main">
+            <div>
+              <p className="ov-weather-temp">
+                {hasWeather ? (
+                  <>
+                    {Math.round(weather.temperatureC!)}
+                    <sup>°C</sup>
+                  </>
+                ) : (
+                  "--"
+                )}
+              </p>
+              <p className="ov-weather-desc">
+                {hasWeather
+                  ? `${weather.description ?? "Agora"} em ${property.municipality ?? "sua região"}`
+                  : "Clima indisponível"}
+              </p>
+            </div>
+            <WeatherArt />
+          </div>
+          <div className="ov-weather-foot">
+            <span>
+              {weather.locality?.approximate ? "Referência aproximada do município" : "Dados regionais"}
+            </span>
+            {hasWeather && (
+              <a
+                href="https://openweathermap.org/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Dados meteorológicos fornecidos pela OpenWeather"
               >
-                Começar
-                <ArrowRight size={14} />
-              </Button>
-            )
-          )}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/weather/openweather.png" alt="" width={28} height={14} />
+                OpenWeather
+              </a>
+            )}
+          </div>
         </section>
       </div>
-      <div className="metrics-grid">
+      <section className="ov-stats ag-rise" style={{ "--i": 2 } as React.CSSProperties} aria-label="Resumo da propriedade">
         {[
-          {
-            label: "Produção registrada",
-            value: number(total),
-            unit: "kg",
-            note: "Volume registrado na propriedade",
-            icon: Scale,
-          },
-          {
-            label: "Lotes com origem",
-            value: String(productions.length),
-            unit: "lotes",
-            note: "Vinculados às suas produções",
-            icon: Boxes,
-          },
-          {
-            label: "Pedidos em aberto",
-            value: String(active),
-            unit: "pedidos",
-            note: "Solicitados, aceitos ou em entrega",
-            icon: PackageCheck,
-          },
-        ].map(({ label, value, unit, note, icon: Icon }) => (
-          <section className="panel metric" key={label}>
-            <div>
-              <span>{label}</span>
-              <Icon size={17} />
-            </div>
-            <p>
-              <strong>{value}</strong>
-              <span>{unit}</span>
-            </p>
-            <small>{note}</small>
-          </section>
+          { label: "Produção registrada", value: total, unit: "kg" },
+          { label: "Lotes com origem", value: productions.length, unit: productions.length === 1 ? "lote" : "lotes" },
+          { label: "Pedidos em aberto", value: active, unit: active === 1 ? "pedido" : "pedidos" },
+        ].map(({ label, value, unit }) => (
+          <div key={label}>
+            <span>{label}</span>
+            <strong>
+              <CountUp value={value} />
+              <small>{unit}</small>
+            </strong>
+          </div>
         ))}
-      </div>
+      </section>
       <OperationalCharts productions={productions} orders={orders} />
-      <section className="panel recent-panel">
+      <section className="panel recent-panel ov-timeline ag-rise" style={{ "--i": 7 } as React.CSSProperties}>
         <div className="panel-heading">
           <div>
             <h2>Últimas movimentações</h2>
@@ -218,9 +160,7 @@ export function Overview() {
                 href={"/producao?lote=" + lot.id}
                 className="movement-row"
               >
-                <span className="event-dot">
-                  <Check size={12} />
-                </span>
+                <span className="event-dot" aria-hidden="true" />
                 <div>
                   <strong>{eventName(lot.lastEvent.type)}</strong>
                   <p>
@@ -301,5 +241,59 @@ export function Overview() {
         </SheetContent>
       </Sheet>
     </>
+  );
+}
+
+// Contagem animada na primeira exibição; valores novos rolam a partir do anterior.
+function CountUp({ value }: { value: number }) {
+  const [shown, setShown] = useState(value);
+  const from = useRef(0);
+  useEffect(() => {
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    const start = from.current;
+    from.current = value;
+    if (reduce || start === value) {
+      setShown(value);
+      return;
+    }
+    let frame = 0;
+    const t0 = performance.now();
+    const tick = (t: number) => {
+      const k = Math.min(1, (t - t0) / 900);
+      setShown(start + (value - start) * (1 - Math.pow(1 - k, 3)));
+      if (k < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [value]);
+  const rounded = Number.isInteger(value) ? Math.round(shown) : Math.round(shown * 10) / 10;
+  return <>{number(shown === value ? value : rounded)}</>;
+}
+function WeatherArt() {
+  return (
+    <svg className="ov-sun" viewBox="0 0 96 96" aria-hidden="true">
+      <defs>
+        <radialGradient id="ov-sun-g" cx="0.4" cy="0.35" r="0.7">
+          <stop offset="0" stopColor="#fff6c2" />
+          <stop offset="0.6" stopColor="#f9d43a" />
+          <stop offset="1" stopColor="#efb21a" />
+        </radialGradient>
+        <linearGradient id="ov-cloud-g" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#ffffff" />
+          <stop offset="1" stopColor="#dfe8ea" />
+        </linearGradient>
+      </defs>
+      <g className="ray">
+        {Array.from({ length: 10 }, (_, i) => (
+          <rect key={i} x="46" y="6" width="4" height="12" rx="2" fill="#f6cf1f" opacity="0.8" transform={`rotate(${i * 36} 48 48)`} />
+        ))}
+      </g>
+      <circle cx="48" cy="48" r="22" fill="url(#ov-sun-g)" />
+      <g className="cloud">
+        <ellipse cx="56" cy="70" rx="26" ry="11" fill="url(#ov-cloud-g)" />
+        <circle cx="46" cy="64" r="11" fill="url(#ov-cloud-g)" />
+        <circle cx="60" cy="60" r="13" fill="url(#ov-cloud-g)" />
+      </g>
+    </svg>
   );
 }
