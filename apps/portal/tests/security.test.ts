@@ -21,3 +21,11 @@ test("ambiente demonstrativo aceita apenas loopback", () => {
   ])
     assert.equal(isLoopback(host), false);
 });
+test("proxy libera somente GET do indicador de impacto", () => {
+  const path = "/properties/10000000-0000-4000-8000-000000000001/excess-impact";
+  assert.equal(allowedProxyPath(path, "GET"), true);
+  for (const method of ["POST", "PUT", "DELETE", "PATCH"])
+    assert.equal(allowedProxyPath(path, method), false);
+  assert.equal(allowedProxyPath("/properties/abc/excess-impact", "GET"), false);
+  assert.equal(allowedProxyPath(path + "/x", "GET"), false);
+});

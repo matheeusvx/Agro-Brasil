@@ -26,6 +26,7 @@ import {
 } from "./ui/sheet";
 import { OperationalCharts } from "./operational-charts";
 import { WorkspaceState } from "./workspace-state";
+import { ImpactCard } from "./impact-card";
 import { number, date, eventName, statusName, type Pending } from "@/lib/types";
 export function Overview() {
   const { workspace, loading, error, openCreate } = usePortal();
@@ -140,6 +141,7 @@ export function Overview() {
           </div>
         ))}
       </section>
+      <ImpactCard propertyId={property.id} revision={home.fetchedAt} />
       <OperationalCharts productions={productions} orders={orders} />
       <section className="panel recent-panel ov-timeline ag-rise" style={{ "--i": 7 } as React.CSSProperties}>
         <div className="panel-heading">

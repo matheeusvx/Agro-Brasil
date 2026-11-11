@@ -79,6 +79,28 @@ export type Workspace = {
   productions: Production[];
   orders: Order[];
 };
+// Contrato schemaVersion 1 de GET /properties/:id/excess-impact (docs/requisitos/api.md).
+// Os valores chegam calculados pela API; o portal apenas apresenta.
+export type ExcessImpact = {
+  schemaVersion: number;
+  propertyId: string;
+  isDemonstration: boolean;
+  asOf: string;
+  funnelKg: {
+    registered: number;
+    published: number;
+    acceptedNet: number;
+    pickedUp: number;
+    received: number;
+  };
+  balancesKg: {
+    availableActive: number;
+    reservedNow: number;
+    inTransitNow: number;
+    expiredAvailable: number;
+  };
+  byModeKg: Record<"VENDA" | "DOACAO", { published: number; received: number }>;
+};
 export const number = (value: number) =>
   new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 3 }).format(value);
 export const date = (value: string) =>

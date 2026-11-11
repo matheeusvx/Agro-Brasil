@@ -5,6 +5,7 @@ import '../design.dart';
 import '../home.dart';
 import '../tasks.dart';
 import 'dashboard_components.dart';
+import 'impact_card.dart';
 import 'production_data.dart';
 import 'water_data.dart';
 
@@ -25,6 +26,7 @@ class _ProductionDashboardState extends State<ProductionDashboard> {
   late String property;
   String year = 'all';
   String? selected;
+  int impactRevision = 0;
   late Future<(ProductionSnapshot, bool)> future;
   Future<(ProductionSnapshot, bool)> query({bool force = false}) {
     final result = ProductionDashboardRepository(c)
@@ -43,6 +45,7 @@ class _ProductionDashboardState extends State<ProductionDashboard> {
   }
 
   void refresh() => setState(() {
+    impactRevision++;
     future = query(force: true);
   });
   Future<void> open(String kind) async {
@@ -308,6 +311,15 @@ class _ProductionDashboardState extends State<ProductionDashboard> {
                       ],
                     ),
                   ),
+                  if (!c.repository.fixture) ...[
+                    const SizedBox(height: 16),
+                    ImpactCard(
+                      key: ValueKey('impact-$property-$impactRevision'),
+                      controller: c,
+                      property: property,
+                      force: impactRevision > 0,
+                    ),
+                  ],
                   const SizedBox(height: 20),
                   const Text(
                     'O que precisa de atenção?',
