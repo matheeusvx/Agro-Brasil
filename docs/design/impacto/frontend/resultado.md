@@ -69,11 +69,10 @@ Ajustes que o smoke e o axe provocaram:
 
 | Arquivo | Conteúdo |
 |---|---|
-| `portal-1440.png`, `portal-390.png`, `portal-320.png` | card com etapas abertas; sem rolagem horizontal |
-| `portal-320-texto-200.png` | zoom 200% (viewport 640 → 320 CSS px); sem rolagem horizontal |
+| `destino-*.png` (revisão 2) | página Destino nos tamanhos suportados |
 | `flutter-390.png`, `flutter-320.png` | Flutter web, card na tela Produção e excedentes |
 | `flutter-320-texto-200.png` | Flutter web com fonte raiz 200% |
-| `captura.json`, `captura-flutter.json` | textos extraídos do DOM e da árvore de acessibilidade (sem token) |
+| `captura-destino.json`, `captura-flutter.json` | textos extraídos do DOM e da árvore de acessibilidade (sem token) |
 
 Na captura do portal, cabeçalho fixo e link "pular para o conteúdo" foram tornados estáticos só para recortar o card. O etapas expandido do Flutter está coberto pelos testes de widget, não por captura web.
 
@@ -89,3 +88,18 @@ Nenhuma divergência bloqueante. Observações:
 - `scripts/smoke-portal.mjs` falha a partir de "Distribuição da produção" (já existia na `main`). É preciso realinhar o smoke aos rótulos atuais dos gráficos.
 - O portal não tem modo offline nem cache; em falha de rede mostra "Indicador indisponível", sem valores.
 - Nenhum merge de `feat/impacto-frontend` foi feito, aguardando aprovação.
+
+## Revisão 2 — página "Destino dos excedentes" (11/11/2026)
+
+A pedido do produtor/autor, o card saiu da visão geral e virou a página `/destino`, no grupo **Logística** da barra lateral (entre Pedidos e Rastreabilidade).
+
+- **KPIs:** ofertado; recebido (% do ofertado, confirmado); em andamento (reservado + em trânsito, com a divisão visível); vencido sem destinação (% do ofertado, destaque de atenção quando > 0).
+- **"Para onde foi o que você ofertou":** barra 100% empilhada com as cinco partes disjuntas que a API reconcilia (recebido, em trânsito, reservado, disponível, vencido) e legenda com kg e %.
+- **"O que fazer agora":** sugestões geradas a partir dos saldos, com atalho para Ofertas ou Pedidos. Nunca falam em perda ou desperdício.
+- **"Caminho do excedente":** funil acumulado com a conversão entre etapas e o aviso "não some os valores".
+- **"Venda e doação":** barra de ofertado com a parte recebida preenchida e a taxa de recebimento.
+- **Estados:** esqueleto de carregamento, erro com "Tentar novamente", vazio com atalho para criar oferta. Movimento reduzido é respeitado.
+
+Percentuais e a soma reservado + trânsito são só apresentação dos valores da API (`src/lib/impact.ts`, testados). Nenhuma regra de cálculo do domínio foi copiada.
+
+Capturas: `destino-1440.png`, `destino-1024.png`, `destino-390.png`, `destino-320.png`, `destino-320-texto-200.png` (sem rolagem horizontal; `captura-destino.json`). Valores da consulta: 3.330 ofertados = 496 recebidos + 360 em trânsito + 310 reservados + 2.160 disponíveis + 4 vencidos.

@@ -4,6 +4,7 @@ import { PortalProvider } from "@/components/portal-provider";
 import "./globals.css";
 import "./theme.css";
 import "./drawers.css";
+import "./destino.css";
 export const metadata: Metadata = {
   title: "Agro+ Brasil | Portal do produtor",
   description:

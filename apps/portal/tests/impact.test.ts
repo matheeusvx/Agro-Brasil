@@ -34,3 +34,20 @@ test("falhas não viram zero e têm mensagem por causa", () => {
   assert.match(impactErrorMessage(new TypeError("fetch failed")), /Nenhum valor foi estimado/);
   assert.equal(impactPath(id), "/properties/" + id + "/excess-impact");
 });
+import { composition, insights, journey, modes, share } from "../src/lib/impact";
+test("composição soma exatamente o ofertado e percentuais são só leitura", () => {
+  const parts = composition(sample);
+  assert.equal(Math.round(parts.reduce((s, p) => s + p.value, 0) * 1000), Math.round(sample.funnelKg.published * 1000));
+  assert.equal(share(3, 10), 30);
+  assert.equal(share(1, 0), 0);
+  assert.deepEqual(journey(sample).map((s) => s.width), [100, 50, 30, 20, 15]);
+  assert.equal(journey(sample)[4].fromPrevious, 75);
+  assert.deepEqual(modes(sample).map((m) => m.rate), [16.7, 50]);
+});
+test("sugestões vêm dos saldos e não falam em desperdício", () => {
+  const list = insights(sample);
+  assert.equal(list[0].tone, "attention");
+  assert.equal(list.length, 4);
+  assert.ok(list.every((i) => !/desperd|perd/i.test(i.text)));
+  assert.deepEqual(insights({ ...sample, balancesKg: { availableActive: 0, reservedNow: 0, inTransitNow: 0, expiredAvailable: 0 } }), []);
+});

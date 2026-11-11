@@ -53,3 +53,54 @@ export function impactErrorMessage(error: unknown) {
   }
   return "Indicador indisponível no momento. Nenhum valor foi estimado.";
 }
+
+// ---------- Página Destino: apresentação derivada só dos valores da API ----------
+// Percentual para leitura (não altera nenhum valor da API).
+export const share = (part: number, whole: number) =>
+  whole > 0 ? Math.round((part / whole) * 1000) / 10 : 0;
+export const percent = (value: number) =>
+  new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 1 }).format(value) + "%";
+
+export type Slice = { key: string; label: string; value: number; tone: string; hint: string };
+// Partes disjuntas cuja soma é o ofertado (reconciliação garantida pela API).
+export const composition = (i: ExcessImpact): Slice[] => [
+  { key: "received", label: "Recebido", value: i.funnelKg.received, tone: "received", hint: "confirmado pelo destinatário" },
+  { key: "transit", label: "Em trânsito", value: i.balancesKg.inTransitNow, tone: "transit", hint: "retirado, aguardando confirmação" },
+  { key: "reserved", label: "Reservado", value: i.balancesKg.reservedNow, tone: "reserved", hint: "pedido aceito, aguardando retirada" },
+  { key: "available", label: "Disponível", value: i.balancesKg.availableActive, tone: "available", hint: "oferta ainda no prazo" },
+  { key: "expired", label: "Vencido sem destinação", value: i.balancesKg.expiredAvailable, tone: "expired", hint: "prazo encerrado com saldo" },
+];
+
+export const journey = (i: ExcessImpact) => {
+  const steps = funnelSteps(i);
+  return steps.map((s, n) => ({
+    ...s,
+    width: share(s.value, steps[0].value || steps[1].value),
+    fromPrevious: n === 0 ? null : share(s.value, steps[n - 1].value),
+  }));
+};
+
+export const modes = (i: ExcessImpact) =>
+  (["VENDA", "DOACAO"] as const).map((m) => ({
+    key: m,
+    label: m === "VENDA" ? "Venda" : "Doação",
+    published: i.byModeKg[m].published,
+    received: i.byModeKg[m].received,
+    rate: share(i.byModeKg[m].received, i.byModeKg[m].published),
+  }));
+
+export type Insight = { tone: "attention" | "info" | "good"; text: string; href?: string; action?: string };
+// Sugestões de ação a partir dos saldos atuais; nunca afirmam perda ou desperdício.
+export function insights(i: ExcessImpact): Insight[] {
+  const out: Insight[] = [];
+  const kg = (v: number) => new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 3 }).format(v) + " kg";
+  if (i.balancesKg.expiredAvailable > 0)
+    out.push({ tone: "attention", text: `${kg(i.balancesKg.expiredAvailable)} ficaram sem destinação quando o prazo da oferta acabou.`, href: "/ofertas", action: "Revisar ofertas" });
+  if (i.balancesKg.reservedNow > 0)
+    out.push({ tone: "info", text: `${kg(i.balancesKg.reservedNow)} reservados aguardam retirada.`, href: "/pedidos", action: "Ver pedidos" });
+  if (i.balancesKg.inTransitNow > 0)
+    out.push({ tone: "info", text: `${kg(i.balancesKg.inTransitNow)} já saíram e aguardam a confirmação de quem recebe.` });
+  if (i.balancesKg.availableActive > 0)
+    out.push({ tone: "good", text: `${kg(i.balancesKg.availableActive)} seguem disponíveis para venda ou doação.`, href: "/ofertas", action: "Ver ofertas" });
+  return out;
+}
