@@ -6,6 +6,7 @@ import { commerceRouter, lotView } from './commerce.mjs';
 import { producerHomeRouter, propertyView } from './producer-home.mjs';
 import { weatherProvider } from './weather.mjs';
 import { farmRouter } from './farm.mjs';
+import { excessImpactRouter } from './excess-impact.mjs';
 
 export function createApp(db, { demoAuthEnabled = false, weather = weatherProvider({ locationStore: db.collection('weatherLocations') }) } = {}) {
   const app = express();
@@ -34,6 +35,7 @@ export function createApp(db, { demoAuthEnabled = false, weather = weatherProvid
   app.use('/api/v1', commerceRouter(db));
   app.use('/api/v1', producerHomeRouter(db, weather));
   app.use('/api/v1', farmRouter(db));
+  app.use('/api/v1', excessImpactRouter(db));
   app.get('/api/v1/catalog', async (req, res) => {
     const [properties, crops] = await Promise.all([
       db.collection('properties').find({ organizationId: req.context.organizationId, status: 'ATIVA' }).toArray(),

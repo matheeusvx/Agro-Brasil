@@ -87,3 +87,58 @@ Sem autenticação demo habilitada, a API protegida falha fechada com 503. Cadas
 Datas ISO UTC, temperatura °C, umidade relativa do ar em %. `precision`: property ou municipality; município geocodificado sempre aproximado. Chave e coordenadas não são retornadas. Não há previsão de chuva.
 
 Razões: NOT_CONFIGURED, PROPERTY_LOCALITY_REQUIRED, INVALID_PROPERTY_COORDINATES, AMBIGUOUS_LOCALITY, LOCALITY_NOT_FOUND, INVALID_GEOCODING_RESPONSE, INVALID_OBSERVATION, TIMEOUT, RATE_LIMITED, PROVIDER_UNAVAILABLE. Falhas climáticas retornam HTTP 200 indisponível; autorização conserva 401/403/404. Esta seção substitui a descrição anterior sobre uso exclusivo de coordenadas cadastradas. [Detalhes](../evidencias/openweather/relatorio.md).
+
+## Indicador de destinação dos excedentes — schemaVersion 1
+
+`GET /api/v1/properties/:id/excess-impact` (caminho relativo à base: `/properties/:id/excess-impact`). Somente leitura, sem corpo e sem paginação. Exige os headers protegidos, vínculo ativo em organização `PEQUENO_PRODUTOR_RURAL`, papel `ADMIN`, `EDITOR` ou `LEITOR` e propriedade ativa dessa organização. `Cache-Control: no-store`, inclusive nos erros.
+
+Exemplo inteiramente fictício:
+
+```json
+{
+  "data": {
+    "schemaVersion": 1,
+    "propertyId": "10000000-0000-4000-8000-000000000001",
+    "isDemonstration": true,
+    "asOf": "2026-11-11T15:00:00.000Z",
+    "funnelKg": {
+      "registered": 20,
+      "published": 10,
+      "acceptedNet": 6,
+      "pickedUp": 4,
+      "received": 3
+    },
+    "balancesKg": {
+      "availableActive": 3,
+      "reservedNow": 2,
+      "inTransitNow": 1,
+      "expiredAvailable": 1
+    },
+    "byModeKg": {
+      "VENDA": { "published": 6, "received": 1 },
+      "DOACAO": { "published": 4, "received": 2 }
+    }
+  }
+}
+```
+
+Contrato:
+
+- `schemaVersion`: inteiro fixo 1; `propertyId`: UUID consultado; `isDemonstration`: contexto autenticado existente (atualmente true); `asOf`: instante UTC capturado no início do cálculo e usado para classificar prazos.
+- `funnelKg.registered`: toda a produção registrada na propriedade, inclusive sem oferta ou com rascunho. Cada quantidade persistida em kg é arredondada para gramas inteiras antes da soma.
+- `published`: quantidade inicial das ofertas `PUBLICADA`, inclusive vencidas. Rascunhos não contribuem para nenhum indicador de oferta.
+- `acceptedNet`: `reservedGrams + dispatchedGrams + receivedGrams`; cancelamentos deixam de contribuir porque o domínio existente devolve a reserva ao saldo disponível. Solicitação sem aceite não contribui.
+- `pickedUp`: `dispatchedGrams + receivedGrams`, acumulado de retiradas; não significa recebimento.
+- `received`: somente `receivedGrams`, recebimento integral efetivamente confirmado pelo destinatário.
+- `availableActive`: `availableGrams` com `availableUntil > asOf`; `expiredAvailable`: somente `availableGrams` com `availableUntil <= asOf`. A igualdade já é indisponível segundo a regra comercial existente. Prazo vencido não retira reservas, trânsito ou recebimentos do funil.
+- `reservedNow` e `inTransitNow`: saldos atuais reservado e despachado. `byModeKg` contém `published` e `received` por `VENDA` e `DOACAO`, sempre com ambas as chaves.
+
+Sem dados, todos os indicadores são zero. Não há filtro temporal, paginação parcial, valores financeiros, estimativas de pessoas beneficiadas ou desperdício comprovado. O funil não deve ser somado: seus estágios se sobrepõem. Produção registrada não é sinônimo de excedente e saldo vencido não é prova de perda.
+
+Reconciliação obrigatória das ofertas publicadas, em gramas antes da serialização:
+
+`published = availableActive + expiredAvailable + reservedNow + inTransitNow + received`
+
+A consulta usa uma agregação MongoDB com leitura snapshot (replica set existente), filtrando a produção por organização/propriedade e consultando ofertas pelo índice único `lotId`, também restritas ao vendedor. Não consulta pedidos/eventos, não carrega coleções na aplicação nem executa escritas. Cada lote/oferta contribui uma única vez. Valores são inteiros em gramas durante a agregação; kg numéricos aparecem apenas na resposta. Clientes que verificarem igualdades devem reconverter kg para gramas com arredondamento, evitando erros binários de ponto flutuante.
+
+Erros seguem `{ "error": { "code", "message" } }`: 400 `INVALID_INPUT` para UUID inválido; 401 `UNAUTHORIZED`; 403 `FORBIDDEN` para vínculo/perfil não autorizado; 404 `NOT_FOUND` para propriedade inexistente, inativa ou alheia; 500 `INTERNAL_ERROR` para falha de consulta, saldos sem reconciliação ou totais além do limite inteiro seguro. Não há correção automática de dados. Mantém-se o 503 `AUTH_NOT_CONFIGURED` global quando a identidade não está configurada.

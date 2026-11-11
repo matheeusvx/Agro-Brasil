@@ -25,3 +25,20 @@ test('produção, lote e origem possuem IDs distintos e responsáveis definidos 
   assert.equal(document.lot.events[0].locationConfirmedBy, id); assert.equal(document.lot.events[0].occurredAt, now.toISOString());
   assert.equal(document.isDemonstration, true);
 });
+import { impactView } from '../src/excess-impact.mjs';
+
+test('impacto: ausência de dados e contrato v1', () => {
+  const result = impactView(undefined, id, true, now.toISOString());
+  assert.deepEqual(result.funnelKg, { registered: 0, published: 0, acceptedNet: 0, pickedUp: 0, received: 0 });
+  assert.deepEqual(result.balancesKg, { availableActive: 0, reservedNow: 0, inTransitNow: 0, expiredAvailable: 0 });
+  assert.deepEqual(result.byModeKg, { VENDA: { published: 0, received: 0 }, DOACAO: { published: 0, received: 0 } });
+  assert.equal(result.schemaVersion, 1); assert.equal(result.isDemonstration, true);
+});
+test('impacto: gramas, funil líquido e saldos reconciliados', () => {
+  const r = impactView({ registered: 10001, published: 9001, availableActive: 1000, expiredAvailable: 2000, reservedNow: 3000, inTransitNow: 2000, received: 1001, VENDA_published: 9001, VENDA_received: 1001 }, id, false, now.toISOString());
+  assert.deepEqual(r.funnelKg, { registered: 10.001, published: 9.001, acceptedNet: 6.001, pickedUp: 3.001, received: 1.001 });
+  assert.equal(r.byModeKg.VENDA.received, 1.001);
+});
+test('impacto: rejeita saldo inconsistente, negativo e soma sem precisão segura', () => {
+  for (const row of [{ published: 1 }, { received: -1 }, { registered: Number.MAX_SAFE_INTEGER + 1 }, { published: Number.MAX_SAFE_INTEGER, availableActive: Number.MAX_SAFE_INTEGER, received: 1 }]) assert.throws(() => impactView(row, id, true, now.toISOString()), HttpError);
+});
