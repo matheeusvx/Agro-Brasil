@@ -51,3 +51,14 @@ test("sugestões vêm dos saldos e não falam em desperdício", () => {
   assert.ok(list.every((i) => !/desperd|perd/i.test(i.text)));
   assert.deepEqual(insights({ ...sample, balancesKg: { availableActive: 0, reservedNow: 0, inTransitNow: 0, expiredAvailable: 0 } }), []);
 });
+import { matchesDeadline } from "../src/components/offers";
+test("filtro de prazo das ofertas segue a leitura do indicador", () => {
+  const now = Date.parse("2026-11-11T12:00:00Z");
+  const o = (status: string, availableKg: number, until: string) => ({ status, availableKg, availableUntil: until });
+  assert.equal(matchesDeadline(o("PUBLICADA", 4, "2026-11-10T00:00:00Z"), "vencidas", now), true);
+  assert.equal(matchesDeadline(o("PUBLICADA", 4, "2026-11-11T12:00:00Z"), "vencidas", now), true, "igualdade já é vencida");
+  assert.equal(matchesDeadline(o("PUBLICADA", 0, "2026-11-10T00:00:00Z"), "vencidas", now), false, "sem saldo não conta");
+  assert.equal(matchesDeadline(o("RASCUNHO", 4, "2026-11-10T00:00:00Z"), "vencidas", now), false);
+  assert.equal(matchesDeadline(o("PUBLICADA", 9, "2026-11-20T00:00:00Z"), "no-prazo", now), true);
+  assert.equal(matchesDeadline(o("PUBLICADA", 9, "2026-11-20T00:00:00Z"), "vencidas", now), false);
+});

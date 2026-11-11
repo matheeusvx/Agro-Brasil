@@ -49,6 +49,16 @@ const money = (cents: number) =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(
     cents / 100,
   );
+// Filtro de prazo da lista (mesma leitura do indicador: oferta publicada com saldo).
+export function matchesDeadline(
+  o: { status: string; availableKg: number; availableUntil: string },
+  deadline: string,
+  now = Date.now(),
+) {
+  if (o.status !== "PUBLICADA" || !(o.availableKg > 0)) return false;
+  const expired = Date.parse(o.availableUntil) <= now;
+  return deadline === "vencidas" ? expired : deadline === "no-prazo" ? !expired : true;
+}
 const situation = (value: string) =>
   ({ RASCUNHO: "Rascunho", PUBLICADA: "Publicada" })[value] ?? value;
 const time = (value: string) =>
@@ -74,6 +84,7 @@ export function Offers() {
   const [query, setQuery] = useState(""),
     [status, setStatus] = useState(""),
     [mode, setMode] = useState(""),
+    [deadline, setDeadline] = useState(""),
     [page, setPage] = useState(0);
   const [create, setCreate] = useState(false),
     [detailOpen, setDetailOpen] = useState(false),
@@ -95,6 +106,7 @@ export function Offers() {
     setQuery("");
     setStatus("");
     setMode("");
+    setDeadline("");
     setPage(0);
     setCreate(false);
     setDetailOpen(false);
@@ -106,6 +118,16 @@ export function Offers() {
     setSuccess("");
     origin.current = session.organizationId + ":" + propertyId;
   }, [session.organizationId, propertyId]);
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const prazo = p.get("prazo");
+    if (prazo === "vencidas" || prazo === "no-prazo") {
+      setDeadline(prazo);
+      setStatus("PUBLICADA");
+    }
+    const modalidade = p.get("modalidade");
+    if (modalidade === "VENDA" || modalidade === "DOACAO") setMode(modalidade);
+  }, [propertyId]);
   useEffect(() => {
     if (!workspace || loading) return;
     const abort = new AbortController();
@@ -138,6 +160,7 @@ export function Offers() {
     (o) =>
       (!status || o.status === status) &&
       (!mode || o.destinationMode === mode) &&
+      (!deadline || matchesDeadline(o, deadline)) &&
       (!query ||
         `${o.cropName} ${o.lotId}`
           .toLocaleLowerCase("pt-BR")
@@ -295,6 +318,15 @@ export function Offers() {
               <option value="">Todas as situações</option>
               <option value="RASCUNHO">Rascunho</option>
               <option value="PUBLICADA">Publicada</option>
+            </select>
+            <select
+              aria-label="Filtrar prazo"
+              value={deadline}
+              onChange={(e) => setDeadline(e.target.value)}
+            >
+              <option value="">Qualquer prazo</option>
+              <option value="no-prazo">Disponíveis no prazo</option>
+              <option value="vencidas">Vencidas com saldo</option>
             </select>
             <select
               aria-label="Filtrar modalidade"

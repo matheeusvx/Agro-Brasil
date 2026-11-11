@@ -1,0 +1,43 @@
+{
+  "vencidas": {
+    "url": "/ofertas?prazo=vencidas",
+    "filtros": [
+      "Publicada",
+      "Vencidas com saldo",
+      "Venda e doação"
+    ],
+    "linhas": [
+      "Alface Lote FAB790B0 Publicada Doação 4 kg Sem custo 06/11/2026, 18:00 Prazo encerrado"
+    ]
+  },
+  "reservados": {
+    "url": "/pedidos?situacao=ACEITO",
+    "filtros": [
+      "Aceito"
+    ],
+    "linhas": [
+      "Milho Lote 43ffac07 150 kg Aceito 10/11/2026, 14:23:52",
+      "Laranja Lote 533be982 120 kg Aceito 10/11/2026, 14:23:52",
+      "Alface Lote 0f763be5 40 kg Aceito 10/11/2026, 14:23:52"
+    ]
+  },
+  "transito": {
+    "url": "/pedidos?situacao=RETIRADO",
+    "filtros": [
+      "Retirado"
+    ],
+    "linhas": 4
+  },
+  "disponiveis": {
+    "url": "/ofertas?prazo=no-prazo",
+    "filtros": [
+      "Publicada",
+      "Disponíveis no prazo",
+      "Venda e doação"
+    ],
+    "linhas": 8
+  },
+  "pedidos-390-overflowX": false,
+  "pedidos-320-overflowX": false,
+  "errors": []
+}

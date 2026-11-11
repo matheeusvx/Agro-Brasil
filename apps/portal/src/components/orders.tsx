@@ -113,6 +113,10 @@ export function Orders() {
     return () => abort.abort();
   }, [workspace, loading, version]);
   useEffect(() => setPage(0), [query, filter]);
+  useEffect(() => {
+    const situacao = new URLSearchParams(window.location.search).get("situacao");
+    if (situacao && situacao in labels) setFilter(situacao);
+  }, []);
   if (loading || workspaceError || !workspace) return <WorkspaceState />;
   const lots = new Map(workspace.productions.map((p) => [p.lot.id, p]));
   const own = rows.filter(
@@ -215,7 +219,7 @@ export function Orders() {
       <section className="panel production-panel">
         <div className="list-toolbar">
           <Input
-            className="max-w-80"
+            className="list-search"
             aria-label="Pesquisar pedidos"
             placeholder="Buscar cultura, lote ou pedido…"
             value={query}

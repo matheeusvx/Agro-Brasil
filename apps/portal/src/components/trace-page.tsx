@@ -188,7 +188,7 @@ export function TracePage({ id }: { id?: string }) {
         <section className="panel production-panel">
           <div className="list-toolbar">
             <Input
-              className="max-w-80"
+              className="list-search"
               aria-label="Buscar rastreabilidade"
               placeholder="Pedido, lote ou cultura…"
               value={query}

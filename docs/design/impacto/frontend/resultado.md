@@ -117,3 +117,22 @@ Capturas: `destino-1440.png`, `destino-1024.png`, `destino-390.png`, `destino-32
 - Os componentes foram portados para React + CSS, sem `animejs` (o portal não tem essa dependência). Respeitam movimento reduzido.
 
 Testes: portal 51/51 (+2: divisão de traços e eixo), typecheck e build ok. Capturas: `destino-*.png`, `destino-hover-medidor.png`, `destino-hover-caminho.png`, sem rolagem horizontal em 1440, 1024, 390, 320 e 320 px com texto 200%.
+
+## Revisão 4 — filtros a partir do Destino, barra de filtros e escala de texto (11/11/2026)
+
+- **Filtros pela URL:** cada sugestão de "O que fazer agora" (o cartão inteiro) e cada item da legenda do medidor abrem a lista já filtrada:
+
+  | Item | Destino |
+  |---|---|
+  | Vencido sem destinação | `/ofertas?prazo=vencidas` (publicada, com saldo, prazo encerrado) |
+  | Disponível | `/ofertas?prazo=no-prazo` |
+  | Reservado | `/pedidos?situacao=ACEITO` |
+  | Em trânsito | `/pedidos?situacao=RETIRADO` |
+  | Recebido | `/pedidos?situacao=RECEBIDO` |
+
+  Ofertas ganhou o filtro "Prazo" (qualquer, no prazo, vencidas com saldo). Ele segue a mesma leitura do indicador e foi testado, inclusive a igualdade de horário tratada como vencida.
+- **Conferência no banco local:** vencidas = 1 oferta de 4 kg (Alface, prazo 06/11), igual ao KPI; reservados = 3 pedidos aceitos (150 + 120 + 40 = 310 kg), igual ao saldo reservado.
+- **Barra de filtros** de Ofertas, Pedidos e Rastreabilidade: a busca ocupa o espaço livre (sem vão vazio no meio) e os selects ficaram com 38 px de altura e texto de 13 px.
+- **Escala de texto:** Pedidos e Rastreabilidade passaram a usar a mesma de Ofertas (cultura 14 px/600, lote 11 px; antes 13 px/700 e 10,4 px).
+
+Testes: portal 52/52, typecheck e build ok. Evidências: `filtro-ofertas-vencidas.png`, `filtro-pedidos-aceitos.png`, `rastreabilidade-tabela.png`, `pedidos-390.png`, `pedidos-320.png` (sem rolagem horizontal) e `captura-filtros.json`.

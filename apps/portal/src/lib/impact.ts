@@ -61,14 +61,14 @@ export const share = (part: number, whole: number) =>
 export const percent = (value: number) =>
   new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 1 }).format(value) + "%";
 
-export type Slice = { key: string; label: string; value: number; tone: string; hint: string };
+export type Slice = { key: string; label: string; value: number; tone: string; hint: string; href: string };
 // Partes disjuntas cuja soma é o ofertado (reconciliação garantida pela API).
 export const composition = (i: ExcessImpact): Slice[] => [
-  { key: "received", label: "Recebido", value: i.funnelKg.received, tone: "received", hint: "confirmado pelo destinatário" },
-  { key: "transit", label: "Em trânsito", value: i.balancesKg.inTransitNow, tone: "transit", hint: "retirado, aguardando confirmação" },
-  { key: "reserved", label: "Reservado", value: i.balancesKg.reservedNow, tone: "reserved", hint: "pedido aceito, aguardando retirada" },
-  { key: "available", label: "Disponível", value: i.balancesKg.availableActive, tone: "available", hint: "oferta ainda no prazo" },
-  { key: "expired", label: "Vencido sem destinação", value: i.balancesKg.expiredAvailable, tone: "expired", hint: "prazo encerrado com saldo" },
+  { key: "received", label: "Recebido", value: i.funnelKg.received, tone: "received", hint: "confirmado pelo destinatário", href: "/pedidos?situacao=RECEBIDO" },
+  { key: "transit", label: "Em trânsito", value: i.balancesKg.inTransitNow, tone: "transit", hint: "retirado, aguardando confirmação", href: "/pedidos?situacao=RETIRADO" },
+  { key: "reserved", label: "Reservado", value: i.balancesKg.reservedNow, tone: "reserved", hint: "pedido aceito, aguardando retirada", href: "/pedidos?situacao=ACEITO" },
+  { key: "available", label: "Disponível", value: i.balancesKg.availableActive, tone: "available", hint: "oferta ainda no prazo", href: "/ofertas?prazo=no-prazo" },
+  { key: "expired", label: "Vencido sem destinação", value: i.balancesKg.expiredAvailable, tone: "expired", hint: "prazo encerrado com saldo", href: "/ofertas?prazo=vencidas" },
 ];
 
 export const journey = (i: ExcessImpact) => {
@@ -95,12 +95,12 @@ export function insights(i: ExcessImpact): Insight[] {
   const out: Insight[] = [];
   const kg = (v: number) => new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 3 }).format(v) + " kg";
   if (i.balancesKg.expiredAvailable > 0)
-    out.push({ tone: "attention", text: `${kg(i.balancesKg.expiredAvailable)} ficaram sem destinação quando o prazo da oferta acabou.`, href: "/ofertas", action: "Revisar ofertas" });
+    out.push({ tone: "attention", text: `${kg(i.balancesKg.expiredAvailable)} ficaram sem destinação quando o prazo da oferta acabou.`, href: "/ofertas?prazo=vencidas", action: "Ver ofertas vencidas" });
   if (i.balancesKg.reservedNow > 0)
-    out.push({ tone: "info", text: `${kg(i.balancesKg.reservedNow)} reservados aguardam retirada.`, href: "/pedidos", action: "Ver pedidos" });
+    out.push({ tone: "info", text: `${kg(i.balancesKg.reservedNow)} reservados aguardam retirada.`, href: "/pedidos?situacao=ACEITO", action: "Ver pedidos a retirar" });
   if (i.balancesKg.inTransitNow > 0)
-    out.push({ tone: "info", text: `${kg(i.balancesKg.inTransitNow)} já saíram e aguardam a confirmação de quem recebe.` });
+    out.push({ tone: "info", text: `${kg(i.balancesKg.inTransitNow)} já saíram e aguardam a confirmação de quem recebe.`, href: "/pedidos?situacao=RETIRADO", action: "Ver pedidos em trânsito" });
   if (i.balancesKg.availableActive > 0)
-    out.push({ tone: "good", text: `${kg(i.balancesKg.availableActive)} seguem disponíveis para venda ou doação.`, href: "/ofertas", action: "Ver ofertas" });
+    out.push({ tone: "good", text: `${kg(i.balancesKg.availableActive)} seguem disponíveis para venda ou doação.`, href: "/ofertas?prazo=no-prazo", action: "Ver ofertas disponíveis" });
   return out;
 }

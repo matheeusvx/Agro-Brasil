@@ -157,11 +157,15 @@ function Dashboard({ impact: i }: { impact: ExcessImpact }) {
               <ul>
                 {tips.map((t) => (
                   <li key={t.text} data-tone={t.tone}>
-                    <p>{t.text}</p>
-                    {t.href && (
-                      <Link href={t.href} className="text-link">
-                        {t.action} <ArrowRight size={13} />
+                    {t.href ? (
+                      <Link href={t.href} className="dx-tip-link">
+                        <p>{t.text}</p>
+                        <span className="text-link">
+                          {t.action} <ArrowRight size={13} />
+                        </span>
                       </Link>
+                    ) : (
+                      <p>{t.text}</p>
                     )}
                   </li>
                 ))}

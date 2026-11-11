@@ -2,6 +2,7 @@
 // Gráficos da página Destino dos excedentes. Baseados em graphic-barra-vertical (trilhos
 // com barra brilhante, eixo e etiqueta de valor) e graphic-barra-horizontal (medidor de
 // traços por categoria), portados para React + CSS, sem dependências novas.
+import Link from "next/link";
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import { useReducedMotion } from "./chart-motion";
 import { composition, journey, percent, share, type Slice } from "@/lib/impact";
@@ -297,10 +298,12 @@ export function CompositionChart({ impact }: { impact: ExcessImpact }) {
       <ul className="mx-legend">
         {parts.map((p, i) => (
           <li key={p.key} data-dim={lit !== null && lit !== i ? true : undefined} data-empty={p.value === 0 || undefined}>
-            <i style={{ background: SHADES[p.tone][2] }} aria-hidden="true" />
-            <span>{p.label}</span>
-            <b>{number(p.value)} kg</b>
-            <em>{percent(share(p.value, total))}</em>
+            <Link href={p.href} aria-label={`${describe(p)}. Ver itens`}>
+              <i style={{ background: SHADES[p.tone][2] }} aria-hidden="true" />
+              <span>{p.label}</span>
+              <b>{number(p.value)} kg</b>
+              <em>{percent(share(p.value, total))}</em>
+            </Link>
           </li>
         ))}
       </ul>

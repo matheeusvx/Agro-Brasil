@@ -631,3 +631,78 @@
     display: none;
   }
 }
+
+/* Barra de filtros das listas: a busca ocupa o espaço livre, sem vão vazio. */
+.list-toolbar {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+.list-toolbar > .search-input,
+.list-toolbar > .list-search {
+  flex: 1 1 280px;
+  width: auto;
+  max-width: none;
+}
+.list-toolbar > .filter-controls {
+  flex: 0 1 auto;
+  flex-wrap: wrap;
+}
+.list-toolbar .filter-controls select {
+  height: 38px;
+  max-width: none;
+  padding-right: 30px;
+  font-size: 13px;
+}
+
+/* Pedidos e Rastreabilidade com a mesma escala de texto de Ofertas. */
+.orders-module .production-panel td strong,
+.trace-module .production-panel td strong {
+  font-size: 14px;
+  font-weight: 600;
+}
+.orders-module .production-panel td small,
+.trace-module .production-panel td small {
+  margin-top: 3px;
+  font-size: 11px;
+  color: #5c744f;
+}
+
+/* Sugestões e legenda clicáveis (levam à lista já filtrada). */
+.dx-tip-link {
+  display: block;
+  margin: -12px -14px;
+  padding: 12px 14px;
+  border-radius: inherit;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.dx-tip-link:hover {
+  background: #ffffff8c;
+}
+.dx-tip-link:focus-visible {
+  outline: 2px solid #2f9e5a;
+  outline-offset: 2px;
+}
+.mx-legend li {
+  padding: 0;
+}
+.mx-legend a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.mx-legend a:hover {
+  background: #fff;
+  box-shadow: 0 0 0 1px #e0e7d8;
+}
+.mx-legend a:focus-visible {
+  outline: 2px solid #2f9e5a;
+  outline-offset: 2px;
+}
