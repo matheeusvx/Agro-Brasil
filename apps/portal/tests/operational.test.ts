@@ -39,7 +39,7 @@ test("pedidos contam operações por situação, não massa", () => {
       { id: "1", lotId: "a", status: "SOLICITADO", quantityKg: 200 },
       { id: "2", lotId: "a", status: "SOLICITADO", quantityKg: 1 },
     ]),
-    [{ name: "Solicitado", value: 2 }],
+    [{ name: "Solicitação recebida", value: 2 }],
   );
 });
 test("filtros combinam cultura, safra e pesquisa de lote", () => {

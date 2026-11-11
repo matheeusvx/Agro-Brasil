@@ -22,7 +22,7 @@ import {
   SheetDescription,
 } from "./ui/sheet";
 import { allRows, request, RequestError } from "@/lib/client-api";
-import { number } from "@/lib/types";
+import { statusName, number } from "@/lib/types";
 type Order = {
   id: string;
   lotId: string;
@@ -39,13 +39,9 @@ type Order = {
   };
 };
 type Coop = { id: string; name: string };
-const labels: Record<string, string> = {
-  SOLICITADO: "Solicitado",
-  ACEITO: "Aceito",
-  RETIRADO: "Retirado",
-  RECEBIDO: "Recebido",
-  CANCELADO: "Cancelado",
-};
+const labels: Record<string, string> = Object.fromEntries(
+  ["SOLICITADO", "ACEITO", "RETIRADO", "RECEBIDO", "CANCELADO"].map((s) => [s, statusName(s)]),
+);
 export function Orders() {
   const { workspace, session, loading, error: workspaceError } = usePortal();
   const [rows, setRows] = useState<Order[]>([]),
@@ -288,7 +284,7 @@ export function Orders() {
                       </span>
                     </TableCell>
                     <TableCell>
-                      {new Date(o.createdAt).toLocaleString("pt-BR")}
+                      {new Date(o.createdAt).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}
                     </TableCell>
                     <TableCell>
                       <Button
@@ -379,7 +375,7 @@ export function Orders() {
                 <div>
                   <dt>Data</dt>
                   <dd>
-                    {new Date(selected.createdAt).toLocaleString("pt-BR")}
+                    {new Date(selected.createdAt).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}
                   </dd>
                 </div>
                 <div>

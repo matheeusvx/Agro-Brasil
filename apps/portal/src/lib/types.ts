@@ -109,10 +109,11 @@ export const date = (value: string) =>
   ).toLocaleDateString("pt-BR");
 export const statusName = (status: string) =>
   ({
-    SOLICITADO: "Solicitado",
+    // Mesmo vocabulário do app (statusLabel em apps/mobile/lib/design.dart).
+    SOLICITADO: "Solicitação recebida",
     ACEITO: "Aguardando retirada",
-    RETIRADO: "Em entrega",
-    RECEBIDO: "Recebido",
+    RETIRADO: "Aguardando destinatário",
+    RECEBIDO: "Recebimento confirmado",
     CANCELADO: "Cancelado",
     REGISTRADA: "Registrada",
     IDENTIFICADO: "Identificado",

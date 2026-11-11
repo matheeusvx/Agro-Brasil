@@ -131,7 +131,7 @@ function Dashboard({ impact: i }: { impact: ExcessImpact }) {
         <Kpi
           label="Em andamento"
           value={ongoing}
-          note={`${number(i.balancesKg.reservedNow)} kg reservados e ${number(i.balancesKg.inTransitNow)} kg em trânsito`}
+          note={`${number(i.balancesKg.reservedNow)} kg aguardando retirada e ${number(i.balancesKg.inTransitNow)} kg aguardando destinatário`}
         />
         <Kpi
           label="Vencido sem destinação"
@@ -176,7 +176,8 @@ function Dashboard({ impact: i }: { impact: ExcessImpact }) {
       </div>
 
       <p className="data-note dx-note ag-rise" style={rise(7)}>
-        <Info size={13} aria-hidden="true" /> Valores calculados pela plataforma a partir das ofertas publicadas desta
+        <Info size={13} aria-hidden="true" />{" "}
+        {i.isDemonstration && "Ambiente de demonstração com dados fictícios. "}Valores calculados pela plataforma a partir das ofertas publicadas desta
         propriedade. Recebido conta só o que o destinatário confirmou. Saldo vencido não comprova perda.
       </p>
     </>

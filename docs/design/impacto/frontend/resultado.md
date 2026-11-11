@@ -136,3 +136,15 @@ Testes: portal 51/51 (+2: divisão de traços e eixo), typecheck e build ok. Cap
 - **Escala de texto:** Pedidos e Rastreabilidade passaram a usar a mesma de Ofertas (cultura 14 px/600, lote 11 px; antes 13 px/700 e 10,4 px).
 
 Testes: portal 52/52, typecheck e build ok. Evidências: `filtro-ofertas-vencidas.png`, `filtro-pedidos-aceitos.png`, `rastreabilidade-tabela.png`, `pedidos-390.png`, `pedidos-320.png` (sem rolagem horizontal) e `captura-filtros.json`.
+
+## Revisão 5 — ajustes de linguagem antes do push (11/11/2026)
+
+Correções da revisão de ponta a ponta (portal + app com dados demonstrativos):
+
+- **Situações dos pedidos com o mesmo nome no portal e no app**, usando o vocabulário do app: Solicitação recebida · Aguardando retirada · Aguardando destinatário · Recebimento confirmado · Cancelado. O portal (`statusName`, Pedidos e Rastreabilidade) chamava o mesmo estado de "Retirado" e de "Em entrega". Excedentes usa os mesmos termos na legenda e nos KPIs.
+- **Organização com nome legível:** o seed demonstrativo gravava o tipo interno como nome ("PEQUENO_PRODUTOR_RURAL — DEMONSTRAÇÃO"). Agora grava "Produtor rural — DEMONSTRAÇÃO" (e equivalentes) e corrige as organizações demonstrativas já existentes pelo `demoKey`. A API não foi alterada.
+- **Pedidos e ofertas no app:** mostram a cultura (vinda da produção do mesmo lote) e o código curto do lote, no lugar do identificador técnico. Quantidades com vírgula decimal ("8,5 kg").
+- **Datas em Pedidos** sem segundos.
+- **Excedentes:** a nota de rodapé informa "Ambiente de demonstração com dados fictícios" quando `isDemonstration` é verdadeiro (regra de integridade do `CLAUDE.md`).
+
+Goldens `Ofertas-390x844` e `Pedidos-390x844` atualizados de forma deliberada, depois de comparar as imagens: as únicas diferenças são "Lote DEMO-LOT" no lugar de "Identificador: …" e "8,5 kg". Testes: Flutter 133/133, analyze limpo; portal 52/52, typecheck e build ok; API 30/30.
