@@ -67,6 +67,14 @@ jobs:
           flutter-version: 3.47.2
           channel: stable
           cache: true
+      # Os goldens exibem horarios via DateTime.toLocal() e foram gerados no
+      # fuso do projeto (America/Sao_Paulo). O runner Windows usa UTC, o que
+      # desloca "12:00" para "09:00" e quebra 14 comparacoes visuais.
+      - name: Fixar fuso horario do runner (America/Sao_Paulo)
+        shell: pwsh
+        run: |
+          tzutil /s "E. South America Standard Time"
+          tzutil /g
       - run: flutter pub get
       - run: flutter analyze
       - run: flutter test
