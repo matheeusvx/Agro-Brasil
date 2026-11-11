@@ -103,3 +103,17 @@ A pedido do produtor/autor, o card saiu da visão geral e virou a página `/dest
 Percentuais e a soma reservado + trânsito são só apresentação dos valores da API (`src/lib/impact.ts`, testados). Nenhuma regra de cálculo do domínio foi copiada.
 
 Capturas: `destino-1440.png`, `destino-1024.png`, `destino-390.png`, `destino-320.png`, `destino-320-texto-200.png` (sem rolagem horizontal; `captura-destino.json`). Valores da consulta: 3.330 ofertados = 496 recebidos + 360 em trânsito + 310 reservados + 2.160 disponíveis + 4 vencidos.
+
+## Revisão 3 — gráficos e acabamento (11/11/2026)
+
+- **"Para onde foi o que você ofertou":** virou um medidor de traços, baseado no `graphic-barra-horizontal`.
+  - Cada parte começa com um traço alto, com nome, kg e %, e tem tons claro → forte da paleta: recebido verde, em trânsito azul, reservado amarelo, disponível roxo, vencido laranja.
+  - Ao passar o mouse, a parte sobe e as outras esmaecem, com uma dica de kg, % e significado. Clique fixa a parte; o teclado funciona como slider.
+  - Uma legenda abaixo sempre mostra os kg de todas as partes, inclusive as estreitas demais para ter rótulo.
+- **"Caminho do excedente":** trilhos com barra verde brilhante, baseados no `graphic-barra-vertical`, com eixo em kg e etiqueta de valor ao passar o mouse, focar ou clicar (kg e % da etapa anterior). Tem varredura de luz e navegação por setas.
+- **Topo da página:** saíram o selo "Dados demonstrativos" e o botão Atualizar. A página recarrega com o botão de atualizar do topo do portal, e o horário da consulta fica na linha de apoio.
+- **Entrada:** fade-in escalonado `ag-rise`, igual às outras abas.
+- **Texto:** o item do menu virou "Excedentes" (antes não cabia em negrito e ficava espremido); espaçamento de letras e altura de linha mais folgados na página.
+- Os componentes foram portados para React + CSS, sem `animejs` (o portal não tem essa dependência). Respeitam movimento reduzido.
+
+Testes: portal 51/51 (+2: divisão de traços e eixo), typecheck e build ok. Capturas: `destino-*.png`, `destino-hover-medidor.png`, `destino-hover-caminho.png`, sem rolagem horizontal em 1440, 1024, 390, 320 e 320 px com texto 200%.

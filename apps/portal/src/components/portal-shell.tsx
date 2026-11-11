@@ -53,7 +53,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
       links: [
         { href: "/ofertas", label: "Ofertas", icon: Tags },
         { href: "/pedidos", label: "Pedidos", icon: PackageCheck },
-        { href: "/destino", label: "Destino dos excedentes", icon: HandHeart },
+        { href: "/destino", label: "Excedentes", icon: HandHeart },
         { href: "/rastreabilidade", label: "Rastreabilidade", icon: Route },
       ],
     },
@@ -177,7 +177,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
                       : path === "/ofertas"
                         ? "Ofertas"
                         : path === "/destino"
-                        ? "Destino dos excedentes"
+                        ? "Excedentes"
                         : path === "/perfil"
                           ? "Perfil"
                           : "Visão geral"}
