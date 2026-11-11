@@ -7,11 +7,8 @@ import {
   Handshake,
   HeartHandshake,
   Info,
-  PackageCheck,
   Sparkles,
   Tags,
-  TimerOff,
-  Truck,
 } from "lucide-react";
 import { usePortal } from "./portal-provider";
 import { WorkspaceState } from "./workspace-state";
@@ -124,22 +121,19 @@ function Dashboard({ impact: i }: { impact: ExcessImpact }) {
   return (
     <>
       <section className="dx-kpis ag-rise" style={rise(1)} aria-label="Indicadores principais">
-        <Kpi icon={Tags} label="Ofertado" value={published} note="em ofertas publicadas" />
+        <Kpi label="Ofertado" value={published} note="em ofertas publicadas" />
         <Kpi
-          icon={PackageCheck}
           label="Recebido"
           value={i.funnelKg.received}
           note={`${percent(share(i.funnelKg.received, published))} do ofertado, confirmado`}
           tone="good"
         />
         <Kpi
-          icon={Truck}
           label="Em andamento"
           value={ongoing}
           note={`${number(i.balancesKg.reservedNow)} kg reservados e ${number(i.balancesKg.inTransitNow)} kg em trânsito`}
         />
         <Kpi
-          icon={TimerOff}
           label="Vencido sem destinação"
           value={i.balancesKg.expiredAvailable}
           note={`${percent(share(i.balancesKg.expiredAvailable, published))} do ofertado`}
@@ -186,13 +180,11 @@ function Dashboard({ impact: i }: { impact: ExcessImpact }) {
 }
 
 function Kpi({
-  icon: Icon,
   label,
   value,
   note,
   tone,
 }: {
-  icon: typeof Tags;
   label: string;
   value: number;
   note: string;
@@ -201,9 +193,6 @@ function Kpi({
   const shown = useCountTo(value);
   return (
     <div className="dx-kpi" data-tone={tone}>
-      <span className="dx-kpi-icon" aria-hidden="true">
-        <Icon size={17} />
-      </span>
       <p>{label}</p>
       <strong aria-label={`${number(value)} quilos`}>
         {number(Number.isInteger(value) ? Math.round(shown) : Math.round(shown * 10) / 10)}
