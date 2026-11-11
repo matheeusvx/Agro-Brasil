@@ -21,7 +21,23 @@ test('jornada comercial com transações reais e quatro públicos', { timeout: 1
     const response = await fetch(`${base}/api/v1${endpoint}`, { method: body === undefined ? 'GET' : 'POST', headers: { Authorization: `Bearer ${p.token}`, 'X-Organization-Id': p.orgId, 'Content-Type': 'application/json', 'Idempotency-Key': key }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
     return { status: response.status, replayed: response.headers.get('Idempotency-Replayed'), body: await response.json() };
   };
-  const ok = async (profile, endpoint, body, status = 200, key) => { const result = await request(profile, endpoint, body, key); assert.equal(result.status, status, JSON.stringify(result.body)); return result.body.data; };
+  const ok = async (profile, endpoint, body, status = 200, key) => { const result = await request(profile, endpoint, body, key); assert.equal(result.status, status, JSON.stringify(result.body));
+    if (profile === 'producer' && endpoint !== '/productions' && !endpoint.includes('excess-impact')) {
+      const property = await connection.db.collection('properties').findOne({ organizationId: profiles.producer.orgId });
+      if (property) {
+        const r = await request('producer', '/properties/' + property._id + '/excess-impact');
+        assert.equal(r.status, 200, JSON.stringify(r.body));
+        const lots = await connection.db.collection('productions').find({ propertyId: property._id, organizationId: profiles.producer.orgId }).toArray();
+        const offers = await connection.db.collection('offers').find({ lotId: { $in: lots.map(p => p.lot.id) }, status: 'PUBLICADA' }).toArray();
+        const total = field => offers.reduce((n, o) => n + o[field], 0);
+        assert.equal(Math.round(r.body.data.funnelKg.acceptedNet * 1000), total('reservedGrams') + total('dispatchedGrams') + total('receivedGrams'));
+        assert.equal(Math.round(r.body.data.funnelKg.pickedUp * 1000), total('dispatchedGrams') + total('receivedGrams'));
+        assert.equal(Math.round(r.body.data.funnelKg.received * 1000), total('receivedGrams'));
+        const d = r.body.data, b = d.balancesKg;
+        assert.equal(Math.round(d.funnelKg.published * 1000), [b.availableActive, b.expiredAvailable, b.reservedNow, b.inTransitNow, d.funnelKg.received].reduce((n, kg) => n + Math.round(kg * 1000), 0));
+      }
+    }
+    return result.body.data; };
   let offer; let lot; let order; let direct; let receiptReplay;
   try {
     mongo = await MongoMemoryReplSet.create({ binary, instanceOpts: [{ dbPath: path }], replSet: { count: 1, name: 'agroTest', storageEngine: 'wiredTiger', ip: '127.0.0.1' } });
@@ -158,6 +174,55 @@ test('jornada comercial com transações reais e quatro públicos', { timeout: 1
       assert.equal((await request('producer', `/orders/${direct.id}/accept`, location)).status, 403);
       await db.collection('memberships').updateOne({ userId: profiles.producer.userId, organizationId: profiles.producer.orgId }, { $set: { role: 'ADMIN' } });
       assert.equal((await request('producer', `/orders/${direct.id}/accept`, { ...location, locationConfirmed: false })).status, 400);
+    });
+    await t.test('impacto: ciclos, modalidades, prazo, isolamento e LEITOR', async () => {
+      const url = '/properties/' + propertyId + '/excess-impact';
+      const get = async () => {
+        const r = await request('producer', url); assert.equal(r.status, 200, JSON.stringify(r.body)); return r.body.data;
+      };
+      let d = await get();
+      assert.deepEqual(d.funnelKg, { registered: 10, published: 10, acceptedNet: 8.001, pickedUp: 8.001, received: 8.001 });
+      assert.deepEqual(d.byModeKg.DOACAO, { published: 10, received: 8.001 });
+      const otherProperty = randomUUID(), foreignProperty = randomUUID(), empty = randomUUID();
+      await db.collection('properties').insertMany([
+        { _id: otherProperty, organizationId: profiles.producer.orgId, status: 'ATIVA' },
+        { _id: empty, organizationId: profiles.producer.orgId, status: 'ATIVA' },
+        { _id: foreignProperty, organizationId: profiles.buyer.orgId, status: 'ATIVA' }
+      ]);
+      const make = async (pid, kg) => ok('producer', '/productions', { propertyId: pid, cropId, seasonLabel: 'FICTICIO', quantityKg: kg, harvestedOn: new Date().toISOString().slice(0, 10), ...location }, 201);
+      const saleProduction = await make(propertyId, .123);
+      const sale = await ok('producer', '/offers', { ...offerBody, lotId: saleProduction.lot.id, quantityKg: .123, destinationMode: 'VENDA', unitPriceCents: 100 }, 201);
+      d = await get(); assert.equal(d.funnelKg.registered, 10.123); assert.equal(d.funnelKg.published, 10);
+      await ok('producer', '/offers/' + sale.id + '/publish', location);
+      const o = await ok('buyer', '/orders', { offerId: sale.id, quantityKg: .023, ...location }, 201);
+      const accepted = await ok('producer', '/orders/' + o.id + '/accept', location);
+      await ok('producer', '/shipments/' + accepted.shipment.id + '/pickup', location);
+      await ok('buyer', '/shipments/' + accepted.shipment.id + '/receipts', { ...location, quantityAcceptedKg: .023 }, 201);
+      await db.collection('offers').updateOne({ _id: sale.id }, { $set: { availableUntil: '2020-01-01T00:00:00.000Z' } });
+      const other = await make(otherProperty, 999);
+      const otherOffer = await ok('producer', '/offers', { ...offerBody, lotId: other.lot.id, quantityKg: 999 }, 201);
+      await ok('producer', '/offers/' + otherOffer.id + '/publish', location);
+      const before = await db.collection('offers').find({}).toArray();
+      for (const role of ['ADMIN', 'EDITOR', 'LEITOR']) {
+        await db.collection('memberships').updateOne({ userId: profiles.producer.userId }, { $set: { role } });
+        d = await get();
+        assert.deepEqual(d.funnelKg, { registered: 10.123, published: 10.123, acceptedNet: 8.024, pickedUp: 8.024, received: 8.024 });
+        assert.deepEqual(d.byModeKg.VENDA, { published: .123, received: .023 });
+        assert.equal(d.balancesKg.expiredAvailable, .1); assert.equal(d.balancesKg.availableActive, 1.999);
+        assert.equal(d.schemaVersion, 1); assert.equal(d.isDemonstration, true); assert.equal(new Date(d.asOf).toISOString(), d.asOf);
+      }
+      assert.deepEqual(await db.collection('offers').find({}).toArray(), before);
+      const zero = await request('producer', '/properties/' + empty + '/excess-impact');
+      assert.deepEqual(zero.body.data.funnelKg, { registered: 0, published: 0, acceptedNet: 0, pickedUp: 0, received: 0 });
+      await db.collection('productions').insertMany(Array.from({ length: 101 }, () => ({ _id: randomUUID(), organizationId: profiles.producer.orgId, propertyId: empty, quantityKg: .001, lot: { id: randomUUID() } })));
+      assert.equal((await request('producer', '/properties/' + empty + '/excess-impact')).body.data.funnelKg.registered, .101);
+      assert.equal((await request('producer', '/properties/' + foreignProperty + '/excess-impact')).status, 404);
+      assert.equal((await request('buyer', url)).status, 403);
+      assert.equal((await request('producer', '/properties/invalid/excess-impact')).status, 400);
+      const noAuth = await fetch(base + '/api/v1' + url); assert.equal(noAuth.status, 401); assert.equal(noAuth.headers.get('cache-control'), 'no-store');
+      await db.collection('memberships').updateOne({ userId: profiles.producer.userId }, { $set: { role: 'ADMIN', status: 'INATIVO' } });
+      assert.equal((await request('producer', url)).status, 403);
+      await db.collection('memberships').updateOne({ userId: profiles.producer.userId }, { $set: { status: 'ATIVO' } });
     });
     await t.test('dados, eventos e idempotência sobrevivem ao reinício da aplicação', async () => {
       const count = await db.collection('traceEvents').countDocuments({ lotId: lot.id });
