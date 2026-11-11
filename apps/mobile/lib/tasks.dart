@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'data.dart';
 import 'home.dart';
 import 'design.dart';
+import 'territorial/impact_card.dart';
 import 'illustrations.dart';
 import 'records.dart';
 import 'territorial/logistics_dashboard.dart';
@@ -73,12 +74,15 @@ class _TaskPageState extends State<TaskPage> {
       c.repository,
       widget.kind == 'offers' ? '/offers?scope=mine' : '/orders',
     );
+    final crops = {for (final p in productions) p['lot']['id']: p['cropName']};
     return data
         .where(
           (p) =>
               ids.contains(p['lotId']) &&
               (widget.focusId == null || p['id'] == widget.focusId),
         )
+        // Pedidos chegam sem cultura: usa a produção do mesmo lote.
+        .map((p) => {...p, 'cropName': p['cropName'] ?? crops[p['lotId']]})
         .toList();
   }
 
@@ -293,8 +297,8 @@ class _TaskPageState extends State<TaskPage> {
                                 Expanded(
                                   child: Text(
                                     offer
-                                        ? '${item['cropName']} · ${item['availableKg']} kg disponíveis'
-                                        : '${item['cropName'] ?? 'Pedido'} · ${item['quantityKg']} kg',
+                                        ? '${item['cropName']} · ${kgText(item['availableKg'])} kg disponíveis'
+                                        : '${item['cropName'] ?? 'Pedido'} · ${kgText(item['quantityKg'])} kg',
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleMedium,
@@ -305,9 +309,9 @@ class _TaskPageState extends State<TaskPage> {
                             const SizedBox(height: 8),
                             StatusPill(item['status']),
                             const SizedBox(height: 12),
-                            SelectableText(
-                              'Identificador: ${item['id']}',
-                              style: const TextStyle(fontSize: 12),
+                            Text(
+                              'Lote ${shortLot(item['lotId'])}',
+                              style: AgroDesign.caption,
                             ),
                             if (!offer && item['shipment'] != null)
                               Text(
@@ -1042,3 +1046,13 @@ class ProfilePage extends StatelessWidget {
     ),
   );
 }
+
+/// Código curto do lote, como no portal (8 primeiros caracteres).
+String shortLot(dynamic id) {
+  final text = id?.toString() ?? '';
+  return (text.length > 8 ? text.substring(0, 8) : text).toUpperCase();
+}
+
+/// Quantidade em kg no formato brasileiro (vírgula decimal), sem arredondar gramas.
+String kgText(dynamic value) =>
+    value is num ? impactKg(value.toDouble()) : '${value ?? '—'}';

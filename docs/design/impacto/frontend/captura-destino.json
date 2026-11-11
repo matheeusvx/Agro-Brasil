@@ -1,0 +1,28 @@
+{
+  "overviewHasCard": 0,
+  "kpis": "Ofertado\n\n3.330\nkg\nem ofertas publicadas\n\nRecebido\n\n496\nkg\n14,9% do ofertado, confirmado\n\nEm andamento\n\n670\nkg\n310 kg reservados e 360 kg em trânsito\n\nVencido sem destinação\n\n4\nkg\n0,1% do ofertado",
+  "legend": "Recebido\n496 kg\n14,9%\nEm trânsito\n360 kg\n10,8%\nReservado\n310 kg\n9,3%\nDisponível\n2.160 kg\n64,9%\nVencido sem destinação\n4 kg\n0,1%",
+  "modes": "Venda\n12,5% recebido\n\n340 kg recebidos de 2.720 kg ofertados\n\nDoação\n25,6% recebido\n\n156 kg recebidos de 610 kg ofertados",
+  "journeyAria": [
+    "Produção registrada: 4.297,5 kg",
+    "Ofertado: 3.330 kg · 77,5% da etapa anterior",
+    "Aceito em pedidos: 1.166 kg · 35% da etapa anterior",
+    "Retirado: 856 kg · 73,4% da etapa anterior",
+    "Recebido (confirmado): 496 kg · 57,9% da etapa anterior"
+  ],
+  "meterLabels": [
+    "Recebido\n496 kg 14,9%",
+    "Em trânsito\n360 kg 10,8%",
+    "Reservado\n310 kg 9,3%",
+    "Disponível\n2.160 kg 64,9%"
+  ],
+  "demoBadge": 0,
+  "refreshButton": 1,
+  "tips": "O que fazer agora\n\n4 kg ficaram sem destinação quando o prazo da oferta acabou.\n\nRevisar ofertas\n\n310 kg reservados aguardam retirada.\n\nVer pedidos\n\n360 kg já saíram e aguardam a confirmação de quem recebe.\n\n2.160 kg seguem disponíveis para venda ou doação.\n\nVer ofertas",
+  "destino-1440-overflowX": false,
+  "destino-1024-overflowX": false,
+  "destino-390-overflowX": false,
+  "destino-320-overflowX": false,
+  "destino-320-texto-200-overflowX": false,
+  "errors": []
+}

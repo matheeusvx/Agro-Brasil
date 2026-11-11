@@ -301,7 +301,10 @@ try {
       document.querySelector('select[aria-label="Propriedade"]')?.value === id,
     ids.property,
   );
-  await page.getByText("Produção registrada", { exact: true }).waitFor();
+  await page
+    .getByRole("region", { name: "Resumo da propriedade" })
+    .getByText("Produção registrada", { exact: true })
+    .waitFor();
   const cookies = await context.cookies();
   const cookie = cookies.find((c) => c.name === "agro_portal_session");
   assert.ok(cookie?.httpOnly);

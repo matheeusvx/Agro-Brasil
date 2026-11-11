@@ -91,7 +91,7 @@ test("gráficos renderizam dados reais e estados vazios", () => {
   assert.match(html, /aria-label="Tomate: 100 kg, 88,9% do total"/);
   assert.match(html, /aria-label="Alface: 12,5 kg, 11,1% do total"/);
   assert.match(html, /Soma de 1 registro desta cultura/);
-  assert.match(html, /aria-label="Solicitado: 1 \(33,3%\); Recebido: 2 \(66,7%\)"/);
+  assert.match(html, /aria-label="Solicitação recebida: 1 \(33,3%\); Recebimento confirmado: 2 \(66,7%\)"/);
   assert.match(html, /não representa estoque disponível/i);
   const empty = renderToStaticMarkup(createElement(OperationalCharts, { productions: [], orders: [] }));
   assert.match(empty, /Nenhuma produção registrada/);

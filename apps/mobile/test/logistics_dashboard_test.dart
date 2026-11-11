@@ -261,38 +261,41 @@ void main() {
     expect(repo.calls.where((c) => c.contains('lot2/events')), isEmpty);
   });
 
-  test('isolamento: outra propriedade, comprador, cooperativa e organização', () async {
-    final repo = fullRepository()
-      ..productions.addAll([
-        production(7, property: 'q'),
-        production(8, organization: 'outra'),
-      ])
-      ..orders.addAll([
-        order(7, 'RECEBIDO'),
-        order(8, 'RECEBIDO'),
-        // The same org appears in /orders as a buyer of someone else's lot.
-        order(9, 'RECEBIDO', seller: 'vendedor-externo'),
-      ]);
-    final c = controller(repo);
-    final r = LogisticsDashboardRepository(c);
-    final snapshot = (await r.load('p')).$1;
-    expect(snapshot.orders.length, 7);
-    expect(repo.calls.where((p) => p.contains('lot7')), isEmpty);
-    expect(repo.calls.where((p) => p.contains('lot8')), isEmpty);
-    expect(repo.calls.where((p) => p.contains('lot9')), isEmpty);
-    final saved = jsonEncode(await c.store.get(r.key('p')));
-    for (final secret in [
-      'buyer-secret',
-      'coop-secret',
-      'person-secret',
-      'sellerOrganizationId',
-    ]) {
-      expect(saved.contains(secret), false, reason: secret);
-    }
-    final other = (await r.load('q')).$1;
-    expect(other.orders.single['id'], 'order7');
-    await expectLater(r.load('fora'), throwsA(isA<ApiFailure>()));
-  });
+  test(
+    'isolamento: outra propriedade, comprador, cooperativa e organização',
+    () async {
+      final repo = fullRepository()
+        ..productions.addAll([
+          production(7, property: 'q'),
+          production(8, organization: 'outra'),
+        ])
+        ..orders.addAll([
+          order(7, 'RECEBIDO'),
+          order(8, 'RECEBIDO'),
+          // The same org appears in /orders as a buyer of someone else's lot.
+          order(9, 'RECEBIDO', seller: 'vendedor-externo'),
+        ]);
+      final c = controller(repo);
+      final r = LogisticsDashboardRepository(c);
+      final snapshot = (await r.load('p')).$1;
+      expect(snapshot.orders.length, 7);
+      expect(repo.calls.where((p) => p.contains('lot7')), isEmpty);
+      expect(repo.calls.where((p) => p.contains('lot8')), isEmpty);
+      expect(repo.calls.where((p) => p.contains('lot9')), isEmpty);
+      final saved = jsonEncode(await c.store.get(r.key('p')));
+      for (final secret in [
+        'buyer-secret',
+        'coop-secret',
+        'person-secret',
+        'sellerOrganizationId',
+      ]) {
+        expect(saved.contains(secret), false, reason: secret);
+      }
+      final other = (await r.load('q')).$1;
+      expect(other.orders.single['id'], 'order7');
+      await expectLater(r.load('fora'), throwsA(isA<ApiFailure>()));
+    },
+  );
 
   test('propriedade sem pedidos fica zerada e sem consultar eventos', () async {
     final repo = TestRepository()..productions = [production(0)];
@@ -307,8 +310,7 @@ void main() {
       ..productions = [for (var i = 0; i < 205; i++) production(i)]
       ..orders = [for (var i = 0; i < 205; i++) order(i, 'RETIRADO')]
       ..events = {
-        for (var i = 0; i < 205; i++)
-          'lot$i': [event('e$i', i, pickup)],
+        for (var i = 0; i < 205; i++) 'lot$i': [event('e$i', i, pickup)],
       };
     final s = await summarize(repo);
     expect(s.inProgress, 205);
@@ -321,41 +323,44 @@ void main() {
     );
   });
 
-  test('contrato inválido e paginação inconsistente recusam totais parciais', () async {
-    Future<void> rejects(TestRepository repo) => expectLater(
-      LogisticsDashboardRepository(controller(repo)).load('p'),
-      throwsA(isA<ApiFailure>().having((e) => e.status, 'status', isNonZero)),
-    );
-    await rejects(
-      TestRepository()
-        ..productions = [production(0)]
-        ..orders = [order(0, 'EM_ROTA')],
-    );
-    await rejects(
-      TestRepository()
-        ..productions = [production(0)]
-        ..orders = [
-          {...order(0, 'RETIRADO'), 'shipment': null},
-        ],
-    );
-    await rejects(
-      TestRepository()
-        ..productions = [production(0)]
-        ..orders = [
-          {...order(0, 'SOLICITADO'), 'quantityKg': -1},
-        ],
-    );
-    await rejects(
-      TestRepository()
-        ..productions = [production(0)]
-        ..orders = [order(0, 'SOLICITADO'), order(0, 'SOLICITADO')],
-    );
-    await rejects(
-      TestRepository()
-        ..productions = [production(0)]
-        ..inconsistent = true,
-    );
-  });
+  test(
+    'contrato inválido e paginação inconsistente recusam totais parciais',
+    () async {
+      Future<void> rejects(TestRepository repo) => expectLater(
+        LogisticsDashboardRepository(controller(repo)).load('p'),
+        throwsA(isA<ApiFailure>().having((e) => e.status, 'status', isNonZero)),
+      );
+      await rejects(
+        TestRepository()
+          ..productions = [production(0)]
+          ..orders = [order(0, 'EM_ROTA')],
+      );
+      await rejects(
+        TestRepository()
+          ..productions = [production(0)]
+          ..orders = [
+            {...order(0, 'RETIRADO'), 'shipment': null},
+          ],
+      );
+      await rejects(
+        TestRepository()
+          ..productions = [production(0)]
+          ..orders = [
+            {...order(0, 'SOLICITADO'), 'quantityKg': -1},
+          ],
+      );
+      await rejects(
+        TestRepository()
+          ..productions = [production(0)]
+          ..orders = [order(0, 'SOLICITADO'), order(0, 'SOLICITADO')],
+      );
+      await rejects(
+        TestRepository()
+          ..productions = [production(0)]
+          ..inconsistent = true,
+      );
+    },
+  );
 
   test('offline usa cópia isolada; 401/403/404 nunca usam cache', () async {
     final repo = fullRepository();
@@ -383,17 +388,20 @@ void main() {
     expect(await c.store.get(r.key('p')), isNull);
   });
 
-  test('falha em eventos não troca a cópia boa nem mostra totais pela metade', () async {
-    final repo = fullRepository();
-    final c = controller(repo);
-    final r = LogisticsDashboardRepository(c);
-    final first = (await r.load('p')).$1;
-    repo.orders = repo.orders.sublist(0, 5);
-    repo.eventFailure = 0;
-    final (stale, offline) = await r.load('p');
-    expect(offline, true);
-    expect(stale.orders.length, first.orders.length);
-  });
+  test(
+    'falha em eventos não troca a cópia boa nem mostra totais pela metade',
+    () async {
+      final repo = fullRepository();
+      final c = controller(repo);
+      final r = LogisticsDashboardRepository(c);
+      final first = (await r.load('p')).$1;
+      repo.orders = repo.orders.sublist(0, 5);
+      repo.eventFailure = 0;
+      final (stale, offline) = await r.load('p');
+      expect(offline, true);
+      expect(stale.orders.length, first.orders.length);
+    },
+  );
 
   test('home offline usa cópia; forçar atualização tenta reconectar', () async {
     final repo = fullRepository();
@@ -457,7 +465,10 @@ void main() {
       };
     final snapshot = (await LogisticsDashboardRepository(c).load('p')).$1;
     expect(snapshot.events.single['municipality'], 'Mogi das Cruzes');
-    expect(requests.map((r) => r.url.path), contains('/api/v1/lots/lot0/events'));
+    expect(
+      requests.map((r) => r.url.path),
+      contains('/api/v1/lots/lot0/events'),
+    );
     expect(
       requests.every(
         (r) =>
@@ -503,7 +514,9 @@ void main() {
         scrollable: find.byType(Scrollable).first,
       );
 
-  testWidgets('indicador, seleção, ações, território e detalhes', (tester) async {
+  testWidgets('indicador, seleção, ações, território e detalhes', (
+    tester,
+  ) async {
     await tester.binding.setSurfaceSize(const Size(390, 844));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(dashboard(controller(fullRepository())));
@@ -547,7 +560,9 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('ação abre somente o pedido escolhido em Pedidos', (tester) async {
+  testWidgets('ação abre somente o pedido escolhido em Pedidos', (
+    tester,
+  ) async {
     await tester.binding.setSurfaceSize(const Size(390, 844));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     final repo = fullRepository();
@@ -558,8 +573,8 @@ void main() {
     await tester.tap(find.text('Registrar retirada'));
     await tester.pumpAndSettle();
     expect(find.byType(TaskPage), findsOneWidget);
-    expect(find.textContaining('order2'), findsOneWidget);
-    expect(find.textContaining('order0'), findsNothing);
+    expect(find.text('Lote LOT2'), findsOneWidget);
+    expect(find.text('Lote LOT0'), findsNothing);
     expect(find.text('Acompanhar logística'), findsNothing);
     final before = repo.calls.length;
     await tester.tap(find.byType(BackButton));
@@ -603,11 +618,16 @@ void main() {
     expect(c.propertyId, 'q');
     expect(find.text('Pedidos em andamento'), findsNothing);
     expect(find.text('Nenhum pedido nesta propriedade'), findsOneWidget);
-    expect(find.text('Suzano/SP · somente pedidos desta propriedade'), findsOneWidget);
+    expect(
+      find.text('Suzano/SP · somente pedidos desta propriedade'),
+      findsOneWidget,
+    );
     expect(find.text('Ver ofertas'), findsOneWidget);
   });
 
-  testWidgets('perfil de consulta é informado sem esconder a situação', (tester) async {
+  testWidgets('perfil de consulta é informado sem esconder a situação', (
+    tester,
+  ) async {
     await tester.binding.setSurfaceSize(const Size(390, 844));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     final c = controller(fullRepository())..home = {'canWrite': false};
@@ -617,7 +637,9 @@ void main() {
     expect(find.textContaining('Seu perfil é de consulta'), findsOneWidget);
   });
 
-  testWidgets('somente cancelados: zero em andamento e nada pendente', (tester) async {
+  testWidgets('somente cancelados: zero em andamento e nada pendente', (
+    tester,
+  ) async {
     await tester.binding.setSurfaceSize(const Size(390, 844));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     final repo = TestRepository()
@@ -626,7 +648,10 @@ void main() {
     await tester.pumpWidget(dashboard(controller(repo)));
     await tester.pumpAndSettle();
     expect(find.text('0'), findsOneWidget);
-    expect(find.text('Cancelados não contam como em andamento.'), findsOneWidget);
+    expect(
+      find.text('Cancelados não contam como em andamento.'),
+      findsOneWidget,
+    );
     await reveal(tester, find.text('Nada depende de você nesta consulta.'));
     expect(find.text('Onde já foi confirmado'), findsNothing);
     expect(find.text('Direta: 1 pedido'), findsNothing);
@@ -644,7 +669,9 @@ void main() {
     expect(find.text('Onde já foi confirmado'), findsNothing);
   });
 
-  testWidgets('API indisponível mostra cópia sem ações de escrita', (tester) async {
+  testWidgets('API indisponível mostra cópia sem ações de escrita', (
+    tester,
+  ) async {
     await tester.binding.setSurfaceSize(const Size(390, 844));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     final repo = fullRepository();
@@ -684,7 +711,9 @@ void main() {
     ('completo', fullRepository),
     ('vazio', TestRepository.new),
   ]) {
-    testWidgets('320dp, texto 200% e movimento reduzido: $name', (tester) async {
+    testWidgets('320dp, texto 200% e movimento reduzido: $name', (
+      tester,
+    ) async {
       await tester.binding.setSurfaceSize(const Size(320, 844));
       addTearDown(() => tester.binding.setSurfaceSize(null));
       tester.platformDispatcher.textScaleFactorTestValue = 2;
@@ -710,7 +739,9 @@ void main() {
     });
   }
 
-  testWidgets('animação é curta e termina sem deixar quadros pendentes', (tester) async {
+  testWidgets('animação é curta e termina sem deixar quadros pendentes', (
+    tester,
+  ) async {
     await tester.binding.setSurfaceSize(const Size(390, 844));
     addTearDown(() => tester.binding.setSurfaceSize(null));
     await tester.pumpWidget(dashboard(controller(fullRepository())));

@@ -17,6 +17,7 @@ import {
   ChevronRight,
   LockKeyhole,
   Tractor,
+  HandHeart,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
@@ -52,6 +53,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
       links: [
         { href: "/ofertas", label: "Ofertas", icon: Tags },
         { href: "/pedidos", label: "Pedidos", icon: PackageCheck },
+        { href: "/destino", label: "Excedentes", icon: HandHeart },
         { href: "/rastreabilidade", label: "Rastreabilidade", icon: Route },
       ],
     },
@@ -174,6 +176,8 @@ export function PortalShell({ children }: { children: ReactNode }) {
                       ? "Pedidos"
                       : path === "/ofertas"
                         ? "Ofertas"
+                        : path === "/destino"
+                        ? "Excedentes"
                         : path === "/perfil"
                           ? "Perfil"
                           : "Visão geral"}

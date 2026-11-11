@@ -10,11 +10,15 @@ const { client, db } = await connectDatabase();
 try {
   const types = ['PEQUENO_PRODUTOR_RURAL', 'COOPERATIVA', 'INSTITUICAO', 'COMPRADOR_LOCAL'];
   const sessions = [];
+  // Nomes legíveis para quem usa as telas; o tipo interno fica só no campo type.
+  const names = { PEQUENO_PRODUTOR_RURAL: 'Produtor rural', COOPERATIVA: 'Cooperativa', INSTITUICAO: 'Instituição', COMPRADOR_LOCAL: 'Comprador local' };
   for (const type of types) {
     const key = `demo-${type}`;
     // IDs determinísticos por consulta; não duplica organizações ao repetir o seed.
     let org = await db.collection('organizations').findOne({ demoKey: key });
-    if (!org) { org = { _id: randomUUID(), demoKey: key, name: `${type} — DEMONSTRAÇÃO`, type, status: 'ATIVA', isDemonstration: true }; await db.collection('organizations').insertOne(org); }
+    const name = `${names[type]} — DEMONSTRAÇÃO`;
+    if (!org) { org = { _id: randomUUID(), demoKey: key, name, type, status: 'ATIVA', isDemonstration: true }; await db.collection('organizations').insertOne(org); }
+    else if (org.name !== name) await db.collection('organizations').updateOne({ _id: org._id, demoKey: key }, { $set: { name } });
     let user = await db.collection('users').findOne({ demoKey: key });
     if (!user) { user = { _id: randomUUID(), demoKey: key, displayName: `Participante fictício ${type}`, status: 'ATIVO', isDemonstration: true }; await db.collection('users').insertOne(user); }
     await db.collection('memberships').updateOne({ userId: user._id, organizationId: org._id }, { $set: { status: 'ATIVO', role: 'ADMIN' }, $setOnInsert: { _id: randomUUID() } }, { upsert: true });

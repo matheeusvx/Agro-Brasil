@@ -15,7 +15,7 @@ export function allowedProxyPath(endpoint: string, method: string) {
       uuid +
       "/publish)?|properties/" +
       uuid +
-      "/(?:weather|farm-layout|farm-overview)|lots/" +
+      "/(?:weather|farm-layout|farm-overview|excess-impact)|lots/" +
       uuid +
       "(?:/events)?)$",
     "i",
