@@ -25,6 +25,12 @@ export function allowedProxyPath(
 ) {
   // LEITOR nunca escreve, em nenhum público (a API também recusa).
   if (method !== "GET" && role === "LEITOR") return false;
+  // Chat interno: mesmas rotas para os três públicos; a API comprova a relação.
+  const messages = new RegExp("^/chats/" + UUID + "/messages$", "i");
+  if (method === "GET" && (endpoint === "/chats" || messages.test(endpoint) || endpoint === "/cooperatives"))
+    return true;
+  if (method === "POST" && (endpoint === "/chats/open" || messages.test(endpoint)))
+    return true;
   if (audience === "cooperative" || audience === "institution") {
     if (method === "POST") return writes[audience].test(endpoint);
     return (
@@ -80,7 +86,7 @@ export function allowedProxyQuery(search: string, audience: Audience) {
   if (audience === "producer") return true;
   const params = new URLSearchParams(search);
   for (const [key, value] of params)
-    if (!["limit", "offset"].includes(key) || !/^\d{1,6}$/.test(value))
+    if (!["limit", "offset", "after"].includes(key) || !/^\d{1,9}$/.test(value))
       return false;
   return new Set(params.keys()).size === [...params.keys()].length;
 }

@@ -40,6 +40,8 @@ async function proxy(
     if (
       req.method === "POST" &&
       endpoint !== "/productions" &&
+      // Abrir conversa é naturalmente idempotente (par único no banco).
+      endpoint !== "/chats/open" &&
       (!key || !/^[a-zA-Z0-9_-]{8,128}$/.test(key))
     )
       return Response.json(
