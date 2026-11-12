@@ -16,6 +16,7 @@ export async function connectDatabase({ uri = process.env.MONGODB_URI || 'mongod
       db.collection('orders').createIndex({ sellerOrganizationId: 1, createdAt: -1 }),
       db.collection('orders').createIndex({ sellerOrganizationId: 1, lotId: 1, status: 1 }),
       db.collection('orders').createIndex({ requesterOrganizationId: 1, createdAt: -1 }),
+      db.collection('orders').createIndex({ 'shipment.carrierOrganizationId': 1, createdAt: -1, _id: -1 }),
       db.collection('orders').createIndex({ 'shipment.id': 1 }, { unique: true, partialFilterExpression: { 'shipment.id': { $type: 'string' } } }),
       db.collection('traceEvents').createIndex({ lotId: 1, recordedAt: 1 }),
       db.collection('traceEvents').createIndex({ operationId: 1, type: 1 }, { unique: true }),
