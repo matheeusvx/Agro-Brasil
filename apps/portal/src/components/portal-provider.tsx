@@ -15,7 +15,8 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { request, loadWorkspace, RequestError } from "@/lib/client-api";
-import type { Session, Workspace } from "@/lib/types";
+import type { Session, Workspace, Organization } from "@/lib/types";
+import { audienceOf, type Audience } from "@/lib/audience";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PortalShell } from "./portal-shell";
@@ -23,6 +24,13 @@ import { ProductionCreate } from "./production-create";
 
 type PortalState = {
   session: Session;
+  /** Vínculo ativo e seu público; mudam juntos na troca de organização. */
+  member: Organization;
+  audience: Audience;
+  /** 401 encerra a sessão; 403 revalida vínculos e remove dados obsoletos. */
+  handleAccessError: (error: unknown) => boolean;
+  /** Incrementa no botão "Atualizar dados"; as homes de organização recarregam. */
+  revision: number;
   workspace: Workspace | null;
   loading: boolean;
   error: string;
@@ -48,6 +56,10 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     [error, setError] = useState(""),
     [creating, setCreating] = useState(false);
   const generation = useRef(0);
+  const member = session?.memberships.find(
+    (m) => m.organizationId === session.organizationId,
+  );
+  const audience = audienceOf(member?.type);
   useEffect(() => {
     const abort = new AbortController();
     request<Session>("/api/session", {}, abort.signal)
@@ -58,8 +70,16 @@ export function PortalProvider({ children }: { children: ReactNode }) {
   }, []);
   useEffect(() => {
     if (!session) return;
-    const abort = new AbortController();
     const current = ++generation.current;
+    setWorkspace(null);
+    setError("");
+    // Cooperativa e instituição carregam a própria home; nenhuma consulta
+    // privada do produtor (catálogo, producer-home, produções) é executada.
+    if (audience !== "producer") {
+      setLoading(false);
+      return;
+    }
+    const abort = new AbortController();
     setLoading(true);
     setError("");
     setWorkspace(null);
@@ -83,15 +103,39 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         if (current === generation.current) setLoading(false);
       });
     return () => abort.abort();
-  }, [session, property, revision]);
+  }, [session, audience, property, revision]);
   const refresh = useCallback(() => setRevision((r) => r + 1), []);
-  async function logout() {
-    await request("/api/session", { method: "DELETE" });
+  const clearAll = useCallback(() => {
     generation.current++;
     setWorkspace(null);
     setSession(null);
     setProperty("");
     setCreating(false);
+  }, []);
+  const handleAccessError = useCallback(
+    (error: unknown) => {
+      if (!(error instanceof RequestError)) return false;
+      if (error.status === 401) {
+        clearAll();
+        return true;
+      }
+      if (error.status === 403) {
+        // Vínculo pode ter sido revogado: revalida a sessão no servidor. Se a
+        // organização ativa não for mais autorizada, volta ao acesso.
+        generation.current++;
+        setWorkspace(null);
+        request<Session>("/api/session")
+          .then((next) => setSession(next))
+          .catch(() => clearAll());
+        return true;
+      }
+      return false;
+    },
+    [clearAll],
+  );
+  async function logout() {
+    await request("/api/session", { method: "DELETE" });
+    clearAll();
   }
   async function changeOrganization(id: string) {
     setLoading(true);
@@ -107,6 +151,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       setProperty("");
       setSession(next);
     } catch (error) {
+      if (handleAccessError(error)) return;
       setError(
         error instanceof Error
           ? error.message
@@ -125,10 +170,20 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       </div>
     );
   if (!session) return <Access onLogin={setSession} />;
+  if (!member || !audience)
+    return (
+      <div className="grid min-h-screen place-items-center p-6 text-center" role="alert">
+        <p>Nenhum vínculo atendido por este portal está ativo. Entre novamente.</p>
+      </div>
+    );
   return (
     <Context.Provider
       value={{
         session,
+        member,
+        audience,
+        handleAccessError,
+        revision,
         workspace,
         loading,
         error,
@@ -140,11 +195,13 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       }}
     >
       <PortalShell>{children}</PortalShell>
-      <ProductionCreate
-        key={session.organizationId + ":" + (workspace?.property.id ?? "")}
-        open={creating}
-        onOpenChange={setCreating}
-      />
+      {audience === "producer" && (
+        <ProductionCreate
+          key={session.organizationId + ":" + (workspace?.property.id ?? "")}
+          open={creating}
+          onOpenChange={setCreating}
+        />
+      )}
     </Context.Provider>
   );
 }
@@ -175,13 +232,13 @@ function Access({ onLogin }: { onLogin: (session: Session) => void }) {
       </section>
       <section className="access-form">
         <div className="max-w-[390px] w-full">
-          <span className="access-tag">PORTAL DO PRODUTOR</span>
+          <span className="access-tag">PORTAL AGRO+ BRASIL</span>
           <h2 className="text-3xl tracking-tight font-semibold mt-6">
             Bem-vindo ao seu campo.
           </h2>
           <p className="text-[#69766d] mt-3 mb-7">
-            Acesse seu espaço de trabalho para cuidar da rotina e das próximas
-            colheitas.
+            Produtores, cooperativas e instituições acessam aqui o espaço
+            da organização autorizada.
           </p>
           <form
             onSubmit={async (event) => {

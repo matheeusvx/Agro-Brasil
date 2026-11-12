@@ -5,10 +5,11 @@ import "./globals.css";
 import "./theme.css";
 import "./drawers.css";
 import "./destino.css";
+import "./publicos.css";
 export const metadata: Metadata = {
-  title: "Agro+ Brasil | Portal do produtor",
+  title: "Agro+ Brasil | Portal",
   description:
-    "Produção, origem e operações do campo em um só espaço de trabalho.",
+    "Produção, remessas e solicitações do campo em um só espaço de trabalho.",
 };
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (

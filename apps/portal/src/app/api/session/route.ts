@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { audienceOf } from "@/lib/audience";
 import {
   localGate,
   createSession,
@@ -17,7 +18,11 @@ export async function GET(req: NextRequest) {
     const me = await identity(session.token);
     session.memberships = me.memberships;
     if (
-      !me.memberships.some((m) => m.organizationId === session.organizationId)
+      !me.memberships.some(
+        (m) =>
+          m.organizationId === session.organizationId &&
+          audienceOf(m.type) !== null,
+      )
     )
       throw new Error("UNAUTHORIZED");
     return NextResponse.json(sessionView(session), {
@@ -53,14 +58,15 @@ export async function POST(req: NextRequest) {
       });
       return response;
     }
-    if (typeof body.organizationId === "string") {
+    if (typeof body.organizationId === "string" &&
+      body.organizationId.length <= 64) {
       const session = await currentSession();
       const me = await identity(session.token);
       if (
         !me.memberships.some(
           (m) =>
             m.organizationId === body.organizationId &&
-            m.type === "PEQUENO_PRODUTOR_RURAL",
+            audienceOf(m.type) !== null,
         )
       )
         return Response.json(

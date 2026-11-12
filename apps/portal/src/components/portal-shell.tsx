@@ -1,5 +1,5 @@
 "use client";
-import { useState, type ReactNode } from "react";
+import { Fragment, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -18,7 +18,17 @@ import {
   LockKeyhole,
   Tractor,
   HandHeart,
+  Truck,
+  ClipboardList,
+  Store,
+  ShieldAlert,
 } from "lucide-react";
+import {
+  audienceLabel,
+  audienceOf,
+  pageAllowed,
+  type Audience,
+} from "@/lib/audience";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { usePortal } from "./portal-provider";
@@ -27,6 +37,8 @@ export function PortalShell({ children }: { children: ReactNode }) {
   const path = usePathname();
   const {
     session,
+    member,
+    audience,
     workspace,
     loading,
     refresh,
@@ -35,11 +47,11 @@ export function PortalShell({ children }: { children: ReactNode }) {
     logout,
   } = usePortal();
   const firstName =
-    workspace?.home.userName?.trim().split(/\s+/)[0] || "Produtor";
-  const member = session.memberships.find(
-    (m) => m.organizationId === session.organizationId,
-  )!;
-  const groups = [
+    (audience === "producer" &&
+      workspace?.home.userName?.trim().split(/\s+/)[0]) ||
+    member.name.split(/\s+/)[0] ||
+    audienceLabel[audience];
+  const groups = audience === "producer" ? [
     {
       title: "ESPAÇO DO PRODUTOR",
       links: [
@@ -57,7 +69,11 @@ export function PortalShell({ children }: { children: ReactNode }) {
         { href: "/rastreabilidade", label: "Rastreabilidade", icon: Route },
       ],
     },
-  ];
+  ] : navigation[audience];
+  const allowed = pageAllowed(path, audience);
+  const current =
+    groups.flatMap((g) => g.links).find((l) => path.startsWith(l.href))
+      ?.label ?? (path === "/perfil" ? "Perfil" : "Visão geral");
   return (
     <div className={"portal-frame " + (collapsed ? "is-collapsed" : "")}>
       <a href="#main" className="skip-link">
@@ -95,7 +111,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
                 {group.title}
               </p>
             )}
-            <nav aria-label={group.title === "LOGÍSTICA" ? "Logística" : "Espaço do produtor"}>
+            <nav aria-label={group.aria ?? (group.title === "LOGÍSTICA" ? "Logística" : "Espaço do produtor")}>
               {group.links.map(({ href, label, icon: Icon }) => (
                 <Link
                   key={href}
@@ -165,23 +181,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
             <div className="breadcrumb">
               <span>Espaço de trabalho</span>
               <ChevronRight size={13} />
-              <strong>
-                {path === "/minha-fazenda"
-                  ? "Minha Fazenda"
-                  : path === "/producao"
-                  ? "Produção"
-                  : path.startsWith("/rastreabilidade")
-                    ? "Rastreabilidade"
-                    : path === "/pedidos"
-                      ? "Pedidos"
-                      : path === "/ofertas"
-                        ? "Ofertas"
-                        : path === "/destino"
-                        ? "Excedentes"
-                        : path === "/perfil"
-                          ? "Perfil"
-                          : "Visão geral"}
-              </strong>
+              <strong>{current}</strong>
             </div>
           </div>
           <div className="context-controls">
@@ -195,17 +195,26 @@ export function PortalShell({ children }: { children: ReactNode }) {
                   void changeOrganization(event.target.value);
                 }}
               >
-                {session.memberships
-                  .filter((m) => m.type === "PEQUENO_PRODUTOR_RURAL")
-                  .map((m) => (
-                    <option key={m.organizationId} value={m.organizationId}>
-                      {m.name}
-                    </option>
-                  ))}
+                {(["producer", "cooperative", "institution"] as Audience[]).map(
+                  (kind) => {
+                    const items = session.memberships.filter(
+                      (m) => audienceOf(m.type) === kind,
+                    );
+                    return items.length ? (
+                      <optgroup key={kind} label={audienceLabel[kind]}>
+                        {items.map((m) => (
+                          <option key={m.organizationId} value={m.organizationId}>
+                            {m.name}
+                          </option>
+                        ))}
+                      </optgroup>
+                    ) : null;
+                  },
+                )}
               </select>
             </label>
-            <div className="context-divider" />
-            <label>
+            {audience === "producer" && <div className="context-divider" />}
+            {audience === "producer" && <label>
               <span>Propriedade</span>
               <select
                 aria-label="Propriedade"
@@ -224,7 +233,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
                   </option>
                 ))}
               </select>
-            </label>
+            </label>}
             <Button
               variant="ghost"
               size="icon"
@@ -240,15 +249,76 @@ export function PortalShell({ children }: { children: ReactNode }) {
               </span>
               <div>
                 <strong>{firstName}</strong>
-                <small>{member.role === "LEITOR" ? "Consulta" : "Produtor"}</small>
+                <small>
+                  {member.role === "LEITOR"
+                    ? "Consulta"
+                    : audience === "producer"
+                      ? "Produtor"
+                      : audienceLabel[audience]}
+                </small>
               </div>
             </div>
           </div>
         </header>
-        <main id="main" tabIndex={-1} className="main-content">
-          {children}
+        <main
+          id="main"
+          tabIndex={-1}
+          className="main-content"
+          data-audience={audience}
+        >
+          {allowed ? (
+            // Remonta a página a cada troca de organização: nenhum estado local sobrevive.
+            <Fragment key={session.organizationId}>{children}</Fragment>
+          ) : (
+            <AreaUnavailable audience={audience} />
+          )}
         </main>
       </div>
     </div>
+  );
+}
+
+type NavGroup = {
+  title: string;
+  aria?: string;
+  links: { href: string; label: string; icon: typeof LayoutDashboard }[];
+};
+const navigation: Record<Exclude<Audience, "producer">, NavGroup[]> = {
+  cooperative: [
+    {
+      title: "ESPAÇO DA COOPERATIVA",
+      aria: "Espaço da cooperativa",
+      links: [
+        { href: "/visao-geral", label: "Visão geral", icon: LayoutDashboard },
+        { href: "/remessas", label: "Remessas", icon: Truck },
+      ],
+    },
+  ],
+  institution: [
+    {
+      title: "ESPAÇO DA INSTITUIÇÃO",
+      aria: "Espaço da instituição",
+      links: [
+        { href: "/visao-geral", label: "Visão geral", icon: LayoutDashboard },
+        { href: "/solicitacoes", label: "Solicitações", icon: ClipboardList },
+        { href: "/ofertas-disponiveis", label: "Ofertas disponíveis", icon: Store },
+      ],
+    },
+  ],
+};
+/** Proteção de interface: a página de outro público nem chega a montar. */
+function AreaUnavailable({ audience }: { audience: Audience }) {
+  return (
+    <section className="state-panel" role="alert">
+      <ShieldAlert size={26} />
+      <h2>Esta área não faz parte do perfil ativo.</h2>
+      <p>
+        O vínculo selecionado é de {audienceLabel[audience].toLocaleLowerCase("pt-BR")}.
+        Troque a organização no cabeçalho ou volte para a visão geral.
+      </p>
+      <Link href="/visao-geral" className="ag-btn ag-btn-dark">
+        Ir para a visão geral
+      </Link>
+    </section>
   );
 }

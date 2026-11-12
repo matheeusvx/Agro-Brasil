@@ -4,8 +4,9 @@ import {
   currentSession,
   backend,
   routeError,
+  activeAudience,
 } from "@/lib/server-session";
-import { allowedProxyPath } from "@/lib/security";
+import { allowedProxyPath, allowedProxyQuery } from "@/lib/security";
 export const runtime = "nodejs";
 async function proxy(
   req: NextRequest,
@@ -16,7 +17,11 @@ async function proxy(
     const session = await currentSession();
     const { path } = await context.params;
     const endpoint = "/" + path.join("/");
-    if (!allowedProxyPath(endpoint, req.method))
+    const audience = activeAudience(session);
+    if (
+      !allowedProxyPath(endpoint, req.method, audience) ||
+      !allowedProxyQuery(new URL(req.url).search, audience)
+    )
       return Response.json(
         { error: { message: "Operação não disponível neste incremento." } },
         { status: 404 },

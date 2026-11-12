@@ -1,11 +1,9 @@
 "use client";
 import { ShieldCheck, Building2, MapPin } from "lucide-react";
 import { usePortal } from "./portal-provider";
+import { audienceLabel, roleLabel } from "@/lib/audience";
 export function Profile() {
-  const { session, workspace } = usePortal();
-  const member = session.memberships.find(
-    (m) => m.organizationId === session.organizationId,
-  )!;
+  const { member, audience, workspace } = usePortal();
   return (
     <>
       <div className="page-heading">
@@ -21,18 +19,13 @@ export function Profile() {
           <p className="eyebrow">ORGANIZAÇÃO ATIVA</p>
           <h2 className="text-xl mt-2 font-semibold">{member.name}</h2>
           <p className="text-[#69766d] mt-2">
-            Pequeno produtor rural ·{" "}
-            {member.role === "LEITOR"
-              ? "Consulta"
-              : member.role === "EDITOR"
-                ? "Edição"
-                : "Administração"}
+            {audienceLabel[audience]} · {roleLabel(member.role)}
           </p>
           <p className="text-xs text-[#69766d] mt-6">
             Use o seletor no cabeçalho para alternar entre vínculos autorizados.
           </p>
         </section>
-        <section className="panel p-7">
+        {audience === "producer" && <section className="panel p-7">
           <MapPin className="mb-5 text-[#47715b]" />
           <p className="eyebrow">PROPRIEDADE SELECIONADA</p>
           <h2 className="text-xl mt-2 font-semibold">
@@ -42,14 +35,14 @@ export function Profile() {
             {workspace?.property.municipality}{" "}
             {workspace?.property.uf && "· " + workspace.property.uf}
           </p>
-        </section>
+        </section>}
       </div>
       <section className="panel p-7 mt-5 flex gap-4">
         <ShieldCheck className="shrink-0 text-[#47715b]" />
         <div>
           <h2 className="font-semibold">Seu acesso, protegido na sessão.</h2>
           <p className="text-[#69766d] mt-2 max-w-2xl">
-            Você acessa somente as organizações e propriedades autorizadas. Ao
+            Você acessa somente as organizações{audience === "producer" ? " e propriedades" : ""} autorizadas. Ao
             terminar, use “Sair do portal” para encerrar o acesso neste
             computador.
           </p>

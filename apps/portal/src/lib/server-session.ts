@@ -3,6 +3,7 @@ import { randomBytes } from "node:crypto";
 import { cookies } from "next/headers";
 import type { NextRequest } from "next/server";
 import { isLoopback } from "./security";
+import { audienceOf, defaultMembership, portalMemberships } from "./audience";
 
 export type Membership = {
   organizationId: string;
@@ -77,7 +78,7 @@ export async function identity(token: string) {
 }
 export async function createSession(token: string) {
   const me = await identity(token);
-  const first = me.memberships.find((m) => m.type === "PEQUENO_PRODUTOR_RURAL");
+  const first = defaultMembership(me.memberships);
   if (!first) throw new Error("PROFILE");
   for (const [key, s] of sessions)
     if (s.expires < Date.now()) sessions.delete(key);
@@ -110,8 +111,17 @@ export function sessionView(session: Session) {
   return {
     userId: session.userId,
     organizationId: session.organizationId,
-    memberships: session.memberships,
+    memberships: portalMemberships(session.memberships),
   };
+}
+/** Público do vínculo ativo; sem vínculo atendido, a sessão deixa de valer. */
+export function activeAudience(session: Session) {
+  const member = session.memberships.find(
+    (m) => m.organizationId === session.organizationId,
+  );
+  const audience = audienceOf(member?.type);
+  if (!audience) throw new Error("UNAUTHORIZED");
+  return audience;
 }
 export function routeError(error: unknown) {
   const code = error instanceof Error ? error.message : "";
@@ -119,7 +129,7 @@ export function routeError(error: unknown) {
     code === "UNAUTHORIZED"
       ? [401, "Sessão expirada ou acesso inválido. Entre novamente."]
       : code === "PROFILE"
-        ? [403, "Este incremento atende ao pequeno produtor rural."]
+        ? [403, "Este portal atende pequeno produtor rural, cooperativa e instituição."]
         : code === "LOCAL_ONLY"
           ? [403, "Demonstração disponível somente no ambiente local."]
           : code === "ORIGIN"
