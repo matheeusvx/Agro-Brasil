@@ -1,0 +1,115 @@
+{
+  "capturedAt": "2026-11-12T12:59:35.262Z",
+  "base": "http://127.0.0.1:3101",
+  "browser": "Microsoft Edge headless (playwright-core)",
+  "results": [
+    {
+      "name": "produtor",
+      "ok": true,
+      "links": [
+        "Visão geral",
+        "Minha Fazenda",
+        "Produção",
+        "Ofertas",
+        "Pedidos",
+        "Excedentes",
+        "Rastreabilidade"
+      ],
+      "guardRemessas": true
+    },
+    {
+      "name": "cooperativa",
+      "ok": true,
+      "stats": [
+        "Remessas designadas",
+        "Retiradas pendentes",
+        "Aguardando destinatário",
+        "Recebimentos confirmados"
+      ],
+      "writeActions": 2,
+      "demoNotice": true,
+      "overflow": {
+        "320": true,
+        "390": true,
+        "1440": true,
+        "320-texto-200": "excede: "
+      },
+      "requested": [
+        "/cooperative-home"
+      ]
+    },
+    {
+      "name": "instituicao",
+      "ok": true,
+      "stats": [
+        "Solicitações enviadas",
+        "Aguardando aceite",
+        "Aguardando retirada",
+        "Aguardando sua confirmação",
+        "Recebimentos concluídos"
+      ],
+      "offerCards": 11,
+      "overflow": {
+        "320": true,
+        "390": true,
+        "1440": true,
+        "320-texto-200": "excede: "
+      },
+      "offerOverflow": {
+        "320": true,
+        "390": true,
+        "1440": true,
+        "320-texto-200": true
+      },
+      "requested": [
+        "/institution-home",
+        "/offers"
+      ]
+    },
+    {
+      "name": "multiplo",
+      "ok": true,
+      "groups": [
+        "Pequeno produtor rural:1",
+        "Cooperativa:1",
+        "Instituição:2"
+      ],
+      "steps": [
+        {
+          "to": "produtor",
+          "heading": "Olá, Participante."
+        },
+        {
+          "to": "cooperativa",
+          "writeActions": 2
+        },
+        {
+          "to": "instituicao-leitor",
+          "writeActions": 0,
+          "readonlyBadge": true
+        },
+        {
+          "to": "instituicao-vazia",
+          "empty": true
+        },
+        {
+          "to": "produtor",
+          "propertySelector": 2
+        }
+      ]
+    },
+    {
+      "name": "leitor",
+      "ok": true,
+      "writeActions": 0,
+      "readonlyChips": 2
+    },
+    {
+      "name": "cooperativa",
+      "ok": true,
+      "simulated": "falha 503 interceptada no navegador (único caso simulado)",
+      "statsHidden": true
+    }
+  ],
+  "pageErrors": []
+}
