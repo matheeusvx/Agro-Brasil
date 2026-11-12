@@ -322,6 +322,7 @@ function Thread({
   const [status, setStatus] = useState<"loading" | "ready" | "lost" | "error">("loading");
   const [error, setError] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const messagesRef = useRef<ChatMessage[]>([]);
   const [fresh, setFresh] = useState<Set<string>>(new Set());
   const [pending, setPending] = useState<Pending[]>([]);
   const [draft, setDraft] = useState("");
@@ -340,6 +341,7 @@ function Thread({
   const lose = useCallback(
     (e: unknown) => {
       abortRef.current?.abort();
+      messagesRef.current = [];
       setMessages([]);
       setPending([]);
       setStatus("lost");
@@ -350,15 +352,17 @@ function Thread({
   );
   const apply = useCallback(
     (incoming: ChatMessage[], initial = false) => {
-      setMessages((current) => {
-        const { messages: next, added } = mergeMessages(current, incoming);
-        if (added.length && !initial) {
-          setFresh((f) => new Set([...f, ...added.map((m) => m.id)]));
-          if (!pinned.current) setBelow((b) => b + added.length);
-        }
-        if (added.length) onSeenRef.current(chat.id, next.at(-1) ?? null, cursor.current);
-        return next;
-      });
+      // Mescla fora do updater do React: atualizar o componente pai (Messages)
+      // dentro de um updater de estado do Thread gera aviso de setState em render.
+      const { messages: next, added } = mergeMessages(messagesRef.current, incoming);
+      if (!added.length) return;
+      messagesRef.current = next;
+      setMessages(next);
+      if (!initial) {
+        setFresh((f) => new Set([...f, ...added.map((m) => m.id)]));
+        if (!pinned.current) setBelow((b) => b + added.length);
+      }
+      onSeenRef.current(chat.id, next.at(-1) ?? null, cursor.current);
     },
     [chat.id],
   );
