@@ -7,6 +7,7 @@ import { resolve } from 'node:path';
 import { MongoMemoryReplSet } from 'mongodb-memory-server-core';
 import { connectDatabase } from '../src/database.mjs';
 import { createApp } from '../src/app.mjs';
+import { Decimal128 } from 'mongodb';
 import { tokenHash } from '../src/auth.mjs';
 
 test('homes: MongoDB real, escopo, contagens e permissões', { timeout: 180000 }, async t => {
@@ -75,6 +76,44 @@ test('homes: MongoDB real, escopo, contagens e permissões', { timeout: 180000 }
       const original=db.collection.bind(db);
       db.collection=name=>name==='orders'?{aggregate(){throw new Error('falha simulada de consulta');}}:original(name);
       try { const v=await request('i2','institution-home');assert.equal(v.status,500);assert.equal(v.body.data,undefined);assert.equal(JSON.stringify(v.body).includes('simulada'),false); }finally{db.collection=original;}
+    });
+    await t.test('quantidades individuais inválidas não são compensadas nem ignoradas', async t => {
+      await db.collection('organizations').updateOne({_id:orgs.i1},{$set:{status:'ATIVA'}});
+      const cases = [
+        ['negativo compensado', -1, 1251], ['zero', 0, 1250],
+        ['frações cuja soma é inteira', 0.5, 0.5], ['string numérica', '1250', 1250],
+        ['null', null, 1250], ['ausente', undefined, 1250], ['array numérico', [1250], 1250],
+        ['objeto', {value:1250}, 1250], ['booleano', true, 1250],
+        ['NaN', NaN, 1250], ['infinito', Infinity, 1250], ['menos infinito', -Infinity, 1250],
+        ['acima do limite comercial', 1e12 + 1, 1250],
+        ['inteiro inseguro', Number.MAX_SAFE_INTEGER + 1, 1250],
+        ['decimal BSON fora do contrato', Decimal128.fromString('1250'), 1250]
+      ];
+      for (const [name, value, companion] of cases) await t.test(name, async () => {
+        const documents = [value, companion].map(quantity => ({ _id:randomUUID(),
+          requesterOrganizationId:orgs.i2, status:'RECEBIDO', createdAt:'2000-01-01T00:00:00.000Z',
+          ...(quantity === undefined ? {} : {quantityGrams:quantity}),
+          shipment:{id:randomUUID(),carrierOrganizationId:orgs.c2,status:'RECEBIDA'} }));
+        await db.collection('orders').insertMany(documents);
+        try {
+          assert.equal((await request('i1','institution-home')).status,200);
+          // Corruption is outside the requested page AND outside pending states.
+          for (const [org, route] of [['i2','institution-home'],['c2','cooperative-home']]) {
+            const r = await request(org, route+'?limit=1');
+            assert.equal(r.status,500,name);assert.deepEqual(r.body,{error:{code:'INTERNAL_ERROR',message:'Não foi possível concluir a operação.'}});
+            assert.equal(r.cache,'no-store');
+          }
+        } finally { await db.collection('orders').deleteMany({_id:{$in:documents.map(d=>d._id)}}); }
+      });
+      // Domain boundaries remain valid and quantities still reconcile in both homes.
+      const boundaries=[1,1e12].map(quantityGrams=>({_id:randomUUID(),requesterOrganizationId:orgs.i2,
+        status:'RECEBIDO',quantityGrams,createdAt:'2000-01-01T00:00:00.000Z',
+        shipment:{id:randomUUID(),carrierOrganizationId:orgs.c2,status:'RECEBIDA'}}));
+      await db.collection('orders').insertMany(boundaries);
+      try { for(const [org,route] of [['i2','institution-home'],['c2','cooperative-home']]) {
+        const r=await request(org,route+'?limit=1');assert.equal(r.status,200);
+        assert.deepEqual(r.body.data.byStatus.RECEBIDO,{count:2,quantityKg:1000000000.001});
+      } } finally {await db.collection('orders').deleteMany({_id:{$in:boundaries.map(d=>d._id)}});}
     });
     await t.test('dado inconsistente não vira zero',async()=>{await db.collection('organizations').updateOne({_id:orgs.i1},{$set:{status:'ATIVA'}});await db.collection('orders').updateOne({_id:ids[0]},{$set:{quantityGrams:-1}});assert.equal((await request('i1','institution-home')).status,500);});
   } finally { if(server)await new Promise(r=>server.close(r));if(connection)await connection.client.close();if(mongo)await mongo.stop(); }

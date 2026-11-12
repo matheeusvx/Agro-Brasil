@@ -75,3 +75,26 @@ Python não foram executadas: não houve alterações nesses módulos.
 O relatório incremento-2-transacoes.json gerado pela regressão é restaurado ao
 conteúdo anterior para evitar versionar novos IDs/horários sem necessidade.
 README.md tinha alteração preparada antes desta tarefa, preservada fora do commit.
+
+## Revisão do PR #3 — quantidades individuais
+
+A leitura valida cada quantityGrams do escopo antes da soma: somente BSON
+int/long/double, positivo, inteiro e até 1e12 gramas (limite de 1e9 kg do domínio).
+Decimal128, ausente, null, strings, arrays, objetos, booleanos, frações, NaN,
+infinidades e valores fora do limite são recusados. A condição numérica protege
+$trunc contra tipos incompatíveis. Uma faceta detecta qualquer documento inválido
+antes de serializar a resposta, mesmo fora da página e das prioridades; nada é
+silenciosamente descartado. A validação de segurança do total permanece ativa.
+
+Testes novos verificam 15 cenários inválidos nas duas homes, incluindo negativos
+compensados por positivos e duas frações somando inteiro. Também confirmam
+limites válidos de 1 e 1e12 gramas, resposta 500 sanitizada/no-store, ausência de
+indicadores e preservação da consulta de outra organização sem dados corrompidos.
+
+Validação nesta revisão: check aprovado; 32 unitários aprovados. Primeira execução
+completa: 72 aprovados/2 falhas contabilizadas (um subteste e seu pai), no teste
+preexistente de persistência após reinício da API/MongoDB, com data indefinido.
+Sem alterar esse teste, a segunda execução completa aprovou os 74 testes, zero
+falhas/ignorados/cancelados. A causa da primeira falha não foi determinada.
+Logs locais ignorados: .data/pr3-check.log, pr3-unit.log, pr3-integration.log e
+pr3-integration-retry.log. Nenhuma interface ou regra de mutação foi alterada.

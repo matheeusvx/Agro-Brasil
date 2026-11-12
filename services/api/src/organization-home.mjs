@@ -12,7 +12,16 @@ export function homePipeline(type, organizationId, pagination) {
   const priorities = cooperative ? ['ACEITO', 'RETIRADO'] : ['RETIRADO', 'ACEITO', 'SOLICITADO'];
   return [
     { $match: cooperative ? { 'shipment.carrierOrganizationId': organizationId } : { requesterOrganizationId: organizationId } },
+    // Validate each persisted quantity before sums can hide corruption. $cond
+    // guards $trunc against missing/non-numeric values (including arrays).
+    { $set: { _homeQuantityValid: { $cond: [
+      { $in: [{ $type: '$quantityGrams' }, ['int', 'long', 'double']] },
+      { $and: [{ $gt: ['$quantityGrams', 0] }, { $lte: ['$quantityGrams', 1e12] },
+        { $eq: ['$quantityGrams', { $trunc: '$quantityGrams' }] }] },
+      false
+    ] } } },
     { $facet: {
+      invalid: [{ $match: { _homeQuantityValid: false } }, { $limit: 1 }, { $project: { _id: 1 } }],
       totals: [{ $group: { _id: '$status', count: { $sum: 1 }, grams: { $sum: '$quantityGrams' } } }],
       operations: [{ $sort: { createdAt: -1, _id: -1 } }, { $skip: pagination.offset }, { $limit: pagination.limit },
         { $project: { lotId: 1, offerId: 1, status: 1, quantityGrams: 1, createdAt: 1, 'shipment.id': 1, 'shipment.status': 1 } }],
@@ -35,6 +44,7 @@ export function organizationHomeRouter(db) {
       const fetchedAt = new Date().toISOString();
       const [result] = await db.collection('orders').aggregate(homePipeline(type, req.context.organizationId, pagination), { readConcern: { level: 'snapshot' } }).toArray();
       if (!result) throw new Error('Consulta sem resultado agregado.');
+      if (result.invalid.length) throw new Error('Quantidade individual inválida.');
       const byStatus = Object.fromEntries(['SOLICITADO', 'ACEITO', 'RETIRADO', 'RECEBIDO', 'CANCELADO'].map(status => [status, { count: 0, quantityKg: 0 }]));
       let total = 0;
       for (const row of result.totals) {
