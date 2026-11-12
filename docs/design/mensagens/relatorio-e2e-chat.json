@@ -1,0 +1,64 @@
+{
+  "mode": "BANCO_DESCARTAVEL_API_REAL",
+  "startedAt": "2026-11-12T15:01:32.031Z",
+  "checks": [
+    {
+      "name": "instituição abre conversa pelo pedido, envia, falha de rede reenviada com a mesma chave e sem duplicar; HTML literal",
+      "ok": true,
+      "detail": {
+        "tentativas": 2
+      }
+    },
+    {
+      "name": "produtor responde; instituição recebe pelo polling sem reanimar mensagens antigas",
+      "ok": true,
+      "detail": {
+        "latenciaMs": 1849
+      }
+    },
+    {
+      "name": "nova mensagem durante a leitura não desloca a rolagem; aviso leva ao fim",
+      "ok": true
+    },
+    {
+      "name": "segundo pedido reutiliza a conversa do par e mostra aviso do pedido",
+      "ok": true
+    },
+    {
+      "name": "LEITOR lê histórico, sem compositor nem botões; envio e abertura recusados (403)",
+      "ok": true
+    },
+    {
+      "name": "organização sem relação: 404 no histórico e na abertura; nada exibido",
+      "ok": true
+    },
+    {
+      "name": "troca cooperativa → instituição limpa histórico e lista só conversas do novo contexto",
+      "ok": true
+    },
+    {
+      "name": "mobile lista → conversa → voltar; 320 px e texto 200% sem rolagem horizontal; movimento reduzido; axe sem violações sérias",
+      "ok": true,
+      "detail": {
+        "axe": []
+      }
+    }
+  ],
+  "screenshots": [
+    "instituicao-escolher-contraparte.png",
+    "instituicao-envio-falhou.png",
+    "instituicao-conversa-1440.png",
+    "produtor-conversa-1440.png",
+    "instituicao-nova-mensagem-lendo.png",
+    "conversa-reutilizada-aviso-pedido.png",
+    "leitor-somente-consulta.png",
+    "acesso-cruzado-indisponivel.png",
+    "mobile-390-lista.png",
+    "mobile-390-conversa.png",
+    "mobile-320-conversa.png",
+    "mobile-320-conversa-texto-200.png",
+    "desktop-1440.png"
+  ],
+  "axe": [],
+  "finishedAt": "2026-11-12T15:01:56.864Z"
+}
