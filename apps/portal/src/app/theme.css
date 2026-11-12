@@ -27,6 +27,13 @@ body {
 /* ---------- Sidebar ---------- */
 .portal-frame {
   --sidebar: 252px;
+  /* A coluna da barra lateral mantém o verde em toda a altura do documento;
+     a barra continua sticky com 100dvh, sem elementos fixos extras. */
+  background: linear-gradient(
+    90deg,
+    var(--ag-deep-2) var(--sidebar),
+    transparent var(--sidebar)
+  );
 }
 .portal-sidebar {
   background: linear-gradient(180deg, var(--ag-deep) 0%, var(--ag-deep-2) 100%);
@@ -1224,3 +1231,64 @@ body {
   }
 }
 
+
+/* ---------- Entrada das páginas (mesmo movimento da Visão geral) ----------
+   Cada página é remontada por rota/organização em .ag-page; seus blocos
+   diretos entram em sequência: cabeçalho, cards/indicadores, depois listas.
+   A Visão geral já escalona os próprios blocos com .ag-rise/--i. */
+.ag-page:not([data-path="/visao-geral"]) > * {
+  animation: ag-rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--ag-step, 0) * 70ms);
+}
+/* Página com um único contêiner (Produção, Ofertas, Pedidos…): o contêiner
+   não se move; seus blocos internos entram em sequência. Blocos que já usam
+   .ag-rise mantêm o próprio escalonamento. */
+.ag-page:not([data-path="/visao-geral"]):not([data-path="/minha-fazenda"]) > :only-child {
+  animation: none;
+}
+.ag-page:not([data-path="/visao-geral"]):not([data-path="/minha-fazenda"])
+  > :only-child
+  > :not(.ag-rise):not(script):not(style) {
+  animation: ag-rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--ag-step, 0) * 70ms);
+}
+/* Ordem de entrada: 70 ms por bloco, no máximo 280 ms (não atrasa o uso). */
+.ag-page > :nth-child(2),
+.ag-page > :only-child > :nth-child(2) { --ag-step: 1; }
+.ag-page > :nth-child(3),
+.ag-page > :only-child > :nth-child(3) { --ag-step: 2; }
+.ag-page > :nth-child(4),
+.ag-page > :only-child > :nth-child(4) { --ag-step: 3; }
+.ag-page > :nth-child(n + 5),
+.ag-page > :only-child > :nth-child(n + 5) { --ag-step: 4; }
+/* Minha Fazenda tem cena 3D/canvas: apenas opacidade, sem transform no ancestral. */
+.ag-page[data-path="/minha-fazenda"] > * {
+  animation-name: ag-fade;
+}
+/* --ag-step não deve vazar para descendentes que usam --i/ag-rise. */
+.ag-page * {
+  --ag-step: 0;
+}
+@keyframes ag-fade {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ag-page > *,
+  .ag-page > :only-child > *,
+  .ag-rise {
+    animation: none !important;
+  }
+}
+
+/* Cabeçalhos de página em telas estreitas: a ação principal desce para a
+   linha seguinte em vez de criar rolagem horizontal. */
+@media (max-width: 780px) {
+  .page-heading {
+    flex-wrap: wrap;
+  }
+  .page-heading > div {
+    min-width: 0;
+  }
+}

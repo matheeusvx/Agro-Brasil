@@ -41,7 +41,7 @@
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.4px;
-  color: #6b7a70;
+  color: #5f6e64;
   margin-bottom: 6px;
 }
 .drawer-header [data-slot="sheet-title"] {
@@ -55,7 +55,7 @@
 .drawer-header [data-slot="sheet-description"] {
   font-size: 14px;
   line-height: 1.5;
-  color: #6b7a70;
+  color: #5f6e64;
   margin-top: 6px;
 }
 
@@ -114,7 +114,7 @@
 }
 .detail-list dt {
   font-size: 13.5px;
-  color: #6b7a70 !important;
+  color: #5f6e64 !important;
 }
 .detail-list dd {
   font-size: 15px !important;
@@ -162,7 +162,7 @@
 }
 .drawer-body .field-label small {
   font-size: 12.5px !important;
-  color: #6b7a70 !important;
+  color: #5f6e64 !important;
   margin-top: 0;
 }
 .form-grid {
@@ -185,7 +185,7 @@
 }
 .form-section p {
   font-size: 13px !important;
-  color: #6b7a70 !important;
+  color: #5f6e64 !important;
   margin-top: 1px;
 }
 .property-context {
@@ -199,7 +199,7 @@
   font-size: 12px !important;
   letter-spacing: 0.4px !important;
   font-weight: 600;
-  color: #6b7a70 !important;
+  color: #5f6e64 !important;
 }
 .property-context strong {
   font-size: 15px !important;
@@ -253,7 +253,7 @@
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.4px;
-  color: #6b7a70;
+  color: #5f6e64;
 }
 .trace-detail h2 {
   font-size: 20px !important;
@@ -264,7 +264,7 @@
 }
 .trace-detail dl > dt {
   font-size: 13px !important;
-  color: #6b7a70 !important;
+  color: #5f6e64 !important;
   margin-top: 0 !important;
   padding-top: 12px;
   border-top: 1px solid #eceee9;

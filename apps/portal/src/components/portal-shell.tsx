@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -268,7 +268,13 @@ export function PortalShell({ children }: { children: ReactNode }) {
         >
           {allowed ? (
             // Remonta a página a cada troca de organização: nenhum estado local sobrevive.
-            <Fragment key={session.organizationId}>{children}</Fragment>
+            <div
+              key={session.organizationId + path}
+              className="ag-page"
+              data-path={path.startsWith("/rastreabilidade") ? "/rastreabilidade" : path}
+            >
+              {children}
+            </div>
           ) : (
             <AreaUnavailable audience={audience} />
           )}

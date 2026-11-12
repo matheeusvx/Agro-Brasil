@@ -1295,8 +1295,12 @@ button:disabled {
 }
 .skip-link {
   position: fixed;
-  top: -100px;
+  top: 10px;
   left: 20px;
+  /* Oculto por deslocamento vertical: nunca cria rolagem horizontal, mesmo com texto 200%. */
+  max-width: calc(100vw - 40px);
+  overflow-wrap: anywhere;
+  transform: translateY(calc(-100% - 20px));
   z-index: 100;
   background: #235740;
   color: white;
@@ -1304,7 +1308,7 @@ button:disabled {
   border-radius: 7px;
 }
 .skip-link:focus {
-  top: 10px;
+  transform: none;
 }
 .access-page {
   display: grid;
