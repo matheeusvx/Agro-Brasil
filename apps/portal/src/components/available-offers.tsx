@@ -1,12 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
-import { CalendarClock, Eye, Info, LockKeyhole, MapPin } from "lucide-react";
+import { CalendarClock, Eye, Info, MapPin } from "lucide-react";
 import { request } from "@/lib/client-api";
 import { canShowWriteActions } from "@/lib/audience";
 import { parseOffers, type PublicOffer } from "@/lib/organization-home";
 import { number, date } from "@/lib/types";
 import { usePortal } from "./portal-provider";
 import { HomeError, HomeSkeleton, Pager } from "./organization-home";
+import { CommandSheet, type CommandRequest } from "./command-sheet";
 
 const PAGE = 12;
 const money = (cents: number) =>
@@ -21,7 +22,8 @@ type State =
  * comercial). A solicitação será habilitada no próximo incremento.
  */
 export function AvailableOffers() {
-  const { session, member, handleAccessError, revision } = usePortal();
+  const { session, member, handleAccessError, revision, refresh } = usePortal();
+  const [command, setCommand] = useState<CommandRequest | null>(null);
   const [offset, setOffset] = useState(0);
   const [retry, setRetry] = useState(0);
   const [state, setState] = useState<State>({ status: "loading" });
@@ -107,8 +109,26 @@ export function AvailableOffers() {
                   )}
                 </dl>
                 {writer ? (
-                  <button type="button" className="pb-action" disabled aria-disabled="true" data-write-action="Solicitar" title="A solicitação será habilitada no próximo incremento.">
-                    <LockKeyhole size={13} aria-hidden="true" /> Solicitar <small>em breve</small>
+                  <button
+                    type="button"
+                    className="pb-action"
+                    data-tone="primary"
+                    data-write-action="Solicitar"
+                    disabled={o.availableKg <= 0}
+                    onClick={() =>
+                      setCommand({
+                        kind: "request",
+                        endpoint: "/orders",
+                        title: "Solicitar " + o.cropName,
+                        summary: `${o.destinationMode === "DOACAO" ? "Doação" : "Venda"} · até ${number(o.availableKg)} kg disponíveis. O produtor analisa e aceita a solicitação; nada é reservado antes disso.`,
+                        confirmLabel: "Enviar solicitação",
+                        successMessage: "Solicitação enviada ao produtor.",
+                        extra: { offerId: o.id },
+                        availableKg: o.availableKg,
+                      })
+                    }
+                  >
+                    Solicitar
                   </button>
                 ) : (
                   <span className="pb-step" data-kind="readonly">
@@ -121,6 +141,7 @@ export function AvailableOffers() {
           <Pager pagination={state.pagination} onChange={setOffset} label="ofertas" />
         </>
       )}
+      <CommandSheet command={command} onClose={() => setCommand(null)} onDone={refresh} />
       <p className="data-note">
         <Info size={11} aria-hidden="true" className="inline" /> Projeção comercial da API: sem endereço,
         propriedade ou contato do produtor. Necessidades institucionais ainda não fazem parte do sistema.
