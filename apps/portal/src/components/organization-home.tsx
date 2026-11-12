@@ -10,6 +10,7 @@ import {
   Eye,
   Info,
   RefreshCw,
+  Route,
 } from "lucide-react";
 import { request } from "@/lib/client-api";
 import {
@@ -131,6 +132,8 @@ export function DemoNotice({ home }: { home: OrganizationHome }) {
     </p>
   );
 }
+export const traceHref = (audience: OrgAudience, id: string) =>
+  (audience === "cooperative" ? "/remessas/" : "/solicitacoes/") + id;
 const shortId = (id: string) => "#" + id.replace(/-/g, "").slice(0, 8).toUpperCase();
 const time = (iso: string) =>
   new Date(iso).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
@@ -234,12 +237,12 @@ function PriorityList({
           {home.pending.map((op, i) => (
             <li key={op.id} data-status={op.status}>
               <span className="pb-rank" aria-hidden="true">{i + 1}</span>
-              <div className="pb-priority-body">
+              <Link className="pb-priority-body" href={traceHref(audience, op.id)} aria-label={`Ver trajetória do pedido ${shortId(op.id)}: ${statusFor(audience, op.status)}`}>
                 <strong>{statusFor(audience, op.status)}</strong>
                 <p>
                   {number(op.quantityKg)} kg · pedido {shortId(op.id)} · desde {date(op.createdAt)}
                 </p>
-              </div>
+              </Link>
               <ActionSlot audience={audience} operation={op} home={home} role={role} />
             </li>
           ))}
@@ -276,12 +279,19 @@ export function OperationsTable({
       {home.operations.map((op) => (
         <li key={op.id} data-status={op.status}>
           <span className="pb-dot" aria-hidden="true" />
-          <div className="pb-op-main">
+          <Link
+            className="pb-op-main"
+            href={traceHref(audience, op.id)}
+            aria-label={`Ver trajetória do pedido ${shortId(op.id)}: ${statusFor(audience, op.status)}`}
+          >
             <strong>{statusFor(audience, op.status)}</strong>
             <p>
               Pedido {shortId(op.id)} · lote {shortId(op.lotId)}
+              <span className="pb-trace-hint">
+                <Route size={12} aria-hidden="true" /> Ver trajetória
+              </span>
             </p>
-          </div>
+          </Link>
           <span className="pb-op-kg">{number(op.quantityKg)} kg</span>
           <time dateTime={op.createdAt}>{date(op.createdAt)}</time>
           <ActionSlot audience={audience} operation={op} home={home} role={role} />

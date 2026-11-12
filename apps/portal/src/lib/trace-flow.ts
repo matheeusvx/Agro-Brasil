@@ -46,16 +46,28 @@ export function flowEvents(order: TraceOrder, events: FlowEvent[]) {
           stages.findIndex((s) => s[0] === b.type),
     );
 }
-export function buildFlow(order: TraceOrder, events: FlowEvent[]) {
+export type FlowNode = {
+  key: string;
+  type: string;
+  title: string;
+  event?: FlowEvent;
+  future: boolean;
+  /** Etapa necessariamente concluída, mas cujo evento a API não compartilha com este perfil. */
+  withheld?: boolean;
+};
+/**
+ * `fillWithheld`: para cooperativa/instituição a API omite eventos sem vínculo
+ * com o pedido (ex.: Oferta publicada). Etapas anteriores à última confirmada
+ * aparecem como concluídas, sem data nem local inventados.
+ */
+export function buildFlow(
+  order: TraceOrder,
+  events: FlowEvent[],
+  { fillWithheld = false }: { fillWithheld?: boolean } = {},
+) {
   const actual = flowEvents(order, events);
   const last = actual.at(-1);
-  const nodes: {
-    key: string;
-    type: string;
-    title: string;
-    event?: FlowEvent;
-    future: boolean;
-  }[] = actual.map((event, i) => ({
+  const toNode = (event: FlowEvent, i: number): FlowNode => ({
     key: event.id ?? "event-" + i,
     type: event.type,
     title:
@@ -64,12 +76,34 @@ export function buildFlow(order: TraceOrder, events: FlowEvent[]) {
         : (stages.find((s) => s[0] === event.type)?.[1] ?? event.type),
     event,
     future: false,
-  }));
+  });
+  let nodes: FlowNode[] = actual.map(toNode);
+  if (fillWithheld) {
+    const lastRank = Math.max(
+      -1,
+      ...actual.map((e) => stages.findIndex((s) => s[0] === e.type)),
+    );
+    nodes = [
+      ...stages.slice(0, lastRank + 1).map(([type, title]) => {
+        const i = actual.findIndex((e) => e.type === type);
+        return i >= 0
+          ? toNode(actual[i], i)
+          : { key: "withheld-" + type, type, title, future: false, withheld: true };
+      }),
+      ...actual
+        .map((e, i) => [e, i] as const)
+        .filter(([e]) => e.type === "PEDIDO_CANCELADO")
+        .map(([e, i]) => toNode(e, i)),
+    ];
+  }
   if (
     order.status !== "CANCELADO" &&
     !actual.some((e) => e.type === "PEDIDO_CANCELADO")
   ) {
-    const rank = stages.findIndex((s) => s[0] === last?.type);
+    const rank = Math.max(
+      -1,
+      ...actual.map((e) => stages.findIndex((s) => s[0] === e.type)),
+    );
     stages.slice(rank + 1).forEach(([type, title]) =>
       nodes.push({
         key: "future-" + type,

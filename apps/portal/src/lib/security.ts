@@ -29,9 +29,11 @@ export function allowedProxyPath(
     if (method === "POST") return writes[audience].test(endpoint);
     return (
       method === "GET" &&
-      (audience === "cooperative"
+      ((audience === "cooperative"
         ? endpoint === "/cooperative-home"
-        : endpoint === "/institution-home" || endpoint === "/offers")
+        : endpoint === "/institution-home" || endpoint === "/offers") ||
+        // Rastreabilidade: a API devolve só eventos dos pedidos da organização.
+        new RegExp("^/lots/" + UUID + "/events$", "i").test(endpoint))
     );
   }
   const uuid =

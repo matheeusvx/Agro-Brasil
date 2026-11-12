@@ -50,12 +50,12 @@ const pages: Record<Audience, RegExp[]> = {
     /^\/destino$/,
     /^\/rastreabilidade(?:\/[^/]+)?$/,
   ],
-  cooperative: [/^\/$/, /^\/visao-geral$/, /^\/perfil$/, /^\/remessas$/],
+  cooperative: [/^\/$/, /^\/visao-geral$/, /^\/perfil$/, /^\/remessas(?:\/[^/]+)?$/],
   institution: [
     /^\/$/,
     /^\/visao-geral$/,
     /^\/perfil$/,
-    /^\/solicitacoes$/,
+    /^\/solicitacoes(?:\/[^/]+)?$/,
     /^\/ofertas-disponiveis$/,
   ],
 };

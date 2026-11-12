@@ -292,18 +292,23 @@ export function TracePage({ id }: { id?: string }) {
     </div>
   );
 }
-function TraceGraph({
+export function TraceGraph({
   order,
   events,
   orgName,
   orgId,
+  fillWithheld = false,
+  note = "Consulta de eventos confirmados. Não representa localização GPS em tempo real. Ações de negócio são realizadas no módulo Pedidos.",
 }: {
   order: TraceOrder;
   events: FlowEvent[];
   orgName: string;
   orgId: string;
+  /** Cooperativa/instituição: etapas anteriores não compartilhadas pela API. */
+  fillWithheld?: boolean;
+  note?: string;
 }) {
-  const { nodes, current } = buildFlow(order, events);
+  const { nodes, current } = buildFlow(order, events, { fillWithheld });
   const [selected, setSelected] = useState(current ?? nodes[0]?.key),
     [paths, setPaths] = useState<
       { d: string; future: boolean; cancel: boolean }[]
@@ -419,6 +424,7 @@ function TraceGraph({
                     } as CSSProperties
                   }
                   data-future={n.future}
+                  data-withheld={n.withheld || undefined}
                   data-current={n.key === current}
                   data-selected={selected === n.key}
                   data-cancel={n.type === "PEDIDO_CANCELADO"}
@@ -473,7 +479,9 @@ function TraceGraph({
                   <small>
                     {n.future
                       ? "Ainda não realizada"
-                      : new Date(n.event!.recordedAt).toLocaleString("pt-BR", {
+                      : !n.event
+                        ? "Data não compartilhada"
+                        : new Date(n.event.recordedAt).toLocaleString("pt-BR", {
                           dateStyle: "short",
                           timeStyle: "short",
                         })}
@@ -505,7 +513,7 @@ function TraceGraph({
                     <dd>
                       {event.responsibleOrganizationId === orgId
                         ? orgName
-                        : event.responsibleOrganizationId}
+                        : "Outro participante da operação"}
                     </dd>
                   </>
                 )}
@@ -530,7 +538,9 @@ function TraceGraph({
               </dl>
             ) : (
               <p>
-                {node
+                {node?.withheld
+                  ? "Etapa concluída antes do seu pedido. A data e o local deste registro não são compartilhados com o seu perfil; nada foi estimado."
+                  : node
                   ? "Esta etapa ainda não possui evento confirmado. Nenhuma data ou localização foi estimada."
                   : "A situação do pedido não substitui registros de movimentação."}
               </p>
@@ -538,10 +548,7 @@ function TraceGraph({
           </div>
         </aside>
       </div>
-      <p className="data-note">
-        Consulta de eventos confirmados. Não representa localização GPS em tempo
-        real. Ações de negócio são realizadas no módulo Pedidos.
-      </p>
+      <p className="data-note">{note}</p>
     </>
   );
 }
