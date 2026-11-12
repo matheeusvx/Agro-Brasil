@@ -1,3 +1,4 @@
+import { chatRouter } from './chat.mjs';
 import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { authenticate, authorizeOrganization, canWriteProduction } from './auth.mjs';
@@ -38,6 +39,7 @@ export function createApp(db, { demoAuthEnabled = false, weather = weatherProvid
   app.use('/api/v1', farmRouter(db));
   app.use('/api/v1', excessImpactRouter(db));
   app.use('/api/v1', organizationHomeRouter(db));
+  app.use('/api/v1', chatRouter(db));
   app.get('/api/v1/catalog', async (req, res) => {
     const [properties, crops] = await Promise.all([
       db.collection('properties').find({ organizationId: req.context.organizationId, status: 'ATIVA' }).toArray(),

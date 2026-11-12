@@ -1,0 +1,97 @@
+{
+  "date": "2026-11-12",
+  "base": "0746077",
+  "branch": "main",
+  "database": "MongoDB 8.0.16 replica set WiredTiger, descartável",
+  "results": {
+    "syntax": "aprovado",
+    "apiUnit": 32,
+    "apiIntegration": 86,
+    "portalTests": 68,
+    "portalTypecheck": "aprovado",
+    "portalBuild": "aprovado",
+    "portalE2E": 11,
+    "portalSmoke": "aprovado",
+    "flutterAnalyze": "sem problemas",
+    "flutterTests": 133,
+    "javaTests": 199,
+    "python": {
+      "passed": 53,
+      "deselected": 2,
+      "warnings": 21
+    }
+  },
+  "notes": [
+    "Primeiras execuções completas tiveram falha intermitente no teste preexistente de reinício de integration.test.mjs: data indefinido; subteste e pai contam como 2 falhas. Execuções subsequentes passaram sem modificar esse teste.",
+    "Execução final completa: 86/86. Primeiro novo harness de reinício foi corrigido para reiniciar mongod preservando a configuração existente, sem tentar reinicializar o replica set.",
+    "Python: duas exclusões previstas no protocolo AGUA-04, sem retreino/reabertura do teste; erro inicial de TEMP resolvido com basetemp descartável no workspace.",
+    "Flutter/Java executados com acesso aos SDKs locais após restrição inicial do sandbox.",
+    "Não foi usado seed nem banco operacional. README.md e .claude preexistentes preservados."
+  ],
+  "logs": [
+    {
+      "localPath": ".data/chat-check-final.log",
+      "sha256": "71b3ef4c2a5d0a39c6da841fd867afc40730aa76ebc870b4b546ec1849152e58"
+    },
+    {
+      "localPath": ".data/chat-unit.log",
+      "sha256": "1d69790810cde40ca1b02b154fbff3e6b62bb1234d8198afb5e80eda36d6cb14"
+    },
+    {
+      "localPath": ".data/chat-integration.log",
+      "sha256": "b2e7f4bd6b5f860a5ace07b3aef4dd0c06ab645803da9b660d3ac04adb6894ce"
+    },
+    {
+      "localPath": ".data/chat-integration-final.log",
+      "sha256": "5d411808d96ec2d7a16172dead088783d7ab3ad331f07892bc99305bb4874151"
+    },
+    {
+      "localPath": ".data/chat-integration-final-2.log",
+      "sha256": "7352c48c67c0fbf43f82e3335057c4755176638b92df1114a1dd31562b269505"
+    },
+    {
+      "localPath": ".data/chat-integration-delivery.log",
+      "sha256": "d359bbe2033d988083e873920a25c7022e65541ff4e96364b44e2211880bebdb"
+    },
+    {
+      "localPath": ".data/chat-integration-delivery-retry.log",
+      "sha256": "c3993f64e1cfd0e68de598f6863c739d0f545fce6c2af2464a965bc22e4a9dac"
+    },
+    {
+      "localPath": ".data/chat-portal-typecheck.log",
+      "sha256": "ba082e8067bcc06205262a9a853662d2af4f6260d768fc0438aa5aa25cd9eae7"
+    },
+    {
+      "localPath": ".data/chat-portal-tests.log",
+      "sha256": "dde1b14ff0006ba8408e853d208a5556407e0a0f37410f46080d45cd58cbe3d2"
+    },
+    {
+      "localPath": ".data/chat-portal-build.log",
+      "sha256": "b9f20ff60fff831e85cd15f9bfff8a4912456ed311a12206aba8bd842c7e5212"
+    },
+    {
+      "localPath": ".data/chat-portal-e2e.log",
+      "sha256": "dd1831f9dc6ec121901a754cb1d2591ebad067392dbf38ee87e33bbfcd9b944d"
+    },
+    {
+      "localPath": ".data/chat-portal-smoke.log",
+      "sha256": "b6a3cd9153464753c34bbf4a5631aaca63e64e95677faf44b6d47301900cc08e"
+    },
+    {
+      "localPath": ".data/chat-flutter-analyze-final.log",
+      "sha256": "69e8a46bc26a29c54314890c39001bc604cbb96c749892203d1e9a8247dd9828"
+    },
+    {
+      "localPath": ".data/chat-flutter-tests-final.log",
+      "sha256": "19b1f6c7216d5d2eaf28b2ac765dc5f4047edb74eb72f458a77e1b26d6bff71e"
+    },
+    {
+      "localPath": ".data/chat-java-final.log",
+      "sha256": "6c475020d8165e5c314aa6ddf2e1c4fe588a5a15c4180362411c8a0044940016"
+    },
+    {
+      "localPath": ".data/chat-python-final.log",
+      "sha256": "56bb1c623d3c930b4977a7c6159afeae9353a5122a36e798e7ff0132f4f296a6"
+    }
+  ]
+}

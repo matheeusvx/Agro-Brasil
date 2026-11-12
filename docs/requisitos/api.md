@@ -207,3 +207,95 @@ cooperativa designada retira por `POST /shipments/:id/pickup`.
 `GET /offers` permanece inalterado, inclusive VENDA/DOACAO para instituições;
 filtros adicionais de modalidade/cultura/território não foram implementados.
 [Arquitetura, permissões e validação](../arquitetura/publicos-cooperativas-instituicoes.md).
+
+## Chat interno — MVP
+
+Endpoints autenticados em `/api/v1`, com Authorization e X-Organization-Id
+existentes. Reutilizam authenticate/authorizeOrganization; sem nova autenticação.
+
+| Método                   | Entrada                                                               | Resultado                                                                |
+| ------------------------ | --------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| GET /chats               | limit 1–100 (padrão 50), offset 0–100000                              | data de conversas atualmente autorizadas; pagination total/limit/offset  |
+| POST /chats/open         | organizationId (UUID da contraparte conhecida de operação autorizada) | 200, data de conversa criada ou reutilizada                              |
+| GET /chats/:id/messages  | limit 1–100 (padrão 50), after sequência inteira ≥0 (padrão 0)        | eventos em sequência crescente, pagination limit/after/nextAfter/hasMore |
+| POST /chats/:id/messages | text, Idempotency-Key 8–128 caracteres alfanuméricos, _ ou -          | 201 novo envio; 200 repetição idêntica, Idempotency-Replayed true        |
+
+Exemplo fictício de abertura (IDs substituídos por organizações reais autorizadas):
+
+```json
+{
+  "organizationId": "10000000-0000-4000-8000-000000000001"
+}
+```
+
+Resposta de abertura/listagem: conversa `{id, organizationIds: [uuid, uuid],
+createdAt}`. O par é ordenado e tem chave canônica única no banco.
+
+Exemplo fictício de envio:
+
+```json
+{ "text": "Podemos confirmar a retirada amanhã?" }
+```
+
+Resposta de histórico (exemplo fictício):
+
+```json
+{
+  "data": [
+    {
+      "id": "20000000-0000-4000-8000-000000000001",
+      "chatId": "30000000-0000-4000-8000-000000000001",
+      "sequence": 1,
+      "kind": "ORDER_LINK",
+      "senderOrganizationId": null,
+      "text": null,
+      "orderId": "40000000-0000-4000-8000-000000000001",
+      "createdAt": "2026-11-12T15:00:00.000Z"
+    },
+    {
+      "id": "20000000-0000-4000-8000-000000000002",
+      "chatId": "30000000-0000-4000-8000-000000000001",
+      "sequence": 2,
+      "kind": "TEXT",
+      "senderOrganizationId": "10000000-0000-4000-8000-000000000001",
+      "text": "Podemos confirmar a retirada amanhã?",
+      "orderId": null,
+      "createdAt": "2026-11-12T15:01:00.000Z"
+    }
+  ],
+  "pagination": { "limit": 50, "after": 0, "nextAfter": 2, "hasMore": false }
+}
+```
+
+Regras: ADMIN/EDITOR abrem e enviam; LEITOR lista e lê conversas existentes.
+A API comprova que as duas organizações são participantes do mesmo pedido
+SOLICITADO/ACEITO/RETIRADO/RECEBIDO (vendedor, solicitante ou cooperativa designada).
+Pedido cancelado não concede acesso. Ambas organizações devem estar ativas.
+Cada chamada revalida usuário/vínculo/organização; histórico não concede permissão
+permanente. Mudança de transportadora pode retirar acesso da cooperativa anterior.
+
+Novos pedidos são associados na próxima abertura ou consulta/envio do histórico,
+no mesmo snapshot/transação do chat, sem inserir avisos duplicados. GET /chats
+somente lista: não cria conversas ou avisos. Avisos ORDER_LINK são eventos de
+sistema derivados do banco, inclusive quando a consulta é de LEITOR; não são envios
+do leitor. Não há alteração das transações comerciais nem criação de pedidos.
+
+Idempotência é por conversa/organização/chave, compartilhada pelos usuários daquela
+organização; texto normalizado diferente com mesma chave retorna 409. Retentativa
+revalida acesso antes de devolver o resultado. Texto simples, normalização NFC,
+quebras LF, trim, 1–2000 unidades UTF-16 e recusa de controles. Não interpretar
+HTML/Markdown na interface. Autor real fica privado no banco; API não expõe autor,
+tokens, chave de idempotência ou dados de outros participantes.
+
+Limite persistente de 30 novos envios/minuto/organização, compartilhado entre
+conversas/processos; repetição idempotente não consome limite. Janela fixa UTC:
+pode haver rajada de até 60 junto à virada do minuto. Excesso: 429 RATE_LIMITED.
+Sem contador de não lidas ou endpoint read neste MVP. Sem WebSocket.
+
+Erros preservados: 400 INVALID_INPUT, 401 UNAUTHORIZED, 403 FORBIDDEN,
+404 NOT_FOUND genérico para conversa ausente/alheia/relação não autorizada,
+409 CONFLICT, 413 PAYLOAD_TOO_LARGE, 429 RATE_LIMITED, 500 INTERNAL_ERROR,
+503 TRANSACTIONS_REQUIRED/AUTH_NOT_CONFIGURED conforme contexto. Respostas no-store;
+falhas de banco não viram histórico vazio. MongoDB replica set obrigatório.
+
+[Arquitetura, limites, evidências e instruções para interface](../arquitetura/chat-interno.md).

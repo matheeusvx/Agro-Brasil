@@ -17,7 +17,7 @@
     "verify:portal:publicos": "node scripts/verify-portal-publicos.mjs",
     "capture:portal:publicos": "node scripts/capture-portal-publicos.mjs",
     "test": "node --test services/api/test/unit.test.mjs services/api/test/weather.test.mjs services/api/test/farm.test.mjs",
-    "test:integration": "node --env-file-if-exists=.env --test --test-concurrency=1 services/api/test/integration.test.mjs services/api/test/commerce.test.mjs services/api/test/farm-integration.test.mjs services/api/test/organization-home.test.mjs",
+    "test:integration": "node --env-file-if-exists=.env --test --test-concurrency=1 services/api/test/integration.test.mjs services/api/test/commerce.test.mjs services/api/test/farm-integration.test.mjs services/api/test/organization-home.test.mjs services/api/test/chat.test.mjs",
     "check": "node scripts/check.mjs",
     "verify:demo": "node --env-file-if-exists=.env scripts/verify-demo.mjs",
     "verify:commerce": "node --env-file-if-exists=.env scripts/verify-commerce-demo.mjs",

@@ -7,6 +7,12 @@ export async function connectDatabase({ uri = process.env.MONGODB_URI || 'mongod
     const db = client.db(name);
     await db.command({ ping: 1 });
     await Promise.all([
+      db.collection('chats').createIndex({ pairKey:1 },{unique:true}),
+      db.collection('chats').createIndex({ organizationIds:1, createdAt:-1 }),
+      db.collection('chatMessages').createIndex({ chatId:1, sequence:1 },{unique:true}),
+      db.collection('chatMessages').createIndex({ idempotencyId:1 },{unique:true,partialFilterExpression:{idempotencyId:{$type:'string'}}}),
+      db.collection('chatOrders').createIndex({ chatId:1, orderId:1 },{unique:true}),
+      db.collection('chatRateLimits').createIndex({ expiresAt:1 },{expireAfterSeconds:0}),
       db.collection('memberships').createIndex({ userId: 1, organizationId: 1 }, { unique: true }),
       db.collection('demoTokens').createIndex({ tokenHash: 1 }, { unique: true }),
       db.collection('productions').createIndex({ organizationId: 1, createdAt: -1 }),
