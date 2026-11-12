@@ -1,0 +1,568 @@
+{
+  "mode": "BANCO_DESCARTAVEL_API_REAL",
+  "startedAt": "2026-11-12T13:37:28.807Z",
+  "checks": [
+    {
+      "name": "instituição solicita oferta com quantidade ≤ saldo",
+      "ok": true,
+      "detail": {
+        "quantityKg": 30
+      }
+    },
+    {
+      "name": "instituição cancela solicitação com confirmação",
+      "ok": true
+    },
+    {
+      "name": "cooperativa registra retirada; indicadores atualizados; chave estável após falha de rede",
+      "ok": true,
+      "detail": {
+        "tentativas": 2
+      }
+    },
+    {
+      "name": "instituição confirma recebimento integral",
+      "ok": true
+    },
+    {
+      "name": "409 exibido sem sucesso; lista recarregada sem a ação",
+      "ok": true
+    },
+    {
+      "name": "LEITOR sem controles de escrita e 403 no proxy",
+      "ok": true
+    },
+    {
+      "name": "cooperativa não cria pedido; instituição não registra retirada",
+      "ok": true
+    },
+    {
+      "name": "troca cooperativa → instituição sem resíduos",
+      "ok": true
+    },
+    {
+      "name": "entrada ag-rise em todas as abas; nenhuma com movimento reduzido",
+      "ok": true,
+      "detail": {
+        "producer": [
+          {
+            "path": "/visao-geral",
+            "blocks": 5,
+            "first": {
+              "name": "none",
+              "delay": "0s",
+              "duration": "0s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.14s",
+              "duration": "0.6s"
+            },
+            "rise": 4
+          },
+          {
+            "path": "/minha-fazenda",
+            "blocks": 1,
+            "first": {
+              "name": "ag-fade",
+              "delay": "0s",
+              "duration": "0.5s"
+            },
+            "second": null,
+            "rise": 0
+          },
+          {
+            "path": "/producao",
+            "blocks": 4,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.5s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.5s"
+            },
+            "rise": 0
+          },
+          {
+            "path": "/ofertas",
+            "blocks": 3,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.5s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.5s"
+            },
+            "rise": 0
+          },
+          {
+            "path": "/pedidos",
+            "blocks": 2,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.5s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.5s"
+            },
+            "rise": 0
+          },
+          {
+            "path": "/destino",
+            "blocks": 2,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.6s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.5s"
+            },
+            "rise": 1
+          },
+          {
+            "path": "/rastreabilidade",
+            "blocks": 2,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.5s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.5s"
+            },
+            "rise": 0
+          },
+          {
+            "path": "/perfil",
+            "blocks": 3,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.5s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.5s"
+            },
+            "rise": 0
+          }
+        ],
+        "coopEditor": [
+          {
+            "path": "/visao-geral",
+            "blocks": 6,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.6s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.6s"
+            },
+            "rise": 4
+          },
+          {
+            "path": "/remessas",
+            "blocks": 2,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.5s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.5s"
+            },
+            "rise": 0
+          },
+          {
+            "path": "/perfil",
+            "blocks": 3,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.5s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.5s"
+            },
+            "rise": 0
+          }
+        ],
+        "instEditor": [
+          {
+            "path": "/visao-geral",
+            "blocks": 6,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.6s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.6s"
+            },
+            "rise": 4
+          },
+          {
+            "path": "/solicitacoes",
+            "blocks": 2,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.5s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.5s"
+            },
+            "rise": 0
+          },
+          {
+            "path": "/ofertas-disponiveis",
+            "blocks": 3,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.5s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.5s"
+            },
+            "rise": 0
+          },
+          {
+            "path": "/perfil",
+            "blocks": 3,
+            "first": {
+              "name": "ag-rise",
+              "delay": "0s",
+              "duration": "0.5s"
+            },
+            "second": {
+              "name": "ag-rise",
+              "delay": "0.07s",
+              "duration": "0.5s"
+            },
+            "rise": 0
+          }
+        ]
+      }
+    },
+    {
+      "name": "sem rolagem horizontal em 390/320 e texto 200%; skip-link acessível; coluna lateral contínua",
+      "ok": true
+    }
+  ],
+  "screenshots": [
+    "instituicao-ofertas-1440.png",
+    "instituicao-solicitar-formulario.png",
+    "instituicao-cancelar-confirmacao.png",
+    "instituicao-home-apos-solicitar.png",
+    "cooperativa-home-antes.png",
+    "cooperativa-retirada-formulario.png",
+    "cooperativa-home-apos-retirada.png",
+    "instituicao-home-apos-recebimento.png",
+    "cooperativa-conflito-409.png",
+    "leitor-coopReader-visao-geral.png",
+    "leitor-instReader-ofertas-disponiveis.png",
+    "leitor-instReader-visao-geral.png",
+    "multiplo-instituicao-apos-troca.png",
+    "aba-producer-visao-geral-1440.png",
+    "aba-producer-minha-fazenda-1440.png",
+    "aba-producer-producao-1440.png",
+    "aba-producer-ofertas-1440.png",
+    "aba-producer-pedidos-1440.png",
+    "aba-producer-destino-1440.png",
+    "aba-producer-rastreabilidade-1440.png",
+    "aba-producer-perfil-1440.png",
+    "aba-coopEditor-visao-geral-1440.png",
+    "aba-coopEditor-remessas-1440.png",
+    "aba-coopEditor-perfil-1440.png",
+    "aba-instEditor-visao-geral-1440.png",
+    "aba-instEditor-solicitacoes-1440.png",
+    "aba-instEditor-ofertas-disponiveis-1440.png",
+    "aba-instEditor-perfil-1440.png",
+    "instEditor-ofertas-disponiveis-390.png",
+    "instEditor-ofertas-disponiveis-320.png",
+    "instEditor-ofertas-disponiveis-320-texto-200.png",
+    "coopEditor-remessas-390.png",
+    "coopEditor-remessas-320.png",
+    "coopEditor-remessas-320-texto-200.png",
+    "producer-producao-390.png",
+    "producer-producao-320.png",
+    "producer-producao-320-texto-200.png",
+    "instEditor-visao-geral-390.png",
+    "instEditor-visao-geral-320.png",
+    "instEditor-visao-geral-320-texto-200.png",
+    "sidebar-pagina-inteira-1440.png"
+  ],
+  "animation": {
+    "producer": [
+      {
+        "path": "/visao-geral",
+        "blocks": 5,
+        "first": {
+          "name": "none",
+          "delay": "0s",
+          "duration": "0s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.14s",
+          "duration": "0.6s"
+        },
+        "rise": 4
+      },
+      {
+        "path": "/minha-fazenda",
+        "blocks": 1,
+        "first": {
+          "name": "ag-fade",
+          "delay": "0s",
+          "duration": "0.5s"
+        },
+        "second": null,
+        "rise": 0
+      },
+      {
+        "path": "/producao",
+        "blocks": 4,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.5s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.5s"
+        },
+        "rise": 0
+      },
+      {
+        "path": "/ofertas",
+        "blocks": 3,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.5s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.5s"
+        },
+        "rise": 0
+      },
+      {
+        "path": "/pedidos",
+        "blocks": 2,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.5s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.5s"
+        },
+        "rise": 0
+      },
+      {
+        "path": "/destino",
+        "blocks": 2,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.6s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.5s"
+        },
+        "rise": 1
+      },
+      {
+        "path": "/rastreabilidade",
+        "blocks": 2,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.5s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.5s"
+        },
+        "rise": 0
+      },
+      {
+        "path": "/perfil",
+        "blocks": 3,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.5s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.5s"
+        },
+        "rise": 0
+      }
+    ],
+    "coopEditor": [
+      {
+        "path": "/visao-geral",
+        "blocks": 6,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.6s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.6s"
+        },
+        "rise": 4
+      },
+      {
+        "path": "/remessas",
+        "blocks": 2,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.5s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.5s"
+        },
+        "rise": 0
+      },
+      {
+        "path": "/perfil",
+        "blocks": 3,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.5s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.5s"
+        },
+        "rise": 0
+      }
+    ],
+    "instEditor": [
+      {
+        "path": "/visao-geral",
+        "blocks": 6,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.6s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.6s"
+        },
+        "rise": 4
+      },
+      {
+        "path": "/solicitacoes",
+        "blocks": 2,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.5s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.5s"
+        },
+        "rise": 0
+      },
+      {
+        "path": "/ofertas-disponiveis",
+        "blocks": 3,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.5s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.5s"
+        },
+        "rise": 0
+      },
+      {
+        "path": "/perfil",
+        "blocks": 3,
+        "first": {
+          "name": "ag-rise",
+          "delay": "0s",
+          "duration": "0.5s"
+        },
+        "second": {
+          "name": "ag-rise",
+          "delay": "0.07s",
+          "duration": "0.5s"
+        },
+        "rise": 0
+      }
+    ]
+  },
+  "overflow": {
+    "instEditor/ofertas-disponiveis-390": true,
+    "instEditor/ofertas-disponiveis-320": true,
+    "instEditor/ofertas-disponiveis-320-texto-200": true,
+    "coopEditor/remessas-390": true,
+    "coopEditor/remessas-320": true,
+    "coopEditor/remessas-320-texto-200": true,
+    "producer/producao-390": true,
+    "producer/producao-320": true,
+    "producer/producao-320-texto-200": true,
+    "instEditor/visao-geral-390": true,
+    "instEditor/visao-geral-320": true,
+    "instEditor/visao-geral-320-texto-200": true
+  },
+  "finishedAt": "2026-11-12T13:37:59.050Z"
+}

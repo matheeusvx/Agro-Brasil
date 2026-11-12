@@ -43,12 +43,12 @@
     "logout invalida sessão; paginação e CSV; recuperação de erro e carregamento; leitura cruzada rejeitada; quatro auditorias axe sem violações"
   ],
   "sidebarContextBounds": {
-    "x": 1039,
-    "y": 19,
-    "width": 373,
-    "height": 38
+    "x": 866,
+    "y": 13,
+    "width": 546,
+    "height": 50
   },
   "errors": [],
-  "verifiedAt": "2026-11-06T13:58:45.255Z",
-  "browser": "156.0.4314.58"
+  "verifiedAt": "2026-11-12T13:38:24.990Z",
+  "browser": "157.0.4341.46"
 }

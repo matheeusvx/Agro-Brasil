@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-11-12T12:59:35.262Z",
+  "capturedAt": "2026-11-12T13:36:00.606Z",
   "base": "http://127.0.0.1:3101",
   "browser": "Microsoft Edge headless (playwright-core)",
   "results": [
@@ -32,7 +32,7 @@
         "320": true,
         "390": true,
         "1440": true,
-        "320-texto-200": "excede: "
+        "320-texto-200": true
       },
       "requested": [
         "/cooperative-home"
@@ -53,7 +53,7 @@
         "320": true,
         "390": true,
         "1440": true,
-        "320-texto-200": "excede: "
+        "320-texto-200": true
       },
       "offerOverflow": {
         "320": true,

@@ -57,3 +57,78 @@ Sem rolagem horizontal em 1440, 390 e 320 px. Em 320 px com texto 200%, o conte�
 1. Proxy: liberar por público `POST /shipments/:id/pickup` (cooperativa), `POST /orders`, cancelamento e `POST /shipments/:id/receipts` (instituição), sempre com `Idempotency-Key`.
 2. Formulários com local confirmado (`location` + `locationConfirmed`), recebimento integral e mensagens para 409/403.
 3. Trocar `ActionSlot` pelos comandos reais, recarregar a home após sucesso e testar ADMIN/EDITOR/LEITOR e estados inválidos com a API real.
+
+> Concluído no incremento 2, abaixo.
+
+---
+
+# Incremento 2 — operações reais, animação de entrada e correções visuais
+
+12/11/2026 · base `main` em `25aa064`. Backend não alterado.
+
+## Animação de entrada em todas as abas
+
+A skill StageShow foi consultada como referência de movimento: cada movimento tem causa, a entrada é sequencial, o quadro final fica estável e o movimento reduzido é respeitado. O kit dela serve para ilustrações de UI falsa, por isso não foi usado no portal real. O padrão existente foi reaproveitado:
+
+- `portal-shell.tsx` envolve cada página em `.ag-page`, remontada por rota e por organização.
+- `theme.css` aplica o mesmo `ag-rise` (translateY 14 px, escala 0,985, opacidade, 0,5 s) aos blocos da página. Quando há um único contêiner (Produção, Ofertas, Pedidos, Excedentes, Rastreabilidade), animam os filhos dele. Ordem: cabeçalho → cards/indicadores → listas/painéis, 70 ms por bloco (`--ag-step`), limite de 280 ms.
+- A Visão geral mantém o próprio escalonamento (`--i`), sem duplicação.
+- Minha Fazenda (cena 3D): só opacidade (`ag-fade`), nenhum transform sobre o canvas.
+- Linhas de tabelas não animam individualmente; os modais (portais) não são afetados.
+- `prefers-reduced-motion: reduce` desliga todas as animações de entrada.
+
+As 15 abas dos três públicos foram verificadas com nome e atraso da animação, e também com movimento reduzido (`operacoes/relatorio-e2e.json`, chave `animation`).
+
+## Correções visuais
+
+| Problema | Correção |
+|---|---|
+| "Ir para o conteúdo" criava rolagem horizontal a 320 px com texto 200% | Escondido por `translateY`, `max-width: calc(100vw - 40px)` e quebra de texto; ao receber foco, aparece dentro da tela (verificado no E2E) |
+| Barra lateral cortada em capturas de página inteira | Fundo contínuo na coluna da grade (`.portal-frame`), com a barra ainda sticky em 100dvh e sem elementos fixos novos |
+| Produção a 320 px: o botão do cabeçalho excedia 13 px | `.page-heading` quebra linha em telas ≤ 780 px |
+| Linhas de Remessas/Solicitações a 320 px com texto 200% | Layout flexível empilhado |
+| Contraste 4,35:1 no drawer de cadastro (axe, preexistente) | `#6b7a70` → `#5f6e64` em `drawers.css` |
+
+## Operações
+
+| Público | Operação | Endpoint | Quando aparece |
+|---|---|---|---|
+| Cooperativa | Registrar retirada | `POST /shipments/:id/pickup` | ACEITO e remessa PLANEJADA |
+| Instituição | Solicitar | `POST /orders` | Ofertas disponíveis; quantidade ≤ saldo apresentado |
+| Instituição | Cancelar solicitação | `POST /orders/:id/cancel` | SOLICITADO ou ACEITO |
+| Instituição | Confirmar recebimento | `POST /shipments/:id/receipts` | RETIRADO e remessa RETIRADA; quantidade integral do pedido |
+
+- Formulário único (`command-sheet.tsx`): resumo do que será confirmado, município, UF e confirmação explícita; envia `location` + `locationConfirmed: true`. Não há GPS, rota ou distância.
+- `IdempotencyKeeper` (`lib/commands.ts`): a mesma chave é reutilizada após falha de rede ou 5xx com os mesmos dados. Uma nova chave só nasce após sucesso, recusa definitiva (4xx) ou mudança dos dados.
+- "Enviando…" com botão e drawer travados. O toast de sucesso só aparece após 2xx da API.
+- Erros: 400 (dados), 401 (encerra a sessão), 403 (perfil sem permissão; revalida a sessão), 404/409 (mensagem da API e recarga dos dados), conexão (repetir com segurança).
+- Após o sucesso, a tela recarrega sem desmontar: os dados ficam visíveis até a nova resposta.
+- Ações só para ADMIN/EDITOR com `canWrite`. O LEITOR vê "Somente consulta".
+
+Proxy: cooperativa = `GET /cooperative-home` e `POST /shipments/:id/pickup`. Instituição = `GET /institution-home`, `GET /offers`, `POST /orders`, `POST /orders/:id/cancel` e `POST /shipments/:id/receipts`. Qualquer POST de LEITOR recebe 403 no próprio proxy; rota de outro público, 404. Produtor sem mudanças.
+
+## Validação
+
+| Execução | Resultado |
+|---|---|
+| `npm run typecheck` / `npm run build` (portal) | aprovados |
+| `npm test` (portal) | **65/65** |
+| `scripts/smoke-portal.mjs` (MongoDB descartável) | **aprovado** após atualizar seletores |
+| `scripts/e2e-portal-operacoes.mjs` (MongoDB descartável, API e portal reais, Edge) | **10/10** — [relatorio-e2e.json](operacoes/relatorio-e2e.json) |
+| `verify-portal-publicos.mjs` e `capture-portal-publicos.mjs` (banco local, somente leitura) | 6/6 e 6/6 |
+| Contagem do banco local antes e depois | idêntica |
+
+O E2E cobre: solicitação barrada acima do saldo e depois aceita (30 kg); cancelamento após confirmação; aceite do produtor via API; retirada com falha de rede na primeira tentativa (sem sucesso exibido e com a mesma chave na segunda); recebimento integral; conflito 409 (o produtor cancela enquanto a cooperativa confirma); LEITORes sem controles e com 403; isolamento entre públicos (404); troca de vínculos sem resíduos; animação nas 15 abas e desligada com movimento reduzido; ausência de rolagem horizontal em 390/320 px e com texto 200%; skip-link focado dentro da tela.
+
+A única simulação é a queda de rede (`route.abort`), usada para provar a reutilização da chave.
+
+**Smoke do portal:** os gráficos deixaram de usar Recharts e a Visão geral passou à v3. As verificações foram migradas, não removidas: seleção da cultura (`aria-pressed` e destaque), fixação de situação no anel (`data-dim`, descrição com percentual), prioridade do herói (`data-attention`, inativo quando "Tudo em dia"), categoria única, espaço herói → indicadores de 12–24 px e clima por temperatura/cidade. A asserção de LEITOR (403) foi mantida. O relatório de falha agora inclui a linha do roteiro. As evidências em `docs/design/portal/evidencias/` foram regeneradas.
+
+Capturas em `operacoes/`: fluxos (formulários, antes/depois, 409), `leitor-*`, `aba-*-1440` (15 abas), `*-390`, `*-320`, `*-320-texto-200` e `sidebar-pagina-inteira-1440`.
+
+## Limitações
+
+- Não há recebimento parcial: o backend exige recebimento integral.
+- Município e UF são digitados a cada operação; nada é preenchido por suposição.
+- O axe roda nas telas do smoke do produtor. As telas novas foram verificadas por rótulos explícitos, teclado e alvos ≥ 44 px, sem auditoria axe própria.
+- Com texto 200% a 320 px, as quantidades das listas ficam grandes, mas sem rolagem horizontal.

@@ -1,5 +1,5 @@
 {
-  "verifiedAt": "2026-11-12T12:59:35.367Z",
+  "verifiedAt": "2026-11-12T13:35:50.830Z",
   "environment": "DEMONSTRACAO_LOCAL_FICTICIA",
   "portal": "next start (build de produção)",
   "results": [
@@ -20,8 +20,8 @@
         "byStatus": {
           "SOLICITADO": 0,
           "ACEITO": 1,
-          "RETIRADO": 4,
-          "RECEBIDO": 3,
+          "RETIRADO": 3,
+          "RECEBIDO": 4,
           "CANCELADO": 0
         },
         "canWrite": true
@@ -31,7 +31,7 @@
       "name": "3. instituição vê só a própria home e ofertas públicas",
       "ok": true,
       "detail": {
-        "total": 4,
+        "total": 5,
         "offers": 11,
         "canWrite": true
       }
@@ -58,7 +58,7 @@
           {
             "type": "INSTITUICAO",
             "role": "LEITOR",
-            "total": 4
+            "total": 5
           }
         ]
       }

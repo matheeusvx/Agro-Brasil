@@ -422,37 +422,48 @@ try {
     await page.waitForTimeout(150);
     await capture("sidebar-recolhida");
     await page.getByRole("button", { name: "Expandir menu lateral" }).click();
-    await page.getByRole("button", { name: /Tomate.*kg/ }).hover();
-    await page.getByRole("button", { name: /Tomate.*kg/ }).click();
-    await page.getByLabel("Distribuição da produção").scrollIntoViewIfNeeded();
+    // Gráficos atuais (operational-charts.tsx): SVG próprio, sem Recharts.
+    const productionChart = page.getByLabel("Produção registrada por cultura", { exact: true });
+    const ordersChart = page.getByLabel("Situação dos pedidos", { exact: true });
+    await productionChart.scrollIntoViewIfNeeded();
+    const tomato = productionChart.getByRole("button", { name: /Tomate.*kg/ });
+    await tomato.hover();
+    await tomato.click();
+    // Seleção da cultura atualiza o destaque lateral (antes: tooltip do Recharts).
+    await page.waitForFunction(() =>
+      [...document.querySelectorAll('[aria-label="Culturas"] button')].some(
+        (b) => b.getAttribute("aria-pressed") === "true" && /Tomate/.test(b.getAttribute("aria-label") ?? ""),
+      ),
+    );
+    assert.match(await productionChart.locator(".cx-label").first().textContent(), /Tomate/);
     await capture("graficos");
-    for (const [label, name] of [
-      ["Distribuição da produção", "grafico-barras"],
-      ["Distribuição dos pedidos", "grafico-rosca"],
+    for (const [chart, name] of [
+      [productionChart, "grafico-barras"],
+      [ordersChart, "grafico-rosca"],
     ]) {
-      await page.getByLabel(label, { exact: true }).screenshot({
+      await chart.screenshot({
         path: resolve(directory, name + ".png"),
         animations: "disabled",
       });
       result.screenshots.push(name + ".png");
     }
-    await page.locator(".recharts-bar-rectangle").nth(1).hover();
-    await page
-      .locator(".recharts-tooltip-wrapper")
-      .first()
-      .waitFor({ state: "visible" });
     await capture("tooltip-barras");
-    const ring = await page.locator(".donut-canvas").boundingBox();
-    await page.mouse.move(
-      ring.x + ring.width / 2 + 73,
-      ring.y + ring.height / 2,
-    );
-    await page
-      .locator(".recharts-tooltip-wrapper")
-      .nth(1)
-      .waitFor({ state: "visible" });
+    // Situação dos pedidos: fixar uma situação destaca a linha e esmaece as demais.
+    const statusRows = ordersChart.getByRole("group", { name: "Pedidos por situação" }).getByRole("button");
+    assert.ok((await statusRows.count()) >= 2);
+    await statusRows.first().click();
+    assert.equal(await statusRows.first().getAttribute("aria-pressed"), "true");
+    assert.equal(await statusRows.nth(1).getAttribute("data-dim"), "true");
+    // Descrição acessível do anel lista cada situação com valor e percentual.
+    const firstLabel = (await statusRows.first().locator(".cx-row-label").textContent()).trim();
+    const ringLabel = await ordersChart.getByRole("img").getAttribute("aria-label");
+    assert.ok(ringLabel.includes(firstLabel + ":") && /%/.test(ringLabel), "descrição do anel");
     await capture("tooltip-rosca");
-    await page.getByRole("button", { name: "Consultar pedido" }).click();
+    await statusRows.first().click();
+    // Prioridade da Visão geral v3: o destaque do herói abre o pedido.
+    const priority = page.locator("button.ov-priority");
+    assert.ok((await priority.getAttribute("data-attention")) !== null, "prioridade em destaque");
+    await priority.click();
     await page
       .getByRole("heading", { name: "Detalhes da solicitação" })
       .waitFor();
@@ -654,27 +665,27 @@ try {
       .getByLabel("Propriedade", { exact: true })
       .selectOption(ids.property);
     await page.getByRole("link", { name: "Visão geral", exact: true }).click();
-    await page
-      .getByRole("heading", { name: "Tudo em dia por aqui.", exact: true })
-      .waitFor();
-    assert.equal(await page.locator(".priority-panel.clear").count(), 1);
+    // Visão geral v3: sem pendências, o destaque do herói fica neutro e inativo.
+    const clear = page.locator("button.ov-priority");
+    await page.getByText("Tudo em dia por aqui.", { exact: true }).waitFor();
+    assert.equal(await clear.isDisabled(), true);
+    assert.equal(await clear.getAttribute("data-attention"), null);
     assert.equal(
       await page.locator(".workspace-footer, .organization-note").count(),
       0,
     );
-    assert.equal(await page.locator(".donut-legend button").count(), 1);
+    // Categoria única no gráfico de pedidos (antes: legenda do donut).
+    assert.equal(
+      await page.getByRole("group", { name: "Pedidos por situação" }).getByRole("button").count(),
+      1,
+    );
     for (const width of [1440, 1366, 1024]) {
       await page.setViewportSize({ width, height: width === 1440 ? 900 : 768 });
       await capture("rotina-restaurada-" + width);
-      const box = await page.locator(".priority-panel.clear").boundingBox();
-      const row = await page.locator(".priority-row").boundingBox();
-      const metrics = await page.locator(".metrics-grid").boundingBox();
-      assert.ok(box.width <= 520);
-      assert.ok(box.height <= 120);
-      assert.ok(
-        metrics.y - row.y - row.height >= 16 &&
-          metrics.y - row.y - row.height <= 24,
-      );
+      const hero = await page.locator(".ov-hero-grid").boundingBox();
+      const stats = await page.locator(".ov-stats").boundingBox();
+      const gap = stats.y - hero.y - hero.height;
+      assert.ok(gap >= 12 && gap <= 24, "espaço herói → indicadores: " + gap);
       assert.equal(
         await page.evaluate(
           () => document.documentElement.scrollWidth > innerWidth,
@@ -690,6 +701,18 @@ try {
     assert.equal(await page.locator(".weather-compact").count(), 0);
     await capture("clima-indisponivel");
     weatherEnabledForTest = true;
+    // Cartão de clima v3: temperatura e cidade em elementos separados.
+    const weatherIs = (temp, city) =>
+      page.waitForFunction(
+        ([t, c]) => {
+          const card = document.querySelector('[aria-label="Clima regional"]');
+          return (
+            card?.querySelector(".ov-weather-temp")?.textContent.replace(/\s/g, "") === t + "°C" &&
+            card.querySelector(".ov-weather-desc")?.textContent.trim().endsWith("em " + c)
+          );
+        },
+        [temp, city],
+      );
     await db
       .collection("properties")
       .updateOne(
@@ -697,7 +720,7 @@ try {
         { $set: { municipality: "Valinhos" } },
       );
     await page.getByRole("button", { name: "Atualizar dados" }).click();
-    await page.getByText("23 °C em Campinas", { exact: true }).waitFor();
+    await weatherIs("23", "Campinas");
     await page
       .getByText("Referência aproximada do município", { exact: true })
       .waitFor();
@@ -715,9 +738,9 @@ try {
     await page
       .getByLabel("Propriedade", { exact: true })
       .selectOption(ids.secondProperty);
-    await page.getByText("29 °C em Valinhos", { exact: true }).waitFor();
+    await weatherIs("29", "Valinhos");
     assert.equal(
-      await page.getByText("23 °C em Campinas", { exact: true }).count(),
+      await page.locator('[aria-label="Clima regional"]').getByText("Campinas").count(),
       0,
     );
     await capture("clima-troca-propriedade");
@@ -778,6 +801,10 @@ try {
     JSON.stringify(
       {
         error: sanitize(error.message),
+        // Linha do roteiro que falhou (sem caminhos absolutos).
+        at: sanitize(
+          (error.stack ?? "").split(/\r?\n/).find((l) => l.includes("smoke-portal.mjs"))?.replace(/^.*smoke-portal\.mjs/, "smoke-portal.mjs") ?? "",
+        ),
         errors: errors.map(sanitize),
         server: sanitize(serverOutput.slice(-5000)),
       },

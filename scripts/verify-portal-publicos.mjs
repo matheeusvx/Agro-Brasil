@@ -46,7 +46,8 @@ check('2. cooperativa vê só a própria home; rotas do produtor e de instituiç
   const home = await c.get('/api/agro/cooperative-home?limit=5&offset=0'); homeOk(home, s.body.organizationId, 'COOPERATIVA');
   for (const p of ['/api/agro/producer-home', '/api/agro/catalog', '/api/agro/productions', '/api/agro/orders', '/api/agro/institution-home', '/api/agro/offers', '/api/agro/cooperative-home?scope=mine'])
     assert.equal((await c.get(p)).status, 404, p);
-  assert.equal((await c.post('/api/agro/shipments/' + '0'.repeat(8) + '-0000-4000-8000-' + '0'.repeat(12) + '/pickup', {})).status, 404);
+  // Somente leitura: escritas são verificadas em banco descartável (scripts/e2e-portal-operacoes.mjs).
+  assert.equal((await c.post('/api/agro/orders', {})).status, 404, 'cooperativa não cria pedido');
   return { total: home.body.data.total, byStatus: Object.fromEntries(Object.entries(home.body.data.byStatus).map(([k, v]) => [k, v.count])), canWrite: home.body.data.canWrite };
 });
 check('3. instituição vê só a própria home e ofertas públicas', async () => {
@@ -55,7 +56,7 @@ check('3. instituição vê só a própria home e ofertas públicas', async () =
   const offers = await c.get('/api/agro/offers?limit=12&offset=0'); assert.equal(offers.status, 200);
   for (const p of ['/api/agro/producer-home', '/api/agro/catalog', '/api/agro/cooperative-home', '/api/agro/offers?scope=mine'])
     assert.equal((await c.get(p)).status, 404, p);
-  assert.equal((await c.post('/api/agro/orders', {})).status, 404);
+  assert.equal((await c.post('/api/agro/productions', {})).status, 404, 'instituição não registra produção');
   return { total: home.body.data.total, offers: offers.body.pagination.total, canWrite: home.body.data.canWrite };
 });
 check('4. vínculos múltiplos alternam sem dados residuais', async () => {

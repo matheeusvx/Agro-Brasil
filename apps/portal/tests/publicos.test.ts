@@ -93,10 +93,9 @@ test("proxy: cada público recebe somente suas leituras", () => {
   for (const audience of ["cooperative", "institution"] as const) {
     for (const path of ["/producer-home", "/catalog", "/productions", "/orders", "/lots/" + uuid, "/properties/" + uuid + "/weather"])
       assert.equal(allowedProxyPath(path, "GET", audience), false, audience + path);
-    for (const method of ["POST", "PUT", "DELETE"]) {
+    for (const method of ["PUT", "DELETE", "PATCH"]) {
       assert.equal(allowedProxyPath("/orders", method, audience), false);
       assert.equal(allowedProxyPath("/shipments/" + uuid + "/pickup", method, audience), false);
-      assert.equal(allowedProxyPath("/shipments/" + uuid + "/receipts", method, audience), false);
     }
     assert.equal(allowedProxyPath("/cooperative-home/x", "GET", audience), false);
   }
@@ -166,4 +165,87 @@ test("ofertas: projeção comercial validada e sem IDs de organização", () => 
   assert.equal("lotId" in parsed.data[0], false);
   assert.throws(() => parseOffers({ data: [{ ...offer, availableKg: -1 }], pagination: { limit: 1, offset: 0, total: 1 } }), ContractError);
   assert.throws(() => parseOffers({ data: [{ ...offer, destinationMode: "TROCA" }], pagination: { limit: 1, offset: 0, total: 1 } }), ContractError);
+});
+
+import {
+  IdempotencyKeeper,
+  commandMessage,
+  locationProblem,
+  operationActions,
+  quantityProblem,
+} from "../src/lib/commands";
+import { RequestError } from "../src/lib/client-api";
+
+test("proxy de escrita: cada público só seus comandos; LEITOR nunca", () => {
+  const pickup = "/shipments/" + uuid + "/pickup";
+  const receipt = "/shipments/" + uuid + "/receipts";
+  const cancel = "/orders/" + uuid + "/cancel";
+  assert.equal(allowedProxyPath(pickup, "POST", "cooperative", "EDITOR"), true);
+  for (const p of ["/orders", receipt, cancel, "/orders/" + uuid + "/accept", "/productions", "/offers"])
+    assert.equal(allowedProxyPath(p, "POST", "cooperative", "ADMIN"), false, p);
+  for (const p of ["/orders", receipt, cancel])
+    assert.equal(allowedProxyPath(p, "POST", "institution", "ADMIN"), true, p);
+  for (const p of [pickup, "/orders/" + uuid + "/accept", "/productions", "/offers", "/offers/" + uuid + "/publish"])
+    assert.equal(allowedProxyPath(p, "POST", "institution", "EDITOR"), false, p);
+  for (const a of ["producer", "cooperative", "institution"] as const)
+    for (const p of [pickup, "/orders", receipt, cancel, "/productions"])
+      assert.equal(allowedProxyPath(p, "POST", a, "LEITOR"), false, a + p);
+  assert.equal(allowedProxyPath("/cooperative-home", "GET", "cooperative", "LEITOR"), true);
+  assert.equal(allowedProxyPath("/orders/abc/cancel", "POST", "institution", "ADMIN"), false);
+  // Produtor preserva seus comandos.
+  assert.equal(allowedProxyPath(pickup, "POST", "producer", "ADMIN"), true);
+  assert.equal(allowedProxyPath(receipt, "POST", "producer", "ADMIN"), false);
+});
+
+test("ações por estado: somente as que o backend aceita", () => {
+  const ship = (status: string) => ({ id: uuid, status });
+  const kinds = (a: "cooperative" | "institution", status: string, s: string | null) =>
+    operationActions(a, { id: uuid, status: status as never, shipment: s ? ship(s) : null }).map((x) => x.kind);
+  assert.deepEqual(kinds("cooperative", "ACEITO", "PLANEJADA"), ["pickup"]);
+  assert.deepEqual(kinds("cooperative", "RETIRADO", "RETIRADA"), []);
+  assert.deepEqual(kinds("cooperative", "ACEITO", "CANCELADA"), []);
+  assert.deepEqual(kinds("institution", "SOLICITADO", null), ["cancel"]);
+  assert.deepEqual(kinds("institution", "ACEITO", "PLANEJADA"), ["cancel"]);
+  assert.deepEqual(kinds("institution", "RETIRADO", "RETIRADA"), ["receipt"]);
+  assert.deepEqual(kinds("institution", "RECEBIDO", "RECEBIDA"), []);
+  assert.deepEqual(kinds("institution", "CANCELADO", null), []);
+  const [r] = operationActions("institution", { id: uuid, status: "RETIRADO", shipment: ship("RETIRADA") });
+  assert.equal(r.endpoint, "/shipments/" + uuid + "/receipts");
+});
+
+test("formulário: quantidade limitada ao saldo e local confirmado", () => {
+  assert.equal(quantityProblem("10", 10), "");
+  assert.equal(quantityProblem("2,5", 10), "");
+  assert.notEqual(quantityProblem("10.001", 10), "");
+  assert.notEqual(quantityProblem("0", 10), "");
+  assert.notEqual(quantityProblem("1.2345", 10), "");
+  assert.notEqual(quantityProblem("-1", 10), "");
+  assert.notEqual(quantityProblem("abc", 10), "");
+  assert.equal(locationProblem({ municipality: "Campinas", uf: "SP", confirmed: true }), "");
+  assert.notEqual(locationProblem({ municipality: "Campinas", uf: "SP", confirmed: false }), "");
+  assert.notEqual(locationProblem({ municipality: " ", uf: "SP", confirmed: true }), "");
+  assert.notEqual(locationProblem({ municipality: "Campinas", uf: "XX", confirmed: true }), "");
+});
+
+test("Idempotency-Key estável em falha transitória e nova após resposta definitiva", () => {
+  let n = 0;
+  const keeper = new IdempotencyKeeper(() => "k" + ++n);
+  const k1 = keeper.keyFor("a");
+  keeper.settle(new TypeError("rede"));
+  assert.equal(keeper.keyFor("a"), k1);
+  keeper.settle(new RequestError(503, "x"));
+  assert.equal(keeper.keyFor("a"), k1);
+  assert.notEqual(keeper.keyFor("b"), k1, "dados alterados: nova tentativa");
+  keeper.settle(new RequestError(409, "conflito"));
+  const k3 = keeper.keyFor("b");
+  assert.notEqual(k3, "k2");
+  keeper.settle();
+  assert.notEqual(keeper.keyFor("b"), k3);
+});
+
+test("mensagens de erro por status, sem sucesso presumido", () => {
+  for (const status of [400, 401, 403, 404, 409, 500])
+    assert.ok(commandMessage(new RequestError(status, "Detalhe.")).length > 10);
+  assert.match(commandMessage(new RequestError(409, "Apenas pedido solicitado.")), /Apenas pedido solicitado/);
+  assert.match(commandMessage(new TypeError("fetch failed")), /mesma tentativa/);
 });
