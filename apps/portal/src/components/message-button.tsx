@@ -44,7 +44,10 @@ export function MessageButton({ orderId, compact = false }: { orderId: string; c
     } catch (e) {
       if (handleAccessError(e) && !(e instanceof RequestError && e.status === 403)) return;
       toast.error(
-        e instanceof RequestError && e.status === 404
+        // API anterior ao backend de chat responde "Rota não encontrada.".
+        e instanceof RequestError && e.status === 404 && e.message === "Rota não encontrada."
+          ? "O serviço de mensagens não está disponível na API em execução. Atualize/reinicie a API."
+          : e instanceof RequestError && e.status === 404
           ? "A conversa não está disponível: o pedido precisa estar ativo entre as duas organizações."
           : e instanceof RequestError && e.status === 403
             ? "Seu perfil não pode abrir conversas."
