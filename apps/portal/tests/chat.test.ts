@@ -100,3 +100,27 @@ test("proxy: rotas de chat para os três públicos; LEITOR só lê", () => {
   assert.equal(allowedProxyQuery("?limit=100&after=12", "cooperative"), true);
   assert.equal(allowedProxyQuery("?after=-1", "institution"), false);
 });
+
+import { countUnread, readSeen, writeSeen } from "../src/lib/chat";
+test("não lidas: só textos recebidos acima da última sequência vista", () => {
+  assert.equal(countUnread([], 0), 0);
+  assert.equal(countUnread([3, 5, 8], 0), 3);
+  assert.equal(countUnread([3, 5, 8], 5), 1);
+  assert.equal(countUnread([3, 5, 8], 8), 0);
+});
+test("marca de leitura: somente IDs e números válidos; falha de armazenamento é ignorada", () => {
+  const store = new Map<string, string>();
+  (globalThis as { localStorage?: unknown }).localStorage = {
+    getItem: (k: string) => store.get(k) ?? null,
+    setItem: (k: string, v: string) => void store.set(k, v),
+  };
+  writeSeen("k", { [chatId]: 4 });
+  assert.deepEqual(readSeen("k"), { [chatId]: 4 });
+  store.set("k", JSON.stringify({ [chatId]: -1, x: 3, [other]: 2.5, [me]: 7, token: "abc" }));
+  assert.deepEqual(readSeen("k"), { [me]: 7 });
+  store.set("k", "não é json");
+  assert.deepEqual(readSeen("k"), {});
+  (globalThis as { localStorage?: unknown }).localStorage = { getItem: () => { throw new Error("bloqueado"); }, setItem: () => { throw new Error("bloqueado"); } };
+  assert.deepEqual(readSeen("k"), {});
+  assert.doesNotThrow(() => writeSeen("k", {}));
+});

@@ -33,6 +33,7 @@ import {
 import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { usePortal } from "./portal-provider";
+import { ChatInboxProvider, useInbox } from "./chat-inbox";
 export function PortalShell({ children }: { children: ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const path = usePathname();
@@ -78,6 +79,8 @@ export function PortalShell({ children }: { children: ReactNode }) {
     groups.flatMap((g) => g.links).find((l) => path.startsWith(l.href))
       ?.label ?? (path === "/perfil" ? "Perfil" : "Visão geral");
   return (
+    // Caixa de mensagens por organização: a troca de vínculo descarta tudo.
+    <ChatInboxProvider key={session.organizationId}>
     <div className={"portal-frame " + (collapsed ? "is-collapsed" : "")}>
       <a href="#main" className="skip-link">
         Ir para o conteúdo
@@ -120,16 +123,20 @@ export function PortalShell({ children }: { children: ReactNode }) {
                   key={href}
                   href={href}
                   title={collapsed ? label : undefined}
-                  aria-label={label}
+                  aria-label={href === "/mensagens" ? undefined : label}
                   aria-current={path === href ? "page" : undefined}
                   className={"nav-item " + (path === href ? "active" : "")}
                 >
                   <Icon size={19} />
-                  {!collapsed && (
-                    <>
-                      <span>{label}</span>
-                      {path === href && <span className="nav-active-dot" />}
-                    </>
+                  {href === "/mensagens" ? (
+                    <MessagesNavLabel label={label} collapsed={collapsed} active={path === href} />
+                  ) : (
+                    !collapsed && (
+                      <>
+                        <span>{label}</span>
+                        {path === href && <span className="nav-active-dot" />}
+                      </>
+                    )
                   )}
                 </Link>
               ))}
@@ -289,6 +296,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
         </main>
       </div>
     </div>
+    </ChatInboxProvider>
   );
 }
 
@@ -336,5 +344,27 @@ function AreaUnavailable({ audience }: { audience: Audience }) {
         Ir para a visão geral
       </Link>
     </section>
+  );
+}
+
+/** Rótulo de Mensagens com contador de não lidas (texto acessível no próprio link). */
+function MessagesNavLabel({ label, collapsed, active }: { label: string; collapsed: boolean; active: boolean }) {
+  const { total } = useInbox();
+  const text = total > 99 ? "99+" : String(total);
+  const spoken = total === 1 ? "1 mensagem não lida" : `${total} mensagens não lidas`;
+  return (
+    <>
+      <span className={collapsed ? "sr-only" : undefined}>
+        {label}
+        {total > 0 && <span className="sr-only">, {spoken}</span>}
+      </span>
+      {total > 0 ? (
+        <span className={"nav-unread" + (collapsed ? " is-dot" : "")} aria-hidden="true">
+          {collapsed ? "" : text}
+        </span>
+      ) : (
+        !collapsed && active && <span className="nav-active-dot" />
+      )}
+    </>
   );
 }

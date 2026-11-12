@@ -173,6 +173,49 @@ try {
     await inst.context.close();
   }
 
+  // 3b. Não lidas: menu lateral e lista indicam mensagens recebidas; abrir a conversa zera e persiste.
+  {
+    const { context, page } = await open("producer");
+    const badge = page.locator(".nav-unread");
+    const count = async () => Number((await badge.textContent()) || 0);
+    await badge.waitFor({ timeout: 30000 });
+    const before = await count();
+    assert.ok(before >= 2, "textos da instituição contados como não lidos");
+    await page.waitForTimeout(600);
+    await shot(page, "nao-lidas-menu-produtor");
+    await as("inst", "inst", `/chats/${chatInstProducer}/messages`, { text: "Mensagem nova para o produtor" });
+    await page.waitForFunction((n) => Number(document.querySelector(".nav-unread")?.textContent || 0) === n + 1, before, { timeout: 30000 });
+    // Nome acessível do link inclui o total (leitores de tela não dependem do contador visual).
+    const link = page.locator(".portal-sidebar a.nav-item[href='/mensagens']");
+    const accessible = (await link.evaluate((a) => a.textContent ?? "")).replace(/\s+/g, " ");
+    assert.match(accessible, new RegExp((before + 1) + " mensagens não lidas"), accessible);
+    // Mensagem enviada pela própria organização não conta.
+    await as("producer", "producer", `/chats/${chatInstProducer}/messages`, { text: "Minha própria mensagem" });
+    await page.waitForTimeout(16000);
+    assert.equal(await count(), before + 1);
+    await link.click();
+    const item = page.locator(".chat-item").first();
+    assert.equal(Number(await item.locator(".chat-unread").textContent()), before + 1);
+    await page.waitForTimeout(600);
+    await shot(page, "nao-lidas-lista");
+    await item.click();
+    await page.locator(".chat-bubble").filter({ hasText: "Mensagem nova para o produtor" }).waitFor();
+    await badge.waitFor({ state: "detached" });
+    await page.reload();
+    await page.locator(".chat-bubble").first().waitFor();
+    await page.waitForTimeout(1500);
+    assert.equal(await badge.count(), 0, "leitura persiste após recarregar");
+    await page.getByRole("link", { name: "Pedidos", exact: true }).click();
+    await as("inst", "inst", `/chats/${chatInstProducer}/messages`, { text: "Outra mensagem enquanto você está em Pedidos" });
+    await page.waitForFunction(() => document.querySelector(".nav-unread")?.textContent === "1", null, { timeout: 30000 });
+    const stored = await page.evaluate(() => JSON.stringify({ ...localStorage }) + JSON.stringify({ ...sessionStorage }));
+    assert.ok(!stored.includes(tokens.producer) && !stored.includes("Mensagem"), "armazenamento sem token nem texto");
+    await page.waitForTimeout(600);
+    await shot(page, "nao-lidas-em-outra-aba");
+    ok("não lidas no menu e na lista; próprias mensagens não contam; abrir zera e persiste; nova mensagem reaparece em outra aba", { antes: before });
+    await context.close();
+  }
+
   // 4. Conversa reutilizada: novo pedido do mesmo par → mesma conversa, novo aviso discreto.
   {
     const order2 = await as("inst", "inst", "/orders", { offerId: offers[1].id, quantityKg: 5, ...location });

@@ -220,13 +220,49 @@
 }
 .chat-unread {
   position: absolute;
-  right: 14px;
-  bottom: 16px;
+  right: 12px;
+  bottom: 14px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--ag-brand);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 20px;
+  text-align: center;
+  animation: chat-bubble 180ms ease-out both;
+}
+.chat-item:has(.chat-unread) .chat-item-last {
+  color: var(--ag-ink);
+  font-weight: 600;
+  padding-right: 28px;
+}
+/* Não lidas no menu lateral (expandido: contador; recolhido: ponto no ícone). */
+.nav-unread {
+  margin-left: auto;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--ag-lime);
+  color: var(--ag-deep);
+  font-size: 11.5px;
+  font-weight: 800;
+  line-height: 22px;
+  text-align: center;
+  animation: chat-bubble 200ms ease-out both;
+}
+.nav-unread.is-dot {
+  position: absolute;
+  top: 9px;
+  right: 12px;
+  min-width: 0;
   width: 10px;
   height: 10px;
-  border-radius: 50%;
-  background: var(--ag-brand);
-  box-shadow: 0 0 0 3px #12b83a26;
+  padding: 0;
+  box-shadow: 0 0 0 2px var(--ag-deep);
 }
 .chat-main {
   position: relative;
@@ -594,6 +630,8 @@
   .chat-bubble[data-new],
   .chat-system[data-new],
   .chat-new-pill,
+  .chat-unread,
+  .nav-unread,
   .msg-choices {
     animation: none !important;
   }

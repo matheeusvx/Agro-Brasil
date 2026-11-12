@@ -31,7 +31,6 @@ import {
   isRetryable,
   mergeMessages,
   organizationTypeLabel,
-  parseChats,
   parseMessages,
   sendErrorMessage,
   shortOrg,
@@ -43,12 +42,12 @@ import {
 } from "@/lib/chat";
 import type { Audience } from "@/lib/audience";
 import { usePortal } from "./portal-provider";
+import { readFrom, useInbox } from "./chat-inbox";
 import { Skeleton } from "./ui/skeleton";
 
 /** Dicas de tipo da contraparte vindas do botão "Enviar mensagem" (memória da aba). */
 export const chatHints = new Map<string, string>();
 type Names = Record<string, { name?: string; type?: string }>;
-type Preview = { last: ChatMessage | null; cursor: number };
 
 const hhmm = (iso: string) => {
   const d = new Date(iso);
@@ -63,33 +62,17 @@ const shortOrder = (id: string) => "#" + id.replace(/-/g, "").slice(0, 8).toUppe
 const startHref: Record<Audience, string> = { producer: "/pedidos", cooperative: "/remessas", institution: "/solicitacoes" };
 const hidden = () => typeof document !== "undefined" && document.visibilityState === "hidden";
 
-/** Lê todas as páginas a partir de `after`, sem sobrepor chamadas. */
-async function readFrom(chatId: string, after: number, signal: AbortSignal) {
-  let cursor = after;
-  const all: ChatMessage[] = [];
-  for (let i = 0; i < 50; i++) {
-    const body = await request<unknown>(`/api/agro/chats/${chatId}/messages?limit=100&after=${cursor}`, {}, signal);
-    const page = parseMessages(body, chatId, cursor);
-    all.push(...page.data);
-    cursor = page.pagination.nextAfter;
-    if (!page.pagination.hasMore) break;
-  }
-  return { messages: all, cursor };
-}
-
 export function Messages() {
   const { session, member, audience, handleAccessError, revision } = usePortal();
   const me = session.organizationId;
   const writer = member.role === "ADMIN" || member.role === "EDITOR";
-  const [list, setList] = useState<{ status: "loading" | "ready" | "error"; chats: Chat[]; error?: string }>({ status: "loading", chats: [] });
+  const inbox = useInbox();
+  const list = { status: inbox.status, chats: inbox.chats, error: inbox.error };
+  const previews = inbox.previews;
   const [names, setNames] = useState<Names>({});
-  const [previews, setPreviews] = useState<Record<string, Preview>>({});
-  const [seen, setSeen] = useState<Record<string, number>>({});
   const [selected, setSelected] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [tab, setTab] = useState<"all" | "new">("all");
-  const previewRef = useRef(previews);
-  previewRef.current = previews;
 
   // Conversa indicada na URL (botão "Enviar mensagem").
   useEffect(() => {
@@ -118,65 +101,16 @@ export function Messages() {
     return () => abort.abort();
   }, [session.memberships]);
 
-  // Lista de conversas + prévia incremental (cursor por conversa), a cada 20 s visível.
+  // Conversa aberta e visível conta como lida até a última mensagem conhecida.
+  const { markSeen: inboxSeen, ingest } = inbox;
+  const selectedLast = selected ? previews[selected]?.last?.sequence ?? 0 : 0;
   useEffect(() => {
-    const abort = new AbortController();
-    let timer: ReturnType<typeof setTimeout>;
-    let failures = 0;
-    let first = true;
-    async function load() {
-      if (hidden()) return schedule(POLL_MS);
-      try {
-        const chats: Chat[] = [];
-        for (let offset = 0; offset < 500; offset += 100) {
-          const body = await request<unknown>(`/api/agro/chats?limit=100&offset=${offset}`, {}, abort.signal);
-          const page = parseChats(body, me);
-          chats.push(...page.data);
-          if (offset + 100 >= page.pagination.total) break;
-        }
-        if (abort.signal.aborted) return;
-        setList({ status: "ready", chats });
-        // Prévias: só o que chegou depois do último cursor conhecido.
-        for (const chat of chats.slice(0, 30)) {
-          if (abort.signal.aborted) return;
-          const before = previewRef.current[chat.id];
-          try {
-            const { messages, cursor } = await readFrom(chat.id, before?.cursor ?? 0, abort.signal);
-            const last = messages.at(-1) ?? before?.last ?? null;
-            setPreviews((p) => ({ ...p, [chat.id]: { last, cursor } }));
-            if (!before) setSeen((s) => (chat.id in s ? s : { ...s, [chat.id]: last?.sequence ?? 0 }));
-          } catch (e) {
-            if (isAccessLoss(e) && !(e instanceof RequestError && e.status === 404)) throw e;
-          }
-        }
-        failures = 0;
-        first = false;
-        schedule(20000);
-      } catch (e) {
-        if (abort.signal.aborted) return;
-        if (isAccessLoss(e)) {
-          setList({ status: "error", chats: [], error: e instanceof Error ? e.message : "" });
-          handleAccessError(e);
-          return;
-        }
-        failures++;
-        if (first) setList({ status: "error", chats: [], error: e instanceof Error ? e.message : "Conversas indisponíveis." });
-        schedule(backoffMs(failures));
-      }
-    }
-    function schedule(ms: number) {
-      clearTimeout(timer);
-      if (!abort.signal.aborted) timer = setTimeout(load, ms);
-    }
-    void load();
-    const wake = () => !hidden() && schedule(0);
-    document.addEventListener("visibilitychange", wake);
-    return () => {
-      abort.abort();
-      clearTimeout(timer);
-      document.removeEventListener("visibilitychange", wake);
-    };
-  }, [me, revision, handleAccessError]);
+    if (!selected || !selectedLast) return;
+    const mark = () => !hidden() && inboxSeen(selected, selectedLast);
+    mark();
+    document.addEventListener("visibilitychange", mark);
+    return () => document.removeEventListener("visibilitychange", mark);
+  }, [selected, selectedLast, inboxSeen]);
 
   const label = useCallback(
     (chat: Chat) => {
@@ -188,26 +122,23 @@ export function Messages() {
     [names, me],
   );
   const isUnread = useCallback(
-    (chatId: string, preview?: Preview) => {
-      const last = preview?.last;
-      return Boolean(last && last.sequence > (seen[chatId] ?? last.sequence) && selected !== chatId);
-    },
-    [seen, selected],
+    (chatId: string) => selected !== chatId && inbox.unread(chatId) > 0,
+    [inbox, selected],
   );
   const sorted = useMemo(() => {
     const q = query.trim().toLocaleLowerCase("pt-BR");
     return list.chats
       .map((c) => ({ chat: c, label: label(c), preview: previews[c.id] }))
-      .filter(({ chat: c, preview }) => tab === "all" || isUnread(c.id, preview))
+      .filter(({ chat: c }) => tab === "all" || isUnread(c.id))
       .filter(({ label: l, preview }) => !q || `${l.name} ${l.type} ${preview?.last?.text ?? ""}`.toLocaleLowerCase("pt-BR").includes(q))
       .sort((a, b) => Date.parse(b.preview?.last?.createdAt ?? b.chat.createdAt) - Date.parse(a.preview?.last?.createdAt ?? a.chat.createdAt));
   }, [list.chats, label, previews, query, tab, isUnread]);
-  const unreadCount = list.chats.filter((c) => isUnread(c.id, previews[c.id])).length;
+  const unreadCount = list.chats.filter((c) => isUnread(c.id)).length;
   const active = list.chats.find((c) => c.id === selected) ?? null;
-  const markSeen = useCallback((chatId: string, last: ChatMessage | null, cursor: number) => {
-    setSeen((s) => ({ ...s, [chatId]: last?.sequence ?? s[chatId] ?? 0 }));
-    if (last) setPreviews((p) => ({ ...p, [chatId]: { last, cursor: Math.max(cursor, p[chatId]?.cursor ?? 0) } }));
-  }, []);
+  const markSeen = useCallback(
+    (chatId: string, messages: ChatMessage[], cursor: number) => ingest(chatId, messages, cursor),
+    [ingest],
+  );
 
   return (
     <div className="chat-page">
@@ -266,7 +197,7 @@ export function Messages() {
             <ul>
               {sorted.map(({ chat, label: l, preview }, i) => {
                 const last = preview?.last;
-                const unread = isUnread(chat.id, preview);
+                const unread = isUnread(chat.id) ? inbox.unread(chat.id) : 0;
                 return (
                   <li key={chat.id} className="chat-item" style={{ "--i": Math.min(i, 6) } as CSSProperties}>
                     <button type="button" aria-current={selected === chat.id ? "true" : undefined} onClick={() => select(chat.id)}>
@@ -287,7 +218,11 @@ export function Messages() {
                               : (last.senderOrganizationId === me ? "Você: " : "") + last.text}
                         </span>
                       </span>
-                      {unread && <span className="chat-unread" aria-label="Mensagens novas nesta sessão" title="Novas desde que você abriu o portal" />}
+                      {unread > 0 && (
+                        <span className="chat-unread" aria-label={unread === 1 ? "1 mensagem não lida" : `${unread} mensagens não lidas`}>
+                          {unread > 99 ? "99+" : unread}
+                        </span>
+                      )}
                     </button>
                   </li>
                 );
@@ -348,7 +283,7 @@ function Thread({
   title: { name: string; type: string };
   writer: boolean;
   onBack: () => void;
-  onSeen: (chatId: string, last: ChatMessage | null, cursor: number) => void;
+  onSeen: (chatId: string, messages: ChatMessage[], cursor: number) => void;
 }) {
   const { session, audience, handleAccessError } = usePortal();
   const me = session.organizationId;
@@ -395,7 +330,7 @@ function Thread({
         setFresh((f) => new Set([...f, ...added.map((m) => m.id)]));
         if (!pinned.current) setBelow((b) => b + added.length);
       }
-      onSeenRef.current(chat.id, next.at(-1) ?? null, cursor.current);
+      onSeenRef.current(chat.id, added, cursor.current);
     },
     [chat.id],
   );
@@ -414,7 +349,7 @@ function Thread({
         if (abort.signal.aborted) return;
         cursor.current = page.cursor;
         apply(page.messages, initial);
-        if (initial) onSeenRef.current(chat.id, page.messages.at(-1) ?? null, page.cursor);
+        onSeenRef.current(chat.id, [], page.cursor);
         initial = false;
         failures = 0;
         setOffline(false);

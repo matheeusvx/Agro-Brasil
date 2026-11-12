@@ -141,3 +141,26 @@ export const organizationTypeLabel = (type?: string) =>
 export const counterpartOf = (chat: Chat, organizationId: string) =>
   chat.counterpart?.id ?? chat.organizationIds.find((id) => id !== organizationId) ?? chat.organizationIds[0];
 export const shortOrg = (id: string) => "#" + id.replace(/-/g, "").slice(0, 6).toUpperCase();
+
+/** Não lidas = textos recebidos com sequência acima da última vista. */
+export const countUnread = (incoming: number[], seen: number) =>
+  incoming.reduce((n, s) => (s > seen ? n + 1 : n), 0);
+/** Marca de leitura por pessoa/organização neste navegador (sem token nem texto). */
+export function readSeen(key: string): Record<string, number> {
+  try {
+    const raw = JSON.parse(localStorage.getItem(key) ?? "{}");
+    if (typeof raw !== "object" || raw === null || Array.isArray(raw)) return {};
+    return Object.fromEntries(
+      Object.entries(raw).filter(([k, v]) => /^[0-9a-f-]{36}$/i.test(k) && Number.isSafeInteger(v) && (v as number) >= 0),
+    ) as Record<string, number>;
+  } catch {
+    return {};
+  }
+}
+export function writeSeen(key: string, value: Record<string, number>) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch {
+    // Navegação privada/armazenamento bloqueado: a marca vale só nesta sessão.
+  }
+}

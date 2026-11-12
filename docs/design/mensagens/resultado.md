@@ -85,3 +85,28 @@ Contrato sugerido (o portal já aceita esses campos opcionais em `parseChats`):
 - A ordenação da lista por `lastMessage.createdAt` no backend evitaria ler o histórico de cada conversa.
 
 Fora do escopo desta versão: anexos, áudio, ligações, grupos, IA, WebSocket, edição e exclusão.
+
+---
+
+## Incremento 2 — indicador de não lidas
+
+- `ChatInboxProvider` (`components/chat-inbox.tsx`) é a caixa de mensagens da organização ativa, compartilhada pelo menu lateral e pela aba Mensagens. Ela é recriada a cada troca de vínculo.
+- **Consulta:** lista e novidades de cada conversa a cada 15 s com a aba visível, usando cursor incremental por conversa. A aba Mensagens deixou de ter uma consulta própria e usa a mesma caixa. A conversa aberta continua com consulta de 3 s e repassa à caixa o que leu.
+- **Regra de não lidas:** textos da outra organização com sequência maior que a última vista. Mensagens da própria organização e avisos de pedido não contam.
+- **Quando conta como lida:** a conversa aberta, com a aba visível, marca a última mensagem conhecida.
+- **Onde aparece:**
+  - menu lateral "Mensagens": contador verde-limão; com o menu recolhido, um ponto;
+  - nome acessível: "Mensagens, N mensagens não lidas";
+  - lista: contador por conversa, prévia em destaque e aba **Novas** com total.
+- **Persistência:** a marca de leitura fica no `localStorage` do navegador, por pessoa e organização (`agro:mensagens-lidas:v1:<usuário>:<organização>`), só com IDs de conversa e números de sequência: nada de token ou texto. Valores inválidos são descartados, e com armazenamento bloqueado a marca vale só na sessão.
+
+**Validação:** `npm test` 76/76. E2E do chat **9/9**, com a etapa nova:
+- o produtor vê o contador no menu ao entrar em qualquer aba, e ele sobe quando a instituição envia;
+- mensagem da própria organização não altera o contador;
+- abrir a conversa zera o contador, e isso continua valendo depois de recarregar a página;
+- uma nova mensagem faz o contador reaparecer enquanto a pessoa está em Pedidos;
+- o armazenamento não contém token nem texto.
+
+Regressões: smoke do portal aprovado e E2E de operações 11/11. Capturas: `nao-lidas-menu-produtor.png`, `nao-lidas-lista.png` e `nao-lidas-em-outra-aba.png`.
+
+**Limitação:** sem estado de leitura no backend, a marca é por navegador. Em outro computador as mensagens aparecem como não lidas até serem abertas lá, e colegas da mesma organização têm marcas independentes. Para leitura sincronizada, vale o contrato já sugerido: `POST /chats/:id/read {sequence}` e `unreadCount` em `GET /chats`. A caixa passaria a usá-los sem mudar a interface.
