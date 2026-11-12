@@ -42,3 +42,14 @@ test('impacto: gramas, funil líquido e saldos reconciliados', () => {
 test('impacto: rejeita saldo inconsistente, negativo e soma sem precisão segura', () => {
   for (const row of [{ published: 1 }, { received: -1 }, { registered: Number.MAX_SAFE_INTEGER + 1 }, { published: Number.MAX_SAFE_INTEGER, availableActive: Number.MAX_SAFE_INTEGER, received: 1 }]) assert.throws(() => impactView(row, id, true, now.toISOString()), HttpError);
 });
+
+// Organization read models: deterministic priorities and privacy boundary.
+import { homeOperation, homePipeline } from '../src/organization-home.mjs';
+test('home: projeção explícita não divulga campos extras ou pessoais', () => {
+  const row = homeOperation({ _id:'pedido', lotId:'lote', status:'RETIRADO', quantityGrams:1250, createdBy:'privado', extra:'privado', shipment:{id:'remessa',status:'RETIRADA',receipt:{receivedBy:'privado'}} });
+  assert.equal(row.quantityKg,1.25); assert.equal(JSON.stringify(row).includes('privado'),false); assert.deepEqual(row.shipment,{id:'remessa',status:'RETIRADA'});
+});
+test('home: escopo aplicado antes de paginação e agregação', () => {
+  assert.deepEqual(homePipeline('COOPERATIVA','A',{limit:1,offset:0})[0],{$match:{'shipment.carrierOrganizationId':'A'}});
+  assert.deepEqual(homePipeline('INSTITUICAO','B',{limit:1,offset:0})[0],{$match:{requesterOrganizationId:'B'}});
+});
