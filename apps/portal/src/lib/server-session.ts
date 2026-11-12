@@ -120,8 +120,8 @@ export function activeAudience(session: Session) {
     (m) => m.organizationId === session.organizationId,
   );
   const audience = audienceOf(member?.type);
-  if (!audience) throw new Error("UNAUTHORIZED");
-  return audience;
+  if (!audience || !member) throw new Error("UNAUTHORIZED");
+  return { audience, role: member.role };
 }
 export function routeError(error: unknown) {
   const code = error instanceof Error ? error.message : "";

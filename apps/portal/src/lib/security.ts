@@ -6,18 +6,34 @@ import type { Audience } from "./audience";
  * Lista explícita por público. Cooperativa e instituição recebem somente as
  * leituras deste incremento; nenhuma rota privada do produtor é encaminhada.
  */
+const UUID =
+  "[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}";
+const writes: Record<"cooperative" | "institution", RegExp> = {
+  // Cooperativa designada: somente registrar retirada.
+  cooperative: new RegExp("^/shipments/" + UUID + "/pickup$", "i"),
+  // Instituição: solicitar, cancelar a própria solicitação e confirmar recebimento.
+  institution: new RegExp(
+    "^/(orders|orders/" + UUID + "/cancel|shipments/" + UUID + "/receipts)$",
+    "i",
+  ),
+};
 export function allowedProxyPath(
   endpoint: string,
   method: string,
   audience: Audience = "producer",
+  role = "ADMIN",
 ) {
-  if (audience === "cooperative")
-    return method === "GET" && endpoint === "/cooperative-home";
-  if (audience === "institution")
+  // LEITOR nunca escreve, em nenhum público (a API também recusa).
+  if (method !== "GET" && role === "LEITOR") return false;
+  if (audience === "cooperative" || audience === "institution") {
+    if (method === "POST") return writes[audience].test(endpoint);
     return (
       method === "GET" &&
-      (endpoint === "/institution-home" || endpoint === "/offers")
+      (audience === "cooperative"
+        ? endpoint === "/cooperative-home"
+        : endpoint === "/institution-home" || endpoint === "/offers")
     );
+  }
   const uuid =
     "[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}";
   const allowed = new RegExp(

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, type CSSProperties } from "react";
+import { createContext, useContext, useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import Link from "next/link";
 import {
   AlertCircle,
@@ -9,7 +9,6 @@ import {
   Clock3,
   Eye,
   Info,
-  LockKeyhole,
   RefreshCw,
 } from "lucide-react";
 import { request } from "@/lib/client-api";
@@ -27,6 +26,8 @@ import {
   type OrganizationHomePage,
 } from "@/lib/organization-home";
 import { number, date } from "@/lib/types";
+import { operationActions, type OperationAction } from "@/lib/commands";
+import { CommandSheet, type CommandRequest } from "./command-sheet";
 import { usePortal } from "./portal-provider";
 import { Skeleton } from "./ui/skeleton";
 
@@ -58,7 +59,16 @@ export function useOrganizationHome(limit: number, offset: number) {
   useEffect(() => {
     if (audience === "producer") return;
     const abort = new AbortController();
-    setState({ status: "loading" });
+    // Recarga da mesma página (após uma operação ou "Atualizar") mantém os
+    // dados visíveis até a nova resposta; outra página/organização mostra carregamento.
+    setState((current) =>
+      current.status === "ready" &&
+      current.page.home.organizationId === organizationId &&
+      current.page.pagination.limit === limit &&
+      current.page.pagination.offset === offset
+        ? current
+        : { status: "loading" },
+    );
     request<unknown>(
       `/api/agro${endpoint[audience]}?limit=${limit}&offset=${offset}`,
       {},
@@ -125,9 +135,32 @@ const shortId = (id: string) => "#" + id.replace(/-/g, "").slice(0, 8).toUpperCa
 const time = (iso: string) =>
   new Date(iso).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
 
+const Act = createContext<(op: HomeOperation, action: OperationAction) => void>(() => {});
+/** Abre o formulário de operação e recarrega a página após confirmação da API. */
+export function OperationCommands({ children }: { children: ReactNode }) {
+  const { refresh } = usePortal();
+  const [command, setCommand] = useState<CommandRequest | null>(null);
+  const open = (op: HomeOperation, action: OperationAction) => {
+    const what = `${number(op.quantityKg)} kg · pedido ${shortId(op.id)}`;
+    const spec: Record<OperationAction["kind"], Omit<CommandRequest, "kind" | "endpoint">> = {
+      pickup: { title: "Registrar retirada", summary: `Você confirma que a cooperativa retirou ${what}. O destinatário confirmará o recebimento depois.`, confirmLabel: "Confirmar retirada", successMessage: "Retirada registrada." },
+      receipt: { title: "Confirmar recebimento", summary: `Você confirma o recebimento integral de ${what}. Recebimento parcial ainda não é aceito.`, confirmLabel: "Confirmar recebimento", successMessage: "Recebimento confirmado.", extra: { quantityAcceptedKg: op.quantityKg } },
+      cancel: { title: "Cancelar solicitação", summary: `A solicitação de ${what} será cancelada. Esta ação não pode ser desfeita.`, confirmLabel: "Cancelar solicitação", successMessage: "Solicitação cancelada." },
+      request: { title: "", summary: "", confirmLabel: "", successMessage: "" },
+    };
+    setCommand({ kind: action.kind, endpoint: action.endpoint, ...spec[action.kind] });
+  };
+  return (
+    <Act.Provider value={open}>
+      {children}
+      <CommandSheet command={command} onClose={() => setCommand(null)} onDone={refresh} />
+    </Act.Provider>
+  );
+}
+
 /**
- * Espaço reservado para ações de escrita do próximo incremento. LEITOR (ou
- * canWrite=false) não recebe nenhum controle de escrita.
+ * Ações reais somente para ADMIN/EDITOR com canWrite; LEITOR vê
+ * "Somente consulta". Etapas de outros participantes aparecem como acompanhamento.
  */
 export function ActionSlot({
   audience,
@@ -140,32 +173,40 @@ export function ActionSlot({
   home: OrganizationHome;
   role: string;
 }) {
+  const open = useContext(Act);
   const step = nextStep(audience, operation.status);
-  if (!step) return null;
-  if (step.kind === "follow")
+  const actions = operationActions(audience, operation);
+  const writer = canShowWriteActions(home.canWrite, role);
+  const follow = step?.kind === "follow" && (
+    <span className="pb-step" data-kind="follow">
+      <Clock3 size={13} aria-hidden="true" /> {step.label}
+    </span>
+  );
+  if (!actions.length) return follow || null;
+  if (!writer)
     return (
-      <span className="pb-step" data-kind="follow">
-        <Clock3 size={13} aria-hidden="true" /> {step.label}
-      </span>
-    );
-  if (!canShowWriteActions(home.canWrite, role))
-    return (
-      <span className="pb-step" data-kind="readonly">
-        <Eye size={13} aria-hidden="true" /> Somente consulta
-      </span>
+      follow || (
+        <span className="pb-step" data-kind="readonly">
+          <Eye size={13} aria-hidden="true" /> Somente consulta
+        </span>
+      )
     );
   return (
-    <button
-      type="button"
-      className="pb-action"
-      disabled
-      aria-disabled="true"
-      data-write-action={step.label}
-      title="Esta ação será habilitada no próximo incremento."
-    >
-      <LockKeyhole size={13} aria-hidden="true" /> {step.label}
-      <small>em breve</small>
-    </button>
+    <span className="pb-actions">
+      {follow}
+      {actions.map((a) => (
+        <button
+          key={a.kind}
+          type="button"
+          className="pb-action"
+          data-tone={a.tone}
+          data-write-action={a.label}
+          onClick={() => open(operation, a)}
+        >
+          {a.label}
+        </button>
+      ))}
+    </span>
   );
 }
 
@@ -300,8 +341,28 @@ export function OrganizationHomeView() {
   const { audience, member } = usePortal();
   const { state, retry } = useOrganizationHome(RECENT, 0);
   if (audience === "producer") return null;
-  if (state.status === "loading") return <HomeSkeleton />;
-  if (state.status === "error") return <HomeError message={state.message} onRetry={retry} />;
+  return (
+    <OperationCommands>
+      {state.status === "loading" ? (
+        <HomeSkeleton />
+      ) : state.status === "error" ? (
+        <HomeError message={state.message} onRetry={retry} />
+      ) : (
+        <HomeContent page={state.page} audience={audience} member={member} />
+      )}
+    </OperationCommands>
+  );
+}
+function HomeContent({
+  page,
+  audience,
+  member,
+}: {
+  page: OrganizationHomePage;
+  audience: OrgAudience;
+  member: { name: string; role: string };
+}) {
+  const state = { page };
   const { home } = state.page;
   const s = home.byStatus;
   const cooperative = audience === "cooperative";
@@ -393,7 +454,7 @@ export function OperationsPage() {
   const cooperative = audience === "cooperative";
   const title = cooperative ? "Remessas" : "Solicitações";
   return (
-    <>
+    <OperationCommands>
       <div className="page-heading">
         <div>
           <p className="eyebrow">{cooperative ? "COOPERATIVA" : "INSTITUIÇÃO"}</p>
@@ -416,6 +477,6 @@ export function OperationsPage() {
           <DemoNotice home={state.page.home} />
         </section>
       )}
-    </>
+    </OperationCommands>
   );
 }

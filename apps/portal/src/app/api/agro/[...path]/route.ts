@@ -17,9 +17,19 @@ async function proxy(
     const session = await currentSession();
     const { path } = await context.params;
     const endpoint = "/" + path.join("/");
-    const audience = activeAudience(session);
+    const { audience, role } = activeAudience(session);
+    // Operação existe para o público, mas o papel é de consulta: 403 sem chamar a API.
     if (
-      !allowedProxyPath(endpoint, req.method, audience) ||
+      req.method !== "GET" &&
+      role === "LEITOR" &&
+      allowedProxyPath(endpoint, req.method, audience, "ADMIN")
+    )
+      return Response.json(
+        { error: { code: "FORBIDDEN", message: "Seu perfil é somente de consulta nesta organização." } },
+        { status: 403, headers: { "Cache-Control": "no-store" } },
+      );
+    if (
+      !allowedProxyPath(endpoint, req.method, audience, role) ||
       !allowedProxyQuery(new URL(req.url).search, audience)
     )
       return Response.json(
