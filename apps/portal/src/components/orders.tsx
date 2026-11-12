@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { MessageButton } from "./message-button";
 import { useEffect, useRef, useState } from "react";
 import { LoaderCircle, ArrowUpRight, Check } from "lucide-react";
 import { usePortal } from "./portal-provider";
@@ -390,12 +391,15 @@ export function Orders() {
                   </dd>
                 </div>
               </dl>
-              <Link
-                className="text-link mt-5"
-                href={"/rastreabilidade/" + selected.id}
-              >
-                Rastrear pedido
-              </Link>
+              <div className="order-links">
+                <Link
+                  className="text-link mt-5"
+                  href={"/rastreabilidade/" + selected.id}
+                >
+                  Rastrear pedido
+                </Link>
+                {selected.status !== "CANCELADO" && <MessageButton orderId={selected.id} />}
+              </div>
               {feedback && (
                 <p role="status" className="order-feedback">
                   <Check size={16} />

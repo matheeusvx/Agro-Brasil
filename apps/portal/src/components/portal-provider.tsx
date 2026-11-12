@@ -31,6 +31,8 @@ type PortalState = {
   handleAccessError: (error: unknown) => boolean;
   /** Incrementa no botão "Atualizar dados"; as homes de organização recarregam. */
   revision: number;
+  /** Troca de organização em andamento: nenhuma tela do contexto anterior fica visível. */
+  switching: boolean;
   workspace: Workspace | null;
   loading: boolean;
   error: string;
@@ -54,7 +56,8 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     [revision, setRevision] = useState(0),
     [loading, setLoading] = useState(true),
     [error, setError] = useState(""),
-    [creating, setCreating] = useState(false);
+    [creating, setCreating] = useState(false),
+    [switching, setSwitching] = useState(false);
   const generation = useRef(0);
   const member = session?.memberships.find(
     (m) => m.organizationId === session.organizationId,
@@ -138,6 +141,14 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     clearAll();
   }
   async function changeOrganization(id: string) {
+    // Remove imediatamente o conteúdo do contexto anterior (inclusive histórico
+    // de mensagens) e o parâmetro de conversa, que pertence à organização antiga.
+    setSwitching(true);
+    const url = new URL(window.location.href);
+    if (url.searchParams.has("conversa")) {
+      url.searchParams.delete("conversa");
+      window.history.replaceState(null, "", url);
+    }
     setLoading(true);
     setError("");
     setWorkspace(null);
@@ -150,7 +161,9 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       });
       setProperty("");
       setSession(next);
+      setSwitching(false);
     } catch (error) {
+      setSwitching(false);
       if (handleAccessError(error)) return;
       setError(
         error instanceof Error
@@ -184,6 +197,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         audience,
         handleAccessError,
         revision,
+        switching,
         workspace,
         loading,
         error,

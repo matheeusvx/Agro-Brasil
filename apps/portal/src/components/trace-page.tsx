@@ -19,6 +19,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 import { usePortal } from "./portal-provider";
+import { MessageButton } from "./message-button";
 import { WorkspaceState } from "./workspace-state";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -171,6 +172,7 @@ export function TracePage({ id }: { id?: string }) {
             <span>Pedido {order.id.slice(0, 8)}</span>
             <span>Lote {order.lotId.slice(0, 8)}</span>
             <span>{statusName(order.status)}</span>
+            {order.status !== "CANCELADO" && <MessageButton orderId={order.id} />}
           </div>
           <TraceGraph
             key={id + session.organizationId + workspace.property.id}

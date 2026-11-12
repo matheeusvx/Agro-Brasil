@@ -8,6 +8,7 @@ import { parseOrganizationHome, type HomeOperation } from "@/lib/organization-ho
 import type { FlowEvent, TraceOrder } from "@/lib/trace-flow";
 import { number } from "@/lib/types";
 import { usePortal } from "./portal-provider";
+import { MessageButton } from "./message-button";
 import { TraceGraph } from "./trace-page";
 import { Button } from "./ui/button";
 
@@ -113,6 +114,7 @@ export function OrganizationTrace({ id }: { id: string }) {
             <span>Pedido {shortId(state.op.id)}</span>
             <span>Lote {shortId(state.op.lotId)}</span>
             <span>{statusFor(audience, state.op.status)}</span>
+            {state.op.status !== "CANCELADO" && <MessageButton orderId={state.op.id} />}
           </div>
           {state.partial && (
             <p className="trace-guide" role="note">

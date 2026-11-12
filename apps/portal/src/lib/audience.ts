@@ -60,7 +60,8 @@ const pages: Record<Audience, RegExp[]> = {
   ],
 };
 export const pageAllowed = (path: string, audience: Audience) =>
-  pages[audience].some((pattern) => pattern.test(path));
+  // Mensagens é compartilhada pelos três públicos; a API comprova cada relação.
+  path === "/mensagens" || pages[audience].some((pattern) => pattern.test(path));
 
 /** Somente quem pode escrever e não é LEITOR vê ações de escrita como possíveis. */
 export const canShowWriteActions = (canWrite: boolean, role: string) =>

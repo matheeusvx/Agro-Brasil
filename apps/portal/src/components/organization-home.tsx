@@ -29,6 +29,7 @@ import {
 import { number, date } from "@/lib/types";
 import { operationActions, type OperationAction } from "@/lib/commands";
 import { CommandSheet, type CommandRequest } from "./command-sheet";
+import { MessageButton } from "./message-button";
 import { usePortal } from "./portal-provider";
 import { Skeleton } from "./ui/skeleton";
 
@@ -295,6 +296,7 @@ export function OperationsTable({
           <span className="pb-op-kg">{number(op.quantityKg)} kg</span>
           <time dateTime={op.createdAt}>{date(op.createdAt)}</time>
           <ActionSlot audience={audience} operation={op} home={home} role={role} />
+          {op.status !== "CANCELADO" && <MessageButton orderId={op.id} compact />}
         </li>
       ))}
     </ul>

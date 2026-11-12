@@ -22,6 +22,7 @@ import {
   ClipboardList,
   Store,
   ShieldAlert,
+  MessagesSquare,
 } from "lucide-react";
 import {
   audienceLabel,
@@ -39,6 +40,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
     session,
     member,
     audience,
+    switching,
     workspace,
     loading,
     refresh,
@@ -67,6 +69,7 @@ export function PortalShell({ children }: { children: ReactNode }) {
         { href: "/pedidos", label: "Pedidos", icon: PackageCheck },
         { href: "/destino", label: "Excedentes", icon: HandHeart },
         { href: "/rastreabilidade", label: "Rastreabilidade", icon: Route },
+        { href: "/mensagens", label: "Mensagens", icon: MessagesSquare },
       ],
     },
   ] : navigation[audience];
@@ -266,7 +269,12 @@ export function PortalShell({ children }: { children: ReactNode }) {
           className="main-content"
           data-audience={audience}
         >
-          {allowed ? (
+          {switching ? (
+            <div role="status" aria-label="Trocando de organização" className="space-y-5">
+              <div className="h-12 w-72 max-w-full rounded-xl bg-[#e3e9de] animate-pulse" />
+              <div className="h-64 rounded-[22px] bg-[#e3e9de] animate-pulse" />
+            </div>
+          ) : allowed ? (
             // Remonta a página a cada troca de organização: nenhum estado local sobrevive.
             <div
               key={session.organizationId + path}
@@ -297,6 +305,7 @@ const navigation: Record<Exclude<Audience, "producer">, NavGroup[]> = {
       links: [
         { href: "/visao-geral", label: "Visão geral", icon: LayoutDashboard },
         { href: "/remessas", label: "Remessas", icon: Truck },
+        { href: "/mensagens", label: "Mensagens", icon: MessagesSquare },
       ],
     },
   ],
@@ -308,6 +317,7 @@ const navigation: Record<Exclude<Audience, "producer">, NavGroup[]> = {
         { href: "/visao-geral", label: "Visão geral", icon: LayoutDashboard },
         { href: "/solicitacoes", label: "Solicitações", icon: ClipboardList },
         { href: "/ofertas-disponiveis", label: "Ofertas disponíveis", icon: Store },
+        { href: "/mensagens", label: "Mensagens", icon: MessagesSquare },
       ],
     },
   ],

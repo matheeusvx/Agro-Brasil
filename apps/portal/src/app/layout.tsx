@@ -6,6 +6,7 @@ import "./theme.css";
 import "./drawers.css";
 import "./destino.css";
 import "./publicos.css";
+import "./chat.css";
 export const metadata: Metadata = {
   title: "Agro+ Brasil | Portal",
   description:
