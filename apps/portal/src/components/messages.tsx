@@ -20,6 +20,7 @@ import {
   RefreshCw,
   Search,
   SendHorizontal,
+  SquarePen,
 } from "lucide-react";
 import { request, RequestError } from "@/lib/client-api";
 import { IdempotencyKeeper } from "@/lib/commands";
@@ -59,6 +60,7 @@ const hhmm = (iso: string) => {
 const orderHref = (audience: Audience, id: string) =>
   (audience === "producer" ? "/rastreabilidade/" : audience === "cooperative" ? "/remessas/" : "/solicitacoes/") + id;
 const shortOrder = (id: string) => "#" + id.replace(/-/g, "").slice(0, 8).toUpperCase();
+const startHref: Record<Audience, string> = { producer: "/pedidos", cooperative: "/remessas", institution: "/solicitacoes" };
 const hidden = () => typeof document !== "undefined" && document.visibilityState === "hidden";
 
 /** Lê todas as páginas a partir de `after`, sem sobrepor chamadas. */
@@ -85,6 +87,7 @@ export function Messages() {
   const [seen, setSeen] = useState<Record<string, number>>({});
   const [selected, setSelected] = useState<string | null>(null);
   const [query, setQuery] = useState("");
+  const [tab, setTab] = useState<"all" | "new">("all");
   const previewRef = useRef(previews);
   previewRef.current = previews;
 
@@ -184,13 +187,22 @@ export function Messages() {
     },
     [names, me],
   );
+  const isUnread = useCallback(
+    (chatId: string, preview?: Preview) => {
+      const last = preview?.last;
+      return Boolean(last && last.sequence > (seen[chatId] ?? last.sequence) && selected !== chatId);
+    },
+    [seen, selected],
+  );
   const sorted = useMemo(() => {
     const q = query.trim().toLocaleLowerCase("pt-BR");
     return list.chats
       .map((c) => ({ chat: c, label: label(c), preview: previews[c.id] }))
+      .filter(({ chat: c, preview }) => tab === "all" || isUnread(c.id, preview))
       .filter(({ label: l, preview }) => !q || `${l.name} ${l.type} ${preview?.last?.text ?? ""}`.toLocaleLowerCase("pt-BR").includes(q))
       .sort((a, b) => Date.parse(b.preview?.last?.createdAt ?? b.chat.createdAt) - Date.parse(a.preview?.last?.createdAt ?? a.chat.createdAt));
-  }, [list.chats, label, previews, query]);
+  }, [list.chats, label, previews, query, tab, isUnread]);
+  const unreadCount = list.chats.filter((c) => isUnread(c.id, previews[c.id])).length;
   const active = list.chats.find((c) => c.id === selected) ?? null;
   const markSeen = useCallback((chatId: string, last: ChatMessage | null, cursor: number) => {
     setSeen((s) => ({ ...s, [chatId]: last?.sequence ?? s[chatId] ?? 0 }));
@@ -199,20 +211,33 @@ export function Messages() {
 
   return (
     <div className="chat-page">
-      <div className="page-heading">
+      <div className="chat-app panel">
+      <header className="chat-app-bar">
         <div>
-          <p className="eyebrow">COMUNICAÇÃO ENTRE PARCEIROS</p>
           <h1>Mensagens</h1>
-          <p>Uma conversa por organização parceira, com os pedidos que vocês compartilham.</p>
+          <p>Conversas com as organizações parceiras dos seus pedidos</p>
         </div>
-      </div>
-      <div className="chat-layout panel" data-view={selected ? "thread" : "list"}>
+        {writer && (
+          <Link className="chat-new" href={startHref[audience]} title="Conversas começam a partir de um pedido em comum">
+            <SquarePen size={15} aria-hidden="true" /> Nova conversa
+          </Link>
+        )}
+      </header>
+      <div className="chat-layout" data-view={selected ? "thread" : "list"}>
         <aside className="chat-list" aria-label="Conversas">
           <label className="chat-search">
             <Search size={15} aria-hidden="true" />
             <span className="sr-only">Pesquisar conversas</span>
-            <input type="search" placeholder="Pesquisar conversas" value={query} onChange={(e) => setQuery(e.target.value)} />
+            <input type="search" placeholder="Buscar organização ou mensagem" value={query} onChange={(e) => setQuery(e.target.value)} />
           </label>
+          <div className="chat-tabs" role="tablist" aria-label="Filtrar conversas">
+            {(["all", "new"] as const).map((t) => (
+              <button key={t} type="button" role="tab" aria-selected={tab === t} onClick={() => setTab(t)}>
+                {t === "all" ? "Todas" : "Novas"}
+                {t === "new" && unreadCount > 0 && <span className="chat-tab-count">{unreadCount}</span>}
+              </button>
+            ))}
+          </div>
           {list.status === "loading" ? (
             <div role="status" aria-label="Carregando conversas" className="chat-skeleton">
               {[0, 1, 2].map((i) => (
@@ -228,7 +253,9 @@ export function Messages() {
             <div className="chat-empty">
               <MessagesSquare size={22} aria-hidden="true" />
               <p>
-                {query
+                {tab === "new"
+                  ? "Nenhuma mensagem nova nesta sessão."
+                  : query
                   ? "Nenhuma conversa encontrada."
                   : writer
                     ? "Nenhuma conversa ainda. Use “Enviar mensagem” em um pedido para falar com a outra organização."
@@ -239,7 +266,7 @@ export function Messages() {
             <ul>
               {sorted.map(({ chat, label: l, preview }, i) => {
                 const last = preview?.last;
-                const unread = last && last.sequence > (seen[chat.id] ?? last.sequence) && selected !== chat.id;
+                const unread = isUnread(chat.id, preview);
                 return (
                   <li key={chat.id} className="chat-item" style={{ "--i": Math.min(i, 6) } as CSSProperties}>
                     <button type="button" aria-current={selected === chat.id ? "true" : undefined} onClick={() => select(chat.id)}>
@@ -288,11 +315,17 @@ export function Messages() {
             />
           ) : (
             <div className="chat-empty chat-placeholder">
-              <MessagesSquare size={28} aria-hidden="true" />
-              <p>Selecione uma conversa para ver o histórico.</p>
+              <span className="chat-placeholder-icon" aria-hidden="true">
+                <MessagesSquare size={22} />
+              </span>
+              <strong>Mensagens entre parceiros</strong>
+              <p>
+                Escolha uma conversa ao lado{writer ? " ou comece uma nova a partir de um pedido em comum" : ""}.
+              </p>
             </div>
           )}
         </section>
+      </div>
       </div>
       <p className="data-note">
         Mensagens em texto simples entre organizações com pedido em comum. Atualização automática a cada 3 segundos na conversa aberta.

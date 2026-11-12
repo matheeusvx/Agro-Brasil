@@ -1,6 +1,6 @@
 {
   "mode": "BANCO_DESCARTAVEL_API_REAL",
-  "startedAt": "2026-11-12T14:13:48.725Z",
+  "startedAt": "2026-11-12T15:18:12.853Z",
   "checks": [
     {
       "name": "instituição solicita oferta com quantidade ≤ saldo",
@@ -575,5 +575,5 @@
     "instEditor/visao-geral-320": true,
     "instEditor/visao-geral-320-texto-200": true
   },
-  "finishedAt": "2026-11-12T14:14:25.661Z"
+  "finishedAt": "2026-11-12T15:18:49.936Z"
 }

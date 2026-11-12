@@ -1,6 +1,6 @@
 {
   "mode": "BANCO_DESCARTAVEL_API_REAL",
-  "startedAt": "2026-11-12T15:01:32.031Z",
+  "startedAt": "2026-11-12T15:17:47.704Z",
   "checks": [
     {
       "name": "instituição abre conversa pelo pedido, envia, falha de rede reenviada com a mesma chave e sem duplicar; HTML literal",
@@ -13,7 +13,7 @@
       "name": "produtor responde; instituição recebe pelo polling sem reanimar mensagens antigas",
       "ok": true,
       "detail": {
-        "latenciaMs": 1849
+        "latenciaMs": 1868
       }
     },
     {
@@ -60,5 +60,5 @@
     "desktop-1440.png"
   ],
   "axe": [],
-  "finishedAt": "2026-11-12T15:01:56.864Z"
+  "finishedAt": "2026-11-12T15:18:11.704Z"
 }

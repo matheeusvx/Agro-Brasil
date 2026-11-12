@@ -156,6 +156,7 @@
 .pb-ops li {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto auto;
+  min-height: 64px;
   align-items: center;
   gap: 14px;
   padding: 12px 4px;
@@ -208,8 +209,7 @@
   white-space: nowrap;
 }
 .pb-step {
-  color: var(--ag-muted);
-  background: #eef2ea;
+  color: #5f6e64;
 }
 .pb-step[data-kind="readonly"] {
   background: transparent;
@@ -557,4 +557,25 @@ a.pb-priority-body:focus-visible {
 }
 .trace-node[data-withheld] {
   border-style: dashed;
+}
+
+/* Ações da linha (operação real + conversa) lado a lado, alinhadas à direita. */
+.pb-row-actions {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.pb-step[data-kind="readonly"] {
+  border: 0;
+  min-height: 0;
+  padding: 0;
+  font-weight: 500;
+  font-size: 12px;
+}
+@media (max-width: 780px) {
+  .pb-ops .pb-row-actions {
+    flex-basis: 100%;
+    justify-content: flex-start;
+  }
 }

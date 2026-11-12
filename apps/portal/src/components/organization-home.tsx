@@ -6,7 +6,6 @@ import {
   ArrowUpRight,
   ChevronLeft,
   ChevronRight,
-  Clock3,
   Eye,
   Info,
   RefreshCw,
@@ -15,7 +14,6 @@ import {
 import { request } from "@/lib/client-api";
 import {
   canShowWriteActions,
-  nextStep,
   roleLabel,
   statusFor,
   type Audience,
@@ -178,26 +176,19 @@ export function ActionSlot({
   role: string;
 }) {
   const open = useContext(Act);
-  const step = nextStep(audience, operation.status);
+  // O acompanhamento de etapas de outros participantes já aparece no título
+  // do estado; a linha mostra só ações reais ou o aviso discreto de consulta.
   const actions = operationActions(audience, operation);
   const writer = canShowWriteActions(home.canWrite, role);
-  const follow = step?.kind === "follow" && (
-    <span className="pb-step" data-kind="follow">
-      <Clock3 size={13} aria-hidden="true" /> {step.label}
-    </span>
-  );
-  if (!actions.length) return follow || null;
+  if (!actions.length) return null;
   if (!writer)
     return (
-      follow || (
-        <span className="pb-step" data-kind="readonly">
-          <Eye size={13} aria-hidden="true" /> Somente consulta
-        </span>
-      )
+      <span className="pb-step" data-kind="readonly">
+        <Eye size={13} aria-hidden="true" /> Somente consulta
+      </span>
     );
   return (
     <span className="pb-actions">
-      {follow}
       {actions.map((a) => (
         <button
           key={a.kind}
@@ -295,8 +286,10 @@ export function OperationsTable({
           </Link>
           <span className="pb-op-kg">{number(op.quantityKg)} kg</span>
           <time dateTime={op.createdAt}>{date(op.createdAt)}</time>
-          <ActionSlot audience={audience} operation={op} home={home} role={role} />
-          {op.status !== "CANCELADO" && <MessageButton orderId={op.id} compact />}
+          <span className="pb-row-actions">
+            <ActionSlot audience={audience} operation={op} home={home} role={role} />
+            {op.status !== "CANCELADO" && <MessageButton orderId={op.id} compact />}
+          </span>
         </li>
       ))}
     </ul>
