@@ -249,3 +249,18 @@ test("mensagens de erro por status, sem sucesso presumido", () => {
   assert.match(commandMessage(new RequestError(409, "Apenas pedido solicitado.")), /Apenas pedido solicitado/);
   assert.match(commandMessage(new TypeError("fetch failed")), /mesma tentativa/);
 });
+
+test("rastreabilidade: eventos do lote liberados só como GET para coop/inst", () => {
+  const events = "/lots/" + uuid + "/events";
+  for (const a of ["cooperative", "institution"] as const) {
+    assert.equal(allowedProxyPath(events, "GET", a, "LEITOR"), true);
+    assert.equal(allowedProxyPath(events, "POST", a, "ADMIN"), false);
+    assert.equal(allowedProxyPath("/lots/" + uuid, "GET", a), false);
+    assert.equal(allowedProxyPath("/lots/abc/events", "GET", a), false);
+  }
+  assert.equal(pageAllowed("/remessas/" + uuid, "cooperative"), true);
+  assert.equal(pageAllowed("/solicitacoes/" + uuid, "institution"), true);
+  assert.equal(pageAllowed("/solicitacoes/" + uuid, "cooperative"), false);
+  assert.equal(pageAllowed("/remessas/" + uuid, "institution"), false);
+  assert.equal(pageAllowed("/remessas/a/b", "cooperative"), false);
+});

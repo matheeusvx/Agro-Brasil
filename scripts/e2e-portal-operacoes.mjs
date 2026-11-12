@@ -38,6 +38,7 @@ try {
     producer: org("Sítio Teste", "PEQUENO_PRODUTOR_RURAL"),
     coop: org("Cooperativa Teste", "COOPERATIVA"),
     inst: org("Instituição Teste", "INSTITUICAO"),
+    otherCoop: org("Outra Cooperativa", "COOPERATIVA"),
   };
   await db.collection("organizations").insertMany(Object.values(orgs));
   const people = {
@@ -47,6 +48,7 @@ try {
     instEditor: [["inst", "EDITOR"]],
     instReader: [["inst", "LEITOR"]],
     multi: [["coop", "ADMIN"], ["inst", "ADMIN"]],
+    otherCoop: [["otherCoop", "ADMIN"]],
   };
   const tokens = {};
   for (const [who, links] of Object.entries(people)) {
@@ -224,6 +226,70 @@ try {
     await shot(page, "instituicao-home-apos-recebimento");
     ok("instituição confirma recebimento integral");
     await context.close();
+  }
+
+  // 4b. Rastreabilidade visual reaproveitada (cooperativa e instituição).
+  {
+    const foreignIds = [orgs.producer._id, orgs.otherCoop._id];
+    for (const [who, list, foreign] of [["coopEditor", "/remessas", [...foreignIds, orgs.inst._id]], ["instEditor", "/solicitacoes", [...foreignIds, orgs.coop._id]]]) {
+      const { context, page } = await open(who, { reducedMotion: "no-preference" });
+      await page.goto(base + list);
+      await page.getByRole("link", { name: new RegExp("Ver trajetória do pedido " + shortId(alfaceOrder._id)) }).click();
+      await page.waitForURL("**" + list + "/" + alfaceOrder._id);
+      await page.getByRole("heading", { name: "Trajetória do pedido" }).waitFor();
+      const nodes = page.locator(".trace-node");
+      await nodes.nth(5).waitFor();
+      const titles = await nodes.locator("strong").allTextContents();
+      assert.deepEqual(titles, ["Origem registrada", "Oferta publicada", "Solicitação recebida", "Pedido aceito", "Retirada registrada", "Recebimento confirmado"]);
+      assert.equal(await page.locator(".trace-node[data-current='true'] strong").textContent(), "Recebimento confirmado");
+      assert.equal(await page.locator(".trace-node[data-withheld]").count(), 1, "oferta não compartilhada");
+      const animation = await nodes.first().evaluate((n) => getComputedStyle(n).animationName);
+      assert.equal(animation, "trace-enter");
+      await page.waitForTimeout(900);
+      const text = await page.locator("main").innerText();
+      for (const id of foreign) assert.ok(!text.includes(id), who + " expõe ID de outra organização");
+      await page.locator(".trace-node").filter({ hasText: "Retirada registrada" }).click();
+      await page.locator(".trace-detail").getByText("Campinas / SP").waitFor();
+      const responsible = await page.locator(".trace-detail dd").allTextContents();
+      assert.ok(!responsible.some((t) => /[0-9a-f]{8}-[0-9a-f]{4}/.test(t) && !t.includes(alfaceOrder._id) && !t.includes(alfaceOrder.lotId) && t.length === 36 && foreign.includes(t)));
+      await shot(page, who + "-trajetoria-1440");
+      for (const w of [390, 320]) {
+        await page.setViewportSize({ width: w, height: 844 });
+        await page.waitForTimeout(200);
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, who + " trajetória " + w);
+        await shot(page, who + "-trajetoria-" + w);
+      }
+      await context.close();
+      const reduced = await open(who, { reducedMotion: "reduce" });
+      await reduced.page.goto(base + list + "/" + alfaceOrder._id);
+      await reduced.page.locator(".trace-node").nth(5).waitFor();
+      const dur = await reduced.page.locator(".trace-node").first().evaluate((n) => parseFloat(getComputedStyle(n).animationDuration));
+      assert.ok(dur < 0.001, "movimento reduzido na trajetória");
+      await reduced.context.close();
+    }
+    // Instituição com solicitação ainda sem aceite: só a data do pedido.
+    const waiting = await as("instEditor", "inst", "/orders", { offerId: offers.Couve.id, quantityKg: 2, ...location });
+    const { context, page } = await open("instEditor");
+    await page.goto(base + "/solicitacoes/" + waiting.id);
+    await page.getByText("O histórico do lote fica disponível depois que o produtor aceitar").waitFor();
+    assert.equal(await page.locator(".trace-node[data-current='true'] strong").textContent(), "Solicitação recebida");
+    assert.equal(await page.locator(".trace-node[data-future='true']").count(), 3);
+    await shot(page, "instituicao-trajetoria-aguardando-aceite");
+    await context.close();
+    await as("instEditor", "inst", "/orders/" + waiting.id + "/cancel", location);
+    // Outra cooperativa: nem a página nem o proxy revelam o pedido.
+    const other = await open("otherCoop");
+    await other.page.goto(base + "/remessas/" + alfaceOrder._id);
+    await other.page.getByText("inexistente ou indisponível").waitFor();
+    const leak = await other.context.request.get(base + "/api/agro/lots/" + alfaceOrder.lotId + "/events");
+    assert.equal(leak.status(), 404);
+    // Instituição não abre rota da cooperativa.
+    await other.context.close();
+    const inst = await open("instEditor");
+    await inst.page.goto(base + "/remessas/" + alfaceOrder._id);
+    await inst.page.getByText("Esta área não faz parte do perfil ativo.").waitFor();
+    await inst.context.close();
+    ok("trajetória para cooperativa e instituição: 6 etapas, atual destacada, oferta sem data inventada, isolamento por organização");
   }
 
   // 5. Conflito de estado (409): produtor cancela enquanto a cooperativa confirma.

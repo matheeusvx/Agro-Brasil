@@ -132,3 +132,54 @@ Capturas em `operacoes/`: fluxos (formulários, antes/depois, 409), `leitor-*`, 
 - Município e UF são digitados a cada operação; nada é preenchido por suposição.
 - O axe roda nas telas do smoke do produtor. As telas novas foram verificadas por rótulos explícitos, teclado e alvos ≥ 44 px, sem auditoria axe própria.
 - Com texto 200% a 320 px, as quantidades das listas ficam grandes, mas sem rolagem horizontal.
+
+---
+
+# Incremento 3 — rastreabilidade visual para cooperativas e instituições
+
+12/11/2026. Backend não alterado.
+
+## O que foi feito
+
+- **Mesma experiência do produtor:** `TraceGraph` (nós, conectores, seleção por teclado, painel de detalhes, animações `trace-enter`/`trace-line` e movimento reduzido) foi exportado de `trace-page.tsx` e é usado pela nova `organization-trace.tsx`. Não existe uma segunda visualização paralela.
+- **Rotas:** `/remessas/[id]` (cooperativa) e `/solicitacoes/[id]` (instituição). As listas continuam iguais; cada linha (e cada prioridade da Visão geral) abre a trajetória ("Ver trajetória"). Os botões de ação seguem separados do link.
+- **Dados:**
+  - a operação vem da home autorizada (mesma projeção validada das listas);
+  - os eventos vêm de `GET /lots/:id/events`, que a API já restringe aos pedidos da organização;
+  - o cliente filtra mais uma vez por lote e pedido.
+- **Fluxo:** origem → oferta → solicitação → aceite → retirada → recebimento, com a etapa atual destacada, data/hora de cada evento e vínculo com pedido e lote.
+- **Etapa não compartilhada:** a API não envia o evento "Oferta publicada" a quem não é dono do lote. Esse nó aparece como concluído e tracejado, com "Data não compartilhada" e explicação no painel; nada é estimado. O comportamento do produtor não muda (`fillWithheld` só para coop/inst).
+- **Solicitação sem aceite:** a API devolve 404 no lote para a instituição. A tela mostra só a data da solicitação (da home) e um aviso.
+- **Dados de terceiros:** a organização responsável aparece como "Outro participante da operação" em vez do UUID, também na visão do produtor.
+- **Proxy:** somente `GET /lots/:uuid/events` foi acrescentado para coop/inst. `GET /lots/:id` e qualquer escrita continuam bloqueados.
+
+## Validação
+
+- `npm test`: **68/68** (etapa não compartilhada, cancelamento, proxy e permissões de página).
+- Smoke do produtor: aprovado (sem regressões na rastreabilidade original).
+- E2E em banco descartável: **11/11**. A nova etapa cobre:
+  - cooperativa e instituição abrem a trajetória a partir da lista;
+  - 6 etapas na ordem, recebimento como etapa atual, oferta tracejada e local nos detalhes;
+  - nenhum UUID de outra organização na página;
+  - animação `trace-enter`, e desligada com movimento reduzido;
+  - sem rolagem horizontal em 390 e 320 px;
+  - solicitação aguardando aceite;
+  - outra cooperativa recebe "indisponível" na página e 404 no proxy;
+  - a instituição não abre a rota da cooperativa.
+- Capturas: `operacoes/coopEditor-trajetoria-{1440,390,320}.png`, `operacoes/instEditor-trajetoria-*.png` e `operacoes/instituicao-trajetoria-aguardando-aceite.png`.
+
+## Contrato sugerido ao backend (para o Codex)
+
+O frontend funciona com o contrato atual. Três lacunas impedem a trajetória completa:
+
+1. **Evento "Oferta publicada" para participantes.** Em `lotView` (`services/api/src/commerce.mjs`), para quem não é dono, incluir também o evento `OFERTA_PUBLICADA` cujo `operationId` seja o `offerId` de um pedido da organização, com a mesma projeção restrita (`id, lotId, orderId: null, type, recordedAt, occurredAt, location{municipality,uf}, quantityGrams, isDemonstration`) e `operationId` na projeção. O nó tracejado passa a ter data automaticamente.
+2. **Instituição antes do aceite.** Hoje `if (!owner && !orders.some(o => o.shipment)) missing()` nega o lote ao solicitante sem remessa. Proposta: aceitar quem é `requesterOrganizationId` de algum pedido do lote (`orders.length > 0`), mantendo a cooperativa condicionada à remessa designada. Assim a instituição vê origem e solicitação com local, em vez da data da home.
+3. **Identificação legível.** A home não traz a cultura, então o resumo mostra só quantidade, pedido e lote. Proposta: incluir `cropName` em `homeOperation` (a oferta já guarda `cropName`; usar `$lookup` em `offers` por `offerId`). Não expõe dados de participantes.
+
+Opcional: `GET /orders/:id/trace` com pedido e eventos já filtrados por participação. Evitaria varrer as páginas da home para localizar o pedido; hoje o limite é de 1.100 operações por organização.
+
+## Limitações
+
+- O resumo não mostra a cultura (contrato 3).
+- Na solicitação sem aceite, a data exibida é a de criação do pedido, e o local aparece como "Não informado no evento".
+- A trajetória é localizada varrendo até 11 páginas de 100 operações da home.

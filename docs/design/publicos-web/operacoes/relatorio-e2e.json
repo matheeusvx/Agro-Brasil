@@ -1,6 +1,6 @@
 {
   "mode": "BANCO_DESCARTAVEL_API_REAL",
-  "startedAt": "2026-11-12T13:37:28.807Z",
+  "startedAt": "2026-11-12T14:13:48.725Z",
   "checks": [
     {
       "name": "instituição solicita oferta com quantidade ≤ saldo",
@@ -22,6 +22,10 @@
     },
     {
       "name": "instituição confirma recebimento integral",
+      "ok": true
+    },
+    {
+      "name": "trajetória para cooperativa e instituição: 6 etapas, atual destacada, oferta sem data inventada, isolamento por organização",
       "ok": true
     },
     {
@@ -287,6 +291,13 @@
     "cooperativa-retirada-formulario.png",
     "cooperativa-home-apos-retirada.png",
     "instituicao-home-apos-recebimento.png",
+    "coopEditor-trajetoria-1440.png",
+    "coopEditor-trajetoria-390.png",
+    "coopEditor-trajetoria-320.png",
+    "instEditor-trajetoria-1440.png",
+    "instEditor-trajetoria-390.png",
+    "instEditor-trajetoria-320.png",
+    "instituicao-trajetoria-aguardando-aceite.png",
     "cooperativa-conflito-409.png",
     "leitor-coopReader-visao-geral.png",
     "leitor-instReader-ofertas-disponiveis.png",
@@ -564,5 +575,5 @@
     "instEditor/visao-geral-320": true,
     "instEditor/visao-geral-320-texto-200": true
   },
-  "finishedAt": "2026-11-12T13:37:59.050Z"
+  "finishedAt": "2026-11-12T14:14:25.661Z"
 }
