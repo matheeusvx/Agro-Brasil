@@ -3,11 +3,13 @@
 Fundação técnica CitizenTech / Territory Predictive Insights — FIAP Global Solution 2026.2.
 Projeto individual: **Matheus Morelli Rodrigues — RM 562765**.
 
+Atualização documental: **12/11/2026**, referência `main` em `89d6f30c` ([PR #1 integrado](https://github.com/matheeusvx/Agro-Brasil/pull/1)).
+
 Uma plataforma para **pequenos produtores rurais, cooperativas, instituições e compradores locais**, com três pilares: conexão de excedentes à demanda e logística; rastreabilidade; gestão da produção e inteligência hídrica. As necessidades desses públicos são hipóteses a investigar, não resultados de validação já obtidos.
 
 ## O que esta versão entrega
 
-- Web HTML/CSS/JavaScript e API Node.js/Express com MongoDB real.
+- Web HTML/CSS/JavaScript e API Node.js/Express 5 com MongoDB real em replica set.
 - Cadastro e consulta de produção, com safra, cultura, propriedade e quantidade em kg.
 - Lote UUID e evento de origem criados atomicamente junto da produção.
 - Histórico inicial com horário do registro, responsável e município/UF confirmados pelo participante; sem GPS.
@@ -19,13 +21,43 @@ Uma plataforma para **pequenos produtores rurais, cooperativas, instituições e
 
 **Flutter (`apps/mobile/`):** home personalizada, Produção, Ofertas, Pedidos, Histórico, consulta offline e três dashboards territoriais — Inteligência Hídrica, Produção e Excedentes e Logística. Consulte [apps/mobile/README.md](apps/mobile/README.md). Preview local: http://127.0.0.1:3000/mobile/ após compilar.
 
-**Portal de gestão (`apps/portal/`):** Next.js com Visão geral, Produção, Ofertas, Pedidos, Rastreabilidade visual e Minha Fazenda ([resultado](docs/design/minha-fazenda/resultado.md)).
+**Portal de gestão (`apps/portal/`):** Next.js com Visão Geral, Produção, Ofertas, Pedidos, Excedentes (`/destino`), Rastreabilidade visual e Minha Fazenda ([resultado](docs/design/minha-fazenda/resultado.md)).
 
 **Data Science (`analytics/agro-agua/`):** pipeline, EDA e dois modelos avaliados sobre dados regionais reais ([relatório final](analytics/agro-agua/docs/agua04-relatorio-final.md)). O modelo Ridge não é apresentado como previsão.
 
 **Java (`modules/java-monitoramento/`):** aplicação de console Agro+ Água com H2/JDBC, previsões polimórficas e alertas, sobre medições **simuladas** ([README do módulo](modules/java-monitoramento/README.md)). É independente da API, do portal e do Flutter.
 
-**Ainda não implementados:** QR Code, divisão/agrupamento de lotes, autenticação de produção, indicador de benefício social e telas próprias para cooperativa, instituição e comprador (esses públicos são demonstrados em `apps/web`). Dados de demonstração não representam impacto social real. O segundo incremento limita cada lote a uma oferta e cada pedido a uma remessa com recebimento integral, sem pagamentos.
+### Quatro públicos e interfaces
+
+| Público                    | Operações implementadas na API                                                                                 | Interface disponível                                                  |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Pequenos produtores rurais | Produção/lotes, ofertas VENDA/DOACAO, aceite/reserva, cancelamento de pedidos, retirada e histórico autorizado | Portal Next.js e Flutter concentrados neste perfil; também `apps/web` |
+| Cooperativas               | Retirada quando designadas no aceite; consulta dos pedidos e eventos autorizados                               | Jornada demonstrativa em `apps/web`; sem portal/app próprio completo  |
+| Instituições               | Solicitar ofertas, cancelar pedidos permitidos e confirmar recebimento como destinatárias                      | Jornada demonstrativa em `apps/web`; sem versão completa dedicada     |
+| Compradores locais         | Solicitar ofertas, cancelar pedidos permitidos e confirmar recebimento como destinatários                      | Jornada demonstrativa em `apps/web`; sem versão completa dedicada     |
+
+A autorização considera usuário, vínculo ativo com organização e papel. Mutações exigem ADMIN/EDITOR conforme o contrato. Solicitar não reserva: o aceite reserva atomicamente; cancelar devolve a reserva quando aplicável. Retirada não equivale ao recebimento, confirmado somente pelo destinatário. Transações, `Idempotency-Key` e eventos mantêm consistência e rastreabilidade. Não há pagamentos, publicação de necessidades por instituições ou gestão própria de demanda das cooperativas.
+
+### Destino dos excedentes
+
+`GET /api/v1/properties/:id/excess-impact` consulta o funil registrado → ofertado → aceito líquido → retirado → recebido, os saldos atuais e a separação VENDA/DOACAO. É somente leitura, exige vínculo ativo de pequeno produtor rural, papel ADMIN/EDITOR/LEITOR e propriedade ativa da organização. O portal apresenta os valores em **Excedentes**, com atalhos filtrados para Ofertas e Pedidos; o Flutter apresenta o indicador em **Produção e excedentes**.
+
+O backend agrega gramas inteiras com snapshot e reconciliação, sem escritas. Requer replica set; não há filtro temporal, consulta histórica, estimativa financeira ou de pessoas beneficiadas, nem teste de carga. `asOf` é o corte para prazos. As etapas se sobrepõem e não devem ser somadas. Produção registrada não é excedente; saldo vencido não comprova desperdício. Implementação técnica comprovada em ambiente demonstrativo não significa impacto social real medido. Veja [contrato](docs/requisitos/api.md), [testes backend](docs/design/impacto/resultado.md) e [integração e capturas](docs/design/impacto/frontend/resultado.md).
+
+### Offline no Flutter
+
+A home operacional e os dashboards Produção e Logística usam cópias previamente autorizadas, com horário e isolamento por usuário/organização/propriedade. O indicador admite cache em falhas de rede/5xx; 401/403/404 invalidam sua cópia e não ativam fallback. Logout limpa os caches da sessão. O hídrico lê exports históricos embarcados de Mogi das Cruzes (2000–2025), independentes da propriedade e sem previsão operacional.
+
+Primeira autenticação/carga, listas completas, formulários e mutações exigem conexão. Não há fila de envio offline; o histórico offline limita-se à última movimentação salva. Revogação não pode ser verificada offline. O portal não tem modo offline. Veja [limites Flutter](apps/mobile/README.md).
+
+## Limitações e próximos incrementos
+
+- Autenticação de produção, implantação pública, QR Code e divisão/agrupamento de lotes pendentes; identidade atual demonstrativa local.
+- Uma oferta por lote e uma remessa por pedido, com recebimento integral. Sem prorrogação, conversão de venda em doação, republicação ou registro de perda; resgate depende de decisão de regra comercial.
+- Alertas explicados Flutter em aberto. Acessibilidade verificada em recortes de testes/capturas, sem certificação integral; iOS e aparelho físico sem validação.
+- Smoke geral do portal com falha conhecida em seletores antigos, incluindo “Distribuição da produção”; CI verde não comprova smoke completo aprovado.
+- Sem validação com usuários reais ou impacto social medido. Pitch **EM PRODUÇÃO**, conforme informado pelo autor; arquivo final, duração e envio ainda não comprovados.
+- Evolução planejada para **cooperativas e instituições**, com backend próprio para as necessidades de cada perfil, reutilizando autenticação, autorização, organizações e operações existentes. Expansão não concluída; esta branch documental não adiciona endpoints.
 
 ## Estrutura
 
@@ -53,7 +85,7 @@ Requer Node.js >=22.19 e npm. Use `npm.cmd` se a política do PowerShell bloquea
 
 ```powershell
 npm.cmd ci --cache .cache/npm
-Copy-Item .env.example .env
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
 npm.cmd run db:local
 ```
 
@@ -89,12 +121,34 @@ A suíte comercial inicia replica set real em `.data/commerce-<uuid>` e testa co
 ### Portal, Flutter e Java
 
 ```powershell
-cd apps/portal ; npm.cmd ci ; npm.cmd run typecheck ; npm.cmd test ; npm.cmd run build
-cd apps/mobile ; flutter analyze ; flutter test
-cd modules/java-monitoramento ; mvn "-Dmaven.repo.local=.m2/repository" clean verify
+Push-Location apps/portal
+npm.cmd ci
+npm.cmd run typecheck
+npm.cmd test
+npm.cmd run build
+$env:PORTAL_DEMO_ENABLED='true'
+$env:AGRO_API_URL='http://127.0.0.1:3000'
+npm.cmd run dev  # http://127.0.0.1:3100; API e MongoDB ativos
+# Após Ctrl+C:
+Pop-Location
+
+Push-Location apps/mobile
+flutter pub get
+flutter analyze
+flutter test
+Pop-Location
+
+Push-Location modules/java-monitoramento
+mvn "-Dmaven.repo.local=.m2/repository" clean verify
+mvn "-Dmaven.repo.local=.m2/repository" compile exec:java
+Pop-Location
 ```
 
-O Java requer JDK 21 e Maven 3.9.x. Os mesmos comandos rodam no GitHub Actions a cada push na `main` ([workflow](.github/workflows/ci.yml)). Resultado medido em 10/11/2026: [etapa A](docs/planejamento/etapa-a-resultado.md).
+Execute a partir da raiz. Java requer JDK 21/Maven 3.9.x; Flutter no PATH (CI: 3.47.2). Instalação e reprodução Python: [README Data Science](analytics/agro-agua/README.md); não reabrir o teste dos modelos congelados para seleção.
+
+O [workflow](.github/workflows/ci.yml) roda em pushes e PRs para `main`: API (sintaxe, unitários e integração MongoDB), portal (typecheck, testes e build), Flutter (analyze e testes) e Java (Maven verify). Os quatro jobs passaram após o merge do PR #1 em `89d6f30c`: [execução 43034289710](https://github.com/matheeusvx/Agro-Brasil/actions/runs/43034289710). Python e smoke geral do portal não estão nesse CI.
+
+Resultados históricos: [etapa A, 10/11](docs/planejamento/etapa-a-resultado.md); [backend do indicador, 11/11](docs/design/impacto/resultado.md), 30 unitários/51 integrações; [frontend, revisão 5, 11/11](docs/design/impacto/frontend/resultado.md), 133 Flutter/52 portal; Java, 199 testes registrados. As suítes funcionais e os testes Python não foram reexecutados nesta atualização exclusivamente documental.
 
 ## Documentação e evidências
 
