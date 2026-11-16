@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "preserved_files": 131,
+  "delivery_files_verified": 65,
+  "excluded_fitting_tests": [
+    "test_scaler_fit_and_early_stopping",
+    "test_reproduce_training_and_selection_offline"
+  ],
+  "fit_predict_joblib_load_blocked": true,
+  "network_blocked_in_tests": true,
+  "new_training": false,
+  "new_inference": false,
+  "test_reopened": false,
+  "scientific_scope": "retrospectivo; aderência hídrica parcial, ver matriz"
+}

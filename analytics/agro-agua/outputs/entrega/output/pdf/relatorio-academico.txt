@@ -1,0 +1,337 @@
+PÁGINA 1
+Agro+ Brasil | Data Science & Analytics | GS 2026.2
+1
+Monitoramento hídrico na RMSP
+Precipitação regional e limites para
+antecipar escassez
+Matheus Morelli Rodrigues | RM 562765
+FIAP | Global Solution 2026.2
+Data Science & Analytics | 16 de novembro de 2026
+Resumo
+O Agro+ Brasil investiga sinais meteorológicos relevantes ao acompanhamento da vulnerabilidade hídrica
+na Região Metropolitana de São Paulo (RMSP). O estudo usa 9.497 dias de NASA POWER em Mogi das
+Cruzes (2000-2025), indicadores históricos e dois modelos já avaliados para chuva acumulada nos sete
+dias seguintes. A Ridge reduz o MAE médio em 9,88% frente à climatologia no teste, mas praticamente
+não melhora as chuvas elevadas. O estudo não valida antecipação de escassez no abastecimento.
+Pergunta de pesquisa
+Em que medida o histórico meteorológico de Mogi das Cruzes permite caracterizar baixa precipitação e
+estimar chuva semanal, como informação complementar ao monitoramento hídrico da RMSP, e quais
+lacunas impedem convertê-lo em alerta de escassez?
+Recorte e relevância
+Mogi das Cruzes é um recorte territorial da RMSP; o Sistema Alto Tietê é o vínculo investigado com o
+abastecimento metropolitano [2-4]. Chuva é uma entrada do sistema hídrico, mas disponibilidade depende
+também de armazenamento, afluências, transferências, retiradas e demanda. Um ponto em grade não
+representa toda a bacia nem todos os sistemas produtores.
+Resultado e alcance
+Foram concluídas aquisição meteorológica, limpeza, EDA, indicadores, modelagem comparativa e
+documentação reproduzível. A pesquisa complementar recuperou dados de volume e vazões da Sabesp,
+mantidos em quarentena por qualidade e janela diária não confirmadas. A solução entregue é acadêmica
+e retrospectiva: não determina situação atual de escassez, não envia alertas e não autoriza restrições de
+abastecimento.
+Referência normativa: enunciado FIAP GS2026-2-DSA-FEV(2), seis páginas [1]. A matriz de conformidade acompanha os scripts e
+explicita atendimento parcial, em vez de equiparar análise meteorológica a gestão operacional.
+
+
+PÁGINA 2
+Agro+ Brasil | Data Science & Analytics | GS 2026.2
+2
+1. Fontes, território e qualidade
+A aquisição foi efetivamente verificada. NASA constitui a base analítica; as consultas hidrológicas são
+evidências separadas. Nenhuma série foi mesclada apenas por coincidir a data.
+Fonte e recorte
+Disponibilidade efetiva e decisão
+NASA POWER AG [2] Diário LST,
+2000-2025 -23,52°; -46,19°
+26 respostas anuais originais; 9.497 datas e 66.479 valores. Extração:
+06/11/2026. Atualização da fonte sujeita a latência e revisões; série histórica final
+não comprova disponibilidade em t. Base admitida para experimento
+retrospectivo.
+Sabesp / Alto Tietê [3] Sistema 65, API v4
+2025 e 01-16/11/2026
+Oito séries, 1.524 registros: volume útil (%), vazão afluente e natural (m³/s),
+chuva (mm). Metadados confirmam unidades. Todas as flags isValid são false;
+semântica e janela diária não confirmadas. Quarentena; sem indicadores
+analíticos ou ML.
+SP Águas [4-5] Reservatórios e vazões
+Sala de Situação: falha de certificado TLS no cliente; SSD: HTTP 403
+(automação bloqueada). Catálogo fluviométrico: HTTP 200, mas catálogo não
+comprova série ou cobertura. Não contornar TLS/bloqueio.
+SP Águas E3-097 [5] Pluviômetro, ano
+2000
+184/366 dias válidos, março-agosto completos; 182 ausentes. Janela de leitura
+desconhecida. Sem comparação diária com NASA.
+INMET [6] Catálogo de estações
+668 estações no catálogo arquivado. Bertioga e Mirante têm diferenças de
+relevo/ambiente e sobreposição. Sem série de validação harmonizada nesta
+entrega.
+Amostras Sabesp: 365 dias por variável em 2025 e 16 em novembro/2026, sem duplicações, valores não
+finitos ou identidade divergente nas oito respostas. Completude não resolve a flag de qualidade. false não
+foi interpretado como prova de erro físico nem descartado como irrelevante.
+Formato e rastreabilidade
+JSON/HTML/JS originais e metadados HTTP, URL, UTC de aquisição, bytes e SHA-256 estão em
+outputs/entrega/hidrologia. O script hydrology.py usa cache verificável, recorte fixo e padrão offline. Não
+existe integração espacial automática entre o sistema agregado e o ponto NASA; nenhuma correlação
+entre fontes foi calculada.
+
+
+PÁGINA 3
+Agro+ Brasil | Data Science & Analytics | GS 2026.2
+3
+2. Preparação e análise exploratória
+pipeline.py reconstrói calendário diário, rejeita chaves/datas duplicadas, verifica fill_value (-999), finitude,
+faixas de plausibilidade e ordenação Tmin ≤ Tmed ≤ Tmax. Valores rejeitados geram ocorrência antes de
+virar ausente. Não se imputam zeros nem se removem extremos silenciosamente. Totais dependentes de
+cobertura só são publicados com o período completo.
+A base NASA tem 100% de completude nesta extração e nenhuma ocorrência de qualidade registrada. As
+sete variáveis são precipitação (mm/dia), três temperaturas (°C), umidade relativa (%), vento a 10 m (m/s)
+e radiação (MJ/m²/dia). A unidade solar AG não é kWh/m²/dia.
+Figura 1. Sazonalidade da precipitação NASA, 2000-2025; figura original AGUA-02. Dispersão entre anos e extremos permanecem
+visíveis. Fonte: eda.py e dados POWER [2].
+A fração outubro-março é 73,64% da chuva acumulada do recorte. A média anual é 1.322,27 mm; mínimo
+anual 739,28 mm (2025), máximo 1.908,75 mm (2009). Janeiro é o mês climatologicamente mais chuvoso
+e agosto o mais seco neste produto. Isso justifica referências por mês: um mesmo acumulado não tem o
+mesmo significado no verão e no inverno.
+São descrições de 26 anos, sem teste de tendência ou atribuição causal. Completude e plausibilidade não
+demonstram exatidão de campo; a grade NASA não é pluviômetro nem medição de reservatório.
+
+
+PÁGINA 4
+Agro+ Brasil | Data Science & Analytics | GS 2026.2
+4
+3. Indicadores e interpretações
+Indicador / frequência
+Definição, unidade e interpretação
+R7 e R30 / diária
+R_w(t) = soma de P(t-j), j=0...w-1, em mm. Incluem t; exigem 7/30 dias válidos. Contexto
+de chuva recente, sem equivalência a armazenamento.
+D / diária
+D(t)=D(t-1)+1 se P(t)<1 mm/dia; zero se P(t)≥1. Ausente interrompe sequência. Duração
+até t em dias; não antecipa fim nem mede seca de solo.
+A / mensal e anual
+Soma diária no período completo, em mm. Mês/ano só pode ser conhecido ao
+encerramento; não entra antecipadamente nos atributos.
+Anomalias / mensal
+Δ=A-μ_m (mm); 100×(A/μ_m-1) (%); z=(A-μ_m)/s_m (adimensional). Referência
+2000-2019, s amostral. μ ou s zero resulta em ausente, conforme fórmula.
+Referência / mensal
+Média dos 20 totais de cada mês em 2000-2019. Não é normal oficial de 30 anos.
+Quantis usam interpolação linear; 20 anos limitam caudas.
+Figura 2. Sequências de baixa precipitação com sensibilidades de limiar; AGUA-02. Os eventos podem cruzar meses/anos e sofrer
+censura em bordas. Não somar contagens de regras sobrepostas.
+A maior sequência P<1 mm/dia foi de 48 dias (11/06 a 28/07/2022). Ausência de chuva nesse produto é
+evidência meteorológica; não basta para concluir falta de água ou impacto agrícola. Persistência diária no
+treino diminui após remoção da sazonalidade: correlação lag1 de 0,399 para 0,338; no lag7 residual,
+aproximadamente 0,003. Não é teste de causalidade.
+Em 31/12/2025: R7=24,22 mm; R30=86,50 mm; D=0. Dezembro totalizou 86,57 mm, contra referência de
+186,27 mm: Δ=-99,70 mm, -53,52%, z≈-1,551. O mês foi pouco chuvoso em relação à referência; isso não
+mede disponibilidade atual de água. Fórmulas, cobertura e campos completos:
+docs/agua02-indicadores.md e agua04-dicionario.md.
+
+
+PÁGINA 5
+Agro+ Brasil | Data Science & Analytics | GS 2026.2
+5
+4. Modelagem preservada e avaliação
+O alvo y(t) é a soma da precipitação de t+1 a t+7 em mm, sem incluir t. Os modelos representam evolução
+meteorológica complementar à análise hídrica; não são modelos de volume armazenado, vazão ou
+categoria de escassez.
+Dois algoritmos e duas referências
+Ridge: regressão linear regularizada, adequada como hipótese simples de relações aproximadamente
+lineares e atributos correlacionados. StandardScaler é ajustado somente no treino permitido; solver SVD.
+Alpha 1/100 foi comparado por protocolo prévio. A configuração congelada usa alpha=100.
+HistGradientBoosting: árvores impulsionadas para relações e interações não lineares; compara
+capacidade adicional à Ridge. Configuração escolhida: sete folhas, 150 iterações, learning_rate=0,05,
+mínimo 40 amostras/folha, L2=10, early_stopping=False, seed=562765. Não há split interno aleatório.
+Climatologia: soma das médias diárias de cada mês do horizonte, ajustadas só em 2000-2019.
+Persistência: repete o acumulado dos sete dias anteriores. Truncar previsões ML negativas em zero foi
+regra anterior ao teste; não houve calibração posterior.
+Etapa
+Período e controle
+Treino
+2000-2019; 7.269 origens após aquecimento e exclusão de rótulos que cruzam fronteiras.
+Folds internos
+2000-09 → 2010-12; 2000-12 → 2013-15; 2000-15 → 2016-19. Expansivos com purga de
+alvos.
+Validação
+2020-2022; 1.089 origens. Família escolhida por menor MAE; sem refit com validação.
+Teste arquivado
+2023-2025; 1.089 origens. Uma abertura em lote em 06/11/2026, após frozen.json. Nenhuma
+nova abertura nesta sprint.
+34 atributos: sete variáveis em lags 0/1/2/7, acumulados passados 7/14/30 dias, sequência baixa até t e
+seno/cosseno do mês. Nenhum atributo contém futuro. O cenário lag0 pressupõe fechamento de t com
+dados já publicados: é ideal retrospectivo. Latência solar/meteorológica e vintage não foram reproduzidos;
+lag7 de ML não foi executado.
+MAE é a métrica primária em mm; RMSE dá mais peso a erros grandes, viés mostra direção e R² compara
+variação explicada. Ganho=100×(1-erro_modelo/erro_climatologia). Não se usa MAPE com chuvas zero.
+Resultados de treino são aparentes. Protocolo: docs/agua03-protocolo.md [7-8].
+
+
+PÁGINA 6
+Agro+ Brasil | Data Science & Analytics | GS 2026.2
+6
+5. Resultados e incerteza
+Tabela 1. Teste 2023-2025, mesmas 1.089 origens. Valores lidos de metrics.csv; nenhuma métrica foi ajustada nesta sprint.
+Método
+MAE mm
+RMSE mm
+Viés mm
+R²
+Ganho %
+Climatologia
+15,807
+19,528
+7,168
+0,096
+0,00
+Persistência
+15,960
+22,400
+0,281
+-0,189
+-0,97
+Ridge escolhida
+14,245
+18,069
+5,650
+0,226
+9,88
+HistGradientBoosting
+15,095
+19,039
+6,920
+0,141
+4,50
+Figura 3. MAE por período e para chuva elevada; figura original AGUA-03. Recortes sobrepostos não somam amostras. Chuva
+elevada: alvo acima do q90 do treino (61,844 mm).
+A Ridge escolhida pela validação melhora MAE em 6,87% na validação e 9,88% no teste. A redução
+pareada média é 1,562 mm; bootstrap em blocos de 28 dias dá intervalo aproximado de 95% [0,695;
+2,348] mm. Sensibilidades 14/56 dias estão arquivadas. Janelas adjacentes compartilham seis dias e o
+teste contém só três anos; não são 1.089 amostras independentes.
+Nas chuvas elevadas (n=60), a Ridge tem MAE de 37,293 mm e ganho de apenas 0,15%; todas as
+estimativas desse recorte subestimaram o alvo. O ganho médio não demonstra antecipação de picos nem
+de escassez. Viés geral +5,650 mm significa superestimação média de chuva; R²=0,226 deixa ampla
+variabilidade sem explicação.
+MAE não é intervalo ±14,245 mm para cada estimativa. Não existe intervalo individual calibrado. O HGB
+ganhou 4,50% no teste e não foi reeleito após o teste. Discrepâncias entre treino e avaliação podem
+envolver sobreajuste e mudança de distribuição; nenhuma causa isolada foi demonstrada.
+
+
+PÁGINA 7
+Agro+ Brasil | Data Science & Analytics | GS 2026.2
+7
+6. Critérios informativos e risco
+As classificações implementadas descrevem anomalias do histórico meteorológico. Não têm validação
+contra desabastecimento, danos ou decisões de gestão. Não se atribuem rótulos
+Normal/Atenção/Alerta/Crítico como se houvesse um classificador de crise validado.
+Faixa para R7, R30 e A
+Regra exata por mês de encerramento
+Abaixo q10
+x < q10
+Entre q10 e q25
+q10 ≤ x < q25
+Faixa central
+q25 ≤ x ≤ q75
+Entre q75 e q90
+q75 < x ≤ q90
+Acima q90
+x > q90
+Indisponível
+Valor ausente ou não finito; sem classificação
+Todos os quantis são ajustados exclusivamente em 2000-2019, por mês. D=0 é sem sequência; 0<D≤q75
+é duração até q75; q75<D≤q90 e D>q90 distinguem durações elevadas. Quantis de D incluem dias zero,
+não eventos independentes. Empates seguem as desigualdades acima; q10=0 impede classificar zero
+como abaixo de q10. Não forçar faixas vazias.
+Aplicação ao exemplo histórico
+Dezembro/2025: R30=86,50 mm, abaixo do q10 de dezembro (111,42 mm); R7 está entre q10/q25; D=0.
+A leitura coerente é baixa chuva acumulada recente, embora o último dia não pertença a sequência seca.
+Não é evidência suficiente para diagnosticar escassez em 2025 e muito menos no presente.
+Consequências dos erros
+Superestimar chuva pode produzir falsa tranquilidade se alguém usar o resultado como indicação de
+recuperação hídrica; subestimá-la pode aumentar chamados de atenção desnecessários. MAE simétrico
+não mede esses custos. Não há rótulos de escassez ou custos de decisão para calcular sensibilidade,
+falsos negativos ou falsos positivos de alerta. Essa lacuna impede alegar qualidade de um sistema de
+alertas.
+Supervisão humana e comunicação
+O contrato mantém decision_authorized=false, disponibilidade retrospectivo_sem_servico e nível nulo
+para a estimativa experimental. Não há notificações. Qualquer avaliação preventiva deve ser humana, com
+volume, vazões, demanda e regras operativas confirmados. Racionamento ou restrições permanecem sob
+responsabilidade dos gestores competentes.
+
+
+PÁGINA 8
+Agro+ Brasil | Data Science & Analytics | GS 2026.2
+8
+7. Recomendações e conformidade
+Conclusão científica
+O histórico caracteriza sazonalidade e episódios de baixa precipitação. A Ridge agrega vantagem média
+retrospectiva frente às referências, mas não oferece evidência para antecipar escassez. A pergunta foi
+respondida dentro desse alcance meteorológico; sua conversão em gestão de abastecimento permanece
+não demonstrada.
+Ação fundamentada
+Evidência e condição para avançar
+Manter contexto sazonal
+73,64% da chuva em outubro-março sustenta leitura por mês. Preservar
+referência e cobertura junto dos valores.
+Qualificar volume e vazões
+1.524 registros Sabesp com flag não esclarecida. Confirmar isValid, janela,
+timezone, consistência e metadados antes de analisar ou juntar.
+Validar externamente
+E3-097 cobre só seis meses de 2000. Selecionar estações com sobreposição,
+relevo e janela compatíveis; não alinhar só por rótulo da data.
+Novo protocolo prospectivo
+Testar vintages e latência em período independente; definir custo de erro e alvo
+hídrico com gestores. Sem alterar o experimento congelado.
+Evitar benefício presumido
+Não foram medidos economia de água, produtividade, redução de danos ou efeito
+social. Não reportar ganhos nessas dimensões.
+Verificação do enunciado [1]
+Atendidos no recorte: Python, fontes reais, rastreabilidade/limpeza, EDA, fórmulas e unidades, dois
+modelos e baselines, avaliação temporal, visualizações, interpretação, recomendações, autoria e os dois
+formatos de PDF. A matriz externa cobre cada requisito das seis páginas, inclusive os nove critérios de
+avaliação.
+Atendimento parcial: indicadores descrevem precipitação, sem disponibilidade hídrica integrada; dados
+atuais de reservatórios/vazões foram obtidos, mas não admitidos à análise. O snapshot analítico termina
+em 31/12/2025. Alertas de escassez, situação atual e validação operacional permanecem pendentes.
+Documentar dificuldades é permitido pelo enunciado, mas não prova equivalência a todos os seus
+objetivos.
+Responsabilidade e vieses
+O recorte não representa igualmente todos os territórios da RMSP. Não há dados pessoais na base
+ambiental nem análise de grupos vulneráveis. A EDA já expôs agregados do teste, limitando cegamento
+humano. A fonte pode revisar histórico e mudar de produto; a radiação passa de SRB para CERES em
+2001. Não se assumiu homogeneidade nem significância de tendência.
+
+
+PÁGINA 9
+Agro+ Brasil | Data Science & Analytics | GS 2026.2
+9
+8. Reprodução, artefatos e referências
+A entrega acompanha scripts originais pipeline.py, eda.py, ml.py e consolidate.py, seus dados, figuras,
+modelos e inventários. hydrology.py audita a pesquisa complementar; academic_pdf.py gera estes
+documentos. verify_delivery.py executa a suíte em modo congelado, confere hashes e PDFs.
+Dependências científicas e de autoria ficam separadas, fixadas em requirements*.txt.
+Reprodução segura (na raiz do repositório)
+1. Usar Python 3.13 e requirements-ml.txt no ambiente do módulo; autoria usa requirements-report.txt.
+2. Executar hydrology.py sem --online para validar o cache.
+3. Executar verify_delivery.py: verifica métricas e inventários, sem treinar, prever ou reabrir o teste.
+4. Gerar PDFs com academic_pdf.py no ambiente de autoria e renderizar com pdftoppm.
+5. Conferir todas as páginas e o inventário final. Comandos completos no README.
+Os dois testes históricos que fazem fitting são explicitamente desmarcados. A execução de entrega
+bloqueia fit/predict e joblib.load. Não executar train, evaluate, a suíte histórica irrestrita ou downloads para
+reproduzir esta versão. Modelos, código congelado e recibos de abertura do teste são conferidos por
+SHA-256; não se promete novo treinamento bit a bit em outras plataformas.
+Referências e fontes
+[1] FIAP. Data Science and Analytics - GS2026-2. Monitoramento e previsão de riscos hídricos na RMSP. Arquivo
+GS2026-2-DSA-FEV(2).pdf, 6 p. Auditoria em 16/11/2026; hash no registro de validação da entrega.
+[2] NASA POWER. Daily Point API; resolução, disponibilidade e dados. Extração 06/11/2026. Coordenadas: IBGE, mapa municipal
+Mogi das Cruzes, 2020. Metadados anuais em data/provenance.json.
+[3] Sabesp. Portal dos Mananciais: base de dados e glossário. Consultas em 16/11/2026, API pública v4, elemento 65; parâmetros
+684/691/690/1. URLs exatas, datas e hashes nas respostas arquivadas. Atualização diária apresentada pelo portal; sem garantia de
+serviço da API.
+[4] SP Águas. Sala de Situação: reservatórios; comparativo de vazões; SSD - Mananciais em Números. Acessos automatizados
+registrados em 16/11/2026. Catálogo do SSD anuncia atualização diária às 9h; isso não comprova recebimento de série numérica.
+[5] SP Águas. SIBH e banco fluviométrico. Posto pluviométrico E3-097: amostra diária 2000 arquivada desde 06/11/2026. [6] INMET.
+Dados históricos e catálogo apitempo.inmet.gov.br/estacoes/T, consultado em 06/11/2026.
+[7] scikit-learn. Ridge. [8] scikit-learn. HistGradientBoostingRegressor. Implementação arquivada: scikit-learn 1.9.1, protocolo e
+dependências do AGUA-03.
+Repositório: github.com/matheeusvx/Agro-Brasil, módulo analytics/agro-agua. Relatórios históricos AGUA-01 a AGUA-04
+permanecem evidência de etapas anteriores; a matriz de conformidade desta entrega prevalece para o estado de 16/11/2026.

@@ -1,0 +1,62 @@
+PÁGINA 1
+Agro+ Brasil | Data Science & Analytics | GS 2026.2
+1
+AGRO+ BRASIL | FIAP GS 2026.2 | 16/11/2026
+Síntese executiva
+Matheus Morelli Rodrigues | RM 562765
+Problema e pergunta. O histórico meteorológico de Mogi das Cruzes permite caracterizar baixa
+precipitação e estimar chuva semanal como apoio complementar ao monitoramento hídrico da RMSP?
+Quais lacunas impedem convertê-lo em alerta de escassez?
+Dados e método. NASA POWER AG diário LST, 2000-2025: 9.497 dias, sete variáveis, 100% completos
+nesta extração, sem imputação. Grade regional, não estação. Dois modelos congelados: Ridge e
+HistGradientBoosting; climatologia e persistência como referências. Separação temporal 2000-2019 /
+2020-2022 / 2023-2025, sem reajuste após teste.
+Método
+MAE mm
+RMSE mm
+Viés mm
+R²
+Ganho %
+Climatologia
+15,807
+19,528
+7,168
+0,096
+0,00
+Persistência
+15,960
+22,400
+0,281
+-0,189
+-0,97
+Ridge escolhida
+14,245
+18,069
+5,650
+0,226
+9,88
+HistGradientBoosting
+15,095
+19,039
+6,920
+0,141
+4,50
+Fonte da tabela: AGUA-03, metrics.csv. MAE em mm por janela de sete dias. Chuva elevada: alvo >q90 de treino, 61,844 mm.
+Indicadores. Acumulados 7/30 dias, dias consecutivos P<1 mm/dia e anomalias mensais têm referência
+exclusiva de 2000-2019. Outubro-março concentra 73,64% da chuva; maior sequência baixa: 48 dias. Em
+31/12/2025, R30=86,50 mm, abaixo do q10 mensal; é um sinal meteorológico histórico.
+Modelos e riscos. Ridge: ganho médio 9,88%, mas só 0,15% nas chuvas elevadas (MAE 37,293 mm).
+Ganho médio não valida alerta de escassez. Superestimar chuva pode gerar falsa tranquilidade; custos de
+erro e classes de crise não foram validados. Quantis são avisos estatísticos, sem diagnóstico de
+reservatórios.
+Atualidade e limites. Sabesp/Alto Tietê: oito séries históricas/atuais recuperadas (1.524 registros), com
+isValid=false e janela diária não confirmada. Permanecem em quarentena. Não há situação atual de
+escassez validada; NASA analítica termina em 2025. Latência, revisões e falta de validação
+externa/prospectiva limitam os modelos.
+Recomendações. Confirmar qualidade e janela das séries de volume/vazões; validar estações e
+disponibilidade real; definir custos e critérios com gestores em novo protocolo independente. Manter
+período, fonte e incerteza visíveis. Decisões de restrição exigem validação humana. Não foram medidos
+economia de água ou benefícios sociais.
+Fontes: NASA POWER Daily API; Sabesp Portal dos Mananciais/API v4; SP Águas. Referências completas, URLs e hashes no
+relatório e nos arquivos. Aderência parcial ao objetivo de disponibilidade/alertas; entrega acadêmica retrospectiva, sem serviço
+operacional.

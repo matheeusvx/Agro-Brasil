@@ -1,0 +1,77 @@
+{
+  "date": "2026-11-16",
+  "reportlab": "4.4.9",
+  "pypdf": "6.21.4",
+  "pages": [
+    {
+      "file": "relatorio-academico.pdf",
+      "page": 1,
+      "text_characters": 2055,
+      "rendered_png": "relatorio-1.png",
+      "visual_review": "aprovada; sem corte, sobreposição ou glifos faltantes"
+    },
+    {
+      "file": "relatorio-academico.pdf",
+      "page": 2,
+      "text_characters": 2145,
+      "rendered_png": "relatorio-2.png",
+      "visual_review": "aprovada; sem corte, sobreposição ou glifos faltantes"
+    },
+    {
+      "file": "relatorio-academico.pdf",
+      "page": 3,
+      "text_characters": 1425,
+      "rendered_png": "relatorio-3.png",
+      "visual_review": "aprovada; sem corte, sobreposição ou glifos faltantes"
+    },
+    {
+      "file": "relatorio-academico.pdf",
+      "page": 4,
+      "text_characters": 1796,
+      "rendered_png": "relatorio-4.png",
+      "visual_review": "aprovada; sem corte, sobreposição ou glifos faltantes"
+    },
+    {
+      "file": "relatorio-academico.pdf",
+      "page": 5,
+      "text_characters": 2243,
+      "rendered_png": "relatorio-5.png",
+      "visual_review": "aprovada; sem corte, sobreposição ou glifos faltantes"
+    },
+    {
+      "file": "relatorio-academico.pdf",
+      "page": 6,
+      "text_characters": 1565,
+      "rendered_png": "relatorio-6.png",
+      "visual_review": "aprovada; sem corte, sobreposição ou glifos faltantes"
+    },
+    {
+      "file": "relatorio-academico.pdf",
+      "page": 7,
+      "text_characters": 2057,
+      "rendered_png": "relatorio-7.png",
+      "visual_review": "aprovada; sem corte, sobreposição ou glifos faltantes"
+    },
+    {
+      "file": "relatorio-academico.pdf",
+      "page": 8,
+      "text_characters": 2401,
+      "rendered_png": "relatorio-8.png",
+      "visual_review": "aprovada; sem corte, sobreposição ou glifos faltantes"
+    },
+    {
+      "file": "relatorio-academico.pdf",
+      "page": 9,
+      "text_characters": 2872,
+      "rendered_png": "relatorio-9.png",
+      "visual_review": "aprovada; sem corte, sobreposição ou glifos faltantes"
+    },
+    {
+      "file": "sintese-executiva.pdf",
+      "page": 1,
+      "text_characters": 2606,
+      "rendered_png": "sintese-executiva.png",
+      "visual_review": "aprovada; sem corte, sobreposição ou glifos faltantes"
+    }
+  ]
+}

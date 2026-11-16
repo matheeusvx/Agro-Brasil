@@ -1,4 +1,7 @@
 .venv/
+.venv-report/
+.tmp-tests/
 __pycache__/
 .pytest_cache/
 *.tmp
+outputs/entrega/*.zip

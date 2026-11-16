@@ -1,5 +1,73 @@
 # Agro+ Brasil — Inteligência Hídrica
 
+## Entrega FIAP — revisão final de 16/11/2026
+
+**Matheus Morelli Rodrigues — RM 562765.** Projeto individual, Data Science & Analytics, Global Solution 2026.2. Relatório de **9 páginas** e síntese de **1 página**, com autoria, fontes, indicadores, dois modelos, recomendações e limitações. Todos os requisitos do enunciado de seis páginas foram confrontados com as evidências na matriz.
+
+**Parecer: entrega acadêmica retrospectiva pronta; aderência parcial ao objetivo amplo de disponibilidade hídrica e alertas de escassez.** O alvo congelado é precipitação semanal em Mogi das Cruzes/RMSP. Não equivale a prever volume/vazão ou desabastecimento. Não há situação atual validada nem alertas operacionais; essa pendência está explícita nos dois PDFs.
+
+- [Relatório acadêmico oficial, PDF](outputs/entrega/output/pdf/relatorio-academico.pdf).
+- [Síntese executiva oficial, PDF](outputs/entrega/output/pdf/sintese-executiva.pdf).
+- [Matriz de conformidade e pendências](docs/matriz-conformidade.md).
+- [Auditoria final e decisão sobre fontes hidrológicas](docs/auditoria-final.md).
+- [Verificação, testes e revisão de todas as páginas](docs/verificacao-final.md).
+
+Os PDFs oficiais desta revisão estão exclusivamente em `outputs/entrega/output/pdf/`. A síntese antiga em AGUA-04 e os relatórios anteriores permanecem evidências históricas. As declarações abaixo sobre conclusão, “sem commit” ou comandos de treinamento descrevem as etapas de 06/11/2026, não a rotina da entrega final. **Não executar os comandos históricos de treino, evaluate ou pytest irrestrito para validar esta versão.**
+
+### Reprodução da entrega congelada
+
+Na raiz do repositório, ambiente científico CPython 3.13.7 Windows x64:
+
+```powershell
+# Para instalação nova; no ambiente existente não reinstalar desnecessariamente:
+python -m venv analytics/agro-agua/.venv
+& analytics/agro-agua/.venv/Scripts/python.exe -m pip install -r analytics/agro-agua/requirements-ml.txt
+& analytics/agro-agua/.venv/Scripts/python.exe -m pip check
+# Validação integral offline com hashes, métricas e testes SEM fit/predict:
+& analytics/agro-agua/.venv/Scripts/python.exe -X utf8 analytics/agro-agua/verify_delivery.py
+# Opcional: apenas validar pesquisa hidrológica arquivada (sem rede):
+& analytics/agro-agua/.venv/Scripts/python.exe -X utf8 analytics/agro-agua/hydrology.py
+```
+
+`verify_delivery.py` valida 131 hashes anteriores, inventários AGUA-01 a AGUA-04, métricas das estimativas arquivadas, fontes novas e inventário final. Executa pytest com `--frozen-only`, bloqueando fit/predict de Ridge/HGB, joblib.load e rede. Dois testes antigos que fazem fitting são explicitamente desmarcados, não contados como aprovados. Código, dados, modelos e recibos originais permanecem idênticos; não se reabre o teste. Saídas: `outputs/entrega/test-results.xml` e `checks.json`.
+
+Para regenerar somente os documentos, usar um ambiente de autoria separado (Windows com Arial ou Linux com DejaVu Sans):
+
+```powershell
+python -m venv analytics/agro-agua/.venv-report
+& analytics/agro-agua/.venv-report/Scripts/python.exe -m pip install -r analytics/agro-agua/requirements-report.txt
+& analytics/agro-agua/.venv-report/Scripts/python.exe analytics/agro-agua/academic_pdf.py
+# Poppler precisa estar no PATH para a revisão visual:
+pdftoppm -r 110 -png analytics/agro-agua/outputs/entrega/output/pdf/relatorio-academico.pdf analytics/agro-agua/outputs/entrega/output/pdf/relatorio
+pdftoppm -r 120 -singlefile -png analytics/agro-agua/outputs/entrega/output/pdf/sintese-executiva.pdf analytics/agro-agua/outputs/entrega/output/pdf/sintese-executiva
+```
+
+O gerador exige exatamente 9/1 páginas, confirma autor/RM e salva texto extraído. Os PNGs de todas as páginas estão incluídos como evidência de revisão. Na execução desta sprint foi usado o runtime de autoria já instalado, sem instalação global. ReportLab/pypdf estão fixados em `requirements-report.txt`; a reprodução científica não depende desses pacotes. Linux/macOS: substituir `Scripts/python.exe` por `bin/python`; portabilidade não foi validada. Para uma nova edição deliberada, revisar as páginas e só então atualizar o inventário com `verify_delivery.py --inventory`; não regenerar inventário para contornar divergência de hash.
+
+Os atributos Git do módulo preservam os bytes dos arquivos, incluindo fins de linha; isso é necessário aos hashes dos experimentos congelados. Não aplicar formatação automática/normalização em dados, relatórios antigos ou código congelado. Resultado desta revisão: **59 testes aprovados, 2 desmarcados por fitting**, 131 arquivos anteriores íntegros e dez páginas renderizadas/revisadas. Avisos de depreciação do código ML congelado permanecem documentados.
+
+### Pesquisa complementar de reservatórios e vazões
+
+`hydrology.py` recuperou a API pública v4 do Portal dos Mananciais da Sabesp, sistema Alto Tietê (65). São oito séries: volume útil (%), vazão afluente/natural (m³/s) e chuva (mm), em 2025 e 01–16/11/2026; **1.524 registros**. Todas têm `isValid=false`, sem semântica da flag ou janela diária confirmadas. Permanecem em quarentena e **não foram incorporadas em EDA, indicadores, modelos ou níveis de alerta**. A completude de 100% nas janelas não substitui qualidade confirmada. SP Águas apresentou erro TLS na Sala de Situação e HTTP 403 no SSD; catálogo fluviométrico acessível não foi tratado como série.
+
+Respostas originais, cliente público, metadados UTC/URL/status/bytes/SHA-256 e decisão de qualidade: `outputs/entrega/hidrologia/`. O padrão é offline. `--online` só permite coleta explícita de cache ausente no recorte fixado e não substitui respostas. NASA e experimentos anteriores continuam intactos. A base NASA termina em 2025; aquisição hidrológica em 2026 não comprova validade atual dos indicadores.
+
+### Arquivos a entregar
+
+Enviar os dois PDFs oficiais junto deste módulo (scripts, requirements, dados, modelos, documentos e inventários; excluir `.venv`, `.venv-report`, bytecode e caches). Os scripts originais das análises são `pipeline.py`, `eda.py`, `ml.py` e `consolidate.py`; os novos scripts só pesquisam fontes e consolidam/verificam a documentação. O envio ao ambiente FIAP é ação do aluno. Commits locais em português, diretamente na `main`, restritos ao módulo; sem push.
+
+Após os commits da entrega, o pacote único pode ser reproduzido sem ambientes ou alterações de outros módulos:
+
+```powershell
+git archive --format=zip --output=analytics/agro-agua/outputs/entrega/Agro-Brasil-DSA-GS2026-2-RM562765.zip HEAD analytics/agro-agua
+```
+
+O ZIP gerado é ignorado pelo Git para não duplicar os artefatos. Ele contém os arquivos versionados do módulo com os mesmos bytes dos inventários. Na entrega final foram conferidos diretamente os arquivos compactados contra os hashes preservados e o inventário final.
+
+---
+
+## Histórico preservado — etapas de 06/11/2026
+
 ## AGUA-04 — consolidação acadêmica final
 
 Fundamentação acadêmica concluída: base real auditada, EDA, comparação retrospectiva de ML, indicadores e contrato documental para futura apresentação. **Não há ferramenta operacional validada:** a Ridge tem MAE 14,245 mm e ganho médio de 9,88%, mas apenas 0,15% de ganho nas chuvas elevadas. Nenhum treinamento, nova inferência, reabertura do teste, endpoint ou mudança nos aplicativos nesta etapa.

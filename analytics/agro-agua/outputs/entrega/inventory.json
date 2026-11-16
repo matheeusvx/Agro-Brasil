@@ -1,0 +1,327 @@
+[
+  {
+    "file": ".gitattributes",
+    "bytes": 170,
+    "sha256": "12aeea65ce659fa306b334896240eab4b7ea0cfe38e6a4051c7392e7d075af71"
+  },
+  {
+    "file": ".gitignore",
+    "bytes": 89,
+    "sha256": "e04a128b645156b0d846bf363b26a6d97287876366b267397c9591b165b2c181"
+  },
+  {
+    "file": "academic_pdf.py",
+    "bytes": 29655,
+    "sha256": "757fe5543641bed2feb9d39acd217dceb2067044f1f505b4ac5a5e57ef2a15af"
+  },
+  {
+    "file": "docs/auditoria-final.md",
+    "bytes": 5900,
+    "sha256": "bbd96e9d4e2f9c9117b1b37518dfeff49364f768ad6c5b88c077d374e4c1a526"
+  },
+  {
+    "file": "docs/matriz-conformidade.md",
+    "bytes": 8990,
+    "sha256": "91dcf770798050408b0587b8cc2bdded792e0ed8f38ea20b5e2c098e952838ce"
+  },
+  {
+    "file": "docs/verificacao-final.md",
+    "bytes": 5016,
+    "sha256": "ec1c716cdcf74b4926db316d2cab5742daefa9054eabc84b277a06e191101b78"
+  },
+  {
+    "file": "hydrology.py",
+    "bytes": 6734,
+    "sha256": "b8fddce3ccbd4a09cb3b1da2f7eeece4c87eefca6e13205ae774fd0d615926c9"
+  },
+  {
+    "file": "outputs/entrega/enunciado.json",
+    "bytes": 275,
+    "sha256": "c2e5bd3b24064db96e3cd63781843af1ae714835f8d12eb70e999fa7079f4547"
+  },
+  {
+    "file": "outputs/entrega/git-integrity.json",
+    "bytes": 336,
+    "sha256": "98d173de161386bea4de9103d2747eba3640a3b9c5e9a19e69038ab5800af7c3"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/quality.json",
+    "bytes": 16036,
+    "sha256": "aa8ed5d6b2f05b58d8bc6a0b3d592b7b831bb2e0690c4d853d05ad7c2796183c"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-1-atual.json",
+    "bytes": 2513,
+    "sha256": "70a061fcab66a8331a3a69417e3ca140b90c5c9b84a6756b37bee8e4bcb1888e"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-1-atual.json.meta.json",
+    "bytes": 414,
+    "sha256": "5b64963764d2e74cc433bfd6021f207e1685d45af0597bc954fd9499dc86683b"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-1-historico.json",
+    "bytes": 55596,
+    "sha256": "a91c95abcb06b5102896f1d7b187eea944780579729f6593d028574f3ffc4116"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-1-historico.json.meta.json",
+    "bytes": 415,
+    "sha256": "a656fb0b6a0f6107bea7d5758905836a1f8bf946f9fd1c9ab621186fd5c5f2df"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-684-atual.json",
+    "bytes": 2558,
+    "sha256": "079f12d3688aa9416316f4f5f191a53b3bf1edb71965e00147033f04d809b985"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-684-atual.json.meta.json",
+    "bytes": 416,
+    "sha256": "d3e9e90aeca860078978742a6f5889d6c3dbf3307b25d10c29e9524bd87ea736"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-684-historico.json",
+    "bytes": 56653,
+    "sha256": "76bd75237ce2be1eeb5e4028990eb7f6d18b9a34d39da3cdc737ee522f4842c1"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-684-historico.json.meta.json",
+    "bytes": 417,
+    "sha256": "021d4ebc98e1cb131d9337fdead238e7c18d81c705eb6bece7b539d8596b7d91"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-690-atual.json",
+    "bytes": 2557,
+    "sha256": "19e886d835b8469030a5d4dcd40561e80ec9afe263ebbb2e5b7018e2b4651b81"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-690-atual.json.meta.json",
+    "bytes": 416,
+    "sha256": "26186b0ac71c5018bdabc01c48b74b41c8114a77c77ce8181531d998074fef18"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-690-historico.json",
+    "bytes": 56426,
+    "sha256": "85a643bf635a00e512ac49fce78c3adedd6a8899be9680ed81609b08aabb7a96"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-690-historico.json.meta.json",
+    "bytes": 417,
+    "sha256": "894552f7f3aeced60d4b8502d5254ac29209a92b64d60d12a37a052c39c0c234"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-691-atual.json",
+    "bytes": 2558,
+    "sha256": "7210a48d4e4ac7543197e9b4b8d25dda5be316fe94effea32b72a309004e40c9"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-691-atual.json.meta.json",
+    "bytes": 416,
+    "sha256": "59d945773f270a615b0549543a700b7c1ef01a8b56814dd4cb919e62cc5e707c"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-691-historico.json",
+    "bytes": 56436,
+    "sha256": "c244230b64a2f237d7e0207075dd6fc98ff87c71d81bcee9d90599bddab711bc"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/alto-tiete-691-historico.json.meta.json",
+    "bytes": 417,
+    "sha256": "29c6195fa6f498fda7e64487aa71e04c020ae2131497f71deae0fcd02d7a8a7c"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/sabesp-base.html",
+    "bytes": 7816,
+    "sha256": "afdd35fc425ac5731f3fafa25c0af87473ac65ec5e84afcb191dd7e52afac90e"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/sabesp-base.html.meta.json",
+    "bytes": 346,
+    "sha256": "fae4f1ad120b752d77c3a9a167b33a528a8973ff41ade7ff0a3995843ea50a7b"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/sabesp-cliente.js",
+    "bytes": 1293065,
+    "sha256": "e461247401312ffe007e4ab8b37fe1701cb52de27aeaea90931bd65bbe1a252e"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/sabesp-cliente.js.meta.json",
+    "bytes": 376,
+    "sha256": "36f8eff1a219de66a0c72fae8dd1e0cb904628192fbf4cdadcf597fae1a83447"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/sabesp-glossario.html",
+    "bytes": 7816,
+    "sha256": "fe262297ebd7d7570d7afd7e466274613da8e3183b51ac2c940d4b6d1141cec7"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/sabesp-glossario.html.meta.json",
+    "bytes": 345,
+    "sha256": "38fd7516c8154939dc30101dd6c880df5abb63f55bf1622cac666bea192b28cd"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/sabesp-parametros.json",
+    "bytes": 4455,
+    "sha256": "beee3dc87259e76fbfef4f17b476adb790fca640dd95b85583c6807b59625fba"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/sabesp-parametros.json.meta.json",
+    "bytes": 375,
+    "sha256": "867c36f5dda1d3d8abf3f4d07c02f5b15e972b3ccc2af25092293953b936a137"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/sabesp-sistemas.json",
+    "bytes": 21956,
+    "sha256": "d1307c6d726d6ac759c473f00b466c974b82676053e5f431b02de7709466001c"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/sabesp-sistemas.json.meta.json",
+    "bytes": 374,
+    "sha256": "4b50b24cde319de9c30bf504036e148e7ebf77dc8663b490eb745a71ced6ac2f"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/sabesp-ultima-data.json",
+    "bytes": 85,
+    "sha256": "7f3a634affbca4a04c1947e67ab8b8df47e301ff55b4311b9f07d8d9b58344bc"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/sabesp-ultima-data.json.meta.json",
+    "bytes": 380,
+    "sha256": "8f7678828930287ff47ea8837ad5b6bb14cce16e02eeadd9b6195768ab36db79"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/spaguas-fluviometricos.html",
+    "bytes": 1965473,
+    "sha256": "a66969dd07154fd02f5fa0ee5a7d1d9843aabda57ebc65f5bda444e37a1100af"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/spaguas-fluviometricos.html.meta.json",
+    "bytes": 364,
+    "sha256": "3902090a16cd551152814e75af5f221907a9ce9d5836620f4ec0def31937ca7a"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/spaguas-reservatorios.html.meta.json",
+    "bytes": 546,
+    "sha256": "7ad912404dfe09f59f8c44133d58436d39f5b97b9ae32bac0fab46a54ffc19e8"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/spaguas-ssd.html",
+    "bytes": 30,
+    "sha256": "7b423e1fd046eeb20a122aa9446bbd449cf6d2f91556d6b5db01e02bb85b3ef9"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/spaguas-ssd.html.meta.json",
+    "bytes": 359,
+    "sha256": "37d07f84d781dc34b59bcba76dc5d0ba97c2f546cd1edd306da80b71587ba2f8"
+  },
+  {
+    "file": "outputs/entrega/hidrologia/raw/spaguas-vazoes.html.meta.json",
+    "bytes": 556,
+    "sha256": "7a96828a651ba12631f0fe574d58b34f49430800423873324e30f2e284a38aad"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/relatorio-1.png",
+    "bytes": 211670,
+    "sha256": "8a913485620e79c9061765885fc4668eb882636c8a0b10917c6f794e1e0924bf"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/relatorio-2.png",
+    "bytes": 195670,
+    "sha256": "46cbf03070e31377399535bedb2e8553ae2c6c9c7c194e449586febc911e8b5b"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/relatorio-3.png",
+    "bytes": 189647,
+    "sha256": "96f6b58f2d302ce9d4a9586da31314ba42a2bc12c1c7443dd8fcf5af0f240f20"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/relatorio-4.png",
+    "bytes": 189715,
+    "sha256": "7060c89a104d3b51d0409664bd9227559f642fc3a43e219a8dad2d93cf26f3d1"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/relatorio-5.png",
+    "bytes": 218067,
+    "sha256": "f06a3ab164f6f2c50b219c1ad5188d9f7a13c61084cc6f50fc17ef5ce831b9b0"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/relatorio-6.png",
+    "bytes": 171925,
+    "sha256": "ad65b13e9a9b2b205ab790b034196bb5e74992168a9030f8a1b85d7298131090"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/relatorio-7.png",
+    "bytes": 205614,
+    "sha256": "ba90379509af84de2ab0bef52eb39a6a6f31f89c5cac65b233cbb0c0afa73769"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/relatorio-8.png",
+    "bytes": 219823,
+    "sha256": "60319275023672db2ba42888ed37ad1896db9f5da5daf5ecab03da303688add2"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/relatorio-9.png",
+    "bytes": 245726,
+    "sha256": "3d483f42ccf750b14567482850a1b38c833476fe141ad1b153d770eef955caf7"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/relatorio-academico.pdf",
+    "bytes": 349632,
+    "sha256": "b3e68647d5853c0df9418e1013b9b85303cbc3660fe0ce28102051967d9251e4"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/relatorio-academico.txt",
+    "bytes": 19666,
+    "sha256": "51ae331526944ee0936df2452f3a18aa0d56cb4a59f7d65a014772f26fb2591c"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/sintese-executiva.pdf",
+    "bytes": 78019,
+    "sha256": "6478eb0160aea2889df504264e7e837d72587c6a479bf42b991dbf66b2ddfb45"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/sintese-executiva.png",
+    "bytes": 290044,
+    "sha256": "2bc197c85929df5fd9687a8ae62b379437563492e55a7c86a41072c395c3a55a"
+  },
+  {
+    "file": "outputs/entrega/output/pdf/sintese-executiva.txt",
+    "bytes": 2757,
+    "sha256": "b7a2d68f1d256d30ad43241aa6ae89f1e73894c7e446e46b7f3dc152a9ea807e"
+  },
+  {
+    "file": "outputs/entrega/pdf-review.json",
+    "bytes": 2410,
+    "sha256": "60afe96dccc0e7eb67c1129a2fa672e2d429433ac9c1020d319d1ef712d293f2"
+  },
+  {
+    "file": "outputs/entrega/preservacao-inicial.json",
+    "bytes": 16291,
+    "sha256": "9f578ec82f46b5ba9037e71883bc56b43cd44ff2ef45e1922e086d627fe29f40"
+  },
+  {
+    "file": "README.md",
+    "bytes": 23280,
+    "sha256": "39c0426769c4ab458a515a01e299d9a7ad56836b57a5f359c2cd00da00cea4a1"
+  },
+  {
+    "file": "requirements-report.txt",
+    "bytes": 179,
+    "sha256": "b9af4a248686b61211611cca011da815076ad6fc98960009062070c3aa157015"
+  },
+  {
+    "file": "tests/conftest.py",
+    "bytes": 1431,
+    "sha256": "733b92ae5e9224ff44fa909bf79e263e6c151372ebbecb7896f3443ad44a1ce7"
+  },
+  {
+    "file": "tests/test_hydrology.py",
+    "bytes": 2138,
+    "sha256": "9fbe2b3473029c6f901d74772ca6a3368631d6978ab3addeb8d96f5c694fbe9b"
+  },
+  {
+    "file": "verify_delivery.py",
+    "bytes": 3598,
+    "sha256": "4ee04002a9b5669f5c0ca572841ed0879078a3ab0915a67159906588da229a89"
+  }
+]
