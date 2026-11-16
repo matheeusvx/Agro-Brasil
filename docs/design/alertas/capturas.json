@@ -1,0 +1,19 @@
+{
+  "data": "2026-11-16",
+  "timezone_relatorio": "America/Sao_Paulo",
+  "emulador": "Medium Phone API 36.1",
+  "viewport_principal": "780x1688 px, 320 dpi = 390 dp, fonte 100%",
+  "viewport_ampliado": "640x1688 px, 320 dpi = 320 dp, font_scale 2.0 (Android pode aplicar escala não linear)",
+  "dados_operacionais": "Galeria identificada como fictícia; sem gravações",
+  "dados_hidricos": "NASA POWER AGUA-04, export real 2000-2025",
+  "sha256": {
+    "agua-aviso.png": "c2a96c748bc715f4a282cf078e707ac0167c56d1c57610c42774d50e85698c27",
+    "agua-explicacao.png": "47913a7cfe1d1d6542974773fe8000e06671686dcdc91b29eb2d5ffd31125cda",
+    "logistica-aviso.png": "b093da1c32aaa1b2557b39f41af24f7838562b68a9b966f502757857811ba568",
+    "logistica-retirada-320-texto-200.png": "761d82c8bc077da22346ef1b7cdb99aaf1db9a468a4c8380aeb63c24caa849bc",
+    "logistica-retirada-aviso.png": "56af44aa3cd10c8d7b05de5a82e6fa54f767a16dfccccad54d8307a8bc3c2b9a",
+    "logistica-retirada-explicacao.png": "d0623ac283c183de6019a4085392bd65af3054119a5b244d167b4343d5d1d9df",
+    "producao-avisos.png": "16575e3b6f86f09ecb4c48e2f808eb603a85535384954bc7053e766ed06b62bc",
+    "producao-explicacao.png": "aec29c3c8838c368d046a2f3b71fec409f1fe8d2576779ad0ebe1fc47f11973a"
+  }
+}

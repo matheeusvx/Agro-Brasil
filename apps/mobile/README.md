@@ -2,6 +2,33 @@
 
 Aplicativo Flutter orientado às tarefas do pequeno produtor rural, com produção, ofertas, pedidos, histórico e perfil. Interface em português, fonte Roboto local, navegação inferior com cinco destinos e árvore semântica habilitada na web. O primeiro dashboard territorial, **Inteligência Hídrica**, está disponível pelo ícone de gota no cabeçalho mobile/desktop; a navegação de tarefas continua preservada.
 
+## Avisos explicados nos três dashboards
+
+O critério 3 do enunciado CPAD admite regras sobre os dados. Os avisos usam regras determinísticas, sem probabilidades inventadas ou execução de modelos. Cada card mostra título, nível de atenção, categoria e confiança. **Entender o aviso** expande justificativa, evidência (indicador, valor, período e fonte), fundamento da confiança, limitações e orientação para avaliação humana. Nenhuma decisão ou alteração comercial é automática.
+
+| Painel | Regra e escopo | Limites |
+| --- | --- | --- |
+| Inteligência Hídrica | Acumulado mensal menor que a média do mesmo mês em 2000–2019; atenção quando menor que Q25; classificação preserva limites Q10/Q25 do AGUA-04. | Aviso histórico regional de Mogi das Cruzes/SP, NASA POWER, dados até 31/12/2025. Não é previsão operacional de seca ou escassez. Sem referência ou valor válido, comparação indisponível e confiança baixa. |
+| Produção e excedentes | Ofertas PUBLICADA com saldo positivo e vencimento em (0, 72h], pedidos SOLICITADO e soma de availableKg em ofertas válidas da propriedade. | Não confunde produção com excedente; vencimento não prova perda. A janela de três dias já existia no resumo e é regra da interface. O filtro de ano de colheita não altera esses avisos operacionais. |
+| Logística | Contagem dos estados SOLICITADO, ACEITO e RETIRADO dos pedidos vinculados à propriedade. | Não cria atraso, prazo, rota ou chegada prevista. Criação do pedido não é data de transição. Cooperativa e destinatário continuam responsáveis por suas etapas. |
+
+Confiança **moderada** descreve uma comparação histórica com referência de 20 anos, ou uma leitura determinística dos registros autorizados consultados; não mede acerto futuro. Confiança **baixa** identifica demonstração fictícia, datas de criação ausentes, dados insuficientes, cópia offline, consulta com mais de 15 minutos ou relógio anterior à consulta. O limite de 15 minutos é uma política conservadora da interface, sem validação científica ou garantia de atualidade antes dele. A seção reavalia a idade a cada minuto e ao retomar o app.
+
+Offline/consulta antiga: avisos operacionais são avaliados na data da cópia e identificados como desatualizados, sem projetar saldo como atual. O histórico hídrico continua explicitamente retrospectivo. Repositórios existentes mantêm paginação completa, isolamento por origem/usuário/organização/propriedade, validação e recusa de fallback em 401/403/404. Revogação não pode ser verificada sem conexão. Não foi criado cache adicional para os avisos.
+
+Implementação: `territorial/explained_alert.dart` (regras puras), `territorial/alert_card.dart` (componente compartilhado com expansão acessível) e integração nos três dashboards. Usa apenas Flutter e componentes/cores existentes. Sem novas dependências, redesign, endpoints, métricas científicas ou alteração dos modelos congelados. Texto sem altura fixa, cabeçalhos semânticos e expansão discreta que respeita movimento reduzido; carregamento/erro ficam sob os FutureBuilders existentes, e ausência de avisos não implica ausência de risco.
+
+Validação e capturas: [relatório de alertas](../../docs/design/alertas/resultado.md). Testes em `test/explained_alert_test.dart` cobrem limites, confiança, dados ausentes, isolamento, cópia offline, atualização da seção, expansão real nos três dashboards, 320/900 dp com texto 200% e critérios de contraste/rótulos/alvos Android.
+
+### Capturas Android dos avisos
+
+| Inteligência Hídrica | Produção e excedentes | Logística |
+| --- | --- | --- |
+| ![Aviso histórico de chuva](assets/screenshots/alertas/agua-aviso.png) | ![Pendências e saldo ofertado](assets/screenshots/alertas/producao-avisos.png) | ![Pedido aguardando retirada](assets/screenshots/alertas/logistica-retirada-aviso.png) |
+| ![Evidência, confiança e limitações históricas](assets/screenshots/alertas/agua-explicacao.png) | ![Explicação de pendências fictícias](assets/screenshots/alertas/producao-explicacao.png) | ![Explicação logística e datas não informadas](assets/screenshots/alertas/logistica-retirada-explicacao.png) |
+
+[Logística em 320 dp com texto ampliado](assets/screenshots/alertas/logistica-retirada-320-texto-200.png). Capturas do emulador, sem montagem; operações fictícias identificadas, histórico hídrico real.
+
 ## Produção e excedentes — segundo dashboard
 
 Na aba **Produção**, toque em **Produção e excedentes**. O painel agrega todas as páginas das produções autorizadas e filtra pela propriedade escolhida; não usa o indicador organizacional como total local. O ano refere-se à data da colheita. Saldos e pendências consideram todas as colheitas da propriedade, independentemente desse filtro, e são identificados assim na tela.
@@ -76,7 +103,7 @@ Os testes cobrem navegação, oito estados, snapshot offline, isolamento do cach
 
 ## Fora desta execução
 
-Alertas preditivos operacionais, indicador de benefício social completo, QR Code, autenticação de produção, aplicativo dos outros três públicos e telas avançadas. Os três dashboards disponíveis têm recortes distintos: histórico regional hídrico, propriedade autorizada e operações confirmadas dos pedidos da propriedade. Prazo Flutter informado: 19/11/2026 23h55, America/Sao_Paulo.
+Previsões operacionais validadas, QR Code, autenticação de produção, aplicativo dos outros três públicos e telas avançadas. Os avisos por regras e o indicador de benefício social estão implementados nos escopos documentados; não comprovam impacto social real. Os três dashboards disponíveis têm recortes distintos: histórico regional hídrico, propriedade autorizada e operações confirmadas dos pedidos da propriedade. Prazo Flutter informado: 19/11/2026 23h55, America/Sao_Paulo.
 
 O backend demo vincula-se a loopback por segurança. No emulador Android local, preserve `http://127.0.0.1:3000` e encaminhe a porta por ADB. Da raiz, com MongoDB e API ativos, execute:
 
