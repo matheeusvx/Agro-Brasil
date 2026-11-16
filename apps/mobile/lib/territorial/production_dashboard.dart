@@ -5,6 +5,8 @@ import '../design.dart';
 import '../home.dart';
 import '../tasks.dart';
 import 'dashboard_components.dart';
+import 'alert_card.dart';
+import 'explained_alert.dart';
 import 'impact_card.dart';
 import 'production_data.dart';
 import 'water_data.dart';
@@ -334,6 +336,19 @@ class _ProductionDashboardState extends State<ProductionDashboard> {
                   else
                     ..._attention(summary),
                   const SizedBox(height: 16),
+                  DashboardAlerts(
+                    key: ValueKey('alerts-$property'),
+                    evaluate: (now) => productionAlerts(
+                      snapshot!,
+                      AlertContext(
+                        scope: c.repository.scope,
+                        property: property,
+                        now: now,
+                        offline: offline || c.offline,
+                        demonstration: c.repository.demonstration,
+                      ),
+                    ),
+                  ),
                   Material(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(22),

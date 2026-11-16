@@ -5,6 +5,8 @@ import '../design.dart';
 import '../home.dart';
 import '../tasks.dart';
 import 'dashboard_components.dart';
+import 'alert_card.dart';
+import 'explained_alert.dart';
 import 'logistics_data.dart';
 import 'production_dashboard.dart';
 import 'production_data.dart';
@@ -42,9 +44,7 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
   late Future<(LogisticsSnapshot, bool)> future;
 
   Future<(LogisticsSnapshot, bool)> query({bool force = false}) {
-    final result = LogisticsDashboardRepository(
-      c,
-    ).load(property, force: force);
+    final result = LogisticsDashboardRepository(c).load(property, force: force);
     // A very fast authorization failure may arrive before the next build.
     result.ignore();
     return result;
@@ -167,7 +167,8 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
                   if (summary!.total == 0)
                     _empty()
                   else
-                    ..._content(summary, offline),
+                    ..._content(summary, offline, _alerts(snapshot!, offline)),
+                  if (summary.total == 0) _alerts(snapshot!, offline),
                   const SizedBox(height: 16),
                   Text(
                     'Origem: registros autorizados da API Agro+ Brasil · ${c.repository.organizationName}.\nConsultado em ${dateLabel(snapshot!.fetchedAt.toIso8601String())}. ${offline ? 'Cópia local desatualizada.' : 'Atualize para consultar novas movimentações.'}',
@@ -182,6 +183,20 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
     ),
   );
 
+  Widget _alerts(LogisticsSnapshot snapshot, bool offline) => DashboardAlerts(
+    key: ValueKey('alerts-$property'),
+    evaluate: (now) => logisticsAlerts(
+      snapshot,
+      AlertContext(
+        scope: c.repository.scope,
+        property: property,
+        now: now,
+        offline: offline || c.offline,
+        demonstration: c.repository.demonstration,
+      ),
+    ),
+  );
+
   Widget _propertyPicker() => DropdownButtonFormField<String>(
     key: ValueKey('property-$property'),
     initialValue: property,
@@ -191,7 +206,11 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
         .map(
           (p) => Align(
             alignment: Alignment.centerLeft,
-            child: Text(p['name'], maxLines: 1, overflow: TextOverflow.ellipsis),
+            child: Text(
+              p['name'],
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         )
         .toList(),
@@ -227,11 +246,12 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
     ),
   );
 
-  List<Widget> _content(LogisticsSummary summary, bool offline) {
+  List<Widget> _content(LogisticsSummary summary, bool offline, Widget alerts) {
     final active = _activeStatus(summary);
     return [
       _Entrance(child: _Hero(summary: summary)),
       const SizedBox(height: 16),
+
       _Entrance(
         order: 1,
         child: DashboardCard(
@@ -272,6 +292,8 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
       ),
       const SizedBox(height: 16),
       _Entrance(order: 2, child: _actions(summary, offline)),
+      const SizedBox(height: 16),
+      alerts,
       if (summary.places.isNotEmpty) ...[
         const SizedBox(height: 16),
         _Entrance(order: 3, child: _territory(summary)),
@@ -428,7 +450,10 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
       children: [
         Semantics(
           header: true,
-          child: const Text('Onde já foi confirmado', style: AgroDesign.section),
+          child: const Text(
+            'Onde já foi confirmado',
+            style: AgroDesign.section,
+          ),
         ),
         const SizedBox(height: 10),
         for (final place in s.places.take(_visiblePlaces)) _placeLine(place),

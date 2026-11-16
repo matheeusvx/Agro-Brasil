@@ -3,6 +3,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../design.dart';
 import 'dashboard_components.dart';
+import 'alert_card.dart';
+import 'explained_alert.dart';
 import 'water_data.dart';
 
 class WaterDashboard extends StatefulWidget {
@@ -199,6 +201,10 @@ class _WaterContentState extends State<_WaterContent> {
               },
             ),
             const SizedBox(height: 16),
+            DashboardAlerts(
+              key: ValueKey('water-alert-$year-$month'),
+              evaluate: (_) => [waterAlert(data, selectedMonth)],
+            ),
             DashboardCard(
               dark: true,
               child: Column(
