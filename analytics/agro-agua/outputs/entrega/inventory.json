@@ -15,24 +15,34 @@
     "sha256": "757fe5543641bed2feb9d39acd217dceb2067044f1f505b4ac5a5e57ef2a15af"
   },
   {
+    "file": "Agro-Brasil-DSA-GS2026-2-RM562765.ipynb",
+    "bytes": 2151668,
+    "sha256": "5ea1e72b1b559e5eacac94616e9b52a13791dfdb5235b058f42292a07cba45fb"
+  },
+  {
     "file": "docs/auditoria-final.md",
     "bytes": 5900,
     "sha256": "bbd96e9d4e2f9c9117b1b37518dfeff49364f768ad6c5b88c077d374e4c1a526"
   },
   {
     "file": "docs/matriz-conformidade.md",
-    "bytes": 8990,
-    "sha256": "91dcf770798050408b0587b8cc2bdded792e0ed8f38ea20b5e2c098e952838ce"
+    "bytes": 9208,
+    "sha256": "45258be68d5bb17601780aeaa22aa5e58c9a57dc31f3994c0f1a9351cb3bae27"
   },
   {
     "file": "docs/verificacao-final.md",
-    "bytes": 5016,
-    "sha256": "ec1c716cdcf74b4926db316d2cab5742daefa9054eabc84b277a06e191101b78"
+    "bytes": 6952,
+    "sha256": "37774e66f01ce8a68891d2ff305cabc76e6ce0f7bc487a33fc600b8211d3a1b0"
   },
   {
     "file": "hydrology.py",
     "bytes": 6734,
     "sha256": "b8fddce3ccbd4a09cb3b1da2f7eeece4c87eefca6e13205ae774fd0d615926c9"
+  },
+  {
+    "file": "notebook_delivery.py",
+    "bytes": 34947,
+    "sha256": "74ebba261d37c12919872503877612a4844db2da6a5d3617d4f142be978bd1cc"
   },
   {
     "file": "outputs/entrega/enunciado.json",
@@ -220,6 +230,11 @@
     "sha256": "7a96828a651ba12631f0fe574d58b34f49430800423873324e30f2e284a38aad"
   },
   {
+    "file": "outputs/entrega/notebook-execution.json",
+    "bytes": 557,
+    "sha256": "b924f48aa723dcbe303953fb814d52ff244d8eba6b4cb12b88073b220c95f3f6"
+  },
+  {
     "file": "outputs/entrega/output/pdf/relatorio-1.png",
     "bytes": 211670,
     "sha256": "8a913485620e79c9061765885fc4668eb882636c8a0b10917c6f794e1e0924bf"
@@ -301,8 +316,13 @@
   },
   {
     "file": "README.md",
-    "bytes": 23280,
-    "sha256": "39c0426769c4ab458a515a01e299d9a7ad56836b57a5f359c2cd00da00cea4a1"
+    "bytes": 25449,
+    "sha256": "1b46793a3fe42ea627a04cbd6015d90a6ca7faa8067822a17c4bec111d05e072"
+  },
+  {
+    "file": "requirements-notebook.txt",
+    "bytes": 150,
+    "sha256": "cf02fbed10d8c83e96943c3648cc3e2c738206348618b2efc114de0e848ebc12"
   },
   {
     "file": "requirements-report.txt",
@@ -321,7 +341,7 @@
   },
   {
     "file": "verify_delivery.py",
-    "bytes": 3598,
-    "sha256": "4ee04002a9b5669f5c0ca572841ed0879078a3ab0915a67159906588da229a89"
+    "bytes": 3708,
+    "sha256": "8a1fd9f260f2bcb4724f9bb42155fdda2af297a6fdb3d508e20a83e1c85c5f34"
   }
 ]

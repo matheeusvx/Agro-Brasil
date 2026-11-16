@@ -4,13 +4,13 @@ Revisão: 16/11/2026. Autor: **Matheus Morelli Rodrigues, RM 562765**. Referênc
 
 **Parecer: entrega documental e experimento retrospectivo concluídos; aderência temática parcial.** Não declarar atendimento integral: falta caracterização validada da disponibilidade hídrica atual e alertas de escassez. A permissão de documentar dificuldades de acesso (p. 1) foi usada, sem presumir dispensa desses objetivos. Não há novos dados simulados em substituição à base real. Testes de falha usam cópias de dados reais, identificadas como testes.
 
-A seção 3 apresenta exemplos de fontes, não exige usar todas elas: piezometria e HidroApp foram considerados alternativas do enunciado, não requisitos independentes. Notebook executado e PDF são opções alternativas; esta entrega segue PDF + scripts. Não foi presumida obrigação de notebook, dashboard ou aplicativo operacional.
+A seção 3 apresenta exemplos de fontes, não exige usar todas elas: piezometria e HidroApp foram considerados alternativas do enunciado, não requisitos independentes. Notebook executado e PDF são opções alternativas. A pedido do aluno, foi acrescentado o notebook executado como opção de envio; o PDF anterior permanece alternativa. Não foi presumida obrigação de dashboard ou aplicativo operacional.
 
 | ID / origem | Requisito verificado | Estado | Evidência e limite |
 |---|---|---|---|
 | O1 / p.1 | Individual, dupla ou trio; nomes de todos | Atendido | Projeto individual confirmado pelo autor; nome e RM nos dois PDFs. |
 | O2 / p.1 | Uma pessoa realiza a entrega | Ação do aluno | Arquivos preparados; envio ao ambiente FIAP não executado nem autorizado. |
-| O3 / p.1 e §8 | PDF de no máximo 10 páginas + scripts, ou notebook executado | Atendido | `outputs/entrega/output/pdf/relatorio-academico.pdf`, 9 páginas; scripts originais e gerador incluídos. Optou-se por PDF; notebook não é requisito adicional. |
+| O3 / p.1 e §8 | PDF de no máximo 10 páginas + scripts, ou notebook executado | Atendido | `Agro-Brasil-DSA-GS2026-2-RM562765.ipynb`: 15 células de código executadas sequencialmente em kernel real, 12 figuras incorporadas, 27 saídas HTML e zero erros; código/dados de apoio incluídos. Registro/hash em `outputs/entrega/notebook-execution.json`. PDF de 9 páginas preservado como alternativa. |
 | O4 / p.1 | Dados reais, fontes identificáveis e limitações de acesso | Atendido | NASA original + proveniência; aquisição Sabesp/SP Águas com bytes e hashes; nenhuma simulação no estudo. |
 | P1 / §1–2 | Pergunta clara e relacionada a risco hídrico na RMSP | Parcial | Relatório p.1: pergunta explícita; Mogi/RMSP e Alto Tietê. O alvo congelado é chuva, não disponibilidade/escassez; vínculo indireto explicitado. |
 | P2 / §1–2 | Dados históricos e atuais; reservatórios, precipitação e vazões | Parcial | NASA 2000–2025; Sabesp volume/chuva/vazões 2025 e 01–16/11/2026 recuperados, mas em quarentena (`isValid=false`, janela não confirmada). Sem situação atual validada. |

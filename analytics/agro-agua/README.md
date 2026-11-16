@@ -2,6 +2,24 @@
 
 ## Entrega FIAP — revisão final de 16/11/2026
 
+### Notebook executado — opção de entrega solicitada
+
+**[Abrir/baixar o notebook executado](Agro-Brasil-DSA-GS2026-2-RM562765.ipynb).** Executado do começo ao fim em kernel Jupyter real: **15 células de código, 12 gráficos PNG incorporados, 27 saídas HTML de tabelas/código e nenhum erro**. Nome e RM, pergunta, fontes, limpeza, EDA, indicadores, dois modelos, métricas, riscos, recomendações e referências constam no próprio arquivo. Não é preciso executar para ver os resultados salvos.
+
+O notebook reproduz limpeza, agregações, indicadores, desenho temporal e métricas das estimativas originais. Os modelos foram treinados e avaliados anteriormente; ele exibe a implementação e os resultados congelados, sem treinar, prever ou reabrir o teste. Os scripts originais e dados necessários acompanham o pacote. As pendências de escassez/atualidade continuam explícitas.
+
+Para reproduzir o notebook em uma instalação nova:
+
+```powershell
+& analytics/agro-agua/.venv/Scripts/python.exe -m pip install -r analytics/agro-agua/requirements-notebook.txt
+# Gera e executa em kernel real, salvando somente após sucesso integral:
+& analytics/agro-agua/.venv/Scripts/python.exe -X utf8 analytics/agro-agua/notebook_delivery.py
+```
+
+Também é possível abrir o `.ipynb` em Jupyter/VS Code, selecionar a .venv do módulo e usar **Restart Kernel / Run All**. Extrair o pacote completo antes; a execução localiza os arquivos a partir do módulo ou da raiz do repositório, sem rede. A instalação do suporte Jupyter preservou as versões científicas congeladas. `outputs/entrega/notebook-execution.json` registra o hash, executor, contagens e horário UTC da execução entregue. Reexecutar e salvar produz uma nova revisão do notebook; os inventários da entrega original não devem ser usados para mascarar essas diferenças.
+
+Para a opção notebook do enunciado, enviar o **`.ipynb` executado + síntese executiva de uma página + pacote de apoio**. O relatório PDF permanece disponível como alternativa, sem necessidade de substituir o notebook por ele. O arquivo ZIP indicado abaixo contém ambos os formatos e os arquivos para reprodução.
+
 **Matheus Morelli Rodrigues — RM 562765.** Projeto individual, Data Science & Analytics, Global Solution 2026.2. Relatório de **9 páginas** e síntese de **1 página**, com autoria, fontes, indicadores, dois modelos, recomendações e limitações. Todos os requisitos do enunciado de seis páginas foram confrontados com as evidências na matriz.
 
 **Parecer: entrega acadêmica retrospectiva pronta; aderência parcial ao objetivo amplo de disponibilidade hídrica e alertas de escassez.** O alvo congelado é precipitação semanal em Mogi das Cruzes/RMSP. Não equivale a prever volume/vazão ou desabastecimento. Não há situação atual validada nem alertas operacionais; essa pendência está explícita nos dois PDFs.

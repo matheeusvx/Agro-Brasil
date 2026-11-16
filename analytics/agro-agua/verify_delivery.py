@@ -38,7 +38,8 @@ def inventory():
     paths = [p for p in OUT.rglob("*") if p.is_file() and p.name not in ignored and p.suffix != ".zip"]
     paths += [ROOT / n for n in ["academic_pdf.py", "hydrology.py", "verify_delivery.py", "README.md",
               "docs/matriz-conformidade.md", "docs/auditoria-final.md", "docs/verificacao-final.md",
-              "tests/conftest.py", "tests/test_hydrology.py", "requirements-report.txt", ".gitignore", ".gitattributes"]]
+              "tests/conftest.py", "tests/test_hydrology.py", "requirements-report.txt", ".gitignore", ".gitattributes",
+              "notebook_delivery.py", "requirements-notebook.txt", "Agro-Brasil-DSA-GS2026-2-RM562765.ipynb"]]
     rows = [{"file": p.relative_to(ROOT).as_posix(), "bytes": p.stat().st_size, "sha256": sha(p)} for p in sorted(paths)]
     (OUT / "inventory.json").write_text(json.dumps(rows, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
 

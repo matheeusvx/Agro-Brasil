@@ -1,7 +1,7 @@
 {
   "status": "passed",
   "preserved_files": 131,
-  "delivery_files_verified": 65,
+  "delivery_files_verified": 69,
   "excluded_fitting_tests": [
     "test_scaler_fit_and_early_stopping",
     "test_reproduce_training_and_selection_offline"

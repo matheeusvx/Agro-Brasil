@@ -1,0 +1,16 @@
+{
+  "code_cells_executed": 15,
+  "embedded_png_figures": 12,
+  "html_table_outputs": 27,
+  "errors": 0,
+  "execution_counts_sequential": true,
+  "file": "Agro-Brasil-DSA-GS2026-2-RM562765.ipynb",
+  "sha256": "5ea1e72b1b559e5eacac94616e9b52a13791dfdb5235b058f42292a07cba45fb",
+  "executed_at_utc": "2026-11-16T12:48:22.535798+00:00",
+  "python": "3.13.7",
+  "executor": "nbclient; kernel ipykernel real; allow_errors=False",
+  "frozen_experiment_preserved": true,
+  "new_training": false,
+  "new_inference": false,
+  "test_reopened": false
+}

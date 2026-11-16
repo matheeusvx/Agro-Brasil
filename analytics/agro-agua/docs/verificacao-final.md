@@ -44,3 +44,13 @@ O gerador valida exatamente nove páginas no relatório e uma na síntese, títu
 | Síntese 1 | Uma página, autor/RM, pergunta/dados/indicadores/modelos/riscos/recomendações; tabela clara. |
 
 O relatório não afirma atualidade dos indicadores de 2025. A consulta Sabesp atual é evidência de disponibilidade de aquisição, não de validade para diagnóstico. Nenhuma série em quarentena ganhou figura analítica ou rótulo de risco.
+
+## Notebook executado acrescentado a pedido do aluno
+
+`notebook_delivery.py` foi executado com nbclient 0.11.0, nbformat 5.11.1 e ipykernel 7.4.0, em kernel Python 3.13.7 real e temporários isolados no módulo. O suporte Jupyter foi instalado na .venv existente com restrições de `requirements-ml.txt`; o próprio notebook confirma as versões originais de numpy/pandas/scipy/scikit-learn/joblib/threadpoolctl. Dependências adicionais em `requirements-notebook.txt`. Não houve instalação global ou registro global de kernel.
+
+Arquivo: `Agro-Brasil-DSA-GS2026-2-RM562765.ipynb`. **15 células de código executadas com contagens sequenciais, 12 imagens PNG incorporadas, 27 saídas HTML de tabelas/código e zero erros.** Todas as células têm timestamps do kernel; `allow_errors=False`. O gerador valida o schema nbformat, decodifica/verifica todas as imagens e só grava o notebook final após sucesso completo. O hash e os metadados da execução estão em `outputs/entrega/notebook-execution.json`.
+
+A execução real reconstruiu a base a partir das respostas originais, conferiu agregados mensais/anuais, correlações, limiares e todas as métricas/recortes arquivados com tolerâncias de precisão publicadas. Exibiu o código original da construção dos dois algoritmos e a seleção anterior. Treinamento/inferência/abertura do teste e requisições HTTP são bloqueados; os 131 hashes anteriores foram conferidos no começo e fim. A suíte da sprint é apresentada como registro lido, não como testes executados dentro do kernel. As limitações de alerta/escassez e qualidade da Sabesp foram mantidas.
+
+Para envio pela opção notebook: `.ipynb` com suas saídas salvas, síntese de uma página e pacote de apoio. Para ler os resultados, não é necessária uma nova execução; para reproduzir, extrair a estrutura completa e usar o ambiente notebook. PDFs anteriores não foram alterados nesta complementação.
