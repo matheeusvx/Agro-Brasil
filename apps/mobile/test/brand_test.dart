@@ -20,7 +20,8 @@ void main() {
     expect(find.bySemanticsLabel('Agro+ Brasil'), findsOneWidget);
     expect(find.text('Meu campo, meu dia.'), findsOneWidget);
     expect(find.text('Verificar acesso'), findsOneWidget);
-    expect(find.text('Token temporário de demonstração'), findsOneWidget);
+    expect(find.text('Código de acesso'), findsOneWidget);
+    expect(find.textContaining('demonstração'), findsNothing);
   });
 
   testWidgets('cabeçalho usa a logo e preserva as ações', (tester) async {
@@ -38,4 +39,29 @@ void main() {
     );
     expect(tester.takeException(), isNull);
   });
+
+  for (final (size, scale) in [
+    (const Size(320, 700), 2.0),
+    (const Size(390, 844), 1.0),
+    (const Size(1280, 800), 1.0),
+  ]) {
+    testWidgets('login sem overflow em $size e texto ${scale}x', (
+      tester,
+    ) async {
+      await tester.binding.setSurfaceSize(size);
+      addTearDown(() => tester.binding.setSurfaceSize(null));
+      tester.platformDispatcher.textScaleFactorTestValue = scale;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      await tester.pumpWidget(const AgroApp());
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+      await tester.ensureVisible(find.byTooltip('Mostrar código'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Mostrar código'));
+      await tester.pump();
+      expect(find.byTooltip('Ocultar código'), findsOneWidget);
+      await tester.ensureVisible(find.text('Verificar acesso'));
+      expect(find.text('Verificar acesso').hitTestable(), findsOneWidget);
+    });
+  }
 }

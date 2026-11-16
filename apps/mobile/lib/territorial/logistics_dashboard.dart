@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data.dart';
 import '../design.dart';
 import '../home.dart';
+import '../motion.dart';
 import '../tasks.dart';
 import 'dashboard_components.dart';
 import 'alert_card.dart';
@@ -122,19 +123,40 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
             final summary = snapshot == null
                 ? null
                 : LogisticsSummary(snapshot);
-            return ListView(
-              padding: const EdgeInsets.all(20),
+            final list = ListView(
+              padding: EdgeInsets.fromLTRB(20, ready ? 3 : 4, 20, 32),
               children: [
-                const Text(
-                  'Acompanhe seus pedidos até o recebimento.',
-                  style: AgroDesign.body,
+                // Marcador de carregamento concluído (usado em testes): 1 dp
+                // no topo para nunca ser tratado como fora da tela.
+                if (ready)
+                  const SizedBox(height: 1, key: ValueKey('logistics-ready')),
+                _Entrance(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Semantics(
+                        header: true,
+                        child: const Text(
+                          'Seus pedidos',
+                          style: AgroDesign.display,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Acompanhe seus pedidos até o recebimento.',
+                        style: AgroDesign.body.copyWith(
+                          color: AgroDesign.muted,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${place['municipality']}/${place['uf']} · somente pedidos desta propriedade',
+                        style: AgroDesign.caption,
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 12),
-                Text(
-                  '${place['municipality']}/${place['uf']} · somente pedidos desta propriedade',
-                  style: AgroDesign.caption,
-                ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 18),
                 _propertyPicker(),
                 const SizedBox(height: 16),
                 if (!ready)
@@ -148,14 +170,6 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
                     onRetry: state.hasError ? refresh : null,
                   ),
                 if (ready) ...[
-                  if (c.repository.demonstration)
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 12),
-                      child: Text(
-                        'Demonstração · registros fictícios identificados',
-                        style: AgroDesign.caption,
-                      ),
-                    ),
                   if (offline)
                     const Padding(
                       padding: EdgeInsets.only(bottom: 12),
@@ -171,12 +185,13 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
                   if (summary.total == 0) _alerts(snapshot!, offline),
                   const SizedBox(height: 16),
                   Text(
-                    'Origem: registros autorizados da API Agro+ Brasil · ${c.repository.organizationName}.\nConsultado em ${dateLabel(snapshot!.fetchedAt.toIso8601String())}. ${offline ? 'Cópia local desatualizada.' : 'Atualize para consultar novas movimentações.'}',
+                    'Origem: registros autorizados da API Agro+ Brasil · ${c.repository.organizationName}.${offline ? '\nCópia local de ${dateLabel(snapshot!.fetchedAt.toIso8601String())}, desatualizada.' : ''}',
                     style: AgroDesign.caption,
                   ),
                 ],
               ],
             );
+            return list;
           },
         ),
       ),
@@ -214,7 +229,10 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
           ),
         )
         .toList(),
-    decoration: const InputDecoration(labelText: 'Propriedade'),
+    decoration: const InputDecoration(
+      labelText: 'Propriedade',
+      prefixIcon: Icon(Icons.landscape_outlined),
+    ),
     items: c.properties
         .map(
           (p) => DropdownMenuItem(
@@ -227,19 +245,28 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
   );
 
   Widget _empty() => _Entrance(
-    child: DashboardCard(
+    child: AgroSurface(
+      padding: const EdgeInsets.all(22),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const DashboardHeading(
-            title: 'Nenhum pedido nesta propriedade',
-            description: 'Quando alguém solicitar uma oferta sua, você acompanha cada etapa aqui.',
-            icon: Icons.inbox_outlined,
+          const IconBubble(Icons.inbox_outlined, size: 64),
+          const SizedBox(height: 14),
+          const Text(
+            'Nenhum pedido nesta propriedade',
+            style: AgroDesign.title,
+            textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 8),
-          TextButton(
+          const SizedBox(height: 6),
+          Text(
+            'Quando alguém solicitar uma oferta sua, você acompanha cada etapa aqui.',
+            style: AgroDesign.body.copyWith(color: AgroDesign.muted),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 16),
+          OutlinedButton.icon(
             onPressed: () => open('offers'),
-            child: const Text('Ver ofertas'),
+            icon: const Icon(Icons.sell_outlined, size: 18),
+            label: const Text('Ver ofertas'),
           ),
         ],
       ),
@@ -258,9 +285,12 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                'Situação das movimentações',
-                style: AgroDesign.section,
+              Semantics(
+                header: true,
+                child: const Text(
+                  'Situação das movimentações',
+                  style: AgroDesign.section,
+                ),
               ),
               const SizedBox(height: 4),
               const Text(
@@ -269,7 +299,7 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
               ),
               const SizedBox(height: 12),
               ..._bars(summary, active),
-              const Divider(height: 20, color: AgroDesign.line),
+              const Divider(height: 24, color: AgroDesign.line),
               AnimatedSize(
                 duration: dashboardMotion(context),
                 curve: Curves.easeOutCubic,
@@ -401,8 +431,13 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
           else if (s.actions.isEmpty)
             const Row(
               children: [
-                Icon(Icons.check_circle_outline, color: AgroDesign.green),
-                SizedBox(width: 10),
+                IconBubble(
+                  Icons.check,
+                  background: AgroDesign.brandWash,
+                  color: AgroDesign.green,
+                  size: 40,
+                ),
+                SizedBox(width: 12),
                 Expanded(
                   child: Text(
                     'Nada depende de você nesta consulta.',
@@ -421,6 +456,7 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
                 icon: order['status'] == 'SOLICITADO'
                     ? Icons.mail_outline
                     : Icons.outbox_outlined,
+                urgent: order['status'] == 'SOLICITADO',
                 onTap: () => open('orders', '${order['id']}'),
               ),
             if (s.actions.length > _visibleActions)
@@ -455,7 +491,7 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
             style: AgroDesign.section,
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 12),
         for (final place in s.places.take(_visiblePlaces)) _placeLine(place),
         const SizedBox(height: 4),
         const Text(
@@ -467,16 +503,11 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
   );
 
   Widget _placeLine(LogisticsPlace place) => Padding(
-    padding: const EdgeInsets.only(bottom: 8),
+    padding: const EdgeInsets.only(bottom: 10),
     child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Icon(
-          Icons.location_on_outlined,
-          size: 20,
-          color: AgroDesign.green,
-        ),
-        const SizedBox(width: 8),
+        const IconBubble(Icons.location_on_outlined, size: 40),
+        const SizedBox(width: 12),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -493,13 +524,16 @@ class _LogisticsDashboardState extends State<LogisticsDashboard> {
     ),
   );
 
-  Widget _details(LogisticsSummary s) => Material(
-    color: Colors.white,
-    borderRadius: BorderRadius.circular(22),
-    clipBehavior: Clip.antiAlias,
+  Widget _details(LogisticsSummary s) => AgroSurface(
+    padding: EdgeInsets.zero,
     child: ExpansionTile(
       key: PageStorageKey('logistics-details-$property'),
-      title: const Text('Ver análise detalhada'),
+      leading: const IconBubble(Icons.insights_outlined, size: 40),
+      title: const Text('Ver análise detalhada', style: AgroDesign.section),
+      subtitle: const Text(
+        'Quantidades, forma de operação e municípios',
+        style: AgroDesign.caption,
+      ),
       shape: const Border(),
       collapsedShape: const Border(),
       expansionAnimationStyle: dashboardMotion(context) == Duration.zero
@@ -558,47 +592,90 @@ class _Hero extends StatelessWidget {
   const _Hero({required this.summary});
   @override
   Widget build(BuildContext context) {
-    const support = TextStyle(color: Colors.white, fontSize: 15, height: 1.35);
-    return DashboardCard(
-      dark: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            'Pedidos em andamento',
-            style: TextStyle(
-              color: dashboardLime,
-              fontWeight: FontWeight.w700,
-              fontSize: 17,
+    final received = summary.received;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AgroDesign.radius),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFE5F2F5), Color(0xFFEAF5E6)],
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const IconBubble(
+                  Icons.local_shipping_outlined,
+                  background: AgroDesign.paper,
+                  size: 40,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    'Pedidos em andamento',
+                    style: AgroDesign.section.copyWith(fontSize: 16),
+                  ),
+                ),
+              ],
             ),
-          ),
-          const SizedBox(height: 6),
-          AnimatedSwitcher(
-            duration: dashboardMotion(context),
-            child: Text(
-              '${summary.inProgress}',
-              key: ValueKey(summary.inProgress),
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 48,
-                height: 1.1,
-                fontWeight: FontWeight.w700,
+            const SizedBox(height: 12),
+            AnimatedSwitcher(
+              duration: dashboardMotion(context),
+              child: Text(
+                '${summary.inProgress}',
+                key: ValueKey(summary.inProgress),
+                style: const TextStyle(
+                  color: AgroDesign.forest,
+                  fontSize: 48,
+                  height: 1.05,
+                  letterSpacing: -1.5,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            '${productionKg(summary.inProgressGrams)} kg nessas operações',
-            style: support,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            summary.received == 1
-                ? '1 já recebido pelo destinatário'
-                : '${summary.received} já recebidos pelo destinatário',
-            style: support,
-          ),
-        ],
+            const SizedBox(height: 4),
+            Text(
+              '${productionKg(summary.inProgressGrams)} kg nessas operações',
+              style: AgroDesign.body,
+            ),
+            const SizedBox(height: 14),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+              decoration: BoxDecoration(
+                color: AgroDesign.paper,
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    received > 0 ? Icons.task_alt : Icons.schedule,
+                    size: 16,
+                    color: AgroDesign.forest,
+                  ),
+                  const SizedBox(width: 6),
+                  Flexible(
+                    child: Text(
+                      received == 1
+                          ? '1 já recebido pelo destinatário'
+                          : '$received já recebidos pelo destinatário',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: AgroDesign.forest,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -621,6 +698,7 @@ class _StatusBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final motion = dashboardMotion(context);
+    final fill = muted ? AgroDesign.muted : AgroDesign.forest;
     return Padding(
       padding: const EdgeInsets.only(bottom: 6),
       child: Semantics(
@@ -631,50 +709,78 @@ class _StatusBar extends StatelessWidget {
         excludeSemantics: true,
         child: AnimatedContainer(
           duration: motion,
-          curve: Curves.easeOutCubic,
+          curve: AgroMotion.respond,
           decoration: BoxDecoration(
-            color: selected ? AgroDesign.wash : Colors.transparent,
-            borderRadius: BorderRadius.circular(14),
+            color: selected ? AgroDesign.mint : Colors.transparent,
+            borderRadius: BorderRadius.circular(16),
           ),
           child: Material(
             type: MaterialType.transparency,
             child: InkWell(
               onTap: onTap,
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(16),
               child: Padding(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Expanded(child: Text(label, style: AgroDesign.body)),
+                        Expanded(
+                          child: Text(
+                            label,
+                            style: AgroDesign.body.copyWith(
+                              fontWeight: selected
+                                  ? FontWeight.w700
+                                  : FontWeight.w400,
+                            ),
+                          ),
+                        ),
                         const SizedBox(width: 12),
-                        Text(
-                          '$count',
-                          style: AgroDesign.body.copyWith(
-                            fontWeight: FontWeight.w700,
+                        Container(
+                          constraints: const BoxConstraints(minWidth: 28),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: selected
+                                ? AgroDesign.paper
+                                : AgroDesign.mint,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: Text(
+                            '$count',
+                            textAlign: TextAlign.center,
+                            style: AgroDesign.body.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: AgroDesign.forest,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     const SizedBox(height: 8),
-                    TweenAnimationBuilder<double>(
-                      duration: motion,
-                      curve: Curves.easeOutCubic,
-                      tween: Tween(begin: 0, end: count / maximum),
-                      builder: (context, value, _) => Align(
-                        alignment: Alignment.centerLeft,
-                        child: FractionallySizedBox(
-                          widthFactor: value,
-                          child: Container(
-                            height: 12,
-                            decoration: BoxDecoration(
-                              color: muted
-                                  ? AgroDesign.muted
-                                  : AgroDesign.green,
-                              borderRadius: BorderRadius.circular(6),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(6),
+                      child: ColoredBox(
+                        color: selected ? AgroDesign.paper : AgroDesign.mint,
+                        child: TweenAnimationBuilder<double>(
+                          duration: motion,
+                          curve: AgroMotion.arrive,
+                          tween: Tween(begin: 0, end: count / maximum),
+                          builder: (context, value, _) => Align(
+                            alignment: Alignment.centerLeft,
+                            child: FractionallySizedBox(
+                              widthFactor: value,
+                              child: Container(
+                                height: 10,
+                                decoration: BoxDecoration(
+                                  color: fill,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -717,7 +823,7 @@ class _OrderLine extends StatelessWidget {
               ),
             ),
             if (onTap != null)
-              const Icon(Icons.chevron_right, color: AgroDesign.green),
+              const Icon(Icons.chevron_right, color: AgroDesign.muted),
           ],
         ),
       ),
@@ -728,44 +834,53 @@ class _OrderLine extends StatelessWidget {
 class _ActionLine extends StatelessWidget {
   final String title, subtitle;
   final IconData icon;
+  final bool urgent;
   final VoidCallback onTap;
   const _ActionLine({
     required this.title,
     required this.subtitle,
     required this.icon,
     required this.onTap,
+    this.urgent = false,
   });
   @override
-  Widget build(BuildContext context) => InkWell(
-    onTap: onTap,
-    borderRadius: BorderRadius.circular(14),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: AgroDesign.wash,
-              borderRadius: BorderRadius.circular(14),
-            ),
-            child: Icon(icon, color: AgroDesign.forest, size: 22),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: AgroDesign.body.copyWith(fontWeight: FontWeight.w700),
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(top: 8),
+    child: Material(
+      color: AgroDesign.canvas,
+      borderRadius: BorderRadius.circular(18),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              IconBubble(
+                icon,
+                background: urgent ? AgroDesign.attention : AgroDesign.mint,
+                color: urgent ? AgroDesign.earth : AgroDesign.forest,
+                size: 42,
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: AgroDesign.body.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(subtitle, style: AgroDesign.caption),
+                  ],
                 ),
-                Text(subtitle, style: AgroDesign.caption),
-              ],
-            ),
+              ),
+              const Icon(Icons.chevron_right, color: AgroDesign.muted),
+            ],
           ),
-          const Icon(Icons.chevron_right, color: AgroDesign.green),
-        ],
+        ),
       ),
     ),
   );
@@ -785,12 +900,12 @@ class _Entrance extends StatelessWidget {
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0, end: 1),
       duration: Duration(milliseconds: total),
-      curve: Interval(lead / total, 1, curve: Curves.easeOutCubic),
+      curve: Interval(lead / total, 1, curve: AgroMotion.arrive),
       child: child,
       builder: (context, value, child) => Opacity(
         opacity: value,
         child: Transform.translate(
-          offset: Offset(0, 8 * (1 - value)),
+          offset: Offset(0, 12 * (1 - value)),
           child: child,
         ),
       ),

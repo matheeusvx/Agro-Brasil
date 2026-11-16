@@ -416,6 +416,6 @@ void main() {
       await tester.pumpAndSettle();
     }
     expect(tester.takeException(), isNull);
-    expect(find.text('Próximos painéis'), findsOneWidget);
+    expect(find.text('Documentação NASA POWER'), findsOneWidget);
   });
 }

@@ -12,7 +12,8 @@ import 'home.dart';
 import 'tasks.dart';
 import 'design.dart';
 import 'desktop.dart';
-import 'illustrations.dart';
+import 'motion.dart';
+import 'profile.dart';
 import 'territorial/water_dashboard.dart';
 
 const galleryEnabled = bool.fromEnvironment('DEMO_GALLERY');
@@ -39,15 +40,32 @@ void main() {
 ThemeData agroTheme() => ThemeData(
   useMaterial3: true,
   fontFamily: 'Roboto',
-  scaffoldBackgroundColor: AgroDesign.cream,
+  scaffoldBackgroundColor: AgroDesign.canvas,
   colorScheme: ColorScheme.fromSeed(
     seedColor: AgroDesign.forest,
     primary: AgroDesign.forest,
-    surface: AgroDesign.cream,
+    surface: AgroDesign.canvas,
     error: AgroDesign.danger,
   ),
+  dividerTheme: const DividerThemeData(color: AgroDesign.line, space: 1),
+  progressIndicatorTheme: const ProgressIndicatorThemeData(
+    color: AgroDesign.brand,
+    linearTrackColor: AgroDesign.mint,
+  ),
+  snackBarTheme: SnackBarThemeData(
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: AgroDesign.forest,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+  ),
+  checkboxTheme: CheckboxThemeData(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+  ),
+  expansionTileTheme: const ExpansionTileThemeData(
+    shape: Border(),
+    collapsedShape: Border(),
+  ),
   appBarTheme: const AppBarTheme(
-    backgroundColor: AgroDesign.cream,
+    backgroundColor: AgroDesign.canvas,
     foregroundColor: AgroDesign.ink,
     scrolledUnderElevation: 0,
     elevation: 0,
@@ -68,12 +86,14 @@ ThemeData agroTheme() => ThemeData(
     elevation: 0,
     color: Colors.white,
     margin: const EdgeInsets.only(bottom: 14),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(AgroDesign.radius),
+    ),
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: Colors.white,
-    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
     labelStyle: const TextStyle(color: AgroDesign.muted),
     helperMaxLines: 4,
     errorMaxLines: 4,
@@ -81,26 +101,40 @@ ThemeData agroTheme() => ThemeData(
       borderRadius: BorderRadius.circular(16),
       borderSide: const BorderSide(color: AgroDesign.line),
     ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: const BorderSide(color: AgroDesign.forest, width: 1.6),
+    ),
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
   ),
   filledButtonTheme: FilledButtonThemeData(
     style: FilledButton.styleFrom(
-      minimumSize: const Size(48, 52),
+      backgroundColor: AgroDesign.forest,
+      foregroundColor: Colors.white,
+      disabledBackgroundColor: AgroDesign.disabled,
+      disabledForegroundColor: AgroDesign.muted,
+      minimumSize: const Size(48, 54),
       textStyle: const TextStyle(
         fontFamily: 'Roboto',
         fontSize: 15,
         fontWeight: FontWeight.w700,
       ),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      shape: const StadiumBorder(),
+      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
       foregroundColor: AgroDesign.forest,
-      side: const BorderSide(color: AgroDesign.forest),
-      minimumSize: const Size(48, 52),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      backgroundColor: Colors.white,
+      side: const BorderSide(color: AgroDesign.line, width: 1.2),
+      minimumSize: const Size(48, 54),
+      textStyle: const TextStyle(
+        fontFamily: 'Roboto',
+        fontSize: 15,
+        fontWeight: FontWeight.w700,
+      ),
+      shape: const StadiumBorder(),
     ),
   ),
   dialogTheme: DialogThemeData(
@@ -127,6 +161,7 @@ class AgroApp extends StatelessWidget {
     title: 'Agro+ Brasil',
     debugShowCheckedModeBanner: false,
     theme: agroTheme(),
+    builder: applyProfilePrefs,
     locale: const Locale('pt', 'BR'),
     supportedLocales: const [Locale('pt', 'BR')],
     localizationsDelegates: GlobalMaterialLocalizations.delegates,
@@ -148,6 +183,7 @@ class _SessionPageState extends State<SessionPage> {
   final token = TextEditingController();
   String? error;
   bool busy = false;
+  bool showToken = false;
   Json? identity;
   List<Json> memberships = [];
   String? organization;
@@ -237,108 +273,289 @@ class _SessionPageState extends State<SessionPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 460),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(28),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    ColoredBox(
-                      color: AgroDesign.forest,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 30, 20, 26),
-                        child: Center(
+    backgroundColor: AgroDesign.forest,
+    body: LayoutBuilder(
+      builder: (context, box) {
+        final wide = box.maxWidth >= 600;
+        final sheet = Reveal(
+          index: 3,
+          offset: 28,
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: AgroDesign.canvas,
+              borderRadius: wide
+                  ? BorderRadius.circular(32)
+                  : const BorderRadius.vertical(top: Radius.circular(32)),
+            ),
+            padding: EdgeInsets.fromLTRB(
+              24,
+              32,
+              24,
+              24 + MediaQuery.paddingOf(context).bottom,
+            ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 420),
+                child: _form(),
+              ),
+            ),
+          ),
+        );
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: box.maxHeight),
+            child: Column(
+              mainAxisAlignment: wide
+                  ? MainAxisAlignment.center
+                  : MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Com spaceBetween, a marca fica centrada no espaço livre.
+                if (!wide) const SizedBox.shrink(),
+                SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 32, 24, 32),
+                    child: Column(
+                      children: [
+                        Reveal(
                           child: Semantics(
                             header: true,
-                            child: const AgroLogo(height: 56),
+                            child: const AgroLogo(height: 48),
                           ),
                         ),
+                        const SizedBox(height: 14),
+                        const Reveal(
+                          index: 1,
+                          child: Text(
+                            'Produção, ofertas e entregas em um só lugar.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15,
+                              height: 1.4,
+                              color: Color(0xFFD3E6D8),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 28),
+                        const Reveal(
+                          index: 2,
+                          child: Wrap(
+                            alignment: WrapAlignment.center,
+                            spacing: 10,
+                            runSpacing: 10,
+                            children: [
+                              _BrandPill(Icons.grass, 'Produção'),
+                              _BrandPill(Icons.sell_outlined, 'Ofertas'),
+                              _BrandPill(
+                                Icons.local_shipping_outlined,
+                                'Entregas',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                if (wide)
+                  Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 480),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 24),
+                        child: sheet,
                       ),
                     ),
-                    const ColoredBox(
-                      color: AgroDesign.sky,
-                      child: FarmIllustration(width: 370, height: 150),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Text('Meu campo, meu dia.', style: AgroDesign.title),
-              const SizedBox(height: 8),
-              const Text(
-                'Da sua colheita a novas conexões. Tudo começa na sua propriedade.',
-                style: AgroDesign.body,
-              ),
-              const SizedBox(height: 24),
-              const InfoStrip(
-                icon: Icons.science_outlined,
-                text: 'Demonstração local · participantes fictícios. Use o token de pequeno produtor rural gerado no servidor.',
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: token,
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                decoration: const InputDecoration(
-                  labelText: 'Token temporário de demonstração',
-                ),
-                onChanged: (_) => setState(() => identity = null),
-              ),
-              const SizedBox(height: 16),
-              FilledButton(
-                onPressed: busy ? null : authenticate,
-                child: Text(busy ? 'Verificando acesso…' : 'Verificar acesso'),
-              ),
-              if (error != null)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Semantics(
-                    liveRegion: true,
-                    child: Text(
-                      error!,
-                      style: const TextStyle(color: Color(0xFF9A271C)),
-                    ),
-                  ),
-                ),
-              if (identity != null) ...[
-                const SizedBox(height: 16),
-                DropdownButtonFormField<String>(
-                  initialValue: organization,
-                  isExpanded: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Organização autorizada',
-                  ),
-                  items: memberships
-                      .map(
-                        (m) => DropdownMenuItem<String>(
-                          value: m['organizationId'],
-                          child: Text(
-                            m['name'],
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (value) => setState(() => organization = value),
-                ),
-                const SizedBox(height: 16),
-                FilledButton(
-                  onPressed: enter,
-                  child: const Text('Entrar na minha propriedade'),
-                ),
+                  )
+                else
+                  sheet,
               ],
-            ],
+            ),
+          ),
+        );
+      },
+    ),
+  );
+
+  Widget _form() => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      const Text('Meu campo, meu dia.', style: AgroDesign.display),
+      const SizedBox(height: 8),
+      Text(
+        'Da sua colheita a novas conexões. Tudo começa na sua propriedade.',
+        style: AgroDesign.body.copyWith(color: AgroDesign.muted),
+      ),
+      const SizedBox(height: 28),
+      TextField(
+        controller: token,
+        obscureText: !showToken,
+        enableSuggestions: false,
+        autocorrect: false,
+        textInputAction: TextInputAction.go,
+        onSubmitted: (_) {
+          if (!busy) authenticate();
+        },
+        decoration: InputDecoration(
+          labelText: 'Código de acesso',
+          prefixIcon: const Icon(Icons.key_outlined),
+          suffixIcon: IconButton(
+            tooltip: showToken ? 'Ocultar código' : 'Mostrar código',
+            onPressed: () => setState(() => showToken = !showToken),
+            icon: Icon(
+              showToken
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
+            ),
+          ),
+        ),
+        onChanged: (_) => setState(() => identity = null),
+      ),
+      const SizedBox(height: 16),
+      PressScale(
+        child: FilledButton(
+          onPressed: busy ? null : authenticate,
+          child: AnimatedSwitcher(
+            duration: AgroMotion.of(context, AgroMotion.stateDuration),
+            child: busy
+                ? const Row(
+                    key: ValueKey('busy'),
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 18,
+                        height: 18,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: AgroDesign.muted,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Text('Verificando acesso…'),
+                    ],
+                  )
+                : const Text('Verificar acesso', key: ValueKey('idle')),
           ),
         ),
       ),
+      AnimatedSize(
+        duration: AgroMotion.of(context, AgroMotion.respondDuration),
+        curve: AgroMotion.respond,
+        alignment: Alignment.topCenter,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (error != null) ...[
+              const SizedBox(height: 16),
+              Semantics(
+                liveRegion: true,
+                child: Container(
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: AgroDesign.dangerWash,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(
+                        Icons.error_outline,
+                        size: 20,
+                        color: AgroDesign.danger,
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          error!,
+                          style: AgroDesign.body.copyWith(
+                            color: AgroDesign.danger,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+            if (identity != null) ...[
+              const SizedBox(height: 24),
+              const Row(
+                children: [
+                  IconBubble(
+                    Icons.check,
+                    background: AgroDesign.brandWash,
+                    color: AgroDesign.green,
+                    size: 36,
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Text('Acesso verificado', style: AgroDesign.section),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<String>(
+                initialValue: organization,
+                isExpanded: true,
+                decoration: const InputDecoration(
+                  labelText: 'Organização autorizada',
+                  prefixIcon: Icon(Icons.agriculture_outlined),
+                ),
+                items: memberships
+                    .map(
+                      (m) => DropdownMenuItem<String>(
+                        value: m['organizationId'],
+                        child: Text(m['name'], overflow: TextOverflow.ellipsis),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) => setState(() => organization = value),
+              ),
+              const SizedBox(height: 16),
+              PressScale(
+                child: FilledButton.icon(
+                  onPressed: enter,
+                  icon: const Icon(Icons.arrow_forward, size: 18),
+                  label: const Text('Entrar na minha propriedade'),
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    ],
+  );
+}
+
+/// Rótulo discreto sobre o verde da tela de entrada.
+class _BrandPill extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  const _BrandPill(this.icon, this.label);
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+    decoration: BoxDecoration(
+      color: const Color(0x14FFFFFF),
+      borderRadius: BorderRadius.circular(999),
+      border: Border.all(color: const Color(0x26FFFFFF)),
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 16, color: AgroDesign.brand),
+        const SizedBox(width: 6),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+        ),
+      ],
     ),
   );
 }
@@ -381,7 +598,23 @@ class _AppShellState extends State<AppShell> {
   @override
   void initState() {
     super.initState();
+    loadProfilePrefs(controller);
     controller.start();
+  }
+
+  Future<void> logout() async {
+    await controller.clear();
+    appPrefs.value = const ProfilePrefs();
+    if (mounted) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute<void>(
+          builder: (_) =>
+              galleryEnabled ? const Gallery() : const SessionPage(),
+        ),
+        (_) => false,
+      );
+    }
   }
 
   @override
@@ -491,7 +724,7 @@ class _AppShellState extends State<AppShell> {
           final content = selected == 0
               ? HomeScreen(controller: controller, onNavigate: navigate)
               : selected == 4
-              ? ProfilePage(controller: controller)
+              ? ProfilePage(controller: controller, onLogout: logout)
               : TaskPage(
                   key: ValueKey('$selected:$focusId:${controller.propertyId}'),
                   controller: controller,

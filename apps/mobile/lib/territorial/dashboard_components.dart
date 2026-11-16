@@ -20,13 +20,16 @@ class DashboardCard extends StatelessWidget {
   const DashboardCard({super.key, required this.child, this.dark = false});
 
   @override
-  Widget build(BuildContext context) => Material(
-    color: dark ? AgroDesign.forest : Colors.white,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(24),
-      side: BorderSide(color: dark ? AgroDesign.forest : AgroDesign.line),
+  Widget build(BuildContext context) => DecoratedBox(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(AgroDesign.radius),
+      boxShadow: dark ? null : AgroDesign.softShadow,
     ),
-    child: Padding(padding: const EdgeInsets.all(20), child: child),
+    child: Material(
+      color: dark ? AgroDesign.forest : Colors.white,
+      borderRadius: BorderRadius.circular(AgroDesign.radius),
+      child: Padding(padding: const EdgeInsets.all(20), child: child),
+    ),
   );
 }
 
@@ -46,9 +49,9 @@ class DashboardHeading extends StatelessWidget {
     children: [
       Container(
         padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: AgroDesign.wash,
-          borderRadius: BorderRadius.circular(14),
+        decoration: const BoxDecoration(
+          color: AgroDesign.mint,
+          shape: BoxShape.circle,
         ),
         child: Icon(icon, color: AgroDesign.forest, size: 22),
       ),
@@ -82,8 +85,6 @@ class TerritorialHeader extends StatelessWidget {
   Widget build(BuildContext context) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Text('PAINEL TERRITORIAL  /  01', style: AgroDesign.eyebrow),
-      const SizedBox(height: 10),
       Row(
         children: [
           const Icon(Icons.location_on_outlined, size: 20),
@@ -141,7 +142,7 @@ class IndicatorCard extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: AgroDesign.green, size: 22),
+        IconBubble(icon, size: 38),
         const SizedBox(height: 12),
         Text(title, style: AgroDesign.caption),
         const SizedBox(height: 6),
@@ -210,7 +211,7 @@ class DashboardStateView extends StatelessWidget {
             DashboardStatus.empty => Icons.insert_chart_outlined,
             DashboardStatus.error => Icons.cloud_off_outlined,
             DashboardStatus.stale => Icons.history,
-          }, color: AgroDesign.green),
+          }, color: AgroDesign.forest),
           const SizedBox(height: 12),
           Text(switch (status) {
             DashboardStatus.loading => 'Abrindo o histórico',
@@ -317,32 +318,25 @@ class _DashboardBarChartState extends State<DashboardBarChart> {
     final ceiling = (maxValue / 10).ceil() * 10.0;
     final textScale = MediaQuery.textScalerOf(context);
     final cellWidth = math.max(48.0, textScale.scale(18) * 2.5);
-    final height = 168 + textScale.scale(14) + 22;
+    final labelHeight = textScale.scale(13) * 1.5;
+    const plot = 150.0;
+    final height = plot + labelHeight * 2 + 44;
+    final grow =
+        MediaQuery.disableAnimationsOf(context) ||
+            MediaQuery.accessibleNavigationOf(context)
+        ? Duration.zero
+        : const Duration(milliseconds: 520);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          spacing: 12,
-          runSpacing: 4,
-          children: [
-            Text('0 ${widget.unit}', style: AgroDesign.caption),
-            Text(
-              'Escala até ${waterNumber(ceiling, decimals: 0)} ${widget.unit}',
-              style: AgroDesign.caption,
-            ),
-          ],
-        ),
-        const SizedBox(height: 12),
         SizedBox(
           height: height,
           child: Scrollbar(
             controller: _scroll,
-            thumbVisibility: true,
             child: SingleChildScrollView(
               controller: _scroll,
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.only(bottom: 18),
+              padding: const EdgeInsets.only(bottom: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -359,82 +353,147 @@ class _DashboardBarChartState extends State<DashboardBarChart> {
                           child: ExcludeSemantics(
                             child: SizedBox(
                               width: cellWidth,
-                              child: Material(
-                                color: selected
-                                    ? AgroDesign.wash
-                                    : Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                child: InkWell(
-                                  onTap: () => widget.onSelected(index),
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                      6,
-                                      4,
-                                      6,
-                                      8,
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(
-                                          height: 140,
-                                          child: DecoratedBox(
-                                            decoration: const BoxDecoration(
-                                              border: Border(
-                                                bottom: BorderSide(
+                              child: InkWell(
+                                onTap: () => widget.onSelected(index),
+                                borderRadius: BorderRadius.circular(14),
+                                child: AnimatedContainer(
+                                  duration: grow == Duration.zero
+                                      ? Duration.zero
+                                      : const Duration(milliseconds: 160),
+                                  decoration: BoxDecoration(
+                                    color: selected
+                                        ? AgroDesign.mint
+                                        : Colors.transparent,
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  padding: const EdgeInsets.fromLTRB(
+                                    4,
+                                    6,
+                                    4,
+                                    8,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(
+                                        height: labelHeight,
+                                        child: selected && point.value != null
+                                            ? FittedBox(
+                                                child: Text(
+                                                  waterNumber(
+                                                    point.value,
+                                                    decimals:
+                                                        point.value! >= 100
+                                                        ? 0
+                                                        : 1,
+                                                  ),
+                                                  style: AgroDesign.caption
+                                                      .copyWith(
+                                                        color:
+                                                            AgroDesign.forest,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
+                                                ),
+                                              )
+                                            : null,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      SizedBox(
+                                        height: plot,
+                                        child: TweenAnimationBuilder<double>(
+                                          tween: Tween(begin: 0, end: 1),
+                                          duration: grow,
+                                          curve: const Cubic(
+                                            0.25,
+                                            0.8,
+                                            0.25,
+                                            1,
+                                          ),
+                                          builder: (context, t, _) => Stack(
+                                            alignment: Alignment.bottomCenter,
+                                            children: [
+                                              const Positioned(
+                                                left: 0,
+                                                right: 0,
+                                                bottom: 0,
+                                                child: Divider(
+                                                  height: 1,
+                                                  thickness: 1,
                                                   color: AgroDesign.line,
                                                 ),
                                               ),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.end,
-                                              children: [
-                                                if (point.value != null)
-                                                  _bar(
-                                                    point.value!,
-                                                    ceiling,
-                                                    AgroDesign.green,
-                                                  )
-                                                else
-                                                  const Expanded(
-                                                    child: Center(
-                                                      child: Text('—'),
+                                              if (point.value == null)
+                                                const Center(
+                                                  child: Text(
+                                                    '—',
+                                                    style: AgroDesign.caption,
+                                                  ),
+                                                )
+                                              else
+                                                Container(
+                                                  width: 18,
+                                                  height: math.max(
+                                                    3,
+                                                    plot *
+                                                        t *
+                                                        point.value!.clamp(
+                                                          0,
+                                                          ceiling,
+                                                        ) /
+                                                        ceiling,
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                    color: selected
+                                                        ? AgroDesign.forest
+                                                        : _barRest,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          9,
+                                                        ),
+                                                  ),
+                                                ),
+                                              if (widget.comparison &&
+                                                  point.reference != null)
+                                                Positioned(
+                                                  bottom:
+                                                      plot *
+                                                          t *
+                                                          point.reference!
+                                                              .clamp(
+                                                                0,
+                                                                ceiling,
+                                                              ) /
+                                                          ceiling -
+                                                      1.5,
+                                                  child: Container(
+                                                    width: 30,
+                                                    height: 3,
+                                                    decoration: BoxDecoration(
+                                                      color: AgroDesign.earth,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            2,
+                                                          ),
                                                     ),
                                                   ),
-                                                if (widget.comparison) ...[
-                                                  const SizedBox(width: 4),
-                                                  if (point.reference != null)
-                                                    _bar(
-                                                      point.reference!,
-                                                      ceiling,
-                                                      dashboardLime,
-                                                    )
-                                                  else
-                                                    const Expanded(
-                                                      child: Center(
-                                                        child: Text('—'),
-                                                      ),
-                                                    ),
-                                                ],
-                                              ],
-                                            ),
+                                                ),
+                                            ],
                                           ),
                                         ),
-                                        const SizedBox(height: 8),
-                                        Text(
-                                          point.label,
-                                          style: AgroDesign.caption.copyWith(
-                                            color: AgroDesign.ink,
-                                            fontWeight: selected
-                                                ? FontWeight.w700
-                                                : FontWeight.w400,
-                                          ),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        point.label,
+                                        style: AgroDesign.caption.copyWith(
+                                          color: selected
+                                              ? AgroDesign.forest
+                                              : AgroDesign.muted,
+                                          fontWeight: selected
+                                              ? FontWeight.w700
+                                              : FontWeight.w400,
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -448,45 +507,41 @@ class _DashboardBarChartState extends State<DashboardBarChart> {
             ),
           ),
         ),
-        const SizedBox(height: 6),
-        const Text(
-          'Toque em uma barra para ver o valor',
+        Text(
+          'Toque em uma barra para ver o valor · escala 0–${waterNumber(ceiling, decimals: 0)} ${widget.unit}',
           style: AgroDesign.caption,
         ),
       ],
     );
   }
 
-  Widget _bar(double value, double ceiling, Color color) => Expanded(
-    child: Container(
-      height: 138 * value.clamp(0, ceiling) / ceiling,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(4)),
-      ),
-    ),
-  );
+  static const _barRest = Color(0xFF6E9C7E);
 }
 
 class ChartLegend extends StatelessWidget {
   final String label;
   final Color color;
-  const ChartLegend({super.key, required this.label, required this.color});
+  final bool line;
+  const ChartLegend({
+    super.key,
+    required this.label,
+    required this.color,
+    this.line = false,
+  });
   @override
   Widget build(BuildContext context) => Row(
     mainAxisSize: MainAxisSize.min,
     children: [
       Container(
-        width: 10,
-        height: 10,
+        width: line ? 16 : 10,
+        height: line ? 3 : 10,
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(3),
-          border: Border.all(color: AgroDesign.green.withValues(alpha: .3)),
+          borderRadius: BorderRadius.circular(line ? 2 : 5),
         ),
       ),
       const SizedBox(width: 6),
-      Text(label, style: AgroDesign.caption),
+      Text(label, style: AgroDesign.caption.copyWith(color: AgroDesign.ink)),
     ],
   );
 }

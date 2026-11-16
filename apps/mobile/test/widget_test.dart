@@ -34,7 +34,10 @@ void main() {
         await tester.pumpAndSettle();
       }
       expect(tester.takeException(), isNull);
-      expect(find.textContaining('dados fictícios'), findsOneWidget);
+      // Redesign 16/11/2026: sem faixas de demonstração/atualização na home.
+      expect(find.textContaining('dados fictícios'), findsNothing);
+      expect(find.textContaining('Atualizado em'), findsNothing);
+      expect(find.textContaining('sem GPS'), findsNothing);
       expect(find.byType(PendingCard).evaluate().length, lessThanOrEqualTo(2));
       await expectLater(
         find.byKey(const ValueKey('capture')),

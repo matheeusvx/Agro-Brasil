@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../design.dart';
+import '../motion.dart';
 import 'dashboard_components.dart';
 import 'alert_card.dart';
 import 'explained_alert.dart';
@@ -142,490 +143,449 @@ class _WaterContentState extends State<_WaterContent> {
         constraints: const BoxConstraints(maxWidth: 800),
         child: ListView(
           key: const PageStorageKey('water-dashboard-scroll'),
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+          padding: const EdgeInsets.fromLTRB(20, 4, 20, 32),
           children: [
-            const Text('Mogi das Cruzes/SP', style: AgroDesign.section),
-            const SizedBox(height: 4),
-            Text(
-              'Dados históricos até ${waterDate(data.dataAsOf)} · NASA POWER',
-              style: AgroDesign.caption,
-            ),
-            const SizedBox(height: 6),
-            const Text(
-              'Somente Mogi das Cruzes/SP, mesmo se sua propriedade estiver em outro município.',
-              style: AgroDesign.caption,
-            ),
-            const SizedBox(height: 16),
-            LayoutBuilder(
-              builder: (context, box) {
-                final stack =
-                    box.maxWidth < 330 ||
-                    MediaQuery.textScalerOf(context).scale(14) > 21;
-                final width = stack ? box.maxWidth : (box.maxWidth - 12) / 2;
-                return Wrap(
-                  spacing: 12,
-                  runSpacing: 12,
-                  children: [
-                    SizedBox(
-                      width: width,
-                      child: TerritorialYearFilter(
-                        year: year,
-                        years: data.years,
-                        onChanged: selectYear,
-                      ),
-                    ),
-                    SizedBox(
-                      width: width,
-                      child: DropdownButtonFormField<int>(
-                        key: ValueKey('month-$year-$month'),
-                        initialValue: month,
-                        isExpanded: true,
-                        decoration: const InputDecoration(
-                          labelText: 'Mês encerrado',
-                        ),
-                        items: yearMonths
-                            .map(
-                              (m) => DropdownMenuItem(
-                                value: m.date.month,
-                                child: Text(waterMonths[m.date.month - 1]),
-                              ),
-                            )
-                            .toList(),
-                        onChanged: (value) {
-                          if (value != null) selectMonth(value);
-                        },
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-            const SizedBox(height: 16),
-            DashboardAlerts(
-              key: ValueKey('water-alert-$year-$month'),
-              evaluate: (_) => [waterAlert(data, selectedMonth)],
-            ),
-            DashboardCard(
-              dark: true,
+            Reveal(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'CHUVA NO MÊS',
-                          style: AgroDesign.eyebrow.copyWith(
-                            color: dashboardLime,
-                          ),
-                        ),
-                      ),
-                      const Icon(
-                        Icons.water_drop_outlined,
-                        color: dashboardLime,
-                        size: 26,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    selectedMonth.label,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 8,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Text(
-                        waterNumber(selectedMonth.rain),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 42,
-                          fontWeight: FontWeight.w700,
-                          height: 1.1,
-                        ),
-                      ),
-                      if (selectedMonth.rain != null)
-                        const Text(
-                          'mm',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    anomaly == null
-                        ? 'Comparação indisponível'
-                        : anomaly == 0
-                        ? 'Choveu o mesmo que a média histórica'
-                        : anomaly.abs() < 1
-                        ? 'Chuva próxima à média histórica (diferença menor que 1%)'
-                        : 'Choveu ${waterNumber(anomaly.abs(), decimals: 0)}% ${anomaly < 0 ? 'menos' : 'mais'} que a média histórica',
-                    style: const TextStyle(
-                      color: dashboardLime,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 7),
-                  Text(
-                    'Média deste mês: ${waterNumber(reference.mean)} mm (2000–2019)',
-                    style: const TextStyle(
-                      color: Color(0xFFE1ECD7),
-                      fontSize: 13,
-                      height: 1.4,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-            DashboardCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const DashboardHeading(
-                    title: 'O ritmo das chuvas',
-                    description: 'Chuva de cada mês e o que costuma chover.',
-                    icon: Icons.bar_chart_rounded,
-                  ),
-                  const SizedBox(height: 18),
-                  Wrap(
-                    spacing: 16,
-                    runSpacing: 8,
-                    children: [
-                      ChartLegend(
-                        label: 'Chuva em $year',
-                        color: AgroDesign.green,
-                      ),
-                      const ChartLegend(
-                        label: 'Média histórica',
-                        color: dashboardLime,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 18),
-                  DashboardBarChart(
-                    key: ValueKey('seasonal-$year'),
-                    points: [
-                      for (final m in yearMonths)
-                        DashboardChartPoint(
-                          label: waterMonths[m.date.month - 1].substring(0, 3),
-                          semanticLabel:
-                              '${m.label}: ${waterNumber(m.rain)} mm. Média histórica: '
-                              '${waterNumber(data.reference(m.date.month).mean)} mm. Selecionar mês.',
-                          value: m.rain,
-                          reference: data.reference(m.date.month).mean,
-                        ),
-                    ],
-                    selected: yearMonths.indexOf(selectedMonth),
-                    onSelected: (index) =>
-                        selectMonth(yearMonths[index].date.month),
-                    unit: 'mm',
-                    comparison: true,
-                  ),
-                  const SizedBox(height: 16),
                   Semantics(
-                    liveRegion: true,
-                    child: Text(
-                      '${selectedMonth.label}: ${waterNumber(selectedMonth.rain)} mm. '
-                      'Média histórica: ${waterNumber(reference.mean)} mm.',
-                      style: AgroDesign.body,
+                    header: true,
+                    child: const Text(
+                      'Mogi das Cruzes/SP',
+                      style: AgroDesign.display,
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-            DashboardCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${waterNumber(selectedMonth.dryDays, decimals: 0)} dias com pouca chuva',
-                    style: AgroDesign.section,
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    '${selectedMonth.label} · menos de 1 mm por dia. Isso não significa, por si só, seca agrícola.',
+                    'Dados históricos até ${waterDate(data.dataAsOf)} · NASA POWER',
+                    style: AgroDesign.caption,
+                  ),
+                  const SizedBox(height: 2),
+                  const Text(
+                    'Referência regional · não é medição da sua propriedade.',
                     style: AgroDesign.caption,
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 16),
-            Material(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
-              child: ExpansionTile(
-                key: const PageStorageKey('water-detailed-analysis'),
-                maintainState: true,
-                title: const Text(
-                  'Ver análise detalhada',
-                  style: AgroDesign.section,
-                ),
-                subtitle: const Text(
-                  'Acumulados, sequências e origem dos dados',
-                  style: AgroDesign.caption,
-                ),
-                childrenPadding: const EdgeInsets.all(12),
-                children: [
-                  _dataTable(yearMonths),
-                  const SizedBox(height: 16),
-                  const DashboardHeading(
-                    title: 'Acumulados e períodos secos',
-                    description: 'Explore uma data do passado. Baixa chuva: menos de 1 mm por dia.',
-                    icon: Icons.water_outlined,
-                  ),
-                  const SizedBox(height: 16),
-                  DashboardCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: [
-                            for (var i = 0; i < 3; i++)
-                              ChoiceChip(
-                                label: Text(
-                                  ['7 dias', '30 dias', 'Baixa chuva'][i],
-                                ),
-                                selected: series == i,
-                                showCheckmark: true,
-                                selectedColor: dashboardLime,
-                                labelStyle: const TextStyle(
-                                  color: AgroDesign.ink,
-                                ),
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.padded,
-                                onSelected: (_) => setState(() => series = i),
-                              ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Text(seriesTitle, style: AgroDesign.section),
-                        const SizedBox(height: 12),
-                        if (daily.isEmpty)
-                          const Text(
-                            'Sem dados diários neste período.',
-                            style: AgroDesign.body,
-                          )
-                        else
-                          DashboardBarChart(
-                            key: ValueKey('daily-$year-$month-$series'),
-                            points: [
-                              for (final d in daily)
-                                DashboardChartPoint(
-                                  label: '${d.date.day}',
-                                  value: seriesValue(d),
-                                  semanticLabel:
-                                      '${waterDate(d.date)}: $seriesTitle, '
-                                      '${waterNumber(seriesValue(d), decimals: series == 2 ? 0 : 2)} $unit. Selecionar data.',
-                                ),
-                            ],
-                            selected: daily.indexWhere(
-                              (d) => d.date.day == day,
-                            ),
-                            onSelected: (index) =>
-                                setState(() => day = daily[index].date.day),
-                            unit: unit,
-                          ),
-                        const SizedBox(height: 14),
-                        Semantics(
-                          liveRegion: true,
-                          child: Text(
-                            '${waterDate(selectedDate)} (LST): '
-                            '${waterNumber(dayReading == null ? null : seriesValue(dayReading), decimals: series == 2 ? 0 : 2)}'
-                            '${dayReading == null || seriesValue(dayReading) == null ? '' : ' $unit'}.',
-                            style: AgroDesign.section,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          waterLevel(
-                            dayReading == null
-                                ? 'indisponivel'
-                                : switch (series) {
-                                    0 => dayReading.level7,
-                                    1 => dayReading.level30,
-                                    _ => dayReading.dryLevel,
-                                  },
-                          ),
-                          style: AgroDesign.body,
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          'Faixas estatísticas do mês de término, calculadas em 2000–2019. '
-                          'Janelas incluem o dia selecionado e podem atravessar meses. Não são alertas de risco.',
-                          style: AgroDesign.caption,
-                        ),
-                        ExpansionTile(
-                          key: PageStorageKey(
-                            'thresholds-$year-$month-$series',
-                          ),
-                          tilePadding: EdgeInsets.zero,
-                          title: const Text(
-                            'Como ler esta faixa',
-                            style: AgroDesign.body,
-                          ),
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: Text(
-                                _thresholdExplanation(),
-                                style: AgroDesign.caption,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Semantics(
-                    header: true,
-                    child: Text(
-                      'Leitura em ${waterDate(selectedDate)} · LST',
-                      style: AgroDesign.section,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  IndicatorGrid(
+            const SizedBox(height: 18),
+            Reveal(
+              index: 1,
+              child: LayoutBuilder(
+                builder: (context, box) {
+                  final stack =
+                      box.maxWidth < 330 ||
+                      MediaQuery.textScalerOf(context).scale(14) > 21;
+                  final width = stack ? box.maxWidth : (box.maxWidth - 12) / 2;
+                  return Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
                     children: [
-                      IndicatorCard(
-                        title: 'Chuva em 7 dias',
-                        value: waterNumber(dayReading?.rain7),
-                        unit: 'mm',
-                        icon: Icons.water_drop_outlined,
-                        contextLabel:
-                            '${waterDate(selectedDate.subtract(const Duration(days: 6)))} a '
-                            '${waterDate(selectedDate)}\n${waterLevel(dayReading?.level7 ?? 'indisponivel')}',
+                      SizedBox(
+                        width: width,
+                        child: TerritorialYearFilter(
+                          year: year,
+                          years: data.years,
+                          onChanged: selectYear,
+                        ),
                       ),
-                      IndicatorCard(
-                        title: 'Chuva em 30 dias',
-                        value: waterNumber(dayReading?.rain30),
-                        unit: 'mm',
-                        icon: Icons.calendar_view_month_outlined,
-                        contextLabel:
-                            '${waterDate(selectedDate.subtract(const Duration(days: 29)))} a '
-                            '${waterDate(selectedDate)}\n${waterLevel(dayReading?.level30 ?? 'indisponivel')}',
-                      ),
-                      IndicatorCard(
-                        title: 'Sequência de baixa chuva',
-                        value: waterNumber(dayReading?.dryRun, decimals: 0),
-                        unit: 'dias',
-                        icon: Icons.wb_sunny_outlined,
-                        contextLabel:
-                            'Sequência terminando em ${waterDate(selectedDate)}. '
-                            'Zero significa que este dia teve ao menos 1 mm.',
-                      ),
-                      IndicatorCard(
-                        title: 'Dias de baixa chuva no mês',
-                        value: waterNumber(selectedMonth.dryDays, decimals: 0),
-                        unit: 'dias',
-                        icon: Icons.date_range_outlined,
-                        contextLabel:
-                            '${selectedMonth.label}. Maior sequência dentro do mês: '
-                            '${waterNumber(selectedMonth.maxDryRun, decimals: 0)} dias. Não indica seca agrícola.',
+                      SizedBox(
+                        width: width,
+                        child: DropdownButtonFormField<int>(
+                          key: ValueKey('month-$year-$month'),
+                          initialValue: month,
+                          isExpanded: true,
+                          decoration: const InputDecoration(
+                            labelText: 'Mês encerrado',
+                            prefixIcon: Icon(Icons.event_outlined),
+                          ),
+                          items: yearMonths
+                              .map(
+                                (m) => DropdownMenuItem(
+                                  value: m.date.month,
+                                  child: Text(waterMonths[m.date.month - 1]),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) {
+                            if (value != null) selectMonth(value);
+                          },
+                        ),
                       ),
                     ],
-                  ),
-                  const SizedBox(height: 24),
-                  DashboardCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 16),
+            Reveal(
+              index: 2,
+              child: _RainHero(
+                key: ValueKey('rain-$year-$month'),
+                month: selectedMonth,
+                mean: reference.mean,
+                anomaly: anomaly,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Reveal(
+              index: 3,
+              child: DashboardAlerts(
+                key: ValueKey('water-alert-$year-$month'),
+                evaluate: (_) => [waterAlert(data, selectedMonth)],
+              ),
+            ),
+            Reveal(
+              index: 4,
+              child: DashboardCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Semantics(
+                      header: true,
+                      child: const Text(
+                        'Chuva mês a mês',
+                        style: AgroDesign.section,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 8,
                       children: [
-                        const DashboardHeading(
-                          title: 'O que mudou neste mês?',
-                          description: 'Anomalia é a diferença em relação à média histórica do mesmo mês.',
-                          icon: Icons.compare_arrows_rounded,
+                        ChartLegend(
+                          label: 'Chuva em $year',
+                          color: AgroDesign.forest,
                         ),
-                        const SizedBox(height: 16),
-                        Text(
-                          '${waterNumber(selectedMonth.anomalyMm)} mm',
-                          style: AgroDesign.title,
+                        const ChartLegend(
+                          label: 'Média histórica',
+                          color: AgroDesign.earth,
+                          line: true,
                         ),
-                        const SizedBox(height: 10),
-                        Text(
-                          anomaly == null
-                              ? 'Sem dados suficientes para comparar.'
-                              : '${selectedMonth.label} teve ${waterNumber(anomaly.abs())}% '
-                                    '${anomaly < 0
-                                        ? 'menos'
-                                        : anomaly > 0
-                                        ? 'mais'
-                                        : 'de diferença na'} chuva '
-                                    'que a média do mesmo mês em 2000–2019.',
-                          style: AgroDesign.body,
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
-                          waterLevel(level),
-                          style: AgroDesign.body.copyWith(
-                            fontWeight: FontWeight.w700,
+                      ],
+                    ),
+                    const SizedBox(height: 14),
+                    DashboardBarChart(
+                      key: ValueKey('seasonal-$year'),
+                      points: [
+                        for (final m in yearMonths)
+                          DashboardChartPoint(
+                            label: waterMonths[m.date.month - 1].substring(
+                              0,
+                              3,
+                            ),
+                            semanticLabel:
+                                '${m.label}: ${waterNumber(m.rain)} mm. Média histórica: '
+                                '${waterNumber(data.reference(m.date.month).mean)} mm. Selecionar mês.',
+                            value: m.rain,
+                            reference: data.reference(m.date.month).mean,
                           ),
-                        ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          'Isso descreve chuva regional passada. Não informa água no solo, '
-                          'disponibilidade de água, risco agrícola ou necessidade de irrigação.',
-                          style: AgroDesign.caption,
-                        ),
-                        ExpansionTile(
-                          key: PageStorageKey('anomaly-$year-$month'),
-                          tilePadding: EdgeInsets.zero,
-                          title: const Text(
-                            'Detalhes da comparação',
+                      ],
+                      selected: yearMonths.indexOf(selectedMonth),
+                      onSelected: (index) =>
+                          selectMonth(yearMonths[index].date.month),
+                      unit: 'mm',
+                      comparison: true,
+                    ),
+                    const SizedBox(height: 12),
+                    Semantics(
+                      liveRegion: true,
+                      child: Text(
+                        '${selectedMonth.label}: ${waterNumber(selectedMonth.rain)} mm. '
+                        'Média histórica: ${waterNumber(reference.mean)} mm.',
+                        style: AgroDesign.body,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Reveal(
+              index: 5,
+              child: AgroSurface(
+                child: Row(
+                  children: [
+                    const IconBubble(
+                      Icons.wb_sunny_outlined,
+                      background: AgroDesign.attention,
+                      color: AgroDesign.earth,
+                    ),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${waterNumber(selectedMonth.dryDays, decimals: 0)} dias com pouca chuva',
+                            style: AgroDesign.section,
+                          ),
+                          const SizedBox(height: 2),
+                          const Text(
+                            'Menos de 1 mm por dia · não indica seca agrícola.',
+                            style: AgroDesign.caption,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            Reveal(
+              index: 6,
+              child: AgroSurface(
+                padding: EdgeInsets.zero,
+                child: ExpansionTile(
+                  key: const PageStorageKey('water-detailed-analysis'),
+                  maintainState: true,
+                  leading: const IconBubble(Icons.insights_outlined, size: 40),
+                  title: const Text(
+                    'Ver análise detalhada',
+                    style: AgroDesign.section,
+                  ),
+                  subtitle: const Text(
+                    'Acumulados, sequências e origem dos dados',
+                    style: AgroDesign.caption,
+                  ),
+                  childrenPadding: const EdgeInsets.all(12),
+                  children: [
+                    _dataTable(yearMonths),
+                    const SizedBox(height: 16),
+                    const DashboardHeading(
+                      title: 'Acumulados e períodos secos',
+                      description: 'Explore uma data do passado. Baixa chuva: menos de 1 mm por dia.',
+                      icon: Icons.water_outlined,
+                    ),
+                    const SizedBox(height: 16),
+                    DashboardCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              for (var i = 0; i < 3; i++)
+                                ChoiceChip(
+                                  label: Text(
+                                    ['7 dias', '30 dias', 'Baixa chuva'][i],
+                                  ),
+                                  selected: series == i,
+                                  showCheckmark: true,
+                                  selectedColor: AgroDesign.mint,
+                                  labelStyle: const TextStyle(
+                                    color: AgroDesign.ink,
+                                  ),
+                                  materialTapTargetSize:
+                                      MaterialTapTargetSize.padded,
+                                  onSelected: (_) => setState(() => series = i),
+                                ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Text(seriesTitle, style: AgroDesign.section),
+                          const SizedBox(height: 12),
+                          if (daily.isEmpty)
+                            const Text(
+                              'Sem dados diários neste período.',
+                              style: AgroDesign.body,
+                            )
+                          else
+                            DashboardBarChart(
+                              key: ValueKey('daily-$year-$month-$series'),
+                              points: [
+                                for (final d in daily)
+                                  DashboardChartPoint(
+                                    label: '${d.date.day}',
+                                    value: seriesValue(d),
+                                    semanticLabel:
+                                        '${waterDate(d.date)}: $seriesTitle, '
+                                        '${waterNumber(seriesValue(d), decimals: series == 2 ? 0 : 2)} $unit. Selecionar data.',
+                                  ),
+                              ],
+                              selected: daily.indexWhere(
+                                (d) => d.date.day == day,
+                              ),
+                              onSelected: (index) =>
+                                  setState(() => day = daily[index].date.day),
+                              unit: unit,
+                            ),
+                          const SizedBox(height: 14),
+                          Semantics(
+                            liveRegion: true,
+                            child: Text(
+                              '${waterDate(selectedDate)} (LST): '
+                              '${waterNumber(dayReading == null ? null : seriesValue(dayReading), decimals: series == 2 ? 0 : 2)}'
+                              '${dayReading == null || seriesValue(dayReading) == null ? '' : ' $unit'}.',
+                              style: AgroDesign.section,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            waterLevel(
+                              dayReading == null
+                                  ? 'indisponivel'
+                                  : switch (series) {
+                                      0 => dayReading.level7,
+                                      1 => dayReading.level30,
+                                      _ => dayReading.dryLevel,
+                                    },
+                            ),
                             style: AgroDesign.body,
                           ),
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: Text(
-                                'Diferença = total mensal − média do mesmo mês. '
-                                'Diferença percentual = 100 × (total ÷ média − 1). '
-                                'Desvio padronizado z: ${waterNumber(selectedMonth.anomalyZ, decimals: 3)} '
-                                '(adimensional, desvio amostral). Não é SPI, SPEI ou probabilidade. '
-                                'A faixa vem dos quantis do total mensal, nunca de z. '
-                                'As 20 amostras de cada mês tornam as caudas incertas.',
-                                style: AgroDesign.caption,
-                              ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Faixas estatísticas do mês de término, calculadas em 2000–2019. '
+                            'Janelas incluem o dia selecionado e podem atravessar meses. Não são alertas de risco.',
+                            style: AgroDesign.caption,
+                          ),
+                          ExpansionTile(
+                            key: PageStorageKey(
+                              'thresholds-$year-$month-$series',
                             ),
-                          ],
-                        ),
-                      ],
+                            tilePadding: EdgeInsets.zero,
+                            title: const Text(
+                              'Como ler esta faixa',
+                              style: AgroDesign.body,
+                            ),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: Text(
+                                  _thresholdExplanation(),
+                                  style: AgroDesign.caption,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  _provenance(),
-                  const SizedBox(height: 20),
-                  const DashboardCard(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    const SizedBox(height: 16),
+                    Semantics(
+                      header: true,
+                      child: Text(
+                        'Leitura em ${waterDate(selectedDate)} · LST',
+                        style: AgroDesign.section,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    IndicatorGrid(
                       children: [
-                        Text('Próximos painéis', style: AgroDesign.section),
-                        SizedBox(height: 8),
-                        Text(
-                          'Produção e excedentes · disponível na aba Produção\nLogística · disponível na aba Pedidos',
-                          style: AgroDesign.body,
+                        IndicatorCard(
+                          title: 'Chuva em 7 dias',
+                          value: waterNumber(dayReading?.rain7),
+                          unit: 'mm',
+                          icon: Icons.water_drop_outlined,
+                          contextLabel:
+                              '${waterDate(selectedDate.subtract(const Duration(days: 6)))} a '
+                              '${waterDate(selectedDate)}\n${waterLevel(dayReading?.level7 ?? 'indisponivel')}',
                         ),
-                        SizedBox(height: 8),
-                        Text(
-                          'Este painel mostra o histórico regional de chuvas. '
-                          'As telas de produção e pedidos do app continuam disponíveis ao voltar.',
-                          style: AgroDesign.caption,
+                        IndicatorCard(
+                          title: 'Chuva em 30 dias',
+                          value: waterNumber(dayReading?.rain30),
+                          unit: 'mm',
+                          icon: Icons.calendar_view_month_outlined,
+                          contextLabel:
+                              '${waterDate(selectedDate.subtract(const Duration(days: 29)))} a '
+                              '${waterDate(selectedDate)}\n${waterLevel(dayReading?.level30 ?? 'indisponivel')}',
+                        ),
+                        IndicatorCard(
+                          title: 'Sequência de baixa chuva',
+                          value: waterNumber(dayReading?.dryRun, decimals: 0),
+                          unit: 'dias',
+                          icon: Icons.wb_sunny_outlined,
+                          contextLabel:
+                              'Sequência terminando em ${waterDate(selectedDate)}. '
+                              'Zero significa que este dia teve ao menos 1 mm.',
+                        ),
+                        IndicatorCard(
+                          title: 'Dias de baixa chuva no mês',
+                          value: waterNumber(
+                            selectedMonth.dryDays,
+                            decimals: 0,
+                          ),
+                          unit: 'dias',
+                          icon: Icons.date_range_outlined,
+                          contextLabel:
+                              '${selectedMonth.label}. Maior sequência dentro do mês: '
+                              '${waterNumber(selectedMonth.maxDryRun, decimals: 0)} dias. Não indica seca agrícola.',
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 24),
+                    DashboardCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const DashboardHeading(
+                            title: 'O que mudou neste mês?',
+                            description: 'Anomalia é a diferença em relação à média histórica do mesmo mês.',
+                            icon: Icons.compare_arrows_rounded,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            '${waterNumber(selectedMonth.anomalyMm)} mm',
+                            style: AgroDesign.title,
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            anomaly == null
+                                ? 'Sem dados suficientes para comparar.'
+                                : '${selectedMonth.label} teve ${waterNumber(anomaly.abs())}% '
+                                      '${anomaly < 0
+                                          ? 'menos'
+                                          : anomaly > 0
+                                          ? 'mais'
+                                          : 'de diferença na'} chuva '
+                                      'que a média do mesmo mês em 2000–2019.',
+                            style: AgroDesign.body,
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            waterLevel(level),
+                            style: AgroDesign.body.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Isso descreve chuva regional passada. Não informa água no solo, '
+                            'disponibilidade de água, risco agrícola ou necessidade de irrigação.',
+                            style: AgroDesign.caption,
+                          ),
+                          ExpansionTile(
+                            key: PageStorageKey('anomaly-$year-$month'),
+                            tilePadding: EdgeInsets.zero,
+                            title: const Text(
+                              'Detalhes da comparação',
+                              style: AgroDesign.body,
+                            ),
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: Text(
+                                  'Diferença = total mensal − média do mesmo mês. '
+                                  'Diferença percentual = 100 × (total ÷ média − 1). '
+                                  'Desvio padronizado z: ${waterNumber(selectedMonth.anomalyZ, decimals: 3)} '
+                                  '(adimensional, desvio amostral). Não é SPI, SPEI ou probabilidade. '
+                                  'A faixa vem dos quantis do total mensal, nunca de z. '
+                                  'As 20 amostras de cada mês tornam as caudas incertas.',
+                                  style: AgroDesign.caption,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    _provenance(),
+                  ],
+                ),
               ),
             ),
           ],
@@ -777,4 +737,216 @@ class _WaterContentState extends State<_WaterContent> {
       ),
     );
   }
+}
+
+/// Chuva do mês: número grande, comparação em uma frase curta e duas
+/// barras (este mês × média) que crescem ao trocar de mês.
+class _RainHero extends StatelessWidget {
+  final WaterMonth month;
+  final double? mean;
+  final double? anomaly;
+  const _RainHero({
+    super.key,
+    required this.month,
+    required this.mean,
+    required this.anomaly,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final a = anomaly;
+    final below = a != null && a <= -1;
+    final above = a != null && a >= 1;
+    final sentence = a == null
+        ? 'Comparação indisponível'
+        : a == 0
+        ? 'Choveu o mesmo que a média histórica'
+        : a.abs() < 1
+        ? 'Chuva próxima à média histórica'
+        : 'Choveu ${waterNumber(a.abs(), decimals: 0)}% ${a < 0 ? 'menos' : 'mais'} que a média histórica';
+    final top = [
+      month.rain ?? 0,
+      mean ?? 0,
+    ].fold<double>(1, (m, v) => v > m ? v : m);
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AgroDesign.radius),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFE5F2F5), Color(0xFFEAF5E6)],
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const IconBubble(
+                  Icons.water_drop_outlined,
+                  background: AgroDesign.paper,
+                  size: 40,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Chuva no mês',
+                        style: AgroDesign.caption.copyWith(
+                          color: AgroDesign.ink,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(month.label, style: AgroDesign.section),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Wrap(
+              spacing: 8,
+              crossAxisAlignment: WrapCrossAlignment.end,
+              children: [
+                Text(
+                  waterNumber(month.rain),
+                  style: const TextStyle(
+                    color: AgroDesign.forest,
+                    fontSize: 44,
+                    height: 1.05,
+                    letterSpacing: -1.5,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                if (month.rain != null)
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: 6),
+                    child: Text(
+                      'mm',
+                      style: TextStyle(color: AgroDesign.ink, fontSize: 18),
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+              decoration: BoxDecoration(
+                color: below
+                    ? AgroDesign.attention
+                    : above
+                    ? AgroDesign.paper
+                    : AgroDesign.paper,
+                borderRadius: BorderRadius.circular(999),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    below
+                        ? Icons.south_rounded
+                        : above
+                        ? Icons.north_rounded
+                        : Icons.drag_handle_rounded,
+                    size: 16,
+                    color: below ? AgroDesign.earth : AgroDesign.forest,
+                  ),
+                  const SizedBox(width: 6),
+                  Flexible(
+                    child: Text(
+                      sentence,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: below ? AgroDesign.earth : AgroDesign.forest,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 18),
+            _CompareBar(
+              label: 'Este mês',
+              value: month.rain,
+              top: top,
+              color: AgroDesign.forest,
+            ),
+            const SizedBox(height: 10),
+            _CompareBar(
+              label: 'Média do mês (2000–2019)',
+              value: mean,
+              top: top,
+              color: AgroDesign.earth,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CompareBar extends StatelessWidget {
+  final String label;
+  final double? value;
+  final double top;
+  final Color color;
+  const _CompareBar({
+    required this.label,
+    required this.value,
+    required this.top,
+    required this.color,
+  });
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      Row(
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: AgroDesign.caption.copyWith(color: AgroDesign.ink),
+            ),
+          ),
+          Text(
+            value == null ? 'Indisponível' : '${waterNumber(value)} mm',
+            style: AgroDesign.caption.copyWith(
+              color: AgroDesign.ink,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
+      const SizedBox(height: 6),
+      ClipRRect(
+        borderRadius: BorderRadius.circular(6),
+        child: SizedBox(
+          height: 10,
+          child: ColoredBox(
+            color: const Color(0x99FFFFFF),
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0, end: ((value ?? 0) / top).clamp(0, 1)),
+              duration: AgroMotion.of(context, AgroMotion.arriveDuration),
+              curve: AgroMotion.arrive,
+              builder: (context, t, _) => FractionallySizedBox(
+                alignment: Alignment.centerLeft,
+                widthFactor: t,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
 }

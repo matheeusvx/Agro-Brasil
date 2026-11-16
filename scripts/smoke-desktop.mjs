@@ -73,7 +73,7 @@ try {
   await page.goto(base+'/mobile/');
   await page.getByRole('button',{name:'Verificar acesso',exact:true}).waitFor({timeout:30000});
   await page.screenshot({path:resolve(directory,'login.png')});
-  await page.getByLabel('Token temporário de demonstração',{exact:true}).fill(token);
+  await page.getByLabel('Código de acesso',{exact:true}).fill(token);
   const identity = page.waitForResponse(r=>r.url()===base+'/api/v1/me');
   await page.getByRole('button',{name:'Verificar acesso',exact:true}).click(); assert.equal((await identity).status(),200);
   await page.getByRole('button',{name:'Entrar na minha propriedade',exact:true}).waitFor();

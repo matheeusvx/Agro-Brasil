@@ -103,18 +103,23 @@ class _ProductionDashboardState extends State<ProductionDashboard> {
                 ? null
                 : ProductionSummary(snapshot, DateTime.now(), year: activeYear);
             return ListView(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.fromLTRB(20, 4, 20, 32),
               children: [
-                const Text(
-                  'Acompanhe o que você produz e disponibiliza.',
-                  style: AgroDesign.body,
+                Semantics(
+                  header: true,
+                  child: const Text('Sua produção', style: AgroDesign.display),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 6),
+                Text(
+                  'Acompanhe o que você produz e disponibiliza.',
+                  style: AgroDesign.body.copyWith(color: AgroDesign.muted),
+                ),
+                const SizedBox(height: 4),
                 Text(
                   '${place['municipality']}/${place['uf']} · somente registros desta propriedade',
                   style: AgroDesign.caption,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 18),
                 DropdownButtonFormField<String>(
                   key: ValueKey('property-$property'),
                   initialValue: property,
@@ -132,7 +137,10 @@ class _ProductionDashboardState extends State<ProductionDashboard> {
                         ),
                       )
                       .toList(),
-                  decoration: const InputDecoration(labelText: 'Propriedade'),
+                  decoration: const InputDecoration(
+                    labelText: 'Propriedade',
+                    prefixIcon: Icon(Icons.landscape_outlined),
+                  ),
                   items: c.properties
                       .map(
                         (p) => DropdownMenuItem(
@@ -167,14 +175,6 @@ class _ProductionDashboardState extends State<ProductionDashboard> {
                     onRetry: state.hasError ? refresh : null,
                   ),
                 if (ready) ...[
-                  if (c.repository.demonstration)
-                    const Padding(
-                      padding: EdgeInsets.only(bottom: 12),
-                      child: Text(
-                        'Demonstração · registros fictícios identificados',
-                        style: AgroDesign.caption,
-                      ),
-                    ),
                   if (offline)
                     const Padding(
                       padding: EdgeInsets.only(bottom: 12),
@@ -202,6 +202,7 @@ class _ProductionDashboardState extends State<ProductionDashboard> {
                     initialValue: activeYear,
                     decoration: const InputDecoration(
                       labelText: 'Período da colheita',
+                      prefixIcon: Icon(Icons.calendar_month_outlined),
                     ),
                     items: [
                       const DropdownMenuItem(
@@ -218,37 +219,70 @@ class _ProductionDashboardState extends State<ProductionDashboard> {
                   ),
                   const SizedBox(height: 16),
                   _ProductionEntrance(
-                    child: DashboardCard(
-                      dark: true,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            'Minha produção',
-                            style: TextStyle(
-                              color: dashboardLime,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 17,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(AgroDesign.radius),
+                        gradient: const LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Color(0xFFEAF5E6), Color(0xFFF4F1E2)],
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const IconBubble(
+                                  Icons.grass,
+                                  background: AgroDesign.paper,
+                                  size: 40,
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Text(
+                                    'Minha produção',
+                                    style: AgroDesign.section.copyWith(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            '${productionKg(summary!.produced)} kg',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 36,
-                              fontWeight: FontWeight.w700,
+                            const SizedBox(height: 12),
+                            Text(
+                              '${productionKg(summary!.produced)} kg',
+                              style: const TextStyle(
+                                color: AgroDesign.forest,
+                                fontSize: 40,
+                                height: 1.1,
+                                letterSpacing: -1.2,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            '${summary.crops.length} culturas · ${activeYear == 'all' ? 'todos os registros' : 'colheitas de $activeYear'}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
+                            const SizedBox(height: 12),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 7,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AgroDesign.paper,
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                              child: Text(
+                                '${summary.crops.length} culturas · ${activeYear == 'all' ? 'todos os registros' : 'colheitas de $activeYear'}',
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: AgroDesign.forest,
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -257,9 +291,12 @@ class _ProductionDashboardState extends State<ProductionDashboard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        const Text(
-                          'O que você produz',
-                          style: AgroDesign.section,
+                        Semantics(
+                          header: true,
+                          child: const Text(
+                            'O que você produz',
+                            style: AgroDesign.section,
+                          ),
                         ),
                         const SizedBox(height: 12),
                         if (summary.crops.isEmpty)
@@ -285,16 +322,46 @@ class _ProductionDashboardState extends State<ProductionDashboard> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Suas ofertas', style: AgroDesign.section),
-                        const SizedBox(height: 12),
-                        Text(
-                          'Venda: ${productionKg(summary.sale)} kg',
-                          style: AgroDesign.section,
+                        Semantics(
+                          header: true,
+                          child: const Text(
+                            'Suas ofertas',
+                            style: AgroDesign.section,
+                          ),
                         ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Doação: ${productionKg(summary.donation)} kg',
-                          style: AgroDesign.section,
+                        const SizedBox(height: 12),
+                        Row(
+                          children: [
+                            const IconBubble(
+                              Icons.sell_outlined,
+                              background: AgroDesign.attention,
+                              color: AgroDesign.earth,
+                              size: 40,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                'Venda: ${productionKg(summary.sale)} kg',
+                                style: AgroDesign.section,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          children: [
+                            const IconBubble(
+                              Icons.volunteer_activism_outlined,
+                              size: 40,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Text(
+                                'Doação: ${productionKg(summary.donation)} kg',
+                                style: AgroDesign.section,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 10),
                         Text(
@@ -420,7 +487,7 @@ class _ProductionDashboardState extends State<ProductionDashboard> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Origem: registros autorizados da API Agro+ Brasil · ${c.repository.organizationName}.\nConsultado em ${dateLabel(snapshot!.fetchedAt.toIso8601String())}. ${offline ? 'Cópia local desatualizada.' : 'Atualize para consultar novas movimentações.'}',
+                    'Origem: registros autorizados da API Agro+ Brasil · ${c.repository.organizationName}.${offline ? '\nCópia local de ${dateLabel(snapshot!.fetchedAt.toIso8601String())}, desatualizada.' : ''}',
                     style: AgroDesign.caption,
                   ),
                   const Text(

@@ -146,10 +146,12 @@ class _TaskPageState extends State<TaskPage> {
                   ? FarmArt.orders
                   : FarmArt.route,
             ),
-            const SizedBox(height: 12),
             if (widget.kind == 'production')
-              OutlinedButton.icon(
-                onPressed: c.propertyId == null
+              FeatureTile(
+                icon: Icons.bar_chart_rounded,
+                title: 'Produção e excedentes',
+                subtitle: 'Veja o que colheu e o que está ofertado',
+                onTap: c.propertyId == null
                     ? null
                     : () => Navigator.push(
                         context,
@@ -157,14 +159,15 @@ class _TaskPageState extends State<TaskPage> {
                           builder: (_) => ProductionDashboard(controller: c),
                         ),
                       ),
-                icon: const Icon(Icons.bar_chart),
-                label: const Text('Produção e excedentes'),
               ),
             if (widget.kind == 'orders' && widget.focusId == null)
               Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: OutlinedButton.icon(
-                  onPressed: c.propertyId == null
+                padding: const EdgeInsets.only(bottom: 4),
+                child: FeatureTile(
+                  icon: Icons.local_shipping_outlined,
+                  title: 'Acompanhar logística',
+                  subtitle: 'Retiradas e recebimentos dos seus pedidos',
+                  onTap: c.propertyId == null
                       ? null
                       : () async {
                           await Navigator.push(
@@ -179,19 +182,12 @@ class _TaskPageState extends State<TaskPage> {
                             });
                           }
                         },
-                  icon: const Icon(Icons.inventory_2_outlined),
-                  label: const Text('Acompanhar logística'),
                 ),
-              ),
-            if (c.repository.fixture)
-              const InfoStrip(
-                icon: Icons.science_outlined,
-                text: 'Demonstração · dados fictícios · sem gravações.',
               ),
             if ((widget.kind == 'production' || widget.kind == 'offers') &&
                 (c.canWrite || c.repository.fixture))
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.only(top: 16),
                 child: FilledButton.icon(
                   onPressed: () async {
                     await Navigator.push(
@@ -220,27 +216,52 @@ class _TaskPageState extends State<TaskPage> {
                   ),
                 ),
               ),
+            const SizedBox(height: 24),
+            if (widget.kind != 'lots')
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12, left: 2),
+                child: SectionHeading(
+                  title: switch (widget.kind) {
+                    'production' => 'Colheitas registradas',
+                    'offers' => 'Suas ofertas',
+                    _ => 'Pedidos recebidos',
+                  },
+                ),
+              ),
             FutureBuilder<List<Json>>(
               future: future,
               builder: (context, snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
-                  return const Padding(
-                    padding: EdgeInsets.all(20),
-                    child: LinearProgressIndicator(),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: const LinearProgressIndicator(minHeight: 4),
+                    ),
                   );
                 }
                 if (snapshot.hasError) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(snapshot.error.toString()),
-                      TextButton(
-                        onPressed: () => setState(() {
-                          future = load();
-                        }),
-                        child: const Text('Tentar novamente'),
-                      ),
-                    ],
+                  return AgroSurface(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const IconBubble(
+                          Icons.cloud_off_outlined,
+                          background: AgroDesign.attention,
+                          color: AgroDesign.earth,
+                        ),
+                        const SizedBox(height: 12),
+                        Text(snapshot.error.toString(), style: AgroDesign.body),
+                        const SizedBox(height: 8),
+                        TextButton.icon(
+                          onPressed: () => setState(() {
+                            future = load();
+                          }),
+                          icon: const Icon(Icons.refresh),
+                          label: const Text('Tentar novamente'),
+                        ),
+                      ],
+                    ),
                   );
                 }
                 final data = snapshot.data!;
@@ -280,64 +301,103 @@ class _TaskPageState extends State<TaskPage> {
                       );
                     }
                     final offer = widget.kind == 'offers';
-                    return Card(
-                      child: Padding(
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: AgroSurface(
                         padding: const EdgeInsets.all(18),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Row(
                               children: [
-                                FarmIllustration(
-                                  art: offer ? FarmArt.offer : FarmArt.orders,
-                                  width: 64,
-                                  height: 48,
+                                ExcludeSemantics(
+                                  child: Container(
+                                    width: 56,
+                                    height: 56,
+                                    decoration: BoxDecoration(
+                                      color: offer
+                                          ? const Color(0xFFF6EFDD)
+                                          : const Color(0xFFF3EBE3),
+                                      borderRadius: BorderRadius.circular(18),
+                                    ),
+                                    alignment: Alignment.center,
+                                    child: FarmIllustration(
+                                      art: offer
+                                          ? FarmArt.offer
+                                          : FarmArt.orders,
+                                      width: 50,
+                                      height: 38,
+                                    ),
+                                  ),
                                 ),
-                                const SizedBox(width: 12),
+                                const SizedBox(width: 14),
                                 Expanded(
-                                  child: Text(
-                                    offer
-                                        ? '${item['cropName']} · ${kgText(item['availableKg'])} kg disponíveis'
-                                        : '${item['cropName'] ?? 'Pedido'} · ${kgText(item['quantityKg'])} kg',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        offer
+                                            ? '${item['cropName']} · ${kgText(item['availableKg'])} kg disponíveis'
+                                            : '${item['cropName'] ?? 'Pedido'} · ${kgText(item['quantityKg'])} kg',
+                                        style: AgroDesign.section,
+                                      ),
+                                      const SizedBox(height: 3),
+                                      Text(
+                                        'Lote ${shortLot(item['lotId'])}',
+                                        style: AgroDesign.caption,
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8),
+                            const SizedBox(height: 14),
                             StatusPill(item['status']),
-                            const SizedBox(height: 12),
-                            Text(
-                              'Lote ${shortLot(item['lotId'])}',
-                              style: AgroDesign.caption,
-                            ),
                             if (!offer && item['shipment'] != null)
-                              Text(
-                                item['shipment']['carrierOrganizationId'] ==
-                                        null
-                                    ? 'Operação direta, sem cooperativa.'
-                                    : 'Cooperativa designada nesta operação.',
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: Text(
+                                  item['shipment']['carrierOrganizationId'] ==
+                                          null
+                                      ? 'Operação direta, sem cooperativa.'
+                                      : 'Cooperativa designada nesta operação.',
+                                  style: AgroDesign.caption,
+                                ),
                               ),
                             if (c.canWrite &&
                                 offer &&
                                 item['status'] == 'RASCUNHO')
-                              FilledButton(
-                                onPressed: () =>
-                                    act('/offers/${item['id']}/publish'),
-                                child: const Text('Publicar oferta'),
+                              _CardAction(
+                                FilledButton(
+                                  onPressed: () =>
+                                      act('/offers/${item['id']}/publish'),
+                                  child: const Text('Publicar oferta'),
+                                ),
                               ),
                             if (c.canWrite &&
                                 !offer &&
                                 item['status'] == 'SOLICITADO')
-                              FilledButton(
-                                onPressed: () => act(
-                                  '/orders/${item['id']}/accept',
-                                  accept: true,
+                              _CardAction(
+                                FilledButton(
+                                  onPressed: () => act(
+                                    '/orders/${item['id']}/accept',
+                                    accept: true,
+                                  ),
+                                  child: const Text(
+                                    'Aceitar solicitação e reservar',
+                                  ),
                                 ),
-                                child: const Text(
-                                  'Aceitar solicitação e reservar',
+                              ),
+                            if (c.canWrite &&
+                                !offer &&
+                                item['status'] == 'ACEITO')
+                              _CardAction(
+                                FilledButton(
+                                  onPressed: () => act(
+                                    '/shipments/${item['shipment']['id']}/pickup',
+                                  ),
+                                  child: const Text('Registrar retirada'),
                                 ),
                               ),
                             if (c.canWrite &&
@@ -346,39 +406,37 @@ class _TaskPageState extends State<TaskPage> {
                                   'SOLICITADO',
                                   'ACEITO',
                                 ].contains(item['status']))
-                              OutlinedButton(
-                                onPressed: () =>
-                                    act('/orders/${item['id']}/cancel'),
-                                child: const Text('Cancelar pedido'),
-                              ),
-                            if (c.canWrite &&
-                                !offer &&
-                                item['status'] == 'ACEITO')
-                              FilledButton(
-                                onPressed: () => act(
-                                  '/shipments/${item['shipment']['id']}/pickup',
+                              _CardAction(
+                                OutlinedButton(
+                                  onPressed: () =>
+                                      act('/orders/${item['id']}/cancel'),
+                                  child: const Text('Cancelar pedido'),
                                 ),
-                                child: const Text('Registrar retirada'),
                               ),
                             if (!offer && item['status'] == 'RETIRADO')
                               const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 12),
+                                padding: EdgeInsets.only(top: 12),
                                 child: Text(
                                   'O destinatário deve confirmar o recebimento.',
+                                  style: AgroDesign.body,
                                 ),
                               ),
                             if (!offer && item['shipment'] != null)
-                              TextButton(
-                                onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (_) => HistoryPage(
-                                      controller: c,
-                                      lotId: item['lotId'],
+                              Padding(
+                                padding: const EdgeInsets.only(top: 6),
+                                child: TextButton.icon(
+                                  onPressed: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (_) => HistoryPage(
+                                        controller: c,
+                                        lotId: item['lotId'],
+                                      ),
                                     ),
                                   ),
+                                  icon: const Icon(Icons.route_outlined),
+                                  label: const Text('Consultar histórico'),
                                 ),
-                                child: const Text('Consultar histórico'),
                               ),
                           ],
                         ),
@@ -393,6 +451,15 @@ class _TaskPageState extends State<TaskPage> {
       ),
     );
   }
+}
+
+/// Ação de card com respiro uniforme acima do botão.
+class _CardAction extends StatelessWidget {
+  final Widget button;
+  const _CardAction(this.button);
+  @override
+  Widget build(BuildContext context) =>
+      Padding(padding: const EdgeInsets.only(top: 12), child: button);
 }
 
 class OperationDialog extends StatefulWidget {
@@ -687,7 +754,7 @@ class _EntryPageState extends State<EntryPage> {
             if (!c.canWrite)
               const InfoStrip(
                 icon: Icons.lock_outline,
-                text: 'Somente consulta: sem permissão, sem conexão ou cenário demonstrativo. Nenhum envio será realizado.',
+                text: 'Somente consulta: sem permissão ou sem conexão. Nenhum envio será realizado.',
               ),
             if (loading)
               const LinearProgressIndicator()
@@ -962,13 +1029,13 @@ class HistoryPage extends StatelessWidget {
           art: FarmArt.route,
         ),
         SelectableText('Lote: $lotId', style: AgroDesign.caption),
-        const SizedBox(height: 16),
-        InfoStrip(
-          icon: Icons.route_outlined,
-          text: controller.offline
-              ? 'Offline: somente a última movimentação salva, não o histórico completo.'
-              : 'Eventos confirmados pelos participantes. Não é GPS em tempo real.',
-        ),
+        if (controller.offline) ...[
+          const SizedBox(height: 16),
+          const InfoStrip(
+            icon: Icons.cloud_off_outlined,
+            text: 'Offline: somente a última movimentação salva, não o histórico completo.',
+          ),
+        ],
         FutureBuilder<List<Json>>(
           future: load(),
           builder: (context, snapshot) {
@@ -981,68 +1048,6 @@ class HistoryPage extends StatelessWidget {
           },
         ),
       ],
-    ),
-  );
-}
-
-class ProfilePage extends StatelessWidget {
-  final HomeController controller;
-  const ProfilePage({super.key, required this.controller});
-  @override
-  Widget build(BuildContext context) => Center(
-    child: ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 760),
-      child: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          const ModuleHeading(
-            title: 'Meu perfil',
-            subtitle: 'Seu vínculo com o campo.',
-            art: FarmArt.profile,
-          ),
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(24),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('SUA ORGANIZAÇÃO', style: AgroDesign.eyebrow),
-                const SizedBox(height: 12),
-                Text(
-                  controller.repository.organizationName,
-                  style: AgroDesign.section,
-                ),
-                const SizedBox(height: 16),
-                const StatusPill('Pequeno produtor rural'),
-                const SizedBox(height: 12),
-                Text(
-                  controller.home?['canWrite'] == true
-                      ? 'Permissão de registro verificada pelo servidor.'
-                      : 'Acesso de consulta.',
-                  style: AgroDesign.caption,
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 24),
-          const SectionHeading(title: 'Sua propriedade'),
-          const SizedBox(height: 12),
-          PropertyHeader(controller: controller),
-          const SizedBox(height: 24),
-          const InfoStrip(
-            icon: Icons.privacy_tip_outlined,
-            text: 'Seu acesso fica somente nesta sessão. Ao sair, os dados da home salvos por esta sessão são removidos.',
-          ),
-          const SizedBox(height: 12),
-          const Text(
-            'Demonstração local. O acesso de produção e as telas dos demais públicos ainda não estão disponíveis neste aplicativo.',
-            style: AgroDesign.caption,
-          ),
-        ],
-      ),
     ),
   );
 }
