@@ -1,0 +1,119 @@
+{
+  "data": [
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-01T00:00:00",
+      "value": 60.34317,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-02T00:00:00",
+      "value": 60.46102,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-03T00:00:00",
+      "value": 60.50743,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-04T00:00:00",
+      "value": 60.47928,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-05T00:00:00",
+      "value": 60.50636,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-06T00:00:00",
+      "value": 60.55560,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-07T00:00:00",
+      "value": 60.47391,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-08T00:00:00",
+      "value": 61.13813,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-09T00:00:00",
+      "value": 61.61746,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-10T00:00:00",
+      "value": 61.96151,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-11T00:00:00",
+      "value": 62.08809,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-12T00:00:00",
+      "value": 62.11359,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-13T00:00:00",
+      "value": 62.59680,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-14T00:00:00",
+      "value": 62.76761,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-15T00:00:00",
+      "value": 62.81234,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2026-11-16T00:00:00",
+      "value": 63.67874,
+      "isValid": false
+    }
+  ],
+  "succeeded": true,
+  "errors": [],
+  "message": ""
+}

@@ -1,0 +1,13 @@
+{
+  "url": "https://mananciais.sabesp.com.br/api/v4/elementos/65/dados/684/diario/2025-01-01/2025-12-31",
+  "retrieved_at_utc": "2026-11-16T12:22:17.773743+00:00",
+  "timeout_seconds": [
+    10,
+    30
+  ],
+  "tls_verification": true,
+  "status": 200,
+  "bytes": 56653,
+  "sha256": "76bd75237ce2be1eeb5e4028990eb7f6d18b9a34d39da3cdc737ee522f4842c1",
+  "content_type": "application/json; charset=utf-8"
+}

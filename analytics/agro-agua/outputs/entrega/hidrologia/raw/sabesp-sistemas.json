@@ -1,0 +1,1103 @@
+{
+  "data": [
+    {
+      "id": 64,
+      "idTipoElemento": 1,
+      "name": "Cantareira",
+      "regionalSabespId": null,
+      "elementos": [
+        {
+          "idSistema": 64,
+          "idElemento": 1
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 3
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 4
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 5
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 6
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 7
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 8
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 9
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 22
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 35
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 36
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 48
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 49
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 50
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 51
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 56
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 64
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 83
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 313
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 315
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 318
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 319
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 320
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 321
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 322
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 323
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 324
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 325
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 326
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 352
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 362
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 363
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 364
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 365
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 366
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 367
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 368
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 370
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 395
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 396
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 397
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 398
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 400
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 402
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 541
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 544
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 1551
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 1552
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 1553
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 1554
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 1555
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 1556
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 1557
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 1573
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 1574
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 1575
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2647
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2648
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2649
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2650
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2686
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2687
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2695
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2696
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2699
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2705
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2732
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2733
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 2742
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 3094
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 3095
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 3096
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 3097
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 3098
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 3099
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 3101
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 3103
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 3116
+        },
+        {
+          "idSistema": 64,
+          "idElemento": 3692
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "idTipoElemento": 1,
+      "name": "Alto Tietê",
+      "regionalSabespId": null,
+      "elementos": [
+        {
+          "idSistema": 65,
+          "idElemento": 10
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 11
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 12
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 13
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 14
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 24
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 32
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 39
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 40
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 41
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 42
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 57
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 58
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 59
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 63
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 65
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 76
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 82
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 84
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 85
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 354
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 355
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 356
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 357
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 358
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 359
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 360
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 361
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 369
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 381
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 382
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 383
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 384
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 385
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 386
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 387
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 388
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 389
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 390
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 391
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 392
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 393
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 394
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 1569
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 1570
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 1571
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 1572
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 2651
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 2684
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 2701
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 2713
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 2729
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 2730
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 2731
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 2739
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 2741
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 2744
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 2745
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 3093
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 3110
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 3111
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 3148
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 3149
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 3152
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 3153
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 3154
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 3155
+        },
+        {
+          "idSistema": 65,
+          "idElemento": 3156
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "idTipoElemento": 1,
+      "name": "Guarapiranga",
+      "regionalSabespId": null,
+      "elementos": [
+        {
+          "idSistema": 66,
+          "idElemento": 15
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 16
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 17
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 23
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 37
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 38
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 66
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 78
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 79
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 80
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 342
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 343
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 344
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 345
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 347
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 348
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 349
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 350
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 351
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 375
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 376
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 377
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 1558
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 2734
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 3092
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 3105
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 3106
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 3117
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 3157
+        },
+        {
+          "idSistema": 66,
+          "idElemento": 3542
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "idTipoElemento": 1,
+      "name": "Cotia",
+      "regionalSabespId": null,
+      "elementos": [
+        {
+          "idSistema": 67,
+          "idElemento": 18
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 19
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 27
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 28
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 31
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 67
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 333
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 334
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 335
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 336
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 337
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 338
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 379
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 380
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 2698
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 3112
+        },
+        {
+          "idSistema": 67,
+          "idElemento": 3113
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "idTipoElemento": 1,
+      "name": "Rio Grande",
+      "regionalSabespId": null,
+      "elementos": [
+        {
+          "idSistema": 68,
+          "idElemento": 20
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 25
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 29
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 30
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 41
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 43
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 68
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 339
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 340
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 341
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 353
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 378
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 2736
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 3090
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 3091
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 3107
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 3115
+        },
+        {
+          "idSistema": 68,
+          "idElemento": 3128
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "idTipoElemento": 1,
+      "name": "Rio Claro",
+      "regionalSabespId": null,
+      "elementos": [
+        {
+          "idSistema": 69,
+          "idElemento": 21
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 26
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 45
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 46
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 47
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 60
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 69
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 76
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 77
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 81
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 327
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 328
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 329
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 330
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 331
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 332
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 371
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 372
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 373
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 374
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 2685
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 3108
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 3109
+        },
+        {
+          "idSistema": 69,
+          "idElemento": 3162
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "idTipoElemento": 1,
+      "name": "São Lourenço",
+      "regionalSabespId": null,
+      "elementos": [
+        {
+          "idSistema": 72,
+          "idElemento": 33
+        },
+        {
+          "idSistema": 72,
+          "idElemento": 34
+        },
+        {
+          "idSistema": 72,
+          "idElemento": 72
+        },
+        {
+          "idSistema": 72,
+          "idElemento": 1624
+        },
+        {
+          "idSistema": 72,
+          "idElemento": 1625
+        },
+        {
+          "idSistema": 72,
+          "idElemento": 1627
+        },
+        {
+          "idSistema": 72,
+          "idElemento": 2626
+        },
+        {
+          "idSistema": 72,
+          "idElemento": 2628
+        },
+        {
+          "idSistema": 72,
+          "idElemento": 2629
+        },
+        {
+          "idSistema": 72,
+          "idElemento": 2646
+        },
+        {
+          "idSistema": 72,
+          "idElemento": 2735
+        },
+        {
+          "idSistema": 72,
+          "idElemento": 2740
+        },
+        {
+          "idSistema": 72,
+          "idElemento": 3114
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "idTipoElemento": 1,
+      "name": "Cantareira Velho",
+      "regionalSabespId": null,
+      "elementos": [
+        {
+          "idSistema": 74,
+          "idElemento": 52
+        },
+        {
+          "idSistema": 74,
+          "idElemento": 53
+        },
+        {
+          "idSistema": 74,
+          "idElemento": 54
+        },
+        {
+          "idSistema": 74,
+          "idElemento": 55
+        },
+        {
+          "idSistema": 74,
+          "idElemento": 74
+        },
+        {
+          "idSistema": 74,
+          "idElemento": 2738
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "idTipoElemento": 1,
+      "name": "Sistema Integrado Metropolitano",
+      "regionalSabespId": null,
+      "elementos": [
+        {
+          "idSistema": 75,
+          "idElemento": 75
+        }
+      ]
+    }
+  ],
+  "succeeded": true,
+  "errors": [],
+  "message": ""
+}

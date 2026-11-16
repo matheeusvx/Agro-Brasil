@@ -1,0 +1,13 @@
+{
+  "url": "https://mananciais.sabesp.com.br/api/v4/parametros",
+  "retrieved_at_utc": "2026-11-16T12:22:09.978880+00:00",
+  "timeout_seconds": [
+    10,
+    30
+  ],
+  "tls_verification": true,
+  "status": 200,
+  "bytes": 4455,
+  "sha256": "beee3dc87259e76fbfef4f17b476adb790fca640dd95b85583c6807b59625fba",
+  "content_type": "application/json; charset=utf-8"
+}

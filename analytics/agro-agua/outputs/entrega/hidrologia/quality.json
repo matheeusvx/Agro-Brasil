@@ -1,0 +1,447 @@
+{
+  "series": [
+    {
+      "parameter_id": 684,
+      "unit": "%",
+      "element_id": 65,
+      "system": "Alto Tietê",
+      "start": "2025-01-01",
+      "end": "2025-12-31",
+      "expected_days": 365,
+      "records": 365,
+      "unique_dates": 365,
+      "coverage_fraction": 1.0,
+      "duplicate_dates": 0,
+      "bad_values": 0,
+      "bad_identity": 0,
+      "dates_in_period": true,
+      "isValid_counts": {
+        "False": 365
+      },
+      "quality_flag_semantics": "nao_confirmada",
+      "daily_window": "nao_confirmada",
+      "incorporated_in_analysis": false,
+      "decision": "quarentena: confirmar flag isValid e janela antes de uso analítico",
+      "period_label": "historico",
+      "raw_file": "raw/alto-tiete-684-historico.json",
+      "raw_sha256": "76bd75237ce2be1eeb5e4028990eb7f6d18b9a34d39da3cdc737ee522f4842c1"
+    },
+    {
+      "parameter_id": 691,
+      "unit": "m³/s",
+      "element_id": 65,
+      "system": "Alto Tietê",
+      "start": "2025-01-01",
+      "end": "2025-12-31",
+      "expected_days": 365,
+      "records": 365,
+      "unique_dates": 365,
+      "coverage_fraction": 1.0,
+      "duplicate_dates": 0,
+      "bad_values": 0,
+      "bad_identity": 0,
+      "dates_in_period": true,
+      "isValid_counts": {
+        "False": 365
+      },
+      "quality_flag_semantics": "nao_confirmada",
+      "daily_window": "nao_confirmada",
+      "incorporated_in_analysis": false,
+      "decision": "quarentena: confirmar flag isValid e janela antes de uso analítico",
+      "period_label": "historico",
+      "raw_file": "raw/alto-tiete-691-historico.json",
+      "raw_sha256": "c244230b64a2f237d7e0207075dd6fc98ff87c71d81bcee9d90599bddab711bc"
+    },
+    {
+      "parameter_id": 690,
+      "unit": "m³/s",
+      "element_id": 65,
+      "system": "Alto Tietê",
+      "start": "2025-01-01",
+      "end": "2025-12-31",
+      "expected_days": 365,
+      "records": 365,
+      "unique_dates": 365,
+      "coverage_fraction": 1.0,
+      "duplicate_dates": 0,
+      "bad_values": 0,
+      "bad_identity": 0,
+      "dates_in_period": true,
+      "isValid_counts": {
+        "False": 365
+      },
+      "quality_flag_semantics": "nao_confirmada",
+      "daily_window": "nao_confirmada",
+      "incorporated_in_analysis": false,
+      "decision": "quarentena: confirmar flag isValid e janela antes de uso analítico",
+      "period_label": "historico",
+      "raw_file": "raw/alto-tiete-690-historico.json",
+      "raw_sha256": "85a643bf635a00e512ac49fce78c3adedd6a8899be9680ed81609b08aabb7a96"
+    },
+    {
+      "parameter_id": 1,
+      "unit": "mm",
+      "element_id": 65,
+      "system": "Alto Tietê",
+      "start": "2025-01-01",
+      "end": "2025-12-31",
+      "expected_days": 365,
+      "records": 365,
+      "unique_dates": 365,
+      "coverage_fraction": 1.0,
+      "duplicate_dates": 0,
+      "bad_values": 0,
+      "bad_identity": 0,
+      "dates_in_period": true,
+      "isValid_counts": {
+        "False": 365
+      },
+      "quality_flag_semantics": "nao_confirmada",
+      "daily_window": "nao_confirmada",
+      "incorporated_in_analysis": false,
+      "decision": "quarentena: confirmar flag isValid e janela antes de uso analítico",
+      "period_label": "historico",
+      "raw_file": "raw/alto-tiete-1-historico.json",
+      "raw_sha256": "a91c95abcb06b5102896f1d7b187eea944780579729f6593d028574f3ffc4116"
+    },
+    {
+      "parameter_id": 684,
+      "unit": "%",
+      "element_id": 65,
+      "system": "Alto Tietê",
+      "start": "2026-11-01",
+      "end": "2026-11-16",
+      "expected_days": 16,
+      "records": 16,
+      "unique_dates": 16,
+      "coverage_fraction": 1.0,
+      "duplicate_dates": 0,
+      "bad_values": 0,
+      "bad_identity": 0,
+      "dates_in_period": true,
+      "isValid_counts": {
+        "False": 16
+      },
+      "quality_flag_semantics": "nao_confirmada",
+      "daily_window": "nao_confirmada",
+      "incorporated_in_analysis": false,
+      "decision": "quarentena: confirmar flag isValid e janela antes de uso analítico",
+      "period_label": "atual",
+      "raw_file": "raw/alto-tiete-684-atual.json",
+      "raw_sha256": "079f12d3688aa9416316f4f5f191a53b3bf1edb71965e00147033f04d809b985"
+    },
+    {
+      "parameter_id": 691,
+      "unit": "m³/s",
+      "element_id": 65,
+      "system": "Alto Tietê",
+      "start": "2026-11-01",
+      "end": "2026-11-16",
+      "expected_days": 16,
+      "records": 16,
+      "unique_dates": 16,
+      "coverage_fraction": 1.0,
+      "duplicate_dates": 0,
+      "bad_values": 0,
+      "bad_identity": 0,
+      "dates_in_period": true,
+      "isValid_counts": {
+        "False": 16
+      },
+      "quality_flag_semantics": "nao_confirmada",
+      "daily_window": "nao_confirmada",
+      "incorporated_in_analysis": false,
+      "decision": "quarentena: confirmar flag isValid e janela antes de uso analítico",
+      "period_label": "atual",
+      "raw_file": "raw/alto-tiete-691-atual.json",
+      "raw_sha256": "7210a48d4e4ac7543197e9b4b8d25dda5be316fe94effea32b72a309004e40c9"
+    },
+    {
+      "parameter_id": 690,
+      "unit": "m³/s",
+      "element_id": 65,
+      "system": "Alto Tietê",
+      "start": "2026-11-01",
+      "end": "2026-11-16",
+      "expected_days": 16,
+      "records": 16,
+      "unique_dates": 16,
+      "coverage_fraction": 1.0,
+      "duplicate_dates": 0,
+      "bad_values": 0,
+      "bad_identity": 0,
+      "dates_in_period": true,
+      "isValid_counts": {
+        "False": 16
+      },
+      "quality_flag_semantics": "nao_confirmada",
+      "daily_window": "nao_confirmada",
+      "incorporated_in_analysis": false,
+      "decision": "quarentena: confirmar flag isValid e janela antes de uso analítico",
+      "period_label": "atual",
+      "raw_file": "raw/alto-tiete-690-atual.json",
+      "raw_sha256": "19e886d835b8469030a5d4dcd40561e80ec9afe263ebbb2e5b7018e2b4651b81"
+    },
+    {
+      "parameter_id": 1,
+      "unit": "mm",
+      "element_id": 65,
+      "system": "Alto Tietê",
+      "start": "2026-11-01",
+      "end": "2026-11-16",
+      "expected_days": 16,
+      "records": 16,
+      "unique_dates": 16,
+      "coverage_fraction": 1.0,
+      "duplicate_dates": 0,
+      "bad_values": 0,
+      "bad_identity": 0,
+      "dates_in_period": true,
+      "isValid_counts": {
+        "False": 16
+      },
+      "quality_flag_semantics": "nao_confirmada",
+      "daily_window": "nao_confirmada",
+      "incorporated_in_analysis": false,
+      "decision": "quarentena: confirmar flag isValid e janela antes de uso analítico",
+      "period_label": "atual",
+      "raw_file": "raw/alto-tiete-1-atual.json",
+      "raw_sha256": "70a061fcab66a8331a3a69417e3ca140b90c5c9b84a6756b37bee8e4bcb1888e"
+    }
+  ],
+  "incorporated_in_analysis": false,
+  "reason": "Flags isValid=false sem semântica confirmada; janela diária sem timezone. Não inferir que false comprova erro físico nem ignorar a flag.",
+  "integration": "Sem junção com NASA LST, sem correlação entre fontes, sem modelos ou alertas de reservatórios.",
+  "availability_evidence": {
+    "sabesp-base.html": {
+      "url": "https://mananciais.sabesp.com.br/base-dados",
+      "retrieved_at_utc": "2026-11-16T12:22:09.045831+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 7816,
+      "sha256": "afdd35fc425ac5731f3fafa25c0af87473ac65ec5e84afcb191dd7e52afac90e",
+      "content_type": "text/html"
+    },
+    "sabesp-cliente.js": {
+      "url": "https://mananciais.sabesp.com.br/assets/index-D9VAUj9x.js",
+      "retrieved_at_utc": "2026-11-16T12:22:09.729855+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 1293065,
+      "sha256": "e461247401312ffe007e4ab8b37fe1701cb52de27aeaea90931bd65bbe1a252e",
+      "content_type": "application/javascript"
+    },
+    "sabesp-parametros.json": {
+      "url": "https://mananciais.sabesp.com.br/api/v4/parametros",
+      "retrieved_at_utc": "2026-11-16T12:22:09.978880+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 4455,
+      "sha256": "beee3dc87259e76fbfef4f17b476adb790fca640dd95b85583c6807b59625fba",
+      "content_type": "application/json; charset=utf-8"
+    },
+    "sabesp-sistemas.json": {
+      "url": "https://mananciais.sabesp.com.br/api/v4/sistemas",
+      "retrieved_at_utc": "2026-11-16T12:22:10.832917+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 21956,
+      "sha256": "d1307c6d726d6ac759c473f00b466c974b82676053e5f431b02de7709466001c",
+      "content_type": "application/json; charset=utf-8"
+    },
+    "sabesp-ultima-data.json": {
+      "url": "https://mananciais.sabesp.com.br/api/v4/dados/ultima-data",
+      "retrieved_at_utc": "2026-11-16T12:22:11.726767+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 85,
+      "sha256": "7f3a634affbca4a04c1947e67ab8b8df47e301ff55b4311b9f07d8d9b58344bc",
+      "content_type": "application/json; charset=utf-8"
+    },
+    "sabesp-glossario.html": {
+      "url": "https://mananciais.sabesp.com.br/glossario",
+      "retrieved_at_utc": "2026-11-16T12:22:12.487041+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 7816,
+      "sha256": "fe262297ebd7d7570d7afd7e466274613da8e3183b51ac2c940d4b6d1141cec7",
+      "content_type": "text/html"
+    },
+    "spaguas-reservatorios.html": {
+      "url": "https://salasituacaosp.spaguas.sp.gov.br/sssp/reservatorios",
+      "retrieved_at_utc": "2026-11-16T12:22:13.194851+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "error_type": "SSLError",
+      "error": "HTTPSConnectionPool(host='salasituacaosp.spaguas.sp.gov.br', port=443): Max retries exceeded with url: /sssp/reservatorios (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1032)')))"
+    },
+    "spaguas-vazoes.html": {
+      "url": "https://salasituacaosp.spaguas.sp.gov.br/sssp/vazoes-comparativo",
+      "retrieved_at_utc": "2026-11-16T12:22:13.425116+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "error_type": "SSLError",
+      "error": "HTTPSConnectionPool(host='salasituacaosp.spaguas.sp.gov.br', port=443): Max retries exceeded with url: /sssp/vazoes-comparativo (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1032)')))"
+    },
+    "spaguas-ssd.html": {
+      "url": "https://cth.daee.sp.gov.br/ssdsp/Mananciais",
+      "retrieved_at_utc": "2026-11-16T12:22:13.653922+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 403,
+      "bytes": 30,
+      "sha256": "7b423e1fd046eeb20a122aa9446bbd449cf6d2f91556d6b5db01e02bb85b3ef9",
+      "content_type": "application/octet-stream"
+    },
+    "spaguas-fluviometricos.html": {
+      "url": "https://ph.spaguas.sp.gov.br/Fluviometricos",
+      "retrieved_at_utc": "2026-11-16T12:22:13.891547+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 1965473,
+      "sha256": "a66969dd07154fd02f5fa0ee5a7d1d9843aabda57ebc65f5bda444e37a1100af",
+      "content_type": "text/html; charset=utf-8"
+    },
+    "alto-tiete-684-historico.json": {
+      "url": "https://mananciais.sabesp.com.br/api/v4/elementos/65/dados/684/diario/2025-01-01/2025-12-31",
+      "retrieved_at_utc": "2026-11-16T12:22:17.773743+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 56653,
+      "sha256": "76bd75237ce2be1eeb5e4028990eb7f6d18b9a34d39da3cdc737ee522f4842c1",
+      "content_type": "application/json; charset=utf-8"
+    },
+    "alto-tiete-691-historico.json": {
+      "url": "https://mananciais.sabesp.com.br/api/v4/elementos/65/dados/691/diario/2025-01-01/2025-12-31",
+      "retrieved_at_utc": "2026-11-16T12:22:19.096090+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 56436,
+      "sha256": "c244230b64a2f237d7e0207075dd6fc98ff87c71d81bcee9d90599bddab711bc",
+      "content_type": "application/json; charset=utf-8"
+    },
+    "alto-tiete-690-historico.json": {
+      "url": "https://mananciais.sabesp.com.br/api/v4/elementos/65/dados/690/diario/2025-01-01/2025-12-31",
+      "retrieved_at_utc": "2026-11-16T12:22:20.293515+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 56426,
+      "sha256": "85a643bf635a00e512ac49fce78c3adedd6a8899be9680ed81609b08aabb7a96",
+      "content_type": "application/json; charset=utf-8"
+    },
+    "alto-tiete-1-historico.json": {
+      "url": "https://mananciais.sabesp.com.br/api/v4/elementos/65/dados/1/diario/2025-01-01/2025-12-31",
+      "retrieved_at_utc": "2026-11-16T12:22:21.428310+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 55596,
+      "sha256": "a91c95abcb06b5102896f1d7b187eea944780579729f6593d028574f3ffc4116",
+      "content_type": "application/json; charset=utf-8"
+    },
+    "alto-tiete-684-atual.json": {
+      "url": "https://mananciais.sabesp.com.br/api/v4/elementos/65/dados/684/diario/2026-11-01/2026-11-16",
+      "retrieved_at_utc": "2026-11-16T12:22:22.420624+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 2558,
+      "sha256": "079f12d3688aa9416316f4f5f191a53b3bf1edb71965e00147033f04d809b985",
+      "content_type": "application/json; charset=utf-8"
+    },
+    "alto-tiete-691-atual.json": {
+      "url": "https://mananciais.sabesp.com.br/api/v4/elementos/65/dados/691/diario/2026-11-01/2026-11-16",
+      "retrieved_at_utc": "2026-11-16T12:22:23.609813+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 2558,
+      "sha256": "7210a48d4e4ac7543197e9b4b8d25dda5be316fe94effea32b72a309004e40c9",
+      "content_type": "application/json; charset=utf-8"
+    },
+    "alto-tiete-690-atual.json": {
+      "url": "https://mananciais.sabesp.com.br/api/v4/elementos/65/dados/690/diario/2026-11-01/2026-11-16",
+      "retrieved_at_utc": "2026-11-16T12:22:24.314109+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 2557,
+      "sha256": "19e886d835b8469030a5d4dcd40561e80ec9afe263ebbb2e5b7018e2b4651b81",
+      "content_type": "application/json; charset=utf-8"
+    },
+    "alto-tiete-1-atual.json": {
+      "url": "https://mananciais.sabesp.com.br/api/v4/elementos/65/dados/1/diario/2026-11-01/2026-11-16",
+      "retrieved_at_utc": "2026-11-16T12:22:25.037748+00:00",
+      "timeout_seconds": [
+        10,
+        30
+      ],
+      "tls_verification": true,
+      "status": 200,
+      "bytes": 2513,
+      "sha256": "70a061fcab66a8331a3a69417e3ca140b90c5c9b84a6756b37bee8e4bcb1888e",
+      "content_type": "application/json; charset=utf-8"
+    }
+  }
+}

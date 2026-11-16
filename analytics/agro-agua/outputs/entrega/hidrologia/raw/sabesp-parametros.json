@@ -1,0 +1,178 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Chuva",
+      "shortName": "Chuva",
+      "nameWithSymbol": "Chuva (mm)",
+      "symbol": "mm",
+      "unidadeId": 1,
+      "decimalPlaces": 1
+    },
+    {
+      "id": 2,
+      "name": "Nível",
+      "shortName": "Nível",
+      "nameWithSymbol": "Nível (m)",
+      "symbol": "m",
+      "unidadeId": 2,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 3,
+      "name": "Vazão",
+      "shortName": "Vazão",
+      "nameWithSymbol": "Vazão (m³/s)",
+      "symbol": "m³/s",
+      "unidadeId": 3,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 4,
+      "name": "Volume",
+      "shortName": "Volume",
+      "nameWithSymbol": "Volume (hm³)",
+      "symbol": "hm³",
+      "unidadeId": 4,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 684,
+      "name": "Volume Útil Armazenado",
+      "shortName": "V Útil",
+      "nameWithSymbol": "Volume Útil Armazenado (%)",
+      "symbol": "%",
+      "unidadeId": 6,
+      "decimalPlaces": 1
+    },
+    {
+      "id": 685,
+      "name": "Volume Útil Armazenado",
+      "shortName": "V Útil",
+      "nameWithSymbol": "Volume Útil Armazenado (hm³)",
+      "symbol": "hm³",
+      "unidadeId": 4,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 686,
+      "name": "Volume Total Armazenado",
+      "shortName": "V Total",
+      "nameWithSymbol": "Volume Total Armazenado (hm³)",
+      "symbol": "hm³",
+      "unidadeId": 4,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 687,
+      "name": "Vazão Captada",
+      "shortName": "Q Captada",
+      "nameWithSymbol": "Vazão Captada (m³/s)",
+      "symbol": "m³/s",
+      "unidadeId": 3,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 689,
+      "name": "Vazão Jusante",
+      "shortName": "Q Jusante",
+      "nameWithSymbol": "Vazão Jusante (m³/s)",
+      "symbol": "m³/s",
+      "unidadeId": 3,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 690,
+      "name": "Vazão Natural",
+      "shortName": "Q Natural",
+      "nameWithSymbol": "Vazão Natural (m³/s)",
+      "symbol": "m³/s",
+      "unidadeId": 3,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 691,
+      "name": "Vazão Afluente",
+      "shortName": "Q Afluente",
+      "nameWithSymbol": "Vazão Afluente (m³/s)",
+      "symbol": "m³/s",
+      "unidadeId": 3,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 692,
+      "name": "Variação do Volume Útil",
+      "shortName": "Var. V Útil",
+      "nameWithSymbol": "Variação do Volume Útil (%)",
+      "symbol": "%",
+      "unidadeId": 6,
+      "decimalPlaces": 1
+    },
+    {
+      "id": 693,
+      "name": "Chuva Acumulada no Mês",
+      "shortName": "P no mês",
+      "nameWithSymbol": "Chuva Acumulada no Mês (mm)",
+      "symbol": "mm",
+      "unidadeId": 1,
+      "decimalPlaces": 1
+    },
+    {
+      "id": 694,
+      "name": "Chuva Média Histórica",
+      "shortName": "PMLT",
+      "nameWithSymbol": "Chuva Média Histórica (mm)",
+      "symbol": "mm",
+      "unidadeId": 1,
+      "decimalPlaces": 1
+    },
+    {
+      "id": 695,
+      "name": "Vazão Jusante no Mês",
+      "shortName": "Qjus no mês",
+      "nameWithSymbol": "Vazão Jusante no Mês (m³/s)",
+      "symbol": "m³/s",
+      "unidadeId": 3,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 696,
+      "name": "Vazão Jusante Média Histórica",
+      "shortName": "Qjus MLT",
+      "nameWithSymbol": "Vazão Jusante Média Histórica (m³/s)",
+      "symbol": "m³/s",
+      "unidadeId": 3,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 697,
+      "name": "Vazão Natural no Mês",
+      "shortName": "Qnat no mês",
+      "nameWithSymbol": "Vazão Natural no Mês (m³/s)",
+      "symbol": "m³/s",
+      "unidadeId": 3,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 698,
+      "name": "Vazão Natural Média Histórica",
+      "shortName": "QMLT",
+      "nameWithSymbol": "Vazão Natural Média Histórica (m³/s)",
+      "symbol": "m³/s",
+      "unidadeId": 3,
+      "decimalPlaces": 2
+    },
+    {
+      "id": 700,
+      "name": "Vazão Captada no Mês",
+      "shortName": "Q Captada no Mês",
+      "nameWithSymbol": "Vazão Captada no Mês (m³/s)",
+      "symbol": "m³/s",
+      "unidadeId": 3,
+      "decimalPlaces": 2
+    }
+  ],
+  "succeeded": true,
+  "errors": [],
+  "message": ""
+}

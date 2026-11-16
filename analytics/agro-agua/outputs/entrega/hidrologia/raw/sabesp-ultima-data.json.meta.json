@@ -1,0 +1,13 @@
+{
+  "url": "https://mananciais.sabesp.com.br/api/v4/dados/ultima-data",
+  "retrieved_at_utc": "2026-11-16T12:22:11.726767+00:00",
+  "timeout_seconds": [
+    10,
+    30
+  ],
+  "tls_verification": true,
+  "status": 200,
+  "bytes": 85,
+  "sha256": "7f3a634affbca4a04c1947e67ab8b8df47e301ff55b4311b9f07d8d9b58344bc",
+  "content_type": "application/json; charset=utf-8"
+}

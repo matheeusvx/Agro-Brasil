@@ -1,0 +1,13 @@
+{
+  "url": "https://cth.daee.sp.gov.br/ssdsp/Mananciais",
+  "retrieved_at_utc": "2026-11-16T12:22:13.653922+00:00",
+  "timeout_seconds": [
+    10,
+    30
+  ],
+  "tls_verification": true,
+  "status": 403,
+  "bytes": 30,
+  "sha256": "7b423e1fd046eeb20a122aa9446bbd449cf6d2f91556d6b5db01e02bb85b3ef9",
+  "content_type": "application/octet-stream"
+}

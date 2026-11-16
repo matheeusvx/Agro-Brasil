@@ -1,0 +1,2562 @@
+{
+  "data": [
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-01T00:00:00",
+      "value": 37.93209,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-02T00:00:00",
+      "value": 37.95754,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-03T00:00:00",
+      "value": 37.93922,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-04T00:00:00",
+      "value": 38.01747,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-05T00:00:00",
+      "value": 38.90390,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-06T00:00:00",
+      "value": 39.50817,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-07T00:00:00",
+      "value": 39.73594,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-08T00:00:00",
+      "value": 40.02907,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-09T00:00:00",
+      "value": 40.63647,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-10T00:00:00",
+      "value": 40.89216,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-11T00:00:00",
+      "value": 40.97402,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-12T00:00:00",
+      "value": 41.02358,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-13T00:00:00",
+      "value": 40.96961,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-14T00:00:00",
+      "value": 40.92581,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-15T00:00:00",
+      "value": 40.83573,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-16T00:00:00",
+      "value": 40.70186,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-17T00:00:00",
+      "value": 40.63470,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-18T00:00:00",
+      "value": 40.64463,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-19T00:00:00",
+      "value": 40.63011,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-20T00:00:00",
+      "value": 40.73297,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-21T00:00:00",
+      "value": 40.69107,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-22T00:00:00",
+      "value": 40.64638,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-23T00:00:00",
+      "value": 40.55700,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-24T00:00:00",
+      "value": 40.47848,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-25T00:00:00",
+      "value": 40.46449,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-26T00:00:00",
+      "value": 40.82106,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-27T00:00:00",
+      "value": 41.36382,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-28T00:00:00",
+      "value": 41.61851,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-29T00:00:00",
+      "value": 41.89820,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-30T00:00:00",
+      "value": 42.29022,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-01-31T00:00:00",
+      "value": 43.04230,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-01T00:00:00",
+      "value": 44.56885,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-02T00:00:00",
+      "value": 46.71895,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-03T00:00:00",
+      "value": 48.36589,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-04T00:00:00",
+      "value": 48.97430,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-05T00:00:00",
+      "value": 50.34480,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-06T00:00:00",
+      "value": 50.80272,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-07T00:00:00",
+      "value": 51.13229,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-08T00:00:00",
+      "value": 51.28504,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-09T00:00:00",
+      "value": 51.37605,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-10T00:00:00",
+      "value": 51.38925,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-11T00:00:00",
+      "value": 51.30098,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-12T00:00:00",
+      "value": 51.11392,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-13T00:00:00",
+      "value": 51.01547,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-14T00:00:00",
+      "value": 50.96263,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-15T00:00:00",
+      "value": 51.01826,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-16T00:00:00",
+      "value": 50.93465,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-17T00:00:00",
+      "value": 50.82191,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-18T00:00:00",
+      "value": 50.68385,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-19T00:00:00",
+      "value": 50.70479,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-20T00:00:00",
+      "value": 50.71030,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-21T00:00:00",
+      "value": 50.82812,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-22T00:00:00",
+      "value": 50.76774,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-23T00:00:00",
+      "value": 50.63099,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-24T00:00:00",
+      "value": 50.47256,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-25T00:00:00",
+      "value": 50.27560,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-26T00:00:00",
+      "value": 50.05034,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-27T00:00:00",
+      "value": 49.83428,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-02-28T00:00:00",
+      "value": 49.59789,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-01T00:00:00",
+      "value": 49.36707,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-02T00:00:00",
+      "value": 49.13419,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-03T00:00:00",
+      "value": 48.90291,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-04T00:00:00",
+      "value": 48.64739,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-05T00:00:00",
+      "value": 48.37417,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-06T00:00:00",
+      "value": 48.14384,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-07T00:00:00",
+      "value": 47.92180,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-08T00:00:00",
+      "value": 47.70631,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-09T00:00:00",
+      "value": 47.49285,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-10T00:00:00",
+      "value": 47.25650,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-11T00:00:00",
+      "value": 47.03988,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-12T00:00:00",
+      "value": 46.85085,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-13T00:00:00",
+      "value": 46.63485,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-14T00:00:00",
+      "value": 46.56757,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-15T00:00:00",
+      "value": 46.41554,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-16T00:00:00",
+      "value": 46.21026,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-17T00:00:00",
+      "value": 45.98593,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-18T00:00:00",
+      "value": 45.75050,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-19T00:00:00",
+      "value": 46.01715,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-20T00:00:00",
+      "value": 46.00353,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-21T00:00:00",
+      "value": 45.94376,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-22T00:00:00",
+      "value": 45.79719,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-23T00:00:00",
+      "value": 45.62093,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-24T00:00:00",
+      "value": 45.52416,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-25T00:00:00",
+      "value": 45.37379,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-26T00:00:00",
+      "value": 45.21672,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-27T00:00:00",
+      "value": 45.10661,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-28T00:00:00",
+      "value": 44.97829,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-29T00:00:00",
+      "value": 44.93010,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-30T00:00:00",
+      "value": 44.75957,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-03-31T00:00:00",
+      "value": 44.56776,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-01T00:00:00",
+      "value": 44.46312,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-02T00:00:00",
+      "value": 44.33208,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-03T00:00:00",
+      "value": 44.27217,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-04T00:00:00",
+      "value": 44.28456,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-05T00:00:00",
+      "value": 45.11822,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-06T00:00:00",
+      "value": 46.37835,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-07T00:00:00",
+      "value": 46.74121,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-08T00:00:00",
+      "value": 46.76115,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-09T00:00:00",
+      "value": 46.75651,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-10T00:00:00",
+      "value": 46.67229,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-11T00:00:00",
+      "value": 46.71306,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-12T00:00:00",
+      "value": 46.64552,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-13T00:00:00",
+      "value": 46.51500,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-14T00:00:00",
+      "value": 46.77481,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-15T00:00:00",
+      "value": 46.86582,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-16T00:00:00",
+      "value": 46.97341,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-17T00:00:00",
+      "value": 46.96699,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-18T00:00:00",
+      "value": 46.89418,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-19T00:00:00",
+      "value": 46.81124,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-20T00:00:00",
+      "value": 47.44706,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-21T00:00:00",
+      "value": 48.02485,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-22T00:00:00",
+      "value": 48.20343,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-23T00:00:00",
+      "value": 48.32061,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-24T00:00:00",
+      "value": 48.39520,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-25T00:00:00",
+      "value": 48.59301,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-26T00:00:00",
+      "value": 48.70225,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-27T00:00:00",
+      "value": 48.70113,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-28T00:00:00",
+      "value": 48.63038,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-29T00:00:00",
+      "value": 48.51568,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-04-30T00:00:00",
+      "value": 48.46317,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-01T00:00:00",
+      "value": 48.39194,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-02T00:00:00",
+      "value": 48.23632,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-03T00:00:00",
+      "value": 48.12578,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-04T00:00:00",
+      "value": 47.95093,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-05T00:00:00",
+      "value": 47.82905,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-06T00:00:00",
+      "value": 47.66799,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-07T00:00:00",
+      "value": 47.48961,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-08T00:00:00",
+      "value": 47.38530,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-09T00:00:00",
+      "value": 47.23088,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-10T00:00:00",
+      "value": 47.07025,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-11T00:00:00",
+      "value": 47.14849,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-12T00:00:00",
+      "value": 47.04978,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-13T00:00:00",
+      "value": 46.94556,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-14T00:00:00",
+      "value": 46.81325,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-15T00:00:00",
+      "value": 46.69152,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-16T00:00:00",
+      "value": 46.54912,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-17T00:00:00",
+      "value": 46.43113,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-18T00:00:00",
+      "value": 46.23143,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-19T00:00:00",
+      "value": 46.02432,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-20T00:00:00",
+      "value": 45.81928,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-21T00:00:00",
+      "value": 45.63860,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-22T00:00:00",
+      "value": 45.44890,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-23T00:00:00",
+      "value": 45.25085,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-24T00:00:00",
+      "value": 45.44904,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-25T00:00:00",
+      "value": 45.36468,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-26T00:00:00",
+      "value": 45.26489,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-27T00:00:00",
+      "value": 45.09868,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-28T00:00:00",
+      "value": 44.88869,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-29T00:00:00",
+      "value": 44.65937,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-30T00:00:00",
+      "value": 44.46819,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-05-31T00:00:00",
+      "value": 44.31307,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-01T00:00:00",
+      "value": 44.16879,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-02T00:00:00",
+      "value": 44.01447,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-03T00:00:00",
+      "value": 43.82630,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-04T00:00:00",
+      "value": 43.64356,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-05T00:00:00",
+      "value": 43.47924,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-06T00:00:00",
+      "value": 43.41683,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-07T00:00:00",
+      "value": 43.33484,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-08T00:00:00",
+      "value": 43.22961,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-09T00:00:00",
+      "value": 43.13890,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-10T00:00:00",
+      "value": 43.09981,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-11T00:00:00",
+      "value": 43.01748,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-12T00:00:00",
+      "value": 42.92747,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-13T00:00:00",
+      "value": 42.81226,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-14T00:00:00",
+      "value": 42.75065,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-15T00:00:00",
+      "value": 42.57841,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-16T00:00:00",
+      "value": 42.42583,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-17T00:00:00",
+      "value": 42.26413,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-18T00:00:00",
+      "value": 42.08294,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-19T00:00:00",
+      "value": 41.90421,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-20T00:00:00",
+      "value": 41.73415,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-21T00:00:00",
+      "value": 41.61160,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-22T00:00:00",
+      "value": 41.47692,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-23T00:00:00",
+      "value": 41.33560,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-24T00:00:00",
+      "value": 41.18333,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-25T00:00:00",
+      "value": 41.05094,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-26T00:00:00",
+      "value": 40.89969,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-27T00:00:00",
+      "value": 40.79161,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-28T00:00:00",
+      "value": 40.65942,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-29T00:00:00",
+      "value": 40.51458,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-06-30T00:00:00",
+      "value": 40.33291,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-01T00:00:00",
+      "value": 40.16883,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-02T00:00:00",
+      "value": 39.99868,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-03T00:00:00",
+      "value": 39.86649,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-04T00:00:00",
+      "value": 39.74259,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-05T00:00:00",
+      "value": 39.63417,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-06T00:00:00",
+      "value": 39.50507,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-07T00:00:00",
+      "value": 39.34450,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-08T00:00:00",
+      "value": 39.14146,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-09T00:00:00",
+      "value": 38.93880,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-10T00:00:00",
+      "value": 38.80404,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-11T00:00:00",
+      "value": 38.61156,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-12T00:00:00",
+      "value": 38.46250,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-13T00:00:00",
+      "value": 38.27650,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-14T00:00:00",
+      "value": 38.06979,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-15T00:00:00",
+      "value": 37.88141,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-16T00:00:00",
+      "value": 37.71429,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-17T00:00:00",
+      "value": 37.50160,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-18T00:00:00",
+      "value": 37.28232,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-19T00:00:00",
+      "value": 37.07109,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-20T00:00:00",
+      "value": 36.83127,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-21T00:00:00",
+      "value": 36.61048,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-22T00:00:00",
+      "value": 36.40371,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-23T00:00:00",
+      "value": 36.20190,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-24T00:00:00",
+      "value": 36.02328,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-25T00:00:00",
+      "value": 35.84290,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-26T00:00:00",
+      "value": 35.69023,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-27T00:00:00",
+      "value": 35.47562,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-28T00:00:00",
+      "value": 35.29224,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-29T00:00:00",
+      "value": 35.18988,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-30T00:00:00",
+      "value": 35.06305,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-07-31T00:00:00",
+      "value": 34.95963,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-01T00:00:00",
+      "value": 34.90821,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-02T00:00:00",
+      "value": 34.83544,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-03T00:00:00",
+      "value": 34.72889,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-04T00:00:00",
+      "value": 34.60738,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-05T00:00:00",
+      "value": 34.51308,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-06T00:00:00",
+      "value": 34.29442,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-07T00:00:00",
+      "value": 34.10507,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-08T00:00:00",
+      "value": 33.94176,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-09T00:00:00",
+      "value": 33.78586,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-10T00:00:00",
+      "value": 33.58184,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-11T00:00:00",
+      "value": 33.37533,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-12T00:00:00",
+      "value": 33.19786,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-13T00:00:00",
+      "value": 33.05468,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-14T00:00:00",
+      "value": 32.88107,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-15T00:00:00",
+      "value": 32.69596,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-16T00:00:00",
+      "value": 32.49728,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-17T00:00:00",
+      "value": 32.28646,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-18T00:00:00",
+      "value": 32.07726,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-19T00:00:00",
+      "value": 31.88523,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-20T00:00:00",
+      "value": 31.70481,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-21T00:00:00",
+      "value": 31.52492,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-22T00:00:00",
+      "value": 31.31195,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-23T00:00:00",
+      "value": 31.04081,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-24T00:00:00",
+      "value": 30.78772,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-25T00:00:00",
+      "value": 30.52682,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-26T00:00:00",
+      "value": 30.27679,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-27T00:00:00",
+      "value": 30.11815,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-28T00:00:00",
+      "value": 29.94995,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-29T00:00:00",
+      "value": 29.81075,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-30T00:00:00",
+      "value": 29.65036,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-08-31T00:00:00",
+      "value": 29.46787,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-01T00:00:00",
+      "value": 29.28892,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-02T00:00:00",
+      "value": 29.10732,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-03T00:00:00",
+      "value": 28.92398,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-04T00:00:00",
+      "value": 28.75162,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-05T00:00:00",
+      "value": 28.58854,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-06T00:00:00",
+      "value": 28.38341,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-07T00:00:00",
+      "value": 28.17049,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-08T00:00:00",
+      "value": 28.01170,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-09T00:00:00",
+      "value": 27.82233,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-10T00:00:00",
+      "value": 27.63125,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-11T00:00:00",
+      "value": 27.43552,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-12T00:00:00",
+      "value": 27.24138,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-13T00:00:00",
+      "value": 27.04551,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-14T00:00:00",
+      "value": 26.83944,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-15T00:00:00",
+      "value": 26.63494,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-16T00:00:00",
+      "value": 26.44230,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-17T00:00:00",
+      "value": 26.25702,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-18T00:00:00",
+      "value": 26.11765,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-19T00:00:00",
+      "value": 25.92962,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-20T00:00:00",
+      "value": 25.72916,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-21T00:00:00",
+      "value": 25.54173,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-22T00:00:00",
+      "value": 25.36130,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-23T00:00:00",
+      "value": 25.77803,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-24T00:00:00",
+      "value": 25.74316,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-25T00:00:00",
+      "value": 25.63503,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-26T00:00:00",
+      "value": 25.56634,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-27T00:00:00",
+      "value": 25.44699,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-28T00:00:00",
+      "value": 25.34100,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-29T00:00:00",
+      "value": 25.19430,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-09-30T00:00:00",
+      "value": 25.02607,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-01T00:00:00",
+      "value": 24.86611,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-02T00:00:00",
+      "value": 24.68693,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-03T00:00:00",
+      "value": 24.51165,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-04T00:00:00",
+      "value": 24.32981,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-05T00:00:00",
+      "value": 24.13560,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-06T00:00:00",
+      "value": 23.93273,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-07T00:00:00",
+      "value": 23.73349,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-08T00:00:00",
+      "value": 23.59031,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-09T00:00:00",
+      "value": 23.54439,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-10T00:00:00",
+      "value": 23.45066,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-11T00:00:00",
+      "value": 23.50795,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-12T00:00:00",
+      "value": 23.49995,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-13T00:00:00",
+      "value": 23.38945,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-14T00:00:00",
+      "value": 23.25145,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-15T00:00:00",
+      "value": 23.14620,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-16T00:00:00",
+      "value": 22.99851,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-17T00:00:00",
+      "value": 22.83641,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-18T00:00:00",
+      "value": 22.82379,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-19T00:00:00",
+      "value": 22.92355,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-20T00:00:00",
+      "value": 23.27211,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-21T00:00:00",
+      "value": 23.27341,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-22T00:00:00",
+      "value": 23.15252,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-23T00:00:00",
+      "value": 22.99528,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-24T00:00:00",
+      "value": 22.81872,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-25T00:00:00",
+      "value": 22.64319,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-26T00:00:00",
+      "value": 22.42356,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-27T00:00:00",
+      "value": 22.19615,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-28T00:00:00",
+      "value": 22.02883,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-29T00:00:00",
+      "value": 21.94184,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-30T00:00:00",
+      "value": 22.15220,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-10-31T00:00:00",
+      "value": 22.29090,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-01T00:00:00",
+      "value": 22.35975,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-02T00:00:00",
+      "value": 22.26861,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-03T00:00:00",
+      "value": 22.27567,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-04T00:00:00",
+      "value": 22.24049,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-05T00:00:00",
+      "value": 22.11304,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-06T00:00:00",
+      "value": 22.02132,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-07T00:00:00",
+      "value": 21.87333,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-08T00:00:00",
+      "value": 21.77590,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-09T00:00:00",
+      "value": 21.77641,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-10T00:00:00",
+      "value": 21.79340,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-11T00:00:00",
+      "value": 21.63321,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-12T00:00:00",
+      "value": 21.41836,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-13T00:00:00",
+      "value": 21.22659,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-14T00:00:00",
+      "value": 21.10121,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-15T00:00:00",
+      "value": 20.91751,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-16T00:00:00",
+      "value": 20.87629,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-17T00:00:00",
+      "value": 20.68642,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-18T00:00:00",
+      "value": 20.55943,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-19T00:00:00",
+      "value": 20.47439,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-20T00:00:00",
+      "value": 20.33038,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-21T00:00:00",
+      "value": 20.14051,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-22T00:00:00",
+      "value": 19.96788,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-23T00:00:00",
+      "value": 19.81426,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-24T00:00:00",
+      "value": 19.81410,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-25T00:00:00",
+      "value": 19.88877,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-26T00:00:00",
+      "value": 19.99785,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-27T00:00:00",
+      "value": 19.87555,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-28T00:00:00",
+      "value": 19.68365,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-29T00:00:00",
+      "value": 19.48438,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-11-30T00:00:00",
+      "value": 19.27622,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-01T00:00:00",
+      "value": 19.03863,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-02T00:00:00",
+      "value": 18.88099,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-03T00:00:00",
+      "value": 18.88353,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-04T00:00:00",
+      "value": 18.84848,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-05T00:00:00",
+      "value": 18.72208,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-06T00:00:00",
+      "value": 18.51664,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-07T00:00:00",
+      "value": 18.37780,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-08T00:00:00",
+      "value": 18.21432,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-09T00:00:00",
+      "value": 18.03263,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-10T00:00:00",
+      "value": 18.11314,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-11T00:00:00",
+      "value": 18.07201,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-12T00:00:00",
+      "value": 17.98674,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-13T00:00:00",
+      "value": 18.09117,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-14T00:00:00",
+      "value": 18.24373,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-15T00:00:00",
+      "value": 18.31819,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-16T00:00:00",
+      "value": 18.24388,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-17T00:00:00",
+      "value": 18.91842,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-18T00:00:00",
+      "value": 20.42730,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-19T00:00:00",
+      "value": 20.78952,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-20T00:00:00",
+      "value": 20.87916,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-21T00:00:00",
+      "value": 20.90306,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-22T00:00:00",
+      "value": 20.80439,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-23T00:00:00",
+      "value": 20.70424,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-24T00:00:00",
+      "value": 20.54522,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-25T00:00:00",
+      "value": 20.39995,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-26T00:00:00",
+      "value": 20.20178,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-27T00:00:00",
+      "value": 20.11041,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-28T00:00:00",
+      "value": 19.90829,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-29T00:00:00",
+      "value": 19.74396,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-30T00:00:00",
+      "value": 19.78115,
+      "isValid": false
+    },
+    {
+      "idElemento": 65,
+      "idParametro": 684,
+      "date": "2025-12-31T00:00:00",
+      "value": 19.91001,
+      "isValid": false
+    }
+  ],
+  "succeeded": true,
+  "errors": [],
+  "message": ""
+}
