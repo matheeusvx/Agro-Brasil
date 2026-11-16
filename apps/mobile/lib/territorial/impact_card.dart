@@ -95,13 +95,6 @@ class _ImpactBody extends StatelessWidget {
             description: 'O que foi ofertado e o que chegou ao destinatário.',
             icon: Icons.volunteer_activism_outlined,
           ),
-          if (i.isDemonstration) ...[
-            const SizedBox(height: 10),
-            const Text(
-              'Dados demonstrativos · não representam operações reais',
-              style: AgroDesign.caption,
-            ),
-          ],
           if (result.saved) ...[
             const SizedBox(height: 10),
             InfoStrip(

@@ -162,7 +162,8 @@ void main() {
     await tester.pumpWidget(host(ctl(ImpactRepo()..body = sample())));
     await tester.pumpAndSettle();
     expect(find.text('Destino dos excedentes'), findsOneWidget);
-    expect(find.textContaining('Dados demonstrativos'), findsOneWidget);
+    // Redesign 16/11/2026: avisos de demonstração não aparecem na interface.
+    expect(find.textContaining('Dados demonstrativos'), findsNothing);
     expect(
       find.bySemanticsLabel(RegExp('^Ofertado: 10 quilos')),
       findsOneWidget,

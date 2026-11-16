@@ -11,75 +11,53 @@ class CropRecord extends StatelessWidget {
   const CropRecord({super.key, required this.item, required this.onTap});
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.only(bottom: 14),
-    child: Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(22),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AgroDesign.wash,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const FarmIllustration(
-                      art: FarmArt.harvest,
-                      width: 72,
-                      height: 66,
-                    ),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item['cropName'] ?? 'Produção',
-                          style: AgroDesign.section,
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          '${item['quantityKg']} kg',
-                          style: AgroDesign.title,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Icon(Icons.chevron_right, color: AgroDesign.green),
-                ],
+    padding: const EdgeInsets.only(bottom: 12),
+    child: AgroSurface(
+      onTap: onTap,
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          ExcludeSemantics(
+            child: Container(
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                color: AgroDesign.mint,
+                borderRadius: BorderRadius.circular(18),
               ),
-              const SizedBox(height: 16),
-              Text('Safra ${item['seasonLabel']}', style: AgroDesign.caption),
-              const SizedBox(height: 10),
-              const Divider(height: 1, color: AgroDesign.line),
-              const SizedBox(height: 12),
-              const Row(
-                children: [
-                  Icon(Icons.route_outlined, size: 18, color: AgroDesign.green),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      'Consultar origem e histórico',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: AgroDesign.green,
-                      ),
-                    ),
-                  ),
-                ],
+              alignment: Alignment.center,
+              child: const FarmIllustration(
+                art: FarmArt.harvest,
+                width: 52,
+                height: 40,
               ),
-            ],
+            ),
           ),
-        ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(item['cropName'] ?? 'Produção', style: AgroDesign.section),
+                const SizedBox(height: 2),
+                Text('${item['quantityKg']} kg', style: AgroDesign.title),
+                const SizedBox(height: 4),
+                Text('Safra ${item['seasonLabel']}', style: AgroDesign.caption),
+                const SizedBox(height: 6),
+                const Text(
+                  'Consultar origem e histórico',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: AgroDesign.green,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          const Icon(Icons.chevron_right, color: AgroDesign.muted),
+        ],
       ),
     ),
   );
@@ -95,14 +73,19 @@ class FormSection extends StatelessWidget {
     child: Row(
       children: [
         Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: AgroDesign.wash,
-            borderRadius: BorderRadius.circular(12),
+          width: 36,
+          height: 36,
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+            color: AgroDesign.forest,
+            shape: BoxShape.circle,
           ),
           child: Text(
             number,
-            style: AgroDesign.eyebrow.copyWith(color: AgroDesign.forest),
+            style: AgroDesign.eyebrow.copyWith(
+              color: Colors.white,
+              letterSpacing: 0,
+            ),
           ),
         ),
         const SizedBox(width: 12),
@@ -161,11 +144,12 @@ class EventTimeline extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 20),
+                    margin: const EdgeInsets.only(bottom: 16),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(18),
+                      borderRadius: BorderRadius.circular(AgroDesign.radius),
+                      boxShadow: AgroDesign.softShadow,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

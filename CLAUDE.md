@@ -29,7 +29,8 @@ Pilares: oferta x demanda; gestão da produção/excedentes; logística e rastre
 
 ## Decisões de UX (preservar)
 
-- Verde profundo (#173F32), creme (#FAF8F1), branco; minimalista; cards com hierarquia clara; animações suaves e intencionais; respeitar `disableAnimations`; alvos ≥ 48 dp; testar 390×844, 320×844 e texto 200%.
+- Verde profundo (#173F32), fundo `canvas` (#F5F7F2), branco; minimalista; cards brancos com sombra suave (`AgroSurface`), botões em pílula; animações suaves e intencionais; respeitar `disableAnimations`; alvos ≥ 48 dp; testar 390×844, 320×844 e texto 200%. Redesign de 16/11/2026: `docs/design/mobile-minimalista/resultado.md`.
+- App mobile **não exibe** faixas de "Demonstração/dados fictícios", "Atualizado em", "sem GPS" ou "acesso somente nesta sessão" (pedido do usuário para o vídeo). Avisos funcionais (offline, erro, somente consulta) continuam. Mobile mantém a navegação inferior; sem barra lateral. Inteligência hídrica segue o mesmo sistema (sem texto verde-claro, avisos curtos). Perfil editável em `lib/profile.dart` (salvo no aparelho; API não tem edição de perfil); animações em `lib/motion.dart`.
 - Reutilizar `dashboard_components.dart` (DashboardCard, IndicatorCard, DashboardBarChart, DashboardStateView, TerritorialHeader…) e tokens de `design.dart` / `docs/design/DESIGN_SYSTEM_V2.md`.
 - Mostrar primeiro o que importa ao produtor; explicação técnica fica recolhida em "Ver análise detalhada". A 1ª versão hídrica era complexa; a V2 tem 3 cards na tela principal. Não criar cards/gráficos sem propósito.
 - Pedido de "reduzir/simplificar" ≠ remover componentes.

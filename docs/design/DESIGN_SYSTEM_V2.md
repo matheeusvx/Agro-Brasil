@@ -25,6 +25,19 @@ Fonte única Roboto local (regular e bold), sem CDN. Título 24/1,2; seção 19/
 
 Espaçamento 4/8/12/16/20/24/32 dp; gutter 20; raio 16 para controles, 22–24 para módulos. Botões primários 52 dp e links 48 dp de área mínima. Sem sombra nos cartões; a profundidade vem dos planos das ilustrações.
 
+### Atualização minimalista (16/11/2026)
+
+Substitui as regras acima onde houver conflito. Detalhes em `docs/design/mobile-minimalista/resultado.md`.
+
+- Fundo `canvas` #F5F7F2 (branco esverdeado) e `mint` #EAF5EC para círculos de ícone e fundos de ilustração.
+- Tipografia: `display` 28/1,15 (títulos de tela e saudação), título 22/1,2, seção 17/1,25.
+- Cartões: `AgroSurface` branco, raio 24, **sombra única e suave** (`softShadow`), sem borda.
+- Botões em pílula (`StadiumBorder`), 54 dp; primário `forest`, secundário branco com contorno `line`.
+- Novos componentes: `AgroSurface`, `IconBubble` (ícone em círculo suave) e `FeatureTile` (atalho em linha para painéis).
+- Home: faixa `forest` contínua com a barra superior, com saudação e cartão de clima em gradiente claro; atalhos em grade 2×2 de cartões brancos.
+- Sem faixas de "demonstração", "Atualizado em", "sem GPS" ou "sessão" na interface. Avisos funcionais (offline, erro, somente consulta) continuam.
+- Navegação inferior inalterada; sem barra lateral no mobile.
+
 ## Identidade da marca (mobile)
 
 Original preservado em `docs/design/branding/agro-brasil-logo-original.png`. Nenhum asset redesenha a marca; todos são recortes ou reduções desse arquivo.

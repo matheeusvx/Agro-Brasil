@@ -500,7 +500,7 @@ void main() {
   Widget dashboard(HomeController c) => app(LogisticsDashboard(controller: c));
 
   Future<void> untilLoaded(WidgetTester tester) async {
-    final ready = find.text('Demonstração · registros fictícios identificados');
+    final ready = find.byKey(const ValueKey('logistics-ready'));
     for (var i = 0; i < 40 && ready.evaluate().isEmpty; i++) {
       await tester.pump(const Duration(milliseconds: 1));
     }

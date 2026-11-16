@@ -26,20 +26,39 @@ abstract final class AgroDesign {
   static const danger = Color(0xFF912F27);
   static const dangerWash = Color(0xFFFAEEEA);
   static const disabled = Color(0xFFEBEDE7);
-  static const radius = 22.0;
+
+  /// Fundo das telas: branco levemente esverdeado, mais limpo que o creme.
+  static const canvas = Color(0xFFF5F7F2);
+  static const mint = Color(0xFFEAF5EC);
+  static const radius = 24.0;
   static const smallRadius = 16.0;
   static const gutter = 20.0;
   static const gap = 12.0;
-  static const sectionGap = 24.0;
+  static const sectionGap = 28.0;
+
+  /// Sombra única e suave: cards flutuam sem bordas pesadas.
+  static const softShadow = [
+    BoxShadow(color: Color(0x0F173F32), blurRadius: 24, offset: Offset(0, 8)),
+    BoxShadow(color: Color(0x08173F32), blurRadius: 4, offset: Offset(0, 1)),
+  ];
+  static const display = TextStyle(
+    fontSize: 28,
+    height: 1.15,
+    letterSpacing: -.6,
+    fontWeight: FontWeight.w700,
+    color: ink,
+  );
   static const title = TextStyle(
-    fontSize: 24,
+    fontSize: 22,
     height: 1.2,
+    letterSpacing: -.3,
     fontWeight: FontWeight.w700,
     color: ink,
   );
   static const section = TextStyle(
-    fontSize: 19,
+    fontSize: 17,
     height: 1.25,
+    letterSpacing: -.1,
     fontWeight: FontWeight.w700,
     color: ink,
   );
@@ -49,7 +68,7 @@ abstract final class AgroDesign {
     fontSize: 11,
     height: 1.3,
     fontWeight: FontWeight.w700,
-    letterSpacing: 1.2,
+    letterSpacing: 1,
     color: muted,
   );
 }
@@ -227,22 +246,23 @@ class AgroNavigationBar extends StatelessWidget {
   );
 }
 
-/// Compact module identity: each screen has its own job and a shared grammar.
+/// Cabeçalho de módulo: título forte, subtítulo curto e uma ilustração
+/// pequena em círculo suave.
 class ModuleHeading extends StatelessWidget {
   final String title;
   final String subtitle;
   final String eyebrow;
-  final FarmArt art;
+  final FarmArt? art;
   const ModuleHeading({
     super.key,
     required this.title,
     required this.subtitle,
-    required this.art,
+    this.art,
     this.eyebrow = 'MEU CAMPO, MEU DIA',
   });
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.only(bottom: 20),
+    padding: const EdgeInsets.only(top: 4, bottom: 20),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -250,24 +270,130 @@ class ModuleHeading extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(eyebrow, style: AgroDesign.eyebrow),
-              const SizedBox(height: 8),
-              Text(title, style: AgroDesign.title),
+              Semantics(
+                header: true,
+                child: Text(title, style: AgroDesign.display),
+              ),
               const SizedBox(height: 6),
-              Text(subtitle, style: AgroDesign.caption),
+              Text(
+                subtitle,
+                style: AgroDesign.body.copyWith(color: AgroDesign.muted),
+              ),
             ],
           ),
         ),
-        if (MediaQuery.textScalerOf(context).scale(14) < 22) ...[
-          const SizedBox(width: 8),
-          Container(
-            decoration: BoxDecoration(
-              color: AgroDesign.wash,
-              borderRadius: BorderRadius.circular(24),
+        if (art != null && MediaQuery.textScalerOf(context).scale(14) < 22) ...[
+          const SizedBox(width: 12),
+          ExcludeSemantics(
+            child: Container(
+              width: 72,
+              height: 72,
+              decoration: const BoxDecoration(
+                color: AgroDesign.mint,
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: FarmIllustration(art: art!, width: 60, height: 52),
             ),
-            child: FarmIllustration(art: art, width: 88, height: 86),
           ),
         ],
+      ],
+    ),
+  );
+}
+
+/// Superfície branca padrão: cantos amplos, sombra suave e sem borda.
+class AgroSurface extends StatelessWidget {
+  final Widget child;
+  final EdgeInsetsGeometry padding;
+  final VoidCallback? onTap;
+  final Color color;
+  final double radius;
+  const AgroSurface({
+    super.key,
+    required this.child,
+    this.padding = const EdgeInsets.all(18),
+    this.onTap,
+    this.color = AgroDesign.paper,
+    this.radius = AgroDesign.radius,
+  });
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(radius),
+      boxShadow: AgroDesign.softShadow,
+    ),
+    child: Material(
+      color: color,
+      borderRadius: BorderRadius.circular(radius),
+      clipBehavior: Clip.antiAlias,
+      child: onTap == null
+          ? Padding(padding: padding, child: child)
+          : InkWell(
+              onTap: onTap,
+              child: Padding(padding: padding, child: child),
+            ),
+    ),
+  );
+}
+
+/// Ícone dentro de um círculo suave, como nos atalhos das referências.
+class IconBubble extends StatelessWidget {
+  final IconData icon;
+  final Color background;
+  final Color color;
+  final double size;
+  const IconBubble(
+    this.icon, {
+    super.key,
+    this.background = AgroDesign.mint,
+    this.color = AgroDesign.forest,
+    this.size = 44,
+  });
+  @override
+  Widget build(BuildContext context) => Container(
+    width: size,
+    height: size,
+    decoration: BoxDecoration(color: background, shape: BoxShape.circle),
+    child: Icon(icon, color: color, size: size * .5),
+  );
+}
+
+/// Atalho em linha para telas de apoio (ícone, título, apoio e seta).
+class FeatureTile extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String? subtitle;
+  final VoidCallback? onTap;
+  const FeatureTile({
+    super.key,
+    required this.icon,
+    required this.title,
+    this.subtitle,
+    this.onTap,
+  });
+  @override
+  Widget build(BuildContext context) => AgroSurface(
+    onTap: onTap,
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    child: Row(
+      children: [
+        IconBubble(icon),
+        const SizedBox(width: 14),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: AgroDesign.section),
+              if (subtitle != null) ...[
+                const SizedBox(height: 2),
+                Text(subtitle!, style: AgroDesign.caption),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(width: 8),
+        const Icon(Icons.chevron_right, color: AgroDesign.muted),
       ],
     ),
   );
@@ -293,20 +419,34 @@ class StatusPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final attention = ['SOLICITADO', 'ACEITO', 'RASCUNHO'].contains(status);
+    final color = attention ? AgroDesign.earth : AgroDesign.forest;
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-          color: attention ? AgroDesign.attention : AgroDesign.wash,
-          borderRadius: BorderRadius.circular(12),
+          color: attention ? AgroDesign.attention : AgroDesign.mint,
+          borderRadius: BorderRadius.circular(999),
         ),
-        child: Text(
-          statusLabel(status),
-          style: AgroDesign.caption.copyWith(
-            color: attention ? AgroDesign.earth : AgroDesign.forest,
-            fontWeight: FontWeight.w700,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 7,
+              height: 7,
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            ),
+            const SizedBox(width: 7),
+            Flexible(
+              child: Text(
+                statusLabel(status),
+                style: AgroDesign.caption.copyWith(
+                  color: color,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -324,19 +464,30 @@ class FarmEmptyState extends StatelessWidget {
     required this.message,
   });
   @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.all(24),
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(24),
-    ),
+  Widget build(BuildContext context) => AgroSurface(
+    padding: const EdgeInsets.fromLTRB(24, 28, 24, 28),
     child: Column(
       children: [
-        FarmIllustration(art: art, width: 156, height: 110),
-        const SizedBox(height: 12),
-        Text(title, style: AgroDesign.section, textAlign: TextAlign.center),
+        ExcludeSemantics(
+          child: Container(
+            width: 120,
+            height: 120,
+            decoration: const BoxDecoration(
+              color: AgroDesign.mint,
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: FarmIllustration(art: art, width: 104, height: 80),
+          ),
+        ),
+        const SizedBox(height: 18),
+        Text(title, style: AgroDesign.title, textAlign: TextAlign.center),
         const SizedBox(height: 8),
-        Text(message, style: AgroDesign.body, textAlign: TextAlign.center),
+        Text(
+          message,
+          style: AgroDesign.body.copyWith(color: AgroDesign.muted),
+          textAlign: TextAlign.center,
+        ),
       ],
     ),
   );

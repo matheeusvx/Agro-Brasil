@@ -244,14 +244,6 @@ class DesktopHome extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (controller.repository.demonstration)
-            const Padding(
-              padding: EdgeInsets.only(bottom: 12),
-              child: Text(
-                'Demonstração · dados fictícios',
-                style: AgroDesign.caption,
-              ),
-            ),
           HomeGreeting(userName: home?['userName']),
           const SizedBox(height: 24),
           if (controller.loading)
