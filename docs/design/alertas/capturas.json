@@ -7,13 +7,14 @@
   "dados_operacionais": "Galeria identificada como fictícia; sem gravações",
   "dados_hidricos": "NASA POWER AGUA-04, export real 2000-2025",
   "sha256": {
-    "agua-aviso.png": "c2a96c748bc715f4a282cf078e707ac0167c56d1c57610c42774d50e85698c27",
-    "agua-explicacao.png": "47913a7cfe1d1d6542974773fe8000e06671686dcdc91b29eb2d5ffd31125cda",
-    "logistica-aviso.png": "b093da1c32aaa1b2557b39f41af24f7838562b68a9b966f502757857811ba568",
-    "logistica-retirada-320-texto-200.png": "761d82c8bc077da22346ef1b7cdb99aaf1db9a468a4c8380aeb63c24caa849bc",
-    "logistica-retirada-aviso.png": "56af44aa3cd10c8d7b05de5a82e6fa54f767a16dfccccad54d8307a8bc3c2b9a",
-    "logistica-retirada-explicacao.png": "d0623ac283c183de6019a4085392bd65af3054119a5b244d167b4343d5d1d9df",
-    "producao-avisos.png": "16575e3b6f86f09ecb4c48e2f808eb603a85535384954bc7053e766ed06b62bc",
-    "producao-explicacao.png": "aec29c3c8838c368d046a2f3b71fec409f1fe8d2576779ad0ebe1fc47f11973a"
-  }
+    "agua-aviso.png": "c3fb4072ff2e9a80b1c13fa85d116f6b62d59b4e0a75946648d2636dcac27a43",
+    "agua-explicacao.png": "0ca05ab59c6a837cfc33512f255bb13f2e346f1f3b288059827e7c2f45652519",
+    "logistica-aviso.png": "7d6269a3c22b6acdea347888215b607a95b43bb0c51834e77f46d0e492c0bab0",
+    "logistica-retirada-320-texto-200.png": "5517c7274050c6e5bb05aaf7f91e887cfb728cad00316595ea24849e1bd3840e",
+    "logistica-retirada-aviso.png": "b6badea218c9c2b1d774885a7d425791e170ed5e6ce628b5d8789aa1d65db0e9",
+    "logistica-retirada-explicacao.png": "27d290c6eb12b22df6b6f1897a9cb73d2237b9bed0fd9b43d03e5bbf99c37482",
+    "producao-avisos.png": "5fb24829421bc40454c0b49f2bd3feb51546d7c3e761ec89060e9f4bacf463b8",
+    "producao-explicacao.png": "79b19e786fcbedf9c07a102157bc3b31c44baf0ad1a3fcf4e4e09d2e31c6f5b8"
+  },
+  "observacao": "Recapturadas após o redesign minimalista (avisos compactos com \"Entender o aviso\")."
 }
