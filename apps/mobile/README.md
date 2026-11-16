@@ -1,126 +1,186 @@
-# Aplicativo Flutter / Dart
+# Agro+ Brasil — app mobile
 
-Aplicativo Flutter orientado às tarefas do pequeno produtor rural, com produção, ofertas, pedidos, histórico e perfil. Interface em português, fonte Roboto local, navegação inferior com cinco destinos e árvore semântica habilitada na web. O primeiro dashboard territorial, **Inteligência Hídrica**, está disponível pelo ícone de gota no cabeçalho mobile/desktop; a navegação de tarefas continua preservada.
+![Agro+ Brasil](assets/screenshots/banner.png)
 
-## Avisos explicados nos três dashboards
+![Flutter 3.47](https://img.shields.io/badge/Flutter-3.47-02569B?style=flat&logo=flutter&logoColor=white)
+![Dart 3.13](https://img.shields.io/badge/Dart-3.13-0175C2?style=flat&logo=dart&logoColor=white)
+![Material 3](https://img.shields.io/badge/Material-3-757575?style=flat&logo=materialdesign&logoColor=white)
+![Android](https://img.shields.io/badge/Android-API_36-3DDC84?style=flat&logo=android&logoColor=white)
+![Node.js 22](https://img.shields.io/badge/Node.js-22-5FA04E?style=flat&logo=nodedotjs&logoColor=white)
+![Express 5](https://img.shields.io/badge/Express-5-000000?style=flat&logo=express&logoColor=white)
+![MongoDB 6](https://img.shields.io/badge/MongoDB-6-47A248?style=flat&logo=mongodb&logoColor=white)
+![NASA POWER](https://img.shields.io/badge/Dados-NASA_POWER-0B3D91?style=flat&logo=nasa&logoColor=white)
+![OpenWeather](https://img.shields.io/badge/Clima-OpenWeather-EB6E4B?style=flat)
+![Testes 156](https://img.shields.io/badge/testes-156_passando-173F32?style=flat)
+![Uso acadêmico FIAP GS 2026.2](https://img.shields.io/badge/FIAP_GS_2026.2-uso_acad%C3%AAmico-64748B?style=flat)
 
-O critério 3 do enunciado CPAD admite regras sobre os dados. Os avisos usam regras determinísticas, sem probabilidades inventadas ou execução de modelos. Cada card mostra título, nível de atenção, categoria e confiança. **Entender o aviso** expande justificativa, evidência (indicador, valor, período e fonte), fundamento da confiança, limitações e orientação para avaliação humana. Nenhuma decisão ou alteração comercial é automática.
+**Painel de inteligência territorial para o pequeno produtor rural: produção, excedentes, pedidos e chuva da região num app simples, com avisos explicados e decisão sempre humana.**
 
-| Painel | Regra e escopo | Limites |
+Global Solution 2026.2 · Cross-Platform Application Development · desafio *Territory Predictive Insights*.
+
+## Problema e público
+
+Pequenos produtores perdem parte do que colhem porque o excedente não encontra comprador a tempo, e decidem sem enxergar o histórico de chuva da região. O Agro+ Brasil antecipa esses problemas no território:
+
+- **Desperdício de recursos:** mostra o que foi produzido, o que está ofertado e o que vence em breve, ligando o excedente a cooperativas, instituições e compradores locais.
+- **Variação climática local:** compara a chuva de cada mês com a média histórica de 20 anos (NASA POWER) e explica quando o mês ficou abaixo do normal.
+- **Demanda por serviços:** acompanha pedidos, retiradas e recebimentos e aponta o que depende do produtor.
+
+**Público principal:** pequeno produtor rural (linguagem simples, alvos de toque grandes, texto ampliável). **Impacto esperado:** menos excedente perdido, mais alimento doado ou vendido localmente e decisões apoiadas em dados. O indicador **Destino dos excedentes** mostra no app o que foi ofertado e o que chegou ao destinatário.
+
+## Integrantes
+
+| Nome completo | RM |
+| --- | --- |
+| Matheus Morelli Rodrigues | 562765 |
+
+## Demonstração visual
+
+Capturas do emulador Android (390 dp, 16/11/2026), sem montagem. Os dados operacionais são da galeria de demonstração; o histórico de chuva é real (NASA POWER).
+
+| Entrada | Início | Início (atalhos e lotes) | Produção |
+| --- | --- | --- | --- |
+| ![Tela de entrada](assets/screenshots/login.png) | ![Início com clima e próxima ação](assets/screenshots/home.png) | ![Atalhos e caminho da produção](assets/screenshots/home-atalhos.png) | ![Colheitas registradas](assets/screenshots/producao.png) |
+| Código de acesso e verificação | Saudação, clima e próxima ação | Ações rápidas e últimos lotes | Colheitas e acesso ao painel |
+
+| Cadastro (formulário) | Ofertas | Pedidos | Histórico do lote |
+| --- | --- | --- | --- |
+| ![Formulário de produção](assets/screenshots/cadastro-producao.png) | ![Ofertas](assets/screenshots/ofertas.png) | ![Pedidos](assets/screenshots/pedidos.png) | ![Linha do tempo do lote](assets/screenshots/historico.png) |
+| Etapas com validação | Saldo disponível e situação | Pedidos e acesso à logística | Eventos confirmados |
+
+| Dashboard 1 · Chuva | Gráfico mês a mês | Dashboard 2 · Produção e excedentes | Dashboard 3 · Logística |
+| --- | --- | --- | --- |
+| ![Chuva no mês](assets/screenshots/hidrico.png) | ![Gráfico de chuva](assets/screenshots/hidrico-grafico.png) | ![Produção e excedentes](assets/screenshots/producao-dashboard.png) | ![Logística](assets/screenshots/logistica.png) |
+| Mês × média histórica | Barras e média por mês | Produção, culturas e ofertas | Pedidos por situação |
+
+| Perfil | Editar perfil | | |
+| --- | --- | --- | --- |
+| ![Perfil](assets/screenshots/perfil.png) | ![Editar perfil](assets/screenshots/editar-perfil.png) | | |
+| Preferências de acessibilidade | Nome, culturas e cor | | |
+
+### Avisos explicados
+
+| Chuva | Produção | Logística |
 | --- | --- | --- |
-| Inteligência Hídrica | Acumulado mensal menor que a média do mesmo mês em 2000–2019; atenção quando menor que Q25; classificação preserva limites Q10/Q25 do AGUA-04. | Aviso histórico regional de Mogi das Cruzes/SP, NASA POWER, dados até 31/12/2025. Não é previsão operacional de seca ou escassez. Sem referência ou valor válido, comparação indisponível e confiança baixa. |
-| Produção e excedentes | Ofertas PUBLICADA com saldo positivo e vencimento em (0, 72h], pedidos SOLICITADO e soma de availableKg em ofertas válidas da propriedade. | Não confunde produção com excedente; vencimento não prova perda. A janela de três dias já existia no resumo e é regra da interface. O filtro de ano de colheita não altera esses avisos operacionais. |
-| Logística | Contagem dos estados SOLICITADO, ACEITO e RETIRADO dos pedidos vinculados à propriedade. | Não cria atraso, prazo, rota ou chegada prevista. Criação do pedido não é data de transição. Cooperativa e destinatário continuam responsáveis por suas etapas. |
+| ![Aviso de chuva abaixo da média](assets/screenshots/alertas/agua-aviso.png) | ![Aviso de solicitações pendentes](assets/screenshots/alertas/producao-avisos.png) | ![Aviso de pedidos aguardando retirada](assets/screenshots/alertas/logistica-retirada-aviso.png) |
+| ![Justificativa, evidência e limitações](assets/screenshots/alertas/agua-explicacao.png) | ![Explicação do aviso de produção](assets/screenshots/alertas/producao-explicacao.png) | ![Explicação do aviso de logística](assets/screenshots/alertas/logistica-retirada-explicacao.png) |
 
-Confiança **moderada** descreve uma comparação histórica com referência de 20 anos, ou uma leitura determinística dos registros autorizados consultados; não mede acerto futuro. Confiança **baixa** identifica demonstração fictícia, datas de criação ausentes, dados insuficientes, cópia offline, consulta com mais de 15 minutos ou relógio anterior à consulta. O limite de 15 minutos é uma política conservadora da interface, sem validação científica ou garantia de atualidade antes dele. A seção reavalia a idade a cada minuto e ao retomar o app.
+Também: [aviso de pedido aguardando resposta](assets/screenshots/alertas/logistica-aviso.png) e [Logística em 320 dp com texto 200%](assets/screenshots/alertas/logistica-retirada-320-texto-200.png).
 
-Offline/consulta antiga: avisos operacionais são avaliados na data da cópia e identificados como desatualizados, sem projetar saldo como atual. O histórico hídrico continua explicitamente retrospectivo. Repositórios existentes mantêm paginação completa, isolamento por origem/usuário/organização/propriedade, validação e recusa de fallback em 401/403/404. Revogação não pode ser verificada sem conexão. Não foi criado cache adicional para os avisos.
+## Funcionalidades
 
-Implementação: `territorial/explained_alert.dart` (regras puras), `territorial/alert_card.dart` (componente compartilhado com expansão acessível) e integração nos três dashboards. Usa apenas Flutter e componentes/cores existentes. Sem novas dependências, redesign, endpoints, métricas científicas ou alteração dos modelos congelados. Texto sem altura fixa, cabeçalhos semânticos e expansão discreta que respeita movimento reduzido; carregamento/erro ficam sob os FutureBuilders existentes, e ausência de avisos não implica ausência de risco.
+- [x] 5 abas (Início, Produção, Ofertas, Pedidos, Perfil) e telas de detalhe: cadastro, histórico do lote, três dashboards, edição de perfil
+- [x] 3 dashboards territoriais distintos com gráficos, cards e histórico: Chuva (2000–2025), Produção e excedentes, Logística
+- [x] Avisos gerados por regras sobre os dados, cada um com justificativa, evidência, nível de confiança e limitações
+- [x] Aviso visível de que a decisão final é humana ("Avaliação humana" em cada aviso)
+- [x] Estado global compartilhado (`HomeController` e preferências do perfil) entre várias telas
+- [x] Carregamento, erro e lista vazia tratados em todas as listas e painéis
+- [x] Consumo da API Agro+ Brasil (Express/MongoDB) e do clima (OpenWeather, via backend)
+- [x] Persistência local: snapshot da home, catálogo, dashboards e preferências do perfil (SharedPreferences)
+- [x] Útil sem conexão: cópia salva identificada como desatualizada; histórico de chuva embarcado
+- [x] Formulários com validação e mensagens de erro: cadastro de produção, oferta e confirmação de operação
+- [x] Indicador de benefício social: Destino dos excedentes (ofertado × recebido)
+- [x] Edição e personalização do perfil (nome, sobre, culturas, cor do avatar, texto maior, menos animação)
+- [x] Animações com propósito, que respeitam "remover animações" do sistema
+- [x] Testes automatizados: 156 testes de unidade e widget (alertas, validações, layout, acessibilidade)
+- [ ] Rotas nomeadas (a navegação usa `Navigator.push` com parâmetros no construtor)
+- [ ] Etapa explícita de consentimento no app
+- [ ] Modo escuro, mapa, notificações e APK de release
 
-Validação e capturas: [relatório de alertas](../../docs/design/alertas/resultado.md). Testes em `test/explained_alert_test.dart` cobrem limites, confiança, dados ausentes, isolamento, cópia offline, atualização da seção, expansão real nos três dashboards, 320/900 dp com texto 200% e critérios de contraste/rótulos/alvos Android.
+## Dados e alertas
 
-### Capturas Android dos avisos
+**Fontes.** Registros de produção, ofertas, pedidos e eventos vêm da API Agro+ Brasil (seed de demonstração com participantes fictícios). A chuva é o histórico **NASA POWER AG** de Mogi das Cruzes/SP, 2000–2025, auditado no pipeline `analytics/agro-agua` e embarcado em `assets/agua04/`. O clima atual vem do OpenWeather pelo backend (a chave nunca fica no app).
 
-| Inteligência Hídrica | Produção e excedentes | Logística |
+**Como os avisos são gerados.** Regras determinísticas e testadas (`lib/territorial/explained_alert.dart`), sem probabilidades inventadas:
+
+| Painel | Regra | Limites |
 | --- | --- | --- |
-| ![Aviso histórico de chuva](assets/screenshots/alertas/agua-aviso.png) | ![Pendências e saldo ofertado](assets/screenshots/alertas/producao-avisos.png) | ![Pedido aguardando retirada](assets/screenshots/alertas/logistica-retirada-aviso.png) |
-| ![Evidência, confiança e limitações históricas](assets/screenshots/alertas/agua-explicacao.png) | ![Explicação de pendências fictícias](assets/screenshots/alertas/producao-explicacao.png) | ![Explicação logística e datas não informadas](assets/screenshots/alertas/logistica-retirada-explicacao.png) |
+| Chuva | Acumulado do mês abaixo da média do mesmo mês em 2000–2019; atenção abaixo do quantil 25 | Histórico regional, não é previsão de seca nem medição na propriedade |
+| Produção e excedentes | Ofertas publicadas que vencem em até 72 h, solicitações pendentes e saldo ofertado | Produção registrada não é excedente; vencimento não prova perda |
+| Logística | Pedidos aguardando resposta, retirada ou confirmação | Não cria atraso, rota, distância ou previsão de entrega |
 
-[Logística em 320 dp com texto ampliado](assets/screenshots/alertas/logistica-retirada-320-texto-200.png). Capturas do emulador, sem montagem; operações fictícias identificadas, histórico hídrico real.
+**Métricas.** Média e quantis (Q10, Q25, Q75, Q90) do mesmo mês em 20 anos; anomalia em mm e em %; contagens e quilos dos registros autorizados.
 
-## Produção e excedentes — segundo dashboard
+**Confiança.** *Moderada* para comparação com 20 anos de referência ou leitura direta dos registros. *Baixa* para dados de demonstração, cópia offline, consulta com mais de 15 minutos, datas ausentes ou dados insuficientes. Confiança descreve a qualidade da evidência, não a chance de acerto futuro.
 
-Na aba **Produção**, toque em **Produção e excedentes**. O painel agrega todas as páginas das produções autorizadas e filtra pela propriedade escolhida; não usa o indicador organizacional como total local. O ano refere-se à data da colheita. Saldos e pendências consideram todas as colheitas da propriedade, independentemente desse filtro, e são identificados assim na tela.
+**Vieses e quando não confiar.** Grade regional de satélite (não mede a roça), referência de só 20 anos por mês, um único município de referência para qualquer propriedade, dados de demonstração e cópias antigas. Nesses casos o aviso mostra confiança baixa. O modelo Ridge do pipeline não é apresentado como previsão.
 
-Somente `availableKg` de ofertas PUBLICADAS com prazo futuro entra em venda/doação. Esse campo já desconta reservas: pedidos não são subtraídos novamente. Rascunhos, ofertas vencidas e lotes de outras propriedades ficam fora. A produção registrada não é tratada como excedente. A análise detalhada mantém safras, meses registrados, original ofertado em ofertas vigentes e quantidades de pedidos por estado, sem estimar estoque físico ou crescimento.
+**Decisão humana.** Nenhum aviso executa ação: cada um termina com "Avaliação humana" e as ações abrem as telas operacionais. Detalhes: [relatório de alertas](../../docs/design/alertas/resultado.md).
 
-Cache privado de consulta por origem/usuário/organização/propriedade, sem tokens. Erro de rede/5xx permite snapshot explicitamente desatualizado; erros de autorização/consistência não permitem fallback. Atualizar tenta reconectar mesmo quando a home estava offline. Sair limpa o novo cache das propriedades da sessão junto dos snapshots existentes. A sessão inicial continua exigindo autenticação online. As ações abrem as telas operacionais existentes; nenhuma escrita é feita pelo dashboard.
+## Privacidade e inclusão
 
-[Auditoria de contratos](../../docs/design/production/auditoria.md) e [validação/evidências](../../docs/design/production/resultado.md). `scripts/smoke-production.mjs` usa MongoDB/Express isolados e 205 produções de teste para conferir paginação, reservas, venda/doação e troca para propriedade vazia. Dados de evidência são demonstrativos e identificados, nunca estatísticas regionais.
+**Privacidade**
+- Acesso por código temporário, mantido só em memória; nunca em URL, assets, logs ou armazenamento local.
+- A API isola dados por usuário, organização e propriedade; respostas 401/403/404 não usam cache.
+- O cache guarda apenas dados já autorizados e sai com o logout. Preferências do perfil ficam só no aparelho e não são enviadas.
+- Participantes do seed são fictícios. Coordenadas da propriedade só são usadas no clima com `verified` e `consent`; não há GPS automático.
+- Lacuna conhecida: não há tela explícita de consentimento no app.
 
-## Logística — terceiro dashboard
+**Acessibilidade**
+- Contraste verificado por teste (`textContrastGuideline`), alvos de toque de 48 dp e rótulos para leitores de tela.
+- Layout testado em 320 dp e 390 dp, com texto em 200% e preferência "Texto maior" no perfil.
+- Animações desligadas por "remover animações" do sistema ou pela opção "Reduzir animações".
+- Linguagem simples em português, explicações técnicas recolhidas em "Ver análise detalhada".
 
-Na aba **Pedidos**, toque em **Acompanhar logística**. O painel mostra pedidos em andamento, a distribuição por situação, o que depende do produtor e, quando há confirmação, os municípios de retirada e recebimento. Usa `/productions`, `/orders` e `/lots/:id/events`, sem rotas, distâncias ou previsões, que não existem no contrato. Retirada não é recebimento: só o destinatário confirma.
+## Tecnologias e decisões técnicas
 
-[Auditoria de contratos](../../docs/design/logistics/auditoria.md) e [validação/evidências](../../docs/design/logistics/resultado.md). `scripts/serve-logistics-android.mjs` sobe uma API isolada na porta 3310, com estados criados pelos comandos reais; `test/live_logistics_api.dart` a consulta por HTTP.
+| Tecnologia | Por quê |
+| --- | --- |
+| Flutter 3.47 / Dart 3.13 | Um código para Android e Web, com renderização consistente e boa acessibilidade |
+| Material 3 + design system próprio (`lib/design.dart`) | Componentes reutilizáveis (`AgroSurface`, `IconBubble`, `FeatureTile`, `StatusPill`) e tokens de cor, tipografia e espaçamento |
+| `ChangeNotifier` (`HomeController`) e `ValueNotifier` (`appPrefs`) | Estado global simples e explícito, sem dependências extras; estado local fica em cada tela |
+| `http` | Cliente leve para a API REST |
+| `shared_preferences` | Cache offline e preferências locais, isolados por origem/usuário/organização |
+| `url_launcher` | Abrir fontes oficiais (OpenWeather, NASA POWER) |
+| API Node.js 22 + Express 5 + MongoDB 6 | Autoridade de permissões e estados; transações em replica set |
+| Dados NASA POWER embarcados | Histórico auditado funciona sem rede e sem endpoint extra |
+| `flutter_test` + goldens | Garantia de regras, acessibilidade e aparência |
 
-## Inteligência Hídrica — incremento 1
+Estrutura:
 
-Painel independente de Mogi das Cruzes/SP, NASA POWER AG, histórico **2000–2025**, referência estatística **2000–2019**. Filtros de ano/mês, barras comparativas selecionáveis, acumulados de 7/30 dias, sequência diária e dias de baixa chuva no mês, anomalias com interpretação e proveniência. Nenhuma observação é apresentada como condição atual. LST é tratado como calendário da fonte, sem conversão para o fuso civil.
+```
+lib/
+  main.dart            entrada, tema, login e navegação por abas
+  data.dart            repositório da API, cache e HomeController
+  design.dart          tokens e componentes visuais
+  motion.dart          animações (curvas, entrada escalonada, toque)
+  home.dart, tasks.dart, records.dart, profile.dart   telas
+  territorial/         dashboards, dados, regras de aviso e componentes
+assets/                logo, fontes, ícone OpenWeather, dados AGUA-04, screenshots
+test/                  testes de unidade, widget e goldens
+```
 
-Sem endpoint AGUA-04: os arquivos auditados são embarcados em `assets/agua04/`. A consulta funciona sem rede inclusive na galeria, não escreve no SharedPreferences e não depende da propriedade escolhida. A autenticação inicial da sessão normal continua exigindo a API; isso não cria login frio offline. Reabrir o painel relê o mesmo pacote, sem atualizar observações. O modelo Ridge não é executado ou apresentado como previsão.
+## Como executar
 
-Da raiz, `python scripts/export-agua04-mobile.py --check` verifica inventário SHA-256, cópias e proveniência; sem `--check`, copia a versão auditada, sem treinar, inferir ou alterar o pipeline. Contrato incompatível e arquivos inválidos produzem erro recuperável; ausentes continuam indisponíveis. As classes diárias são preservadas do CSV, pois precedem o arredondamento de sua serialização. Faixas mensais usam os limiares exportados, sem arredondamento adicional.
+Pré-requisitos: Flutter 3.47+, Node.js 22, MongoDB e um emulador Android.
 
-Componentes em `lib/territorial/dashboard_components.dart`: cabeçalho territorial, filtro anual, cards/grid de indicadores, gráfico com alvos de 48 dp e semântica, legenda e estados de carregamento/vazio/erro/desatualizado. Pacotes históricos não vencem como clima ao vivo. Movimentos próprios respeitam `disableAnimations` e `accessibleNavigation`; texto ampliado reorganiza os cards e filtros.
+```powershell
+git clone https://github.com/matheeusvx/Agro-Brasil.git
+cd Agro-Brasil
+npm.cmd ci --cache .cache/npm
+Copy-Item .env.example .env        # opcional: WEATHER_ENABLED e OPENWEATHER_API_KEY só no backend
+npm.cmd run db:local               # terminal 1: MongoDB local
+npm.cmd run seed:demo              # terminal 2: dados de demonstração e códigos de acesso
+npm.cmd start                      # API em http://127.0.0.1:3000
+```
 
-Validação e evidências deste incremento: [relatório](../../docs/design/territorial/resultado.md), [auditoria](../../docs/design/territorial/auditoria.md), [gravação Android](../../docs/design/territorial/evidencias/agua04-navegacao-android.mp4). Para reproduzir no emulador: `flutter build apk --debug --dart-define=DEMO_GALLERY=true`; instalar o APK e executar `scripts/capture-agua04-android.ps1` da raiz. A home da galeria é fictícia e identificada; o painel usa os exports reais, mesmo dentro da galeria.
-
-## Executar
-
-Com o MongoDB/API da raiz ativos, nesta pasta:
+No app (`apps/mobile`):
 
 ```powershell
 flutter pub get
-flutter analyze
 flutter test
-flutter build web --base-href /mobile/ --no-web-resources-cdn
-```
-
-Abra **http://127.0.0.1:3000/mobile/**. A API Express serve o build e o Flutter consulta `/api/v1` na mesma origem, sem abrir CORS. Se o servidor estava executando uma versão anterior, reinicie `npm.cmd start` na raiz. Não substitua seu `.env` existente.
-
-Use o token fictício PEQUENO_PRODUTOR_RURAL de `.data/demo-sessions.json`, verifique o acesso e selecione uma organização autorizada. A propriedade pode ser alterada na home. Token apenas em memória: não usar token em dart-define, URL, assets ou armazenamento local. Login real de produção permanece pendente.
-
-Os quatro atalhos abrem cadastro real de produção, criação de rascunho da oferta, listagem/histórico de lotes e pedidos. A aba Ofertas permite publicar o rascunho. Pedidos permitem aceite com cooperativa opcional, cancelamento e retirada conforme backend; confirmação de recebimento cabe ao destinatário, não ao pequeno produtor rural. Cada alteração exige confirmação de localização. A API continua sendo a autoridade de permissões e estados.
-
-## Estados, cache e limites
-
-Home: primeiro acesso, solicitação aguardando resposta, aceite aguardando retirada, retirada aguardando recebimento, nenhuma pendência, carregamento, erro e acesso ao serviço indisponível com cache. Há no máximo duas pendências, ordenadas pelo backend (ação antes de acompanhamento), e dois lotes recentes por propriedade. Sem contadores zerados, coletas agendadas ou clima inventados.
-
-O cache SharedPreferences guarda somente catálogo e snapshot da home por origem/usuário/organização/propriedade. Nunca guarda tokens. Na perda de acesso ao serviço durante a sessão, mostra a última cópia e seu horário, sem alterações ou fila de envio. O histórico offline contém apenas a última movimentação salva; listas completas e formulários exigem conexão. 401/403/404 não ativam fallback de cache. Sair remove os snapshots da sessão. Revogação não pode ser verificada offline: cache é somente consulta local previamente autorizada. Primeira autenticação/carga ainda exige acesso à API; não há promessa de login frio offline ou PWA instalável completa.
-
-## Clima
-
-O endpoint autenticado `GET /properties/:id/weather` prioriza coordenadas da propriedade com `verified: true` e `consent: true`. Sem elas, resolve município/UF/BR com OpenWeather Geocoding, validando nome, país e estado. Resultados ambíguos são recusados. A referência municipal é identificada como aproximada e persiste no MongoDB por 30 dias, inclusive entre reinícios. Não há uso automático do GPS.
-
-Configuração exclusivamente no backend: `WEATHER_ENABLED=true` e `OPENWEATHER_API_KEY` no `.env` ignorado pelo Git; depois reiniciar a API. Não colocar chave no Dart, assets, URLs do aplicativo ou logs. Sem chave a integração continua desabilitada. Cadastro e verificação de coordenadas ainda não possuem interface.
-
-Cache de até dez minutos, limitado à validade da observação (duas horas), timeout de quatro segundos por chamada e orçamento de 50 chamadas upstream/minuto por processo (inclui geocodificação). Ajustar o construtor conforme quota do plano; não é limitador distribuído. O resumo exibe localidade, temperatura, condição, horário e atribuição com logo/link oficiais. Offline apresenta a cópia salva explicitamente como não atual. Umidade do ar permanece no contrato, sem inferir solo ou irrigação. Não há previsão de chuva nesta etapa.
-
-Não havia chave configurada nesta execução: consulta meteorológica real e captura com dados do provedor permanecem pendentes. [Relatório e logs](../../docs/evidencias/openweather/relatorio.md). Documentação: [Current Weather](https://openweathermap.org/api/current), [Geocoding](https://openweathermap.org/api/geocoding-api), [atribuição](https://openweathermap.org/faq). Confirmar produtos, quota e licença da conta antes de ativar.
-## Demonstração e testes
-
-Capturas reais do renderer Flutter, com fixtures identificadas: [oito estados](../../docs/evidencias/mobile/README.md). Fixtures nunca são inseridas no MongoDB. Galeria opcional, exclusivamente demonstrativa e sem gravações:
-
-```powershell
-flutter run -d chrome --dart-define=DEMO_GALLERY=true
-```
-
-O modo normal conecta a API; a galeria tem Repository separado. Para regenerar as capturas, executar `flutter test --update-goldens`. Para o teste Dart HTTP **real**, somente leitura e com API/seed ativos: `flutter test test/live_api.dart`. O comando não imprime tokens e salva `docs/evidencias/flutter-api-real.json`.
-
-Os testes cobrem navegação, oito estados, snapshot offline, isolamento do cache, erro de autorização, contraste, rótulos, alvo de toque e layout 320 px/texto 200%. O incremento hídrico acrescenta testes dos agregados reais, contrato, limiares, nulos e controles do dashboard. O APK Android foi compilado e testado em emulador; as limitações antigas do toolchain foram superadas para Android. iOS e desempenho em aparelho físico permanecem sem validação. A fonte Roboto foi copiada do SDK Flutter com sua licença em `assets/fonts/roboto_license.txt`.
-
-## Fora desta execução
-
-Previsões operacionais validadas, QR Code, autenticação de produção, aplicativo dos outros três públicos e telas avançadas. Os avisos por regras e o indicador de benefício social estão implementados nos escopos documentados; não comprovam impacto social real. Os três dashboards disponíveis têm recortes distintos: histórico regional hídrico, propriedade autorizada e operações confirmadas dos pedidos da propriedade. Prazo Flutter informado: 19/11/2026 23h55, America/Sao_Paulo.
-
-O backend demo vincula-se a loopback por segurança. No emulador Android local, preserve `http://127.0.0.1:3000` e encaminhe a porta por ADB. Da raiz, com MongoDB e API ativos, execute:
-
-```powershell
-./scripts/connect-android-local.ps1 -Device emulator-5554
-```
-
-O script verifica `/health`, o dispositivo e `adb reverse tcp:3000 tcp:3000`, sem ler ou imprimir tokens. Repita após reiniciar/reconectar o emulador ou o ADB: o encaminhamento não é configuração permanente. Se os serviços não estiverem ativos, execute `npm.cmd run db:local` e `npm.cmd start` em terminais separados. Para compilar/executar o modo normal, nesta pasta:
-
-```powershell
+./../../scripts/connect-android-local.ps1 -Device emulator-5554   # adb reverse da porta 3000
 flutter run -d emulator-5554 --dart-define=API_BASE_URL=http://127.0.0.1:3000
 ```
 
-Não use `DEMO_GALLERY=true` para validar autenticação real. `API_BASE_URL` é configuração de compilação; trocar um ambiente de build exige reconstruir o aplicativo. O endereço padrão nativo já é o loopback acima. `127.0.0.1` no Android aponta ao próprio Android; o ADB faz a ponte local sem abrir o Express externamente. Não trocar para `0.0.0.0`, IP da rede ou `10.0.2.2`, nem remover a restrição de origem do modo demo.
+Entre com o código de pequeno produtor gerado em `.data/demo-sessions.json` (não publique esse arquivo). Para ver o app sem backend, use a galeria de demonstração: `flutter run --dart-define=DEMO_GALLERY=true`.
 
-Sem encaminhamento/API, o login informa serviço indisponível. Uma resposta HTTP 401 informa token inválido/expirado; 403 indica acesso/vínculo negado e não permite cache como contorno. Confira a validade em `.data/demo-sessions.json` sem publicar o arquivo. Somente quando necessário, `npm.cmd run seed:demo` renova os tokens dos quatro perfis e invalida os anteriores, preservando produções. A sessão inicial exige conexão; após login e carga, o dashboard pode consultar seu snapshot explicitamente desatualizado. [Diagnóstico Android e validação](../../docs/design/production/conexao-android.md).
+Detalhes de conexão Android, web e testes de fumaça: [README da raiz](../../README.md) e [conexão Android](../../docs/design/production/conexao-android.md).
 
-## Validação de inicialização no navegador
+## Vídeo
 
-Da raiz: `npm.cmd run build:mobile` e `npm.cmd run test:mobile:smoke`. O primeiro comando fixa o build sem CDN; o segundo inicia servidor Express real e MongoDB isolado, usa navegador Chromium instalado e verifica autenticação/home renderizadas, com rede externa bloqueada. O smoke falha diante de erro JavaScript, CSP, recurso ausente ou falha de renderização. Detalhes e modo `--existing`: README da raiz. Não basta executar apenas testes de widgets para validar a entrega web.
+Link do vídeo de demonstração (até 3 minutos): https://www.youtube.com/watch?v=mSOO8oRYhpI
+
+## Licença
+
+Projeto acadêmico — FIAP, Global Solution 2026.2. Uso educacional; sem garantia para uso em produção. Dados NASA POWER e OpenWeather seguem as licenças de suas fontes. A fonte Roboto acompanha sua licença em `assets/fonts/roboto_license.txt`.
