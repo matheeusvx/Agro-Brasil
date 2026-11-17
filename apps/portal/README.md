@@ -1,57 +1,83 @@
 # Agro+ Brasil — portal de gestão
 
-Primeiro incremento independente do Flutter: central operacional do pequeno produtor, gestão de Produção e consulta de origem. Next.js App Router, React, TypeScript, Tailwind, shadcn/ui, Radix, Lucide e Recharts. Não exige mudanças no Express/MongoDB.
+**Produção, excedentes e logística em um só lugar, conectando pequenos produtores rurais, cooperativas e instituições.**
 
-## Executar localmente
+Projeto acadêmico — FIAP, Global Solution 2026.2 · desafio *Territory Predictive Insights*.
 
-Requisito: Node.js 22.19 ou superior. Na raiz do monorepositório, iniciar o MongoDB e a API conforme o README existente. O portal usa a API local na porta 3000 e os tokens demonstrativos já emitidos pelo backend; não cria credenciais ou participantes automaticamente.
+## Problema e público
 
-Em outro terminal PowerShell:
+Pequenos produtores têm dificuldade para encontrar destino para o excedente antes do vencimento e acompanhar sua entrega. O Agro+ Brasil organiza o registro da produção, a publicação de ofertas para venda ou doação e o acompanhamento de pedidos, remessas e recebimentos, com histórico de origem dos lotes.
+
+O portal atende **pequenos produtores rurais, cooperativas e instituições**, com telas e permissões por perfil. O impacto esperado é reduzir excedentes sem destinação e facilitar a distribuição local de alimentos; os indicadores permitem acompanhar o que foi ofertado e o que teve recebimento confirmado.
+
+## ODS relacionados
+
+| ODS | Relação com a proposta |
+| --- | --- |
+| **2 — Fome zero e agricultura sustentável** | Facilitar o acesso a alimentos por meio de ofertas e doações locais, valorizando o pequeno produtor. |
+| **12 — Consumo e produção responsáveis** | Apoiar a redução do desperdício de alimentos (meta 12.3), acompanhando os excedentes e sua destinação. |
+
+O alinhamento aos ODS representa o objetivo do projeto; os dados de demonstração não comprovam redução real da fome ou do desperdício.
+
+## Funcionalidades e tecnologias
+
+- Visão geral com produção, pedidos, gráficos por cultura e situação, além do clima regional quando disponível.
+- Cadastro e consulta de produção, ofertas, pedidos, destino dos excedentes e rastreabilidade.
+- Remessas para cooperativas, solicitações e ofertas disponíveis para instituições, além de mensagens entre participantes autorizados.
+- Interface em português, com estados de carregamento, erro e lista vazia e suporte à redução de movimento.
+
+**Stack:** Next.js (App Router), React, TypeScript, Tailwind CSS, Radix e Recharts. O portal consome a API Agro+ Brasil, construída com Node.js, Express e MongoDB.
+
+## Como executar
+
+Pré-requisitos: **Node.js 22.19+**, npm e PowerShell. Execute os comandos a partir da raiz do repositório. O MongoDB local é iniciado pelo script abaixo; a primeira execução pode baixar seu binário.
+
+```powershell
+npm.cmd ci
+Copy-Item .env.example .env  # se ainda não existir; preserve configurações locais
+npm.cmd run db:local        # terminal 1: mantenha o MongoDB em execução
+```
+
+Em outro terminal, na raiz, prepare os dados e inicie a API:
+
+```powershell
+npm.cmd run seed:demo
+npm.cmd start              # terminal 2: API em http://127.0.0.1:3000
+```
+
+Em um terceiro terminal, na raiz, inicie o portal:
 
 ```powershell
 cd apps/portal
-npm ci
-$env:PORTAL_DEMO_ENABLED = 'true'
-$env:AGRO_API_URL = 'http://127.0.0.1:3000'
-npm run dev
+npm.cmd ci
+Copy-Item .env.example .env.local  # se ainda não existir
+npm.cmd run dev
 ```
 
-Abrir **http://127.0.0.1:3100**. Informar um token demonstrativo válido de pequeno produtor. A organização e a propriedade podem ser trocadas no cabeçalho, conforme os vínculos autorizados. A configuração pode ser guardada em `.env.local`, a partir de `.env.example`, sem incluir tokens.
+Abra **http://127.0.0.1:3100** e entre com o token de pequeno produtor disponível em `.data/demo-sessions.json`, na raiz. Não publique esse arquivo. Selecione a organização e a propriedade autorizadas no cabeçalho. Para preparar os demais públicos, consulte os scripts e instruções no [README da raiz](../../README.md).
 
-Para verificar e executar o build:
+O arquivo `.env.local` configura `PORTAL_DEMO_ENABLED=true` e `AGRO_API_URL=http://127.0.0.1:3000`. O clima é opcional e depende de `WEATHER_ENABLED` e `OPENWEATHER_API_KEY` no `.env` do **backend**. O acesso por token é demonstrativo e local; reiniciar o servidor do portal encerra as sessões.
 
-```powershell
-npm run typecheck
-npm test
-npm run build
-npm start
-```
+## Indicadores e interpretação
 
-`dev` e `start` escutam somente em 127.0.0.1. O adaptador demonstrativo fica desativado sem `PORTAL_DEMO_ENABLED=true`. Tokens ficam na memória do servidor; o navegador recebe somente um identificador de sessão HttpOnly. Reiniciar o servidor encerra as sessões. Esta configuração local não deve ser publicada como autenticação de produção.
+Os indicadores usam os registros autorizados da propriedade ou organização selecionada. Os dados operacionais do seed são fictícios.
 
-## Validação de ponta a ponta
+| Indicador | Como é calculado e o que significa |
+| --- | --- |
+| **Produção registrada e lotes com origem** | Soma das quantidades registradas, em kg, e contagem dos registros de produção. O gráfico por cultura agrupa e soma esses quilos; produção registrada não equivale a excedente. |
+| **Pedidos em aberto e por situação** | Em aberto: contagem dos pedidos `SOLICITADO`, `ACEITO` e `RETIRADO`. O gráfico agrupa a quantidade de pedidos por situação para mostrar o andamento operacional. |
+| **Destino dos excedentes** | Valores calculados pela API: produção registrada → ofertado → aceito líquido → retirado → recebido. São etapas acumuladas do mesmo fluxo e não devem ser somadas. O recebimento exige confirmação do destinatário. |
+| **Saldos dos excedentes** | Distribuem o ofertado entre recebido, em trânsito, reservado, disponível no prazo e vencido sem destinação. Oferta vencida com saldo não comprova perda física do alimento. |
+| **Venda e doação** | Comparam os quilos ofertados e recebidos por modalidade. O percentual de recebimento é `recebido ÷ ofertado × 100`; sem oferta, não há base para interpretar a taxa. |
+| **Remessas e solicitações por organização** | Totais de operações e distribuição por situação, com contagens e quilos fornecidos pela API para cooperativas e instituições. |
+| **Clima hoje** | Temperatura e condições regionais fornecidas pela OpenWeather via backend. A referência pode ser aproximada do município; não é medição na propriedade nem previsão de perda da safra. |
 
-Na raiz, depois de instalar as dependências da raiz e do portal e gerar o build:
+Falhas de consulta são exibidas como indisponibilidade, sem estimar valores. Os indicadores apoiam a avaliação humana e não comprovam impacto social ou ambiental por si só.
 
-```powershell
-node scripts/smoke-portal.mjs
-```
+## Validação e documentação
 
-O roteiro usa Microsoft Edge instalado no caminho padrão do Windows, MongoDB Memory Server e o Express real. Cria um banco isolado e efêmero de teste, sem ler `.env`, tokens existentes ou base operacional. A primeira execução pode precisar baixar o binário MongoDB. Não aceita `--existing`.
+Em `apps/portal`, execute `npm.cmd run typecheck` e `npm.cmd test`. Para produção local: `npm.cmd run build` e `npm.cmd start` (porta 3100).
 
-Inclui home em três resoluções, sidebar, gráficos/tooltips, tabela, filtros, paginação, seleção e CSV, drawer/eventos, cadastro persistido, falha/recuperação, troca de contexto, LEITOR, acesso cruzado e logout. Quatro auditorias axe são critérios de falha do roteiro. Falhas de rede são introduzidas somente para testar o estado de erro; os dados operacionais não são interceptados ou simulados.
+Na raiz, após instalar as dependências e gerar o build do portal, `node scripts/smoke-portal.mjs` executa a validação de ponta a ponta com banco isolado e Microsoft Edge no Windows. Para Ofertas, use `node scripts/smoke-portal.mjs --offers`.
 
-Relatórios e screenshots: `docs/design/portal/`. Decisões e contratos: `arquitetura.md`; identidade: `design-system.md`; entrega: `resultado.md`; comparação: `revisao-visual.html`.
-
-## Limites do incremento
-
-- Espaço funcional do pequeno produtor; os demais públicos precisam de fluxos próprios.
-- Ofertas possui listagem, criação e publicação em `/ofertas`; [contratos, motion e evidências](../../docs/design/portal/ofertas.md). Pedidos e Rastreabilidade completos são próximos incrementos. A home permite consulta do pedido prioritário e Produção mostra os eventos do lote.
-- Sem edição de produção: o contrato existente oferece criação e consulta.
-- Gráficos agregam os registros autorizados da propriedade, sem inventar séries históricas, finanças ou impacto.
-- Clima depende da configuração existente no backend. Ausência não é substituída por dados fictícios.
-- Até 10 mil registros por consulta paginada. Acima disso, erro explícito; agregação no servidor pode ser proposta futuramente.
-
-Fontes e assets locais mantêm os respectivos avisos de licença em `public/`. Referências visuais não são distribuídas como assets do portal. Não há dependência da stack de demonstração stageshow.
-
-Para testar Ofertas em banco isolado, depois do build: `node scripts/smoke-portal.mjs --offers` na raiz. Inclui perda de resposta e replay de criação/publicação, permissões, validações, paginação, filtros, acessibilidade e redução de movimento.
+Consulte a [documentação do portal](../../docs/design/portal/) e o [README mobile](../mobile/README.md). Projeto de uso educacional, sem garantia para produção; os avisos de licença dos assets estão em `public/`.
